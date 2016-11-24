@@ -36,8 +36,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//add comment author
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 			// cf7 integration
-			$submit_cf7 = CF7_Mautic_Submit::get_instance();
-			add_filter( 'wpcf7_before_send_mail', array( $submit_cf7, 'bsfm_filter_cf7_submit_fields' ) );
+			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 		}
 		public function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
@@ -181,9 +180,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 		}
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
-			$query = $this->bsfm_create_query();
+			$query = self::bsfm_create_query();
 			if ( $query ) {
-				$this->bsfm_add_cf7_mautic( $query );
+				self::bsfm_add_cf7_mautic( $query );
 			}
 			return $cf7;
 		}
@@ -200,7 +199,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
  			//$cf7_form_id = $query['_wpcf7'];
  			$method = 'POST';
 			$url = '/api/contacts/new';
- 			self::bsfm_mautic_api_call($url, $method, $query, $set_actions);
+ 			self::bsfm_mautic_api_call($url, $method, $query);
  		}
 
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
