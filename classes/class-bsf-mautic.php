@@ -137,6 +137,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
 		public function bsfm_add_registered_user( $user_id ) {
 			if( !$user_id ) return;
+			//get register user conditions
+			$status = Bsfm_Postmeta::bsfm_get_wpur_condition();
+			if( is_array($status) ) {
+				$set_actions = Bsfm_Postmeta::bsfm_get_wpur_actions($status);
+			}
+			else {
+				return;
+			}
 			$user_info = get_userdata( $user_id );
 			$method = 'POST';
 			$url = '/api/contacts/new';
@@ -150,23 +158,22 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
 			if( !isset($commentdata['comment_author_email']) ) return;
-			// get conditions
+			//get comment post conditions
 			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
-
 			if( is_array($status) ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_rule_actions($status);
+				$set_actions = Bsfm_Postmeta::bsfm_get_cp_actions($status);
 			}
 			else {
 				return;
 			}
 			$method = 'POST';
 			$url = '/api/contacts/new';
-			//$arraytags = array('aaa','bbb');
 			$body = array(
 				'firstname'	=>	$commentdata['comment_author'],
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
+			//$arraytags = array('aaa','bbb');
 			self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
 		}
 

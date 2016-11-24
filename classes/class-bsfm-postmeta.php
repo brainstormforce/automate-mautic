@@ -28,7 +28,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
-		//add_action( 'init', array( $this, 'bsfm_authorize_comment_condition' ) );
 	}
 	/**
 	* Register meta box(es).
@@ -193,10 +192,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 				foreach ($meta_conditions as $order => $meta_condition) :	
 					if( $meta_condition[0]=='CP' ) {
 						if( $meta_condition[1] == 'ao_website' ) {
-							$return = array(
-								'rule_id' => $rule_id,
-								'status' => 1
-							);
 							// add rule_id into array
 							array_push( $set_rules, $rule_id);
 						}
@@ -214,7 +209,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	* @param rule_id array
 	* @return actions array
 	*/ 
-	public static function bsfm_get_rule_actions( $rules = array() ) {
+	public static function bsfm_get_cp_actions( $rules = array() ) {
 		/*
 		* @ todo get all rule_id 
 		* @ fetch all actions for that rule
@@ -237,6 +232,33 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		endforeach;
 		return $all_actions;
 	}
+	public static function bsfm_get_wpur_condition() {
+		/*
+		@todo fetch all rules ID
+		@todo check meta for user register condition
+		@todo return rule id array
+		*/
+		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
+		$posts = get_posts( $args );
+		$ur_rules = array();
+		foreach ( $posts as $post ) : setup_postdata( $post );
+			$rule_id = $post->ID;
+			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
+			$meta_conditions = unserialize($meta_conditions[0]);
+				foreach ($meta_conditions as $meta_condition) :	
+					if( $meta_condition[0]=='UR' ) {
+							// add rule_id into array
+							array_push( $ur_rules, $rule_id);
+					}
+				endforeach;
+		endforeach;
+		return $ur_rules;
+	}
+	// public static function bsfm_get_wpur_actions() {
+		
+	// 	@todo check correspondig action and return
+		
+	// }
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
 endif;
