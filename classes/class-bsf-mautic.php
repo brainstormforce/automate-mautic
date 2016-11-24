@@ -37,7 +37,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 			// cf7 integration
 			$submit_cf7 = CF7_Mautic_Submit::get_instance();
-			add_filter( 'wpcf7_before_send_mail', array( $submit_cf7, 'bsfm_get_cf7_submit_fields' ) );
+			add_filter( 'wpcf7_before_send_mail', array( $submit_cf7, 'bsfm_filter_cf7_submit_fields' ) );
 		}
 		public function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
@@ -157,7 +157,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=> $user_info->user_email,
 				'website'	=> $user_info->user_url
 			);
-			self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
+			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 		}
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
@@ -178,13 +178,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'website'	=>	$commentdata['comment_author_url']
 			);
 			//$arraytags = array('aaa','bbb');
-			self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
+			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 		}
-		public static function bsfm_get_cf7_submit_fields($cf7) {
-			// update_option('cf7_test',$cf7);
+		public static function bsfm_filter_cf7_submit_fields($cf7) {
 			$query = $this->bsfm_create_query();
 			if ( $query ) {
-				$this->bsfm_add_cf7_fields( $query );
+				$this->bsfm_add_cf7_mautic( $query );
 			}
 			return $cf7;
 		}
@@ -194,10 +193,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if ( $submission = WPCF7_Submission::get_instance() ) {
 				$query = $submission->get_posted_data();
 			}
-			return apply_filters( 'CF7_Mautic_query_mapping', $query );
+			return apply_filters( 'Bsfm_CF7_query_mapping', $query );
 		}
+ 	
+ 		public static function bsfm_add_cf7_mautic( $query ) {
+ 			//$cf7_form_id = $query['_wpcf7'];
+ 			$method = 'POST';
+			$url = '/api/contacts/new';
+ 			self::bsfm_mautic_api_call($url, $method, $query, $set_actions);
+ 		}
 
-		public static function bsfm_mautic_api_call( $url, $method, $segments = array(), $param = array() ) {
+		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 			// if token expired, get new access token
