@@ -245,7 +245,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$rule_id = $post->ID;
 			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
 			$meta_conditions = unserialize($meta_conditions[0]);
-				foreach ($meta_conditions as $meta_condition) :	
+				foreach ($meta_conditions as $meta_condition) :
 					if( $meta_condition[0]=='UR' ) {
 							// add rule_id into array
 							array_push( $ur_rules, $rule_id);

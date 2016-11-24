@@ -180,8 +180,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		public static function bsfm_mautic_api_call( $url, $method, $segments = array(), $param = array() ) {
 			$status = 'success';
-            $credentials = get_option( 'bsfm_mautic_credentials' );
-            // if token expired, get new access token
+			$credentials = get_option( 'bsfm_mautic_credentials' );
+			// if token expired, get new access token
 			if( $credentials['expires_in'] < time() ) {
 				$grant_type = 'refresh_token';
 				$response = BSFMauticAdminSettings::bsf_mautic_get_access_token( $grant_type );
@@ -248,6 +248,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
 							// fetch segment_id from rule and add contact to segment
+							print_r($segments);
+							die();
 							if( is_array( $segments ) ) {
 								foreach ($segments as $segment_id) {
 									$segment_id = (int)$segment_id;
