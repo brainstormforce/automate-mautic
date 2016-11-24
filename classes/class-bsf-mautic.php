@@ -151,9 +151,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$body = array(
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
-				'email'		=> $user_info->user_email
+				'email'		=> $user_info->user_email,
+				'website'	=> $user_info->user_url
 			);
-			self::bsfm_mautic_api_call($url, $method, $body);
+			self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
 		}
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
