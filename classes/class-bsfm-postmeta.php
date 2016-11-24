@@ -16,20 +16,14 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new Bsfm_Postmeta();
-			self::$instance->includes();
 			self::$instance->hooks();
 		}
 		return self::$instance;
 	}
-
-	public function includes() {
-	}
-
+ 
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
-
-		add_action( 'init', array( $this, 'bsfm_get_wpur_condition' ));
 	}
 	/**
 	* Register meta box(es).

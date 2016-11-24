@@ -35,6 +35,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
 			//add comment author
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+			// cf7 integration
+			$submit_cf7 = CF7_Mautic_Submit::get_instance();
+			add_filter( 'wpcf7_before_send_mail', array( $submit_cf7, 'bsfm_get_cf7_submit_fields' ) );
 		}
 		public function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
@@ -177,7 +180,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//$arraytags = array('aaa','bbb');
 			self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
 		}
+		public function bsfm_add_cf7_fields( $id, $approved, $commentdata ) {
+			//add 
 
+			//self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
+		}
 		public static function bsfm_mautic_api_call( $url, $method, $segments = array(), $param = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
