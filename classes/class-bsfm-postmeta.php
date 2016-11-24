@@ -209,7 +209,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	* @param rule_id array
 	* @return actions array
 	*/ 
-	public static function bsfm_get_cp_actions( $rules = array() ) {
+	public static function bsfm_get_all_actions( $rules = array() ) {
 		/*
 		* @ todo get all rule_id 
 		* @ fetch all actions for that rule
@@ -254,11 +254,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		endforeach;
 		return $ur_rules;
 	}
-	// public static function bsfm_get_wpur_actions() {
-		
-	// 	@todo check correspondig action and return
-		
-	// }
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
 endif;

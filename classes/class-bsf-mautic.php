@@ -140,7 +140,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//get register user conditions
 			$status = Bsfm_Postmeta::bsfm_get_wpur_condition();
 			if( is_array($status) ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_wpur_actions($status);
+				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
@@ -161,7 +161,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//get comment post conditions
 			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
 			if( is_array($status) ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_cp_actions($status);
+				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
