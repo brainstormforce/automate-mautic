@@ -28,6 +28,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
+
+		add_action( 'init', array( $this, 'bsfm_get_wpur_condition' ));
 	}
 	/**
 	* Register meta box(es).
@@ -132,7 +134,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$condition_cnt = sizeof($conditions);
 			for($i=0; $i < $condition_cnt; $i++) {
 				if($conditions[$i]=='UR') {
-					$update_conditions[$i] = $conditions[$i];
+					$update_conditions[$i] = array( $conditions[$i] );
 				}
 				if ($conditions[$i]=='CP') {
 					$sub_key = array_search($i,$cp_keys);
@@ -216,11 +218,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		* @ return Array
 		*/
 		$all_actions = array();
+
 		foreach ( $rules as $rule ) :
 			$rule_id = $rule;
 			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
 			$meta_actions = unserialize($meta_actions[0]);
-				foreach ($meta_actions as $order => $meta_action) :
+				foreach($meta_actions as $order => $meta_action) :
 					if( $meta_action[0]=='segment' ){
 						if( $meta_action[1]=='pre_segments' ){
 							//make array of segment id's
@@ -230,6 +233,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 					}
 				endforeach;
 		endforeach;
+
 		return $all_actions;
 	}
 	public static function bsfm_get_wpur_condition() {
@@ -244,13 +248,13 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		foreach ( $posts as $post ) : setup_postdata( $post );
 			$rule_id = $post->ID;
 			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
-			$meta_conditions = unserialize($meta_conditions[0]);
-				foreach ($meta_conditions as $meta_condition) :
-					if( $meta_condition[0]=='UR' ) {
-							// add rule_id into array
-							array_push( $ur_rules, $rule_id);
-					}
-				endforeach;
+			$all_conditions = unserialize($meta_conditions[0]);
+			foreach ($all_conditions as $meta_condition) :
+				if( $meta_condition[0]=='UR' ) {
+						// add rule_id into array
+						array_push( $ur_rules, $rule_id);
+				}
+			endforeach;
 		endforeach;
 		return $ur_rules;
 	}

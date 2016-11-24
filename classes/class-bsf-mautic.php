@@ -248,8 +248,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
 							// fetch segment_id from rule and add contact to segment
-							print_r($segments);
-							die();
 							if( is_array( $segments ) ) {
 								foreach ($segments as $segment_id) {
 									$segment_id = (int)$segment_id;
@@ -266,7 +264,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		function bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $mautic_credentials ) {
 			$errorMsg = '';
 			$status = 'error';
-			if( is_int( $segment_id ) && is_int ( $contact_id ) ) {
+			if( is_int($segment_id) && is_int($contact_id) ) {
 				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/add/".$contact_id;
 				$access_token = $mautic_credentials['access_token'];
 				$body = array(	
