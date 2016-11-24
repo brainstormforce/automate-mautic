@@ -183,7 +183,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		@todo check meta for comment post 1.page 2.post 3.anywhere
 		@todo check correspondig action and return
 		*/
-		//$comment_data['comment_post_ID'] = 1;
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
 		$set_rules = array();
@@ -191,8 +190,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$rule_id = $post->ID;
 			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
 			$meta_conditions = unserialize($meta_conditions[0]);
-			// $meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
-			// $meta_actions = unserialize($meta_actions[0]);
 				foreach ($meta_conditions as $order => $meta_condition) :	
 					if( $meta_condition[0]=='CP' ) {
 						if( $meta_condition[1] == 'ao_website' ) {
@@ -213,13 +210,24 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		endforeach;
 		return $set_rules;
 	}
+	/**
+	* @param rule_id array
+	* @return actions array
+	*/ 
 	public static function bsfm_get_rule_actions( $rules = array() ) {
 		/*
-		* 
-		*
-		*	
-
-		print_r($rules);
+		* @todo get all rule_id 
+		* @ fetch all actions for that rule
+		* @ return Array
+		*/ 
+		foreach ( $posts as $post ) : setup_postdata( $post );
+			$rule_id = $post->ID;
+			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
+			$meta_actions = unserialize($meta_actions[0]);
+				foreach ($meta_actions as $order => $meta_action) :	
+					
+				endforeach;
+		endforeach;
 	}
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
