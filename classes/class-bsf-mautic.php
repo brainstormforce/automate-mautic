@@ -180,11 +180,23 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//$arraytags = array('aaa','bbb');
 			self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
 		}
-		public function bsfm_add_cf7_fields( $id, $approved, $commentdata ) {
-			//add 
-
-			//self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
+		public static function bsfm_get_cf7_submit_fields($cf7) {
+			// update_option('cf7_test',$cf7);
+			$query = $this->bsfm_create_query();
+			if ( $query ) {
+				$this->bsfm_add_cf7_fields( $query );
+			}
+			return $cf7;
 		}
+
+		public static function bsfm_create_query() {
+			$query = array();
+			if ( $submission = WPCF7_Submission::get_instance() ) {
+				$query = $submission->get_posted_data();
+			}
+			return apply_filters( 'CF7_Mautic_query_mapping', $query );
+		}
+
 		public static function bsfm_mautic_api_call( $url, $method, $segments = array(), $param = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );

@@ -33,7 +33,7 @@ final class BSFMauticAdminSettings {
 	public function hooks() {
 		add_action( 'admin_init', array( $this,'bsfm_set_mautic_code' ) );
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
-		add_action( 'admin_footer', array( $this,'bsfm_mb_templates' ) );
+		add_action( 'admin_footer', array( $this, 'bsfm_mb_templates' ) );
 	}
 
 	public function bsfm_mb_templates() {
