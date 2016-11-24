@@ -145,7 +145,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
-				$set_actions = null;
+				return;
 			}
 			$user_info = get_userdata( $user_id );
 			$method = 'POST';
@@ -167,7 +167,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
-				$set_actions = null;
+				return;
 			}
 			$method = 'POST';
 			$url = '/api/contacts/new';
@@ -203,7 +203,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
-				$set_actions = null;
+				return;
 			}
  			$method = 'POST';
 			$url = '/api/contacts/new';
@@ -211,7 +211,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'firstname'	=> $query['your-name'],
 				'email'		=> $query['your-email']
 			);
- 			self::bsfm_mautic_api_call( $url, $method, $body);
+ 			self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
  		}
 
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {

@@ -226,7 +226,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public static function bsfm_get_cf7_condition( $form_id ) {
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
-		$ur_rules = array();
+		$cf7_rules = array();
 		foreach ( $posts as $post ) : setup_postdata( $post );
 			$rule_id = $post->ID;
 			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
