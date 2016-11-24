@@ -196,10 +196,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
  	
  		public static function bsfm_add_cf7_mautic( $query ) {
- 			//$cf7_form_id = $query['_wpcf7'];
+ 			if ( !$query ) return;
  			$method = 'POST';
 			$url = '/api/contacts/new';
- 			self::bsfm_mautic_api_call($url, $method, $query);
+			$body = array(
+				'firstname'	=> $query['your-name'],
+				'email'		=> $query['your-email']
+			);
+ 			self::bsfm_mautic_api_call( $url, $method, $body);
  		}
 
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
