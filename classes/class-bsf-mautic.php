@@ -150,20 +150,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
 			if( !isset($commentdata['comment_author_email']) ) return;
-			// check if condition and action is set
-			// @function bsfm_authorize_comment_condition 
-			// print_r($commentdata['comment_post_ID']); comment post
-			
-			$status = Bsfm_Postmeta::bsfm_authorize_comment_condition( $commentdata );
+			// get conditions
+			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
 
 			if( is_array($status) ) {
-				//grap actions array 
-				Bsfm_Postmeta::bsfm_get_rule_actions($status);
+				$set_actions = Bsfm_Postmeta::bsfm_get_rule_actions($status);
 			}
 			else {
 				return;
 			}
-
 			$method = 'POST';
 			$url = '/api/contacts/new';
 			//$arraytags = array('aaa','bbb');
@@ -172,10 +167,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
-			self::bsfm_mautic_api_call($url, $method, $body);
+			self::bsfm_mautic_api_call($url, $method, $set_actions, $body);
 		}
 
-		public static function bsfm_mautic_api_call( $url, $method, $segment = null, $param = array() ) {
+		public static function bsfm_mautic_api_call( $url, $method, $segments = array(), $param = array() ) {
 			$status = 'success';
             $credentials = get_option( 'bsfm_mautic_credentials' );
             // if token expired, get new access token
@@ -239,19 +234,22 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						$response_body = $response['body'];
 						$contact_created = json_decode($response_body);
 						$contact = $contact_created->contact;
-			   			/*
-			   			 * if contact is created add to segment here
-			   			 */
-	   					if( isset($contact->id) ) {
-			   				$contact_id =  (int)$contact->id;
-			   				// add this contact to segment now
-			   				// fetch segment_id from rule
-			   				$segment_id = 6;
-			   				$res = self::bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $credentials ); 
-			   				$status = $res['status'];
-			   				$errorMsg  = $res['error_message'];
-			   			}
-			   		}
+						/*
+						* if contact is created add to segment here
+						*/
+						if( isset($contact->id) ) {
+							$contact_id =  (int)$contact->id;
+							// add this contact to segment now
+							// fetch segment_id from rule
+							if( is_array($segments) ) {
+								foreach ($segments as $segment_id) {
+									$res = self::bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $credentials);
+								}
+							}
+							$status = $res['status'];
+							$errorMsg  = $res['error_message'];
+						}
+					}
 				}
 			}
 		}

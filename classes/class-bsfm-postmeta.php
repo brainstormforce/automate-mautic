@@ -177,7 +177,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	* @param comment data
 	* @return rule id array
 	*/ 
-	public static function bsfm_authorize_comment_condition( $comment_data = array() ) {
+	public static function bsfm_get_comment_condition( $comment_data = array() ) {
 		/*
 		@todo fetch all rules ID
 		@todo check meta for comment post 1.page 2.post 3.anywhere
@@ -229,7 +229,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 					if( $meta_condition[0]=='segment' ){
 						if( $meta_condition[1]=='pre_segments' ){
 							//make array of segment id's
-							array_push($all_actions, $rule_id);
+							$segment_id = $meta_condition[2];
+							array_push($all_actions, $segment_id);
 						}
 					}
 				endforeach;
