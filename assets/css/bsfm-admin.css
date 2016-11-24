@@ -1,0 +1,32 @@
+.bsf-mautic-metabox fieldset {
+    border: 1px solid rgb(221, 221, 221);
+    border-width: 1px 1px 0px 1px;
+    background: #f5f5f5;
+    padding: 8px 0px 8px 4px;
+}
+.bsf-mautic-metabox .remove-item {
+    background: #990000;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+.bsf-mautic-metabox span.remove-item, span.sort-items {
+    margin: 5px 0px 5px 7px;
+}
+.bsf-mautic-metabox select {
+    border-radius: 4px;
+}
+.bsf-mautic-metabox .add-new-item span {
+    color: #008000;
+    margin-left: 5px;   
+}
+.bsf-mautic-metabox fieldset.bsfm-add-action, fieldset.bsfm-add-condition {
+    background: #fff;
+    border-width: 1px;
+    border-radius: 0 0 5px 5px;
+}
+.bsf-mautic-metabox fieldset.bsfm-add-action:hover, fieldset.bsfm-add-condition:hover {
+    background: #f5f5f5;
+}

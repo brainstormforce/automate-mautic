@@ -1,0 +1,272 @@
+/*
+* CSS for fl builder editor screen only
+* This CSS will not load on frontend / wp-admin screen.
+*/
+
+
+/* Equal Height Column Alignment Live Preview CSS */
+.fl-row-content .fl-col-group-equal-height.fl-col-group-align-top .fl-col-content {
+	-webkit-justify-content: flex-start;
+			justify-content: flex-start;
+		  -webkit-box-align: start;
+		   -webkit-box-pack: start;
+			  -ms-flex-pack: start;
+
+}
+
+.fl-row-content .fl-col-group-equal-height.fl-col-group-align-center .fl-col-content {
+	align-items: center;
+	justify-content: flex-start;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-align: center;
+	-ms-flex-pack: center;
+}
+
+/* Blog Post Search Filter */
+#uabb-settings-section-filter .fl-form-table .as-selections {
+	cursor: text;
+	padding: 0;
+}
+
+#uabb-settings-section-filter .fl-form-table .as-selections li input[type="text"] {
+	padding: 3px;
+	line-height: 20px;
+	box-shadow: none!important;
+	border: 0!important;
+}
+#uabb-settings-section-filter .fl-form-table .as-selections .as-selection-item {
+	margin: 3px 3px;
+}
+
+#uabb-settings-section-filter .fl-form-table .as-selections .as-selection-item,
+#uabb-settings-section-filter .fl-form-table .as-selections .as-selection-item .as-close {
+	line-height: 20px;
+}
+
+/* Font Family */
+.fl-builder-bar-content,
+.fl-builder-panel,
+.fl-lightbox :not(i),
+.fl-lightbox-header h1,
+.fl-builder-actions-title,
+.fl-builder-alert-lightbox .fl-lightbox-message,
+.fl-builder-panel [class^="fl-builder"] button,
+.fl-builder-panel [class^="fl-builder"] input,
+.fl-builder-panel [class^="fl-builder"] select,
+.fl-builder-panel [class^="fl-builder"] textarea,
+.fl-builder-lightbox [class^="fl-builder"] button,
+.fl-builder-lightbox [class^="fl-builder"] input,
+.fl-builder-lightbox [class^="fl-builder"] select,
+.fl-builder-lightbox [class^="fl-builder"] textarea {
+	font-family: Tahoma,Verdana,sans-serif !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	letter-spacing: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fl-lightbox .ace_editor,
+.fl-lightbox .ace_editor * {
+    font-family: Monaco,Menlo,"Ubuntu Mono","Droid Sans Mono",Consolas,monospace!important;
+    font-size: 12px!important;
+    font-weight: 400!important;
+    letter-spacing: 0!important;
+}
+
+/* Input Box & Textarea Design */
+.fl-builder-panel [class^="fl-builder"] input,
+.fl-builder-panel [class^="fl-builder"] textarea {
+	border: 1px solid #dfdfdf !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	margin: 0 !important;
+	padding: 14px 20px !important;
+	outline: none !important;
+	font-size: 14px !important;
+	line-height: 1em;
+	color: #666 !important;
+	outline: none !important;
+    height: auto !important;
+}
+.fl-builder-panel [class^="fl-builder"] input:focus,
+.fl-builder-panel [class^="fl-builder"] textarea:focus,
+.fl-builder-panel [class^="fl-builder"] input:active,
+.fl-builder-panel [class^="fl-builder"] textarea:active {
+	border-color: #dfdfdf !important;
+	box-shadow: 0px 1px 5px 0px #c7c7c7 !important;
+	outline: none !important;
+}
+.fl-builder-lightbox [class^="fl-builder"] input,
+.fl-builder-lightbox [class^="fl-builder"] textarea {
+	border: 1px solid #dfdfdf !important;
+	outline: none !important;
+}
+.fl-builder-lightbox [class^="fl-builder"] input:focus,
+.fl-builder-lightbox [class^="fl-builder"] textarea:focus,
+.fl-builder-lightbox [class^="fl-builder"] input:active,
+.fl-builder-lightbox [class^="fl-builder"] textarea:active {
+	border-color: #dfdfdf !important;
+	box-shadow: 0px 1px 5px 0px #c7c7c7 !important;
+	outline: none !important;
+}
+
+/* Accordion Icon Transformation */
+.fl-builder-blocks-section .fl-builder-blocks-section-title i {
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	transform: rotate(0deg);
+	-webkit-transition: -webkit-transform 100ms linear;
+	-moz-transition: -moz-transform 100ms linear;
+	transition: transform 100ms linear;
+}
+.fl-builder-blocks-section.fl-active .fl-builder-blocks-section-title i {
+	-webkit-transform: rotate(-180deg);
+	-moz-transform: rotate(-180deg);
+	transform: rotate(-180deg);
+	-webkit-transition: -webkit-transform 100ms linear;
+	-moz-transition: -moz-transform 100ms linear;
+	transition: transform 100ms linear;
+}
+
+/* Row Section Thumbnail Designs */
+.fl-builder-blocks-section-content .fl-builder-block {
+	position: relative;
+	-webkit-transition: all 100ms linear;
+	-moz-transition: all 100ms linear;
+	transition: all 100ms linear;
+}
+.fl-builder-blocks-section-content .fl-builder-block-template-image {
+	margin: 10px -10px 15px;
+	width: calc(100% + 20px);
+	max-width: calc(100% + 20px);
+}
+.fl-builder-blocks-section-content .fl-builder-block-template-image+.fl-builder-block-title {
+	display: block;
+	margin: 0;
+	position: absolute;
+	visibility: hidden;
+	left: 20px;
+	bottom: 7px;
+	font-size: 0.9em;
+	max-width: calc(100% - 40px);
+	overflow: hidden;
+	-webkit-transition: visibility 100ms linear;
+	-moz-transition: visibility 100ms linear;
+	transition: visibility 100ms linear;
+}
+.fl-builder-blocks-section-content .fl-builder-block-row-template:hover .fl-builder-block-title,
+.fl-builder-blocks-section-content .fl-builder-block-module-template:hover .fl-builder-block-title {
+    visibility: visible;
+}
+
+
+/* Lightbox Size */
+.fl-builder-lightbox .fl-lightbox:not(.ui-draggable) {
+	width: 90%;
+	max-width: 1100px;
+}
+.fl-builder-lightbox .fl-builder-settings-section:after {
+	clear: both;
+}
+.fl-builder-lightbox .fl-builder-settings-section:before,
+.fl-builder-lightbox .fl-builder-settings-section:after {
+	display: table;
+	content: "";
+}
+.fl-builder-lightbox .fl-template-selector .fl-builder-settings-tab {
+    width: 100%;
+}
+.fl-builder-lightbox .fl-template-preview {
+    margin: 0 3.33% 30px 0;
+    width: 30%;
+}
+.fl-builder-lightbox .fl-template-image {
+    height: 300px;
+}
+
+/* Hide Template Section Message */
+.fl-template-selector .fl-nanoscroller-content .fl-builder-templates-cta {
+	display: none;
+}
+
+/* Live Preview Button CSS */
+.uabb-live-preview-button {
+    position: fixed;
+    top: 7px;
+    left: 172px;
+    z-index: 100010;
+    -webkit-transition: all 100ms linear;
+    -moz-transition: all 100ms linear;
+	transition: all 100ms linear;
+}
+
+.uabb-live-preview-button-wrap {
+    background: #f4f4f4;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    color: #999999;
+    height: 43px;
+    padding: 0 10px;
+}
+
+.uabb-live-preview-button:hover,
+.uabb-live-preview-button.hover {
+  -webkit-box-shadow: inset 0 0 0 0px rgba(39, 73, 109, 0.34),0 2px 5px rgba(25, 48, 71, 0.42);
+     -moz-box-shadow: inset 0 0 0 0px rgba(39, 73, 109, 0.34),0 2px 5px rgba(25, 48, 71, 0.42);
+          box-shadow: inset 0 0 0 0px rgba(39, 73, 109, 0.34),0 2px 5px rgba(25, 48, 71, 0.42);
+}
+
+.uabb-live-preview-button:active {
+  -webkit-box-shadow: inset 0 0 0 1px rgba(39, 73, 109, 0.34),inset 0 5px 30px rgba(25, 48, 71, 0.5);
+     -moz-box-shadow: inset 0 0 0 1px rgba(39, 73, 109, 0.34),inset 0 5px 30px rgba(25, 48, 71, 0.5);
+          box-shadow: inset 0 0 0 1px rgba(39, 73, 109, 0.34),inset 0 5px 30px rgba(25, 48, 71, 0.5);
+}
+
+.uabb-live-preview-button.active {
+  -webkit-box-shadow: inset 0 0 0 1px rgba(39, 73, 109, 0.34),inset 0 5px 30px rgba(25, 48, 71, 0.5);
+     -moz-box-shadow: inset 0 0 0 1px rgba(39, 73, 109, 0.34),inset 0 5px 30px rgba(25, 48, 71, 0.5);
+          box-shadow: inset 0 0 0 1px rgba(39, 73, 109, 0.34),inset 0 5px 30px rgba(25, 48, 71, 0.5);
+	text-decoration: line-through;
+	top: 0;
+	border-top: 0;
+	border-radius: 0 0 3px 3px;
+}
+
+html.uabb-html-live-preview {
+    -webkit-transition: margin-top 0.45s ease-in-out; /* Safari 3.1 to 6.0 */
+    		transition: margin-top 0.45s ease-in-out;
+}
+
+html.uabb-active-live-preview {
+    margin-top: 0 !important;
+}
+
+html.uabb-active-live-preview .fl-builder-shortcode-mask {
+	display: none;
+}
+
+/* Hide Presets */
+
+.uabb-show-presets #fl-field-icon_color_preset[data-type=uabb-toggle-switch],
+.uabb-show-presets #fl-field-color_preset[data-type=uabb-toggle-switch] {
+    display: none !important;
+}
+
+/* Google Map Notice Style */
+
+.fl-lightbox .uabb-google-map-notice {
+	text-decoration: underline;
+}
+
+/* Attachment Field Image Link */
+.compat-field-uabb-cta-link .alignleft {
+    margin: 0;
+}

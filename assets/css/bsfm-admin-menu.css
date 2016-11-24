@@ -1,0 +1,196 @@
+/* Heading
+----------------------------------------------------------- */
+
+.fl-settings-heading img {
+    height: 40px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.fl-settings-heading span {
+    vertical-align: middle;
+}
+
+/* Nav
+----------------------------------------------------------- */
+
+.fl-settings-nav {
+    float: left;
+    margin: 15px 2% 0 0;
+    width: 19%;
+}
+.fl-settings-nav ul {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+.fl-settings-nav ul li {
+    display: block;
+    margin: 0;
+}
+.fl-settings-nav ul li a {
+    border-bottom: 1px solid #eee;
+    display: block;
+    padding: 10px;
+}
+.fl-settings-nav ul li a:hover,
+.fl-settings-nav ul li a.fl-active {
+    background: #f5f5f5;
+}
+.fl-settings-nav ul li:last-child a {
+    border-bottom: none;
+}
+.fl-settings-nav a {
+    text-decoration: none;
+}
+.fl-settings-nav .fl-settings-save {
+    padding: 0 2px;
+}
+.fl-settings-nav .button-primary {
+    width: 100%;
+}
+
+/* Content
+----------------------------------------------------------- */
+
+.fl-settings-content {
+    float: left;
+    margin-top: 15px;
+    width: 78%;
+}
+.fl-settings-form-content h4 {
+    font-size: 14px;
+    margin: 30px 0 5px;
+}
+
+/* Welcome Page
+----------------------------------------------------------- */
+
+#fl-welcome-form {
+    max-width: none;
+}
+.fl-welcome-page-content {
+    max-width: 880px;
+}
+.fl-upgrade-page-content ul,
+.fl-welcome-page-content ul {
+    list-style-type: disc;
+    margin: 15px 0 20px 35px;
+}
+.fl-welcome-page-content hr {
+    clear: both;
+    margin: 20px 0 5px;
+}
+.fl-welcome-page-content .fl-welcome-col-wrap {
+    clear:both;
+}
+.fl-welcome-page-content .fl-welcome-col {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 49.7%;
+    vertical-align: text-top;
+}
+.fl-welcome-page-content .fl-welcome-col:first-child {
+    padding-right: 30px;
+}
+.fl-welcome-page-content .fl-welcome-col:last-child {
+    padding-left: 30px;
+}
+.fl-welcome-page-content .fl-welcome-big-link {
+    font-weight: 600;
+    font-size: 14px;
+}
+.fl-welcome-page-content .fl-welcome-img {
+    max-width: 100%;
+    display: inline-block;
+}
+
+/* Settings Forms
+----------------------------------------------------------- */
+
+.fl-settings-form {
+    display: none;
+    max-width: 450px;
+}
+.fl-settings-form-header {
+    margin-bottom: 20px !important;
+}
+.fl-settings-form .form-table {
+    margin: 12px 0;
+}
+.fl-settings-form th {
+    font-weight: bold;
+    vertical-align: middle;
+}
+.fl-settings-form th,
+.fl-settings-form td {
+    font-size: 13px;
+    font-weight: normal;
+    padding: 12px;
+}
+.fl-settings-form-content {
+    display: none;
+}
+.fl-settings-network-admin .fl-settings-form-content,
+.fl-settings-single-install .fl-settings-form-content {
+    display: block;
+}
+
+/* Templates
+----------------------------------------------------------- */
+
+.fl-templates-override-nodes {
+    display: none;
+}
+
+/* Icons
+----------------------------------------------------------- */
+
+.fl-delete-icon-set {
+    color: #d34e2a;
+}
+
+/* Media Query - Max Width 900px
+----------------------------------------------------------- */
+
+@media (max-width: 900px) {
+
+    /* Nav
+    ----------------------------------------------------------- */
+
+    .fl-settings-nav {
+        float: none;
+        margin: 15px 0 0 0;
+        width: 100%;
+    }
+
+    /* Content
+    ----------------------------------------------------------- */
+
+    .fl-settings-content {
+        float: none;
+        margin-top: 15px;
+        width: 100%;
+    }
+    .fl-settings-content .fl-settings-save {
+        float: none;
+        width: 100%;
+    }
+    .fl-settings-content .fl-settings-save .button-primary {
+        width: 100%;
+    }
+}
+
+/* Media Query - Max Width 782px
+----------------------------------------------------------- */
+
+@media (max-width: 782px) {
+
+    /* Settings Forms
+    ----------------------------------------------------------- */
+
+    .fl-settings-form th,
+    .fl-settings-form td {
+        padding: 5px 17px;
+    }
+}
