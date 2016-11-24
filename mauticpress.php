@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: BSF Mautic
+ * Plugin Name: Mautic Press
  * Plugin URI: http://www.brainstormforce.com/
  * Description: Sync your new reigstered WP users, contact form user with mautic contacts.
  * Version: 0.0.1
