@@ -225,11 +225,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$rule_id = $rule;
 			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
 			$meta_actions = unserialize($meta_actions[0]);
-				foreach ($meta_actions as $order => $meta_action) :	
-					if( $meta_condition[0]=='segment' ){
-						if( $meta_condition[1]=='pre_segments' ){
+				foreach ($meta_actions as $order => $meta_action) :
+					if( $meta_action[0]=='segment' ){
+						if( $meta_action[1]=='pre_segments' ){
 							//make array of segment id's
-							$segment_id = $meta_condition[2];
+							$segment_id = $meta_action[2];
 							array_push($all_actions, $segment_id);
 						}
 					}

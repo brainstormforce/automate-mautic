@@ -239,9 +239,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						*/
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
-							// add this contact to segment now
-							// fetch segment_id from rule
-							if( is_array($segments) ) {
+							// fetch segment_id from rule and add contact to segment
+							if( is_array( $segments ) ) {
 								foreach ($segments as $segment_id) {
 									$res = self::bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $credentials);
 								}
@@ -277,11 +276,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				  	$errorMsg = $response->get_error_message();
 				    $status = 'error';
 				} else {
-
 					if( is_array($response) ) { 							
-
 				   		$response_code = $response['response']['code'];
-
 				   		if( $response_code != 200 ) {
 	                        $status = 'error';
 	                        $errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
