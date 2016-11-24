@@ -202,7 +202,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						}
 						if( $meta_condition[1] == 'os_page' || $meta_condition[1] == 'os_post' ) {
 							if( is_array($comment_data) && $meta_condition[2] == $comment_data['comment_post_ID'] ) {
-								array_push( $set_rules, $rule_id);
+								array_push($set_rules, $rule_id);
 							}
 						}
 					}
@@ -216,18 +216,25 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	*/ 
 	public static function bsfm_get_rule_actions( $rules = array() ) {
 		/*
-		* @todo get all rule_id 
+		* @ todo get all rule_id 
 		* @ fetch all actions for that rule
 		* @ return Array
-		*/ 
-		foreach ( $posts as $post ) : setup_postdata( $post );
-			$rule_id = $post->ID;
+		*/
+		$all_actions = array();
+		foreach ( $rules as $rule ) :
+			$rule_id = $rule;
 			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
 			$meta_actions = unserialize($meta_actions[0]);
 				foreach ($meta_actions as $order => $meta_action) :	
-					
+					if( $meta_condition[0]=='segment' ){
+						if( $meta_condition[1]=='pre_segments' ){
+							//make array of segment id's
+							array_push($all_actions, $rule_id);
+						}
+					}
 				endforeach;
 		endforeach;
+		return $all_actions;
 	}
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
