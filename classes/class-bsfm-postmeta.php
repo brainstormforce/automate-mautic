@@ -201,35 +201,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		endforeach;
 		return $set_rules;
 	}
-	/**
-	* @param rule_id array
-	* @return actions array
-	*/ 
-	public static function bsfm_get_all_actions( $rules = array() ) {
-		/*
-		* @ todo get all rule_id 
-		* @ fetch all actions for that rule
-		* @ return Array
-		*/
-		$all_actions = array();
-
-		foreach ( $rules as $rule ) :
-			$rule_id = $rule;
-			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
-			$meta_actions = unserialize($meta_actions[0]);
-				foreach($meta_actions as $order => $meta_action) :
-					if( $meta_action[0]=='segment' ){
-						if( $meta_action[1]=='pre_segments' ){
-							//make array of segment id's
-							$segment_id = $meta_action[2];
-							array_push($all_actions, $segment_id);
-						}
-					}
-				endforeach;
-		endforeach;
-
-		return $all_actions;
-	}
 	public static function bsfm_get_wpur_condition() {
 		/*
 		@todo fetch all rules ID
@@ -251,6 +222,52 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			endforeach;
 		endforeach;
 		return $ur_rules;
+	}
+	public static function bsfm_get_cf7_condition( $form_id ) {
+		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
+		$posts = get_posts( $args );
+		$ur_rules = array();
+		foreach ( $posts as $post ) : setup_postdata( $post );
+			$rule_id = $post->ID;
+			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
+			$all_conditions = unserialize($meta_conditions[0]);
+			foreach ($all_conditions as $meta_condition) {
+				if( $meta_condition[0]=='CF7' ) {
+					//add rule_id into array
+					if( $meta_condition[1] == $form_id ) {
+						array_push($cf7_rules, $rule_id);
+					}
+				}
+			}
+		endforeach;
+		return $cf7_rules;
+	}
+	/**
+	* @param rule_id array
+	* @return actions array
+	*/ 
+	public static function bsfm_get_all_actions( $rules = array() ) {
+		/*
+		* @ todo get all rule_id 
+		* @ fetch all actions for that rule
+		* @ return Array
+		*/
+		$all_actions = array();
+		foreach ( $rules as $rule ) :
+			$rule_id = $rule;
+			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
+			$meta_actions = unserialize($meta_actions[0]);
+				foreach($meta_actions as $order => $meta_action) :
+					if( $meta_action[0]=='segment' ){
+						if( $meta_action[1]=='pre_segments' ){
+							//make array of segment id's
+							$segment_id = $meta_action[2];
+							array_push($all_actions, $segment_id);
+						}
+					}
+				endforeach;
+		endforeach;
+		return $all_actions;
 	}
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();

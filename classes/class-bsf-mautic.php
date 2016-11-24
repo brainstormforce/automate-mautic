@@ -145,7 +145,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
-				return;
+				$set_actions = null;
 			}
 			$user_info = get_userdata( $user_id );
 			$method = 'POST';
@@ -167,7 +167,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
-				return;
+				$set_actions = null;
 			}
 			$method = 'POST';
 			$url = '/api/contacts/new';
@@ -195,8 +195,16 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			return apply_filters( 'Bsfm_CF7_query_mapping', $query );
 		}
  	
- 		public static function bsfm_add_cf7_mautic( $query ) {
- 			if ( !$query ) return;
+		public static function bsfm_add_cf7_mautic( $query ) {
+			if ( !$query || !is_array($query)) return;
+			$cf7_id = $query['_wpcf7'];
+			$status = Bsfm_Postmeta::bsfm_get_cf7_condition( $cf7_id );
+			if( is_array($status) ) {
+				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
+			}
+			else {
+				$set_actions = null;
+			}
  			$method = 'POST';
 			$url = '/api/contacts/new';
 			$body = array(
@@ -307,20 +315,20 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					'headers' => array(),
 					'body' => $body,
 					'cookies' => array()
-				    )
+				)
 				);
 				if ( is_wp_error( $response ) ) {
-				  	$errorMsg = $response->get_error_message();
-				    $status = 'error';
+					$errorMsg = $response->get_error_message();
+					$status = 'error';
 				} else {
 					if( is_array($response) ) { 							
-				   		$response_code = $response['response']['code'];
-				   		if( $response_code != 200 ) {
-	                        $status = 'error';
-	                        $errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-				   		} else {
-	                        $status = 'success';
-	   					}
+						$response_code = $response['response']['code'];
+						if( $response_code != 200 ) {
+							$status = 'error';
+							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+						} else {
+							$status = 'success';
+						}
 					}
 				}
 			}
