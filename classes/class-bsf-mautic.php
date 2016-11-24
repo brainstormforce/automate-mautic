@@ -242,6 +242,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 							// fetch segment_id from rule and add contact to segment
 							if( is_array( $segments ) ) {
 								foreach ($segments as $segment_id) {
+									$segment_id = (int)$segment_id;
 									$res = self::bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $credentials);
 								}
 							}
