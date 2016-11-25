@@ -24,6 +24,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
+		add_action( 'init', array( $this, 'get_all_cf7_fields' ) );
 	}
 	/**
 	* Register meta box(es).
@@ -87,7 +88,16 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$all_mforms .= '</select>';
 		echo $all_mforms;
 	}
-
+	public static function get_all_cf7_fields( $cf7_id ) {
+		$cf7_id = 576;
+		$cf7_field_data = get_post_meta( $cf7_id, '_form' );
+		$reg = "(?<=\\[)([^\\]]+)";
+		$str = $cf7_field_data[0];
+		print_r($str);
+		preg_match_all($reg, $str, $matches);
+		print_r($matches);
+		die();
+	}
 	public static function select_all_cf7forms( $select = null ) {
 		//get all contact forms
 		if (class_exists( 'WPCF7_ContactForm' )) {
