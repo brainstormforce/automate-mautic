@@ -112,17 +112,17 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		preg_match_all($reg, $str, $matches);
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
-		$cf7_fields = "<div style='background: f1f1f1;height: 50px;'>";
-		$cf7_fields_sel = "<select>";
+		$cf7_fields = "<table><tbody>";
+		$cf7_fields_sel = "<tr><td><select>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
 		}
-		$cf7_fields_sel.= "</select>";
+		$cf7_fields_sel.= "</select></td></tr>";
 		for ( $i=0; $i < $map_cf7fields; $i++) { 
 			$cf7_fields.= $cf7_fields_sel;
 		}
-		$cf7_fields.= "</div>";
+		$cf7_fields.= "</tbody></table>";
 		print_r(json_encode(array(
 			'fieldCount' => $map_cf7fields,
 			'selHtml' => $cf7_fields
@@ -136,11 +136,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$method = "GET";
 		$body = '';
 		$mautic_cfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
-		$all_mfields = '<select class="mautic_form">';
+		$all_mfields = '<tr><td><select class="mautic_form">';
 		foreach ($mautic_cfields as $key => $field) {
 			$all_mfields .= Bsfm_Postmeta::make_option( $field->id, $field->alias, $select);
 		}
-		$all_mfields .= '</select>';
+		$all_mfields .= '</select></td></tr>';
 		echo $all_mfields;
 	}
 	//list all cf7 forms
