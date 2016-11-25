@@ -244,8 +244,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$response = wp_remote_get( $url );
 				if( $method=="GET" ) {
 					$response_body = $response['body'];
-					$contact_created = json_decode($response_body);
-					return $contact_created;
+					$body_data = json_decode($response_body);
+					return $body_data;
 				}
 			}
 			else if( $method=="POST" ) {			// add new contact to mautic request

@@ -24,7 +24,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
-		add_action( 'init', array( $this, 'get_all_cf7_fields' ) );
+		add_action( 'init', array( $this, 'mautic_get_all_cfields' ) );
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'make_cf7_fields' ) );
 	}
 	/**
@@ -104,19 +104,34 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		return $cf7_fields;
 	}
 	public static function make_cf7_fields() {
+		//get all contact form fields
 		$cf7_id = $_POST['cf7Id'];
 		$cf7_field_data = get_post_meta( $cf7_id, '_form' );
 		$reg = '/(?<=\[)([^\]]+)/';
 		$str = $cf7_field_data[0];
 		preg_match_all($reg, $str, $matches);
-		$cf7_fields = "<select>";
+		$cf7_fields = "<div style='background: f1f1f1;height: 200px;'><select>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
 		}
-		$cf7_fields.= "</select>";
+		$cf7_fields.= "</select></div>";
 		echo $cf7_fields;
 		wp_die();
+	}
+	//get all mautic custom fields
+	public static function mautic_get_all_cfields( $select=null ) {
+		//get all mautic fields here	
+		$url = "/api/contacts/list/fields";
+		$method = "GET";
+		$body = '';
+		$mautic_cfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+		$all_mfields = '<select class="mautic_form">';
+		foreach ($mautic_cfields as $key => $field) {
+			$all_mfields .= Bsfm_Postmeta::make_option( $field->id, $field->alias, $select);
+		}
+		$all_mfields .= '</select>';
+		return $all_mfields;
 	}
 	//list all cf7 forms
 	public static function select_all_cf7forms( $select = null ) {

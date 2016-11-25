@@ -48,12 +48,8 @@
 	<# if( 'new_segments' === data.clas ) { #>
 		<input type="text" name="new_segment" placeholder="enter name of segment" />
 	<# } #>
-	<# if( 'sub-cf-condition' === data.clas ) { #>
-		<div style='background: f1f1f1;height: 200px;'> 
-			<p><# alert(data.cf7Id); #></p>
-			<p><# alert(data.clas); #></p>
-			<?php //Bsfm_Postmeta::get_all_cf7_fields(); ?>
-		</div>
+	<# if( 'mautic_fields' === data.clas ) { #>
+		<?php Bsfm_Postmeta::mautic_get_all_cfields(); ?>
 	<# } #>
 	<# if( 'm_form' === data.clas ) { #>
 		<?php Bsfm_Postmeta::select_all_mforms(); ?>
