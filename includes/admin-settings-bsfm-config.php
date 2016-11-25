@@ -49,8 +49,6 @@
 			<p class="submit">
 				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'uabb' ); ?>" />
 			</p>
-
-
 			<!-- Load Panels -->
 			<!-- Client Callback Url -->
 			<div class="uabb-form-setting">
@@ -93,7 +91,6 @@
 		<p class="submit">
 			<input type="submit" name="fl-save-uabb" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'uabb' ); ?>" />
 		</p>
-
 		<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
 	</form>
 </div>

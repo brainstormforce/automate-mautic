@@ -52,7 +52,7 @@
 		<div style='background: f1f1f1;height: 200px;'> 
 			<p><# alert(data.cf7Id); #></p>
 			<p><# alert(data.clas); #></p>
-			<?php Bsfm_Postmeta::get_all_cf7_fields(); ?>
+			<?php //Bsfm_Postmeta::get_all_cf7_fields(); ?>
 		</div>
 	<# } #>
 	<# if( 'm_form' === data.clas ) { #>

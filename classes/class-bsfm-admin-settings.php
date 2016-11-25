@@ -363,7 +363,7 @@ final class BSFMauticAdminSettings {
 
 					if( isset( $access_details->error ) ) {
 						echo json_encode($result);
-            			exit('unable to connect');
+						exit('unable to connect');
 					}
 					$expiration = time() + $access_details->expires_in;
 					$credentials['access_token'] = $access_details->access_token;
@@ -484,9 +484,8 @@ final class BSFMauticAdminSettings {
 		// @todo check if the request is sent from user with admin rights
 		// @todo check if Base URL, Consumer/Client Key and Consumer/Client secret are not empty
 		// @todo load this array from database or config file
-		
 			$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-			$mautic_api_url = $bsfm_public_key = $bsfm_secret_key;
+			$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
 			$post = $_POST;
 			$cpts_err = false;
 			$lists = null;
@@ -517,7 +516,6 @@ final class BSFMauticAdminSettings {
 
 			update_option( 'bsfm_mautic_credentials', $settings );
 			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
-
 			//OAuth 2.0
             $authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
             $state    = md5(time().mt_rand());
