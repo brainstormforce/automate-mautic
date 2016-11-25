@@ -89,6 +89,7 @@ jQuery(document).ready(function( $ ) {
 				jq( ".sub-cp-action" ).select2();
 				parent.find('div.second-action').html('');
 			break;
+
 			case 'tag' :
 				parent.find('div.first-action').html('');
 				parent.find('div.second-action').html('');
@@ -108,6 +109,12 @@ jQuery(document).ready(function( $ ) {
 				gParent.find('div.second-action').html(NewSeg);
 			break;
 		}
+	});
+	// apend form field mapping
+	jq(document).on( "change", ".sub-cf-condition", function() {
+    	gParent = jq(this).parent().parent();
+    	var html = "<div style='background: f1f1f1;height: 200px;'> Test div </div>";
+    	gParent.find('div.second-condition').html(html);
 	});
 	//methods
 	jq(document).on( "click", ".select-method input", function() {

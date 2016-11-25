@@ -213,7 +213,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
  			self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
  		}
-
+ 		
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
