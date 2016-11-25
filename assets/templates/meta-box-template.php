@@ -48,9 +48,11 @@
 	<# if( 'new_segments' === data.clas ) { #>
 		<input type="text" name="new_segment" placeholder="enter name of segment" />
 	<# } #>
-	<# if( 'mautic_fields' === data.clas ) { #>
+	<# if( 'mautic_fields' === data.clas ) {
+		for (var i = 0; i < data.fieldCnt; i++) {
+	#>
 		<?php Bsfm_Postmeta::mautic_get_all_cfields(); ?>
-	<# } #>
+	<# } } #>
 	<# if( 'm_form' === data.clas ) { #>
 		<?php Bsfm_Postmeta::select_all_mforms(); ?>
 	<# } #>

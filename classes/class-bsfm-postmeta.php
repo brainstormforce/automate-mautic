@@ -112,7 +112,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		preg_match_all($reg, $str, $matches);
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
-		$cf7_fields = "<div style='background: f1f1f1;height: 100px;'>";
+		$cf7_fields = "<div style='background: f1f1f1;height: 50px;'>";
 		$cf7_fields_sel = "<select>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
@@ -123,7 +123,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$cf7_fields.= $cf7_fields_sel;
 		}
 		$cf7_fields.= "</div>";
-		echo $cf7_fields;
+		print_r(json_encode(array(
+			'fieldCount' => $map_cf7fields,
+			'selHtml' => $cf7_fields
+		)));
 		wp_die();
 	}
 	//get all mautic custom fields

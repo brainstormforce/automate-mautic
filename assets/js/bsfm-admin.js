@@ -116,11 +116,14 @@ jQuery(document).ready(function( $ ) {
 		cf7Id = parseInt(this.value);
 		var data= {
 			action:'get_cf7_fields',
+			dataType: 'JSON',
 			cf7Id: cf7Id
 		};
-		jq.post(ajaxurl, data, function(cfFields) {
-			gParent.find('div.second-condition').html(cfFields);
-			var Mauticfields = mbTemplate( { clas: 'mautic_fields' } );
+		jq.post(ajaxurl, data, function(cf7) {
+			// console.log(cf7);
+			cf7 = JSON.parse(cf7);
+			gParent.find('div.second-condition').html(cf7.selHtml);
+			var Mauticfields = mbTemplate( { clas: 'mautic_fields', fieldCnt: cf7.fieldCount } );
 			gParent.find('div.second-condition').append(Mauticfields);
 		});
 	});
