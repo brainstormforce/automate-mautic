@@ -110,12 +110,19 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$reg = '/(?<=\[)([^\]]+)/';
 		$str = $cf7_field_data[0];
 		preg_match_all($reg, $str, $matches);
-		$cf7_fields = "<div style='background: f1f1f1;height: 200px;'><select>";
+		array_pop($matches[0]);
+		$map_cf7fields = sizeof($matches[0]);
+		$cf7_fields = "<div style='background: f1f1f1;height: 100px;'>";
+		$cf7_fields_sel = "<select>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
-			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
+			$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
 		}
-		$cf7_fields.= "</select></div>";
+		$cf7_fields_sel.= "</select>";
+		for ( $i=0; $i < $map_cf7fields; $i++) { 
+			$cf7_fields.= $cf7_fields_sel;
+		}
+		$cf7_fields.= "</div>";
 		echo $cf7_fields;
 		wp_die();
 	}
