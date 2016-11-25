@@ -113,7 +113,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
 		$cf7_fields = "<table style='float: right;'><tbody>";
-		$cf7_fields_sel = "<tr><td><select>";
+		$cf7_fields_sel = "<tr><td><select class='mautic_form' name='cf7_fields[]'>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
@@ -136,9 +136,9 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$method = "GET";
 		$body = '';
 		$mautic_cfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
-		$all_mfields = '<tr><td><select class="mautic_form">';
+		$all_mfields = '<tr><td><select class="mautic_form" name="mautic_cfields[]">';
 		foreach ($mautic_cfields as $key => $field) {
-			$all_mfields .= Bsfm_Postmeta::make_option( $field->id, $field->alias, $select);
+			$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
 		}
 		$all_mfields .= '</select></td></tr>';
 		echo $all_mfields;
@@ -177,6 +177,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$post_type = get_post_type($post_id);
 		if ( "bsf-mautic-rule" != $post_type ) return;
 		//update conditions
+
+		echo "<pre>";
+		print_r($_POST);
+		echo "</pre>";
+		
+
 		if ( isset( $_POST['pm_condition'] ) ) {
 			$conditions = $_POST['pm_condition'];
 			$cp_keys = array_keys( $conditions, "CP");
@@ -221,6 +227,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			}
 			$update_actions = serialize($update_actions);
 			update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
+		}
+		if( isset( $_POST['cf7_fields'] ) && isset( $_POST['mautic_cfields'] ) ) {
+			$update_maping['cf7_fields'] = $_POST['cf7_fields'];
+			$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
+			$update_mapings = serialize($update_maping);
+			update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
 		}
 	}
 	/**
