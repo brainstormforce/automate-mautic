@@ -90,7 +90,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		echo $all_mforms;
 	}
 	public static function get_all_cf7_fields( $cf7_id = null, $select = null ) {
-		$cf7_id = 576;
+		// duplicate function
 		$cf7_field_data = get_post_meta( $cf7_id, '_form' );
 		$reg = '/(?<=\[)([^\]]+)/';
 		$str = $cf7_field_data[0];
@@ -101,14 +101,24 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
 		}
 		$cf7_fields.= "</select>";
-		//print_r($cf7_fields);
+		return $cf7_fields;
 	}
 	public static function make_cf7_fields() {
 		$cf7_id = $_POST['cf7Id'];
-		echo $cf7_id;
-		die();
+		$cf7_field_data = get_post_meta( $cf7_id, '_form' );
+		$reg = '/(?<=\[)([^\]]+)/';
+		$str = $cf7_field_data[0];
+		preg_match_all($reg, $str, $matches);
+		$cf7_fields = "<select>";
+		foreach ($matches[0] as $value) {
+			$field = explode(' ',$value);
+			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
+		}
+		$cf7_fields.= "</select>";
+		echo $cf7_fields;
+		wp_die();
 	}
-	
+	//list all cf7 forms
 	public static function select_all_cf7forms( $select = null ) {
 		//get all contact forms
 		if (class_exists( 'WPCF7_ContactForm' )) {

@@ -114,14 +114,12 @@ jQuery(document).ready(function( $ ) {
 	jq(document).on( "change", ".sub-cf-condition", function() {
 		gParent = jq(this).parent().parent();
 		cf7Id = parseInt(this.value);
-		var cf7MapFields = mbTemplate( { clas: 'sub-cf-condition', cf7Id: cf7Id } );
-		gParent.find('div.second-condition').html(cf7MapFields);
 		var data={
 			action:'get_cf7_fields',
 			cf7Id: cf7Id
 		};
-		jq.post(ajaxurl, data, function(response) {
-			alert('Got this from the server: ' + response);
+		jq.post(ajaxurl, data, function(cfFields) {
+			gParent.find('div.second-condition').html(cfFields);
 		});
 	});
 	/**/
