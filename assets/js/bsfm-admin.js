@@ -113,8 +113,9 @@ jQuery(document).ready(function( $ ) {
 	// apend form field mapping
 	jq(document).on( "change", ".sub-cf-condition", function() {
     	gParent = jq(this).parent().parent();
-    	var html = "<div style='background: f1f1f1;height: 200px;'> Test div </div>";
-    	gParent.find('div.second-condition').html(html);
+    	cf7Id = parseInt(this.value);
+    	var cf7MapFields = mbTemplate( { clas: 'sub-cf-condition', cf7Id: cf7Id } );
+    	gParent.find('div.second-condition').html(cf7MapFields);
 	});
 	//methods
 	jq(document).on( "click", ".select-method input", function() {

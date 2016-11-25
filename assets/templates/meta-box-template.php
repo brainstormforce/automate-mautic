@@ -48,6 +48,12 @@
 	<# if( 'new_segments' === data.clas ) { #>
 		<input type="text" name="new_segment" placeholder="enter name of segment" />
 	<# } #>
+	<# if( 'sub-cf-condition' === data.clas ) { #>
+		<div style='background: f1f1f1;height: 200px;'> 
+			<p><# alert(data.cf7Id); #></p>
+			<p><# alert(data.clas); #></p>
+		</div>
+	<# } #>
 	<# if( 'm_form' === data.clas ) { #>
 		<?php Bsfm_Postmeta::select_all_mforms(); ?>
 	<# } #>
