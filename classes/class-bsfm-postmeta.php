@@ -24,7 +24,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
-		add_action( 'init', array( $this, 'mautic_get_all_cfields' ) );
+		// add_action( 'init', array( $this, 'mautic_get_all_cfields' ) );
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'make_cf7_fields' ) );
 	}
 	/**
@@ -131,7 +131,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$all_mfields .= Bsfm_Postmeta::make_option( $field->id, $field->alias, $select);
 		}
 		$all_mfields .= '</select>';
-		return $all_mfields;
+		echo $all_mfields;
 	}
 	//list all cf7 forms
 	public static function select_all_cf7forms( $select = null ) {

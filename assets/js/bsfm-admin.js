@@ -120,7 +120,8 @@ jQuery(document).ready(function( $ ) {
 		};
 		jq.post(ajaxurl, data, function(cfFields) {
 			gParent.find('div.second-condition').html(cfFields);
-			
+			var Mauticfields = mbTemplate( { clas: 'mautic_fields' } );
+			gParent.find('div.second-condition').append(Mauticfields);
 		});
 	});
 	/**/
