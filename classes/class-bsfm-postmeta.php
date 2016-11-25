@@ -112,7 +112,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		preg_match_all($reg, $str, $matches);
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
-		$cf7_fields = "<table><tbody>";
+		$cf7_fields = "<table style='float: right;'><tbody>";
 		$cf7_fields_sel = "<tr><td><select>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
