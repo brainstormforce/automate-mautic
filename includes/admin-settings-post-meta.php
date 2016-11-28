@@ -18,8 +18,10 @@
 				if (isset($form_fields[0])) {
 					$form_fields = unserialize($form_fields[0]);
 				}
-				print_r($form_fields);
-				die();
+				// echo "<pre>";
+				// print_r($form_fields);
+				// echo "</pre>";
+				// die();
 		?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
