@@ -10,11 +10,11 @@
 				$meta_conditions = unserialize($meta_conditions[0]);
 				$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
 				$meta_actions = unserialize($meta_actions[0]);
-			echo "<pre>";
-			print_r($meta_conditions);
-			echo "</pre>";
-				$form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
-				$form_fields = unserialize($form_fields[0]);
+			// echo "<pre>";
+			// print_r($meta_conditions);
+			// echo "</pre>";
+				/*$form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
+				$form_fields = unserialize($form_fields[0]);*/
 		?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">

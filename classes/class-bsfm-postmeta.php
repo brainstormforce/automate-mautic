@@ -24,7 +24,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
-		// add_action( 'init', array( $this, 'mautic_get_all_cfields' ) );
+		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
 	}
 	/**
@@ -179,6 +179,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		}
 		echo $cf7html;
 	}
+	public static function bsfm_clean_condition_action( $post_id ) {
+		$post_type = get_post_type($post_id);
+		if ( "bsf-mautic-rule" != $post_type ) return;
+		delete_post_meta( $post_id, 'bsfm_rule_condition');
+		delete_post_meta( $post_id, 'bsfm_rule_action');
+	}
 	public static function bsfm_update_post_meta( $post_id, $post, $update ) {
 		$post_type = get_post_type($post_id);
 		if ( "bsf-mautic-rule" != $post_type ) return;
@@ -198,20 +204,20 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						$_POST['sub_cp_condition'][$sub_key], 
 						$_POST['ss_cp_condition'][$sub_key] );
 				}
-				if ($conditions[$i]=='CF7') {
+				if ($conditions[$i] == "CF7") {
 					$sub_key = array_search($i,$cf7_keys);
 					$update_maping = '';
-					$cf7_key = 'cf7_fields'.$_POST['sub_cp_condition'][$sub_key];
-					print_r($_POST[$cf7_key]);
+					//$cf7_key = 'cf7_fields'.$_POST['sub_cp_condition'][$sub_key];
+					//print_r($_POST[$cf7_key]);
 					$update_maping['cf7_fields'] = $_POST[$cf7_key];
 					$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
 					$update_mapings = serialize($update_maping);
-					//update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
-					$update_conditions[$i] = array(
-						$conditions[$i],
-						$_POST['sub_cf_condition'][$sub_key],
-						$update_mapings
-					);
+					update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
+					// $update_conditions[$i] = array(
+					// 	$conditions[$i],
+					// 	$_POST['sub_cf_condition'][$sub_key],
+					// 	$update_mapings
+					// );
 				}
 			}
 			$update_conditions = serialize($update_conditions);
