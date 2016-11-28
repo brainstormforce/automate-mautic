@@ -53,6 +53,16 @@
 									</div>
 									<div class="second-condition" style="display:inline;">
 										<table style="float: right;">
+											<tbody>
+												<?php
+												foreach ($form_fields['mautic_cfields'] as $mform_field) {
+													Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
+												}
+												?>
+										</tbody></table>
+
+										<!-- Fetch cf7 fields -->
+										<table style="float: right;">
    										<tbody>
 											<?php
 											$cf7_field_data = get_post_meta( $cf7_id, '_form' );
@@ -62,10 +72,9 @@
 											//$map_cf7fields = sizeof($matches[0]);
 											foreach ($form_fields['cf7_fields'] as $form_field) {
 										 		$cf7_fields = "<tr><td><select>";
-												$select = $form_field;
 												foreach ($matches[0] as $value) {
 													$field = explode(' ',$value);
-													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
+													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $form_field);
 												}
 												$cf7_fields.= "</select></td></tr>";
 												echo $cf7_fields;	
