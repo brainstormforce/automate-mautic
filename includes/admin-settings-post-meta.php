@@ -44,8 +44,40 @@
 								echo '</div>';
 								endif;
 								if( $meta_condition[0]=='CF7' ) : 
-									echo '<div class="first-condition" style="display:inline;">';
-										Bsfm_Postmeta::select_all_cf7forms($meta_condition[1]);
+									$cf7_id = $meta_condition[1];
+									?>
+									<div class="first-condition" style="display:inline;">
+										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
+									</div>
+									<div class="second-condition" style="display:inline;">
+
+						<!-- <table style='float: right;'><tbody>
+							<tr>
+								<td>
+									<select class='mautic_form' name='cf7_fields[]'>
+
+										<table style="float: right;">
+											<tbody>
+												   <tr>
+												     <td>
+												        <select class="mautic_form" name="cf7_fields[]">
+												           <option value="your-name">your-name</option>
+												           <option value="your-email">your-email</option>
+												           <option value="your-message">your-message</option>
+												        </select>
+												     </td>
+												  </tr> -->
+									<?php
+											$cf7_fields = Bsfm_Postmeta::make_cf7_fields( $cf7_id, 'your-name');
+											print_r($cf7_fields);
+													echo $cf7_fields['selHtml'];
+
+											//cf7-id pass mapping func
+											//bui;d table
+										
+											if($meta_condition[1]=='os_page') {
+												Bsfm_Postmeta::select_all_pages($meta_condition[2]);
+											}								
 									echo '</div>';
 								endif;
 						echo '</fieldset>';
