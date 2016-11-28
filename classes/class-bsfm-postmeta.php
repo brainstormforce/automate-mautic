@@ -136,7 +136,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			wp_die();
 	}
 	//get all mautic custom fields
-	public static function mautic_get_all_cfields( $select=null ) {
+	public static function mautic_get_all_cfields( $select = null ) {
 		//get all mautic fields here	
 		$url = "/api/contacts/list/fields";
 		$method = "GET";
@@ -186,7 +186,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$conditions = $_POST['pm_condition'];
 			$cp_keys = array_keys( $conditions, "CP");
 			$cf7_keys = array_keys( $conditions, "CF7");
-			$condition_cnt = sizeof($conditions);
+			$condition_cnt = sizeof( $conditions );
 			for($i=0; $i < $condition_cnt; $i++) {
 				if($conditions[$i]=='UR') {
 					$update_conditions[$i] = array( $conditions[$i] );
@@ -228,10 +228,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
 		}
 		if( isset( $_POST['cf7_fields'] ) && isset( $_POST['mautic_cfields'] ) ) {
-			$update_maping['cf7_fields'] = $_POST['cf7_fields'];
-			$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
-			$update_mapings = serialize($update_maping);
-			update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
+				//$_POST['sub_cf_condition']
+				$update_maping['cf7_fields'] = $_POST['cf7_fields'];
+				$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
+				$update_mapings = serialize($update_maping);
+				update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
 		}
 	}
 	/**

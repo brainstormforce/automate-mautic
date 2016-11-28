@@ -47,6 +47,13 @@
 								endif;
 								if( $meta_condition[0]=='CF7' ) : 
 									$cf7_id = $meta_condition[1];
+									//get cf7 data
+									$cf7_field_data = get_post_meta( $cf7_id, '_form' );
+									$reg = '/(?<=\[)([^\]]+)/';
+									$str = $cf7_field_data[0];
+									preg_match_all($reg, $str, $matches);
+									array_pop($matches[0]);
+									$map_cf7fields = sizeof( $matches[0] );
 									?>
 									<div class="first-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
@@ -55,21 +62,18 @@
 										<table style="float: right;">
 											<tbody>
 												<?php
+												//print_r($form_fields['mautic_cfields']);
 												foreach ($form_fields['mautic_cfields'] as $mform_field) {
 													Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
 												}
 												?>
-										</tbody></table>
+										</tbody>
+										</table>
 
 										<!-- Fetch cf7 fields -->
 										<table style="float: right;">
    										<tbody>
 											<?php
-											$cf7_field_data = get_post_meta( $cf7_id, '_form' );
-											$reg = '/(?<=\[)([^\]]+)/';
-											$str = $cf7_field_data[0];
-											preg_match_all($reg, $str, $matches);
-											//$map_cf7fields = sizeof($matches[0]);
 											foreach ($form_fields['cf7_fields'] as $form_field) {
 										 		$cf7_fields = "<tr><td><select>";
 												foreach ($matches[0] as $value) {
@@ -184,8 +188,14 @@
 								<select class="select-action form-control" name="pm_action[]">
 									<option value="segment">Segment</option>
 								</select>
-							<div class="first-action" style="display:inline;"></div>
-							<div class="second-action" style="display:inline;"></div>
+							<div class="first-action" style="display:inline;">
+								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
+									<option value="pre_segments">Select predefined segment</option>
+								</select>
+							</div>
+							<div class="second-action" style="display:inline;">
+								<?php Bsfm_Postmeta::select_all_segments(); ?>
+							</div>
 						</fieldset>
 					</div>				 
 					<fieldset class="bsfm-add-action add-new-item"><div class="ui-state-disabled"><span class="dashicons dashicons-plus-alt"></span> Add new action</div></fieldset>
