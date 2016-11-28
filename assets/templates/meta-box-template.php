@@ -19,8 +19,14 @@
 		<select class="select-action form-control" name="pm_action[]">
 	    	<option value="segment">Segment</option>
 		</select>
-		<div class="first-action" style="display:inline;"></div>
-		<div class="second-action" style="display:inline;"></div>
+		<div class="first-action" style="display:inline;">
+			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
+				<option value="pre_segments">Select predefined segment</option>
+			</select>
+		</div>
+		<div class="second-action" style="display:inline;">
+			<?php Bsfm_Postmeta::select_all_segments(); ?>
+		</div>
 	<# } #>
 	<# if( 'sub-cp-condition' === data.clas ) { #>
 		<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
@@ -29,19 +35,11 @@
 			<option value="os_post">On Specific Post</option>
 		</select>
 	<# } #>
-	<# if( 'sub-seg-action' === data.clas ) { #>
-		<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-			<option value="pre_segments">Select predefined segment</option>
-		</select>
-	<# } #>
 	<# if( 'os_page' === data.clas ) { #>
 		<?php Bsfm_Postmeta::select_all_pages(); ?>
 	<# } #>
 	<# if( 'os_post' === data.clas ) { #>
 		<?php Bsfm_Postmeta::select_all_posts(); ?>
-	<# } #>
-	<# if( 'pre_segments' === data.clas ) { #>
-		<?php Bsfm_Postmeta::select_all_segments(); ?>
 	<# } #>
 	<# if( 'mautic_fields' === data.clas ) { #>
 		<table style="float: right;">
