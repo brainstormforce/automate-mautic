@@ -10,6 +10,9 @@
 				$meta_conditions = unserialize($meta_conditions[0]);
 				$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
 				$meta_actions = unserialize($meta_actions[0]);
+			echo "<pre>";
+			print_r($meta_conditions);
+			echo "</pre>";
 				$form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
 				$form_fields = unserialize($form_fields[0]);
 		?>
@@ -75,7 +78,7 @@
    										<tbody>
 											<?php
 											foreach ($form_fields['cf7_fields'] as $form_field) {
-										 		$cf7_fields = "<tr><td><select>";
+										 		$cf7_fields = "<tr><td><select name='cf7_fields[]'>";
 												foreach ($matches[0] as $value) {
 													$field = explode(' ',$value);
 													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $form_field);

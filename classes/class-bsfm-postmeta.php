@@ -25,7 +25,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		// add_action( 'init', array( $this, 'mautic_get_all_cfields' ) );
-		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'make_cf7_fields' ) );
+		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
 	}
 	/**
 	* Register meta box(es).
@@ -108,7 +108,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		);
 		return $fields_return;
 	}
-	public static function make_cf7_fields( $cf7_id='', $select='' ) {
+	public static function bsf_make_cf7_fields( $cf7_id='', $select='' ) {
 		//get all contact form fields
 		$cf7_id = $_POST['cf7Id'];
 		$cf7_field_data = get_post_meta( $cf7_id, '_form' );
@@ -118,7 +118,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
 		$cf7_fields = "<table style='float: right;'><tbody>";
-		$cf7_fields_sel = "<tr><td><select class='mautic_form' name='cf7_fields[]'>";
+		$field_name = 'cf7_fields_'.$cf7_id;
+		$cf7_fields_sel = "<tr><td><select class='mautic_form' name='".$field_name."[]'>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
@@ -128,12 +129,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$cf7_fields.= $cf7_fields_sel;
 		}
 		$cf7_fields.= "</tbody></table>";
-	
-			print_r(json_encode( array(
+		print_r(json_encode( array(
 				'fieldCount' => $map_cf7fields,
 				'selHtml' => $cf7_fields
 		)));
-			wp_die();
+		wp_die();
 	}
 	//get all mautic custom fields
 	public static function mautic_get_all_cfields( $select = null ) {
@@ -200,7 +200,18 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 				}
 				if ($conditions[$i]=='CF7') {
 					$sub_key = array_search($i,$cf7_keys);
-					$update_conditions[$i] = array($conditions[$i],$_POST['sub_cf_condition'][$sub_key]);
+					$update_maping = '';
+					$cf7_key = 'cf7_fields'.$_POST['sub_cp_condition'][$sub_key];
+					print_r($_POST[$cf7_key]);
+					$update_maping['cf7_fields'] = $_POST[$cf7_key];
+					$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
+					$update_mapings = serialize($update_maping);
+					//update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
+					$update_conditions[$i] = array(
+						$conditions[$i],
+						$_POST['sub_cf_condition'][$sub_key],
+						$update_mapings
+					);
 				}
 			}
 			$update_conditions = serialize($update_conditions);
@@ -228,11 +239,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
 		}
 		if( isset( $_POST['cf7_fields'] ) && isset( $_POST['mautic_cfields'] ) ) {
-				//$_POST['sub_cf_condition']
-				$update_maping['cf7_fields'] = $_POST['cf7_fields'];
-				$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
-				$update_mapings = serialize($update_maping);
-				update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
+			//$_POST['sub_cf_condition']
+			$update_maping['cf7_fields'] = $_POST['cf7_fields'];
+			$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
+			$update_mapings = serialize($update_maping);
+			update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
 		}
 	}
 	/**
