@@ -7,14 +7,19 @@
 					$post_id = $_GET['post'];
 				}
 				$meta_conditions = get_post_meta( $post_id, 'bsfm_rule_condition' );
-				$meta_conditions = unserialize($meta_conditions[0]);
+				if (isset($meta_conditions[0])) {
+					$meta_conditions = unserialize($meta_conditions[0]);	
+				}
 				$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
-				$meta_actions = unserialize($meta_actions[0]);
-			// echo "<pre>";
-			// print_r($meta_conditions);
-			// echo "</pre>";
-				/*$form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
-				$form_fields = unserialize($form_fields[0]);*/
+				if (isset($meta_actions[0])) {
+					$meta_actions = unserialize($meta_actions[0]);
+				}
+				
+				// echo "<pre>";
+				// print_r($meta_conditions);
+				// echo "</pre>";
+				$form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
+				$form_fields = unserialize($form_fields[0]);
 		?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
@@ -65,7 +70,6 @@
 										<table style="float: right;">
 											<tbody>
 												<?php
-												//print_r($form_fields['mautic_cfields']);
 												foreach ($form_fields['mautic_cfields'] as $mform_field) {
 													Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
 												}
