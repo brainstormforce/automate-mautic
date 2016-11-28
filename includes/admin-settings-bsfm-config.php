@@ -52,10 +52,7 @@
 			<!-- Load Panels -->
 			<!-- Client Callback Url -->
 			<div class="uabb-form-setting">
-				<h4><?php _e( 'Callback URI -- NEED it?', 'bsfmautic' ); ?></h4>
-				<p class="uabb-admin-help">
-					<?php _e('Specify callback URI. leave blank to restrict callbacks', 'bsfmautic'); ?>
-				</p>
+				<h4><?php _e( 'Callback URI-remove-?', 'bsfmautic' ); ?></h4>
 				<input type="text" class="regular-text" name="bsfm-callback-uri" value="<?php echo $bsfm_callback_uri; ?>" class="uabb-wp-text" />
 			</div>
 			<p class="submit">

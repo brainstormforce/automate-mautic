@@ -443,7 +443,7 @@ final class BSFMauticAdminSettings {
 		}
 		
 		if ( isset( $_POST['bsfm-push-data'] ) && $_POST['bsfm-push-data']=='Send to Mautic' ) {
-			self::bsfm_add_contacts();
+			//self::bsfm_add_contacts();
 			//Add contacts to mautic
 		}
 		if ( isset( $_POST['bsfm-branding-nonce'] ) && wp_verify_nonce( $_POST['bsfm-branding-nonce'], 'bsfm-branding' ) ) {

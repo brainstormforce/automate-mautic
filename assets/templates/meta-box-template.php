@@ -45,7 +45,13 @@
 		<table style="float: right;">
 			<tbody>
 			<# for (var i = 0; i < data.fieldCnt; i++) { #>
-				<?php Bsfm_Postmeta::mautic_get_all_cfields(); ?>
+				<tr>
+					<td>
+						<select class="mautic_forms" name='mautic_cfields[<# print(data.formId); #>][]'>
+							<?php Bsfm_Postmeta::mautic_get_all_cfields(); ?>
+						</select>
+					</td>
+				</tr>
 			<# } #>
 			</tbody>
 		</table>

@@ -102,7 +102,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
 		}
 		$cf7_fields.= "</select></td></tr>";
-	 	$fields_return = array(
+		$fields_return = array(
 				'fieldCount' => $map_cf7fields,
 				'selHtml' => $cf7_fields
 		);
@@ -118,9 +118,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
 		$cf7_fields = "<table style='float: right;'><tbody>";
-		// $field_name = 'cf7_fields_'.$cf7_id;
-		// 
-		$cf7_fields_sel = "<tr><td><select class='mautic_form' name='cf7_fields[]'>";
+		$cf7_fields_sel = "<tr><td><select class='mautic_form' name='cf7_fields[$cf7_id][]'>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
@@ -141,13 +139,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		//get all mautic fields here	
 		$url = "/api/contacts/list/fields";
 		$method = "GET";
-		$body = '';
+		$body = $all_mfields = '';
 		$mautic_cfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
-		$all_mfields = '<tr><td><select class="mautic_form" name="mautic_cfields[]">';
 		foreach ($mautic_cfields as $key => $field) {
 			$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
 		}
-		$all_mfields .= '</select></td></tr>';
 		echo $all_mfields;
 	}
 	//list all cf7 forms

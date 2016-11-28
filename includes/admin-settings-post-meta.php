@@ -18,6 +18,8 @@
 				if (isset($form_fields[0])) {
 					$form_fields = unserialize($form_fields[0]);
 				}
+				print_r($form_fields);
+				die();
 		?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
@@ -69,18 +71,20 @@
 											<tbody>
 												<?php
 												foreach ($form_fields['mautic_cfields'] as $mform_field) {
-													Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
-												}
+													echo '<tr><td>';
+														echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
+														Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
+														echo '</select></td></tr>';
+													}
 												?>
-										</tbody>
+											</tbody>
 										</table>
-
 										<!-- Fetch cf7 fields -->
 										<table style="float: right;">
    										<tbody>
 											<?php
 											foreach ($form_fields['cf7_fields'] as $form_field) {
-										 		$cf7_fields = "<tr><td><select name='cf7_fields[]'>";
+										 		$cf7_fields = '<tr><td><select name="cf7_fields['.$cf7_id.']">';
 												foreach ($matches[0] as $value) {
 													$field = explode(' ',$value);
 													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $form_field);
@@ -91,6 +95,10 @@
 												
 										echo '</tbody></table>';						
 									echo '</div>';
+								endif;
+								if( $meta_condition[0]=='UR' ) :
+									echo '<div class="first-condition" style="display:inline;"></div>';
+									echo '<div class="second-condition" style="display:inline;"></div>';
 								endif;
 						echo '</fieldset>';
 						endforeach;

@@ -119,7 +119,7 @@ jQuery(document).ready(function( $ ) {
 			// console.log(cf7);
 			cf7 = JSON.parse(cf7);
 			gParent.find('div.second-condition').html(cf7.selHtml);
-			var Mauticfields = mbTemplate( { clas: 'mautic_fields', fieldCnt: cf7.fieldCount } );
+			var Mauticfields = mbTemplate( { clas: 'mautic_fields', fieldCnt: cf7.fieldCount, formId: cf7Id } );
 			gParent.find('div.second-condition').append(Mauticfields);
 		});
 	});
