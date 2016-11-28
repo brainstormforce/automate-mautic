@@ -95,19 +95,22 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$reg = '/(?<=\[)([^\]]+)/';
 		$str = $cf7_field_data[0];
 		preg_match_all($reg, $str, $matches);
+		$map_cf7fields = sizeof($matches[0]);
 		$cf7_fields = "<tr><td><select>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
 		}
 		$cf7_fields.= "</select></td></tr>";
-		echo $cf7_fields;
+	 	$fields_return = array(
+				'fieldCount' => $map_cf7fields,
+				'selHtml' => $cf7_fields
+		);
+		return $fields_return;
 	}
 	public static function make_cf7_fields( $cf7_id='', $select='' ) {
 		//get all contact form fields
-		if(isset($_POST['cf7Id'])) {
-			$cf7_id = $_POST['cf7Id'];
-		}
+		$cf7_id = $_POST['cf7Id'];
 		$cf7_field_data = get_post_meta( $cf7_id, '_form' );
 		$reg = '/(?<=\[)([^\]]+)/';
 		$str = $cf7_field_data[0];
@@ -124,18 +127,13 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		for ( $i=0; $i < $map_cf7fields; $i++) { 
 			$cf7_fields.= $cf7_fields_sel;
 		}
-		$return = array(
+		$cf7_fields.= "</tbody></table>";
+	
+			print_r(json_encode( array(
 				'fieldCount' => $map_cf7fields,
 				'selHtml' => $cf7_fields
-		);
-		$cf7_fields.= "</tbody></table>";
-		if(isset($_POST['cf7Id'])) {
-			print_r(json_encode($return));
+		)));
 			wp_die();
-		}
-		else {
-			return $return;
-		}
 	}
 	//get all mautic custom fields
 	public static function mautic_get_all_cfields( $select=null ) {

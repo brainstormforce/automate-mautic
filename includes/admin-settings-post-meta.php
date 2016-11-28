@@ -10,6 +10,8 @@
 				$meta_conditions = unserialize($meta_conditions[0]);
 				$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
 				$meta_actions = unserialize($meta_actions[0]);
+				$form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
+				$form_fields = unserialize($form_fields[0]);
 		?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
@@ -50,22 +52,28 @@
 										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
 									</div>
 									<div class="second-condition" style="display:inline;">
-
-										<table style='float: right;'><tbody>
-			
-									<?php
-												Bsfm_Postmeta::get_all_cf7_fields( $cf7_id, 'your-email');
-												/*for ($i=0; $i < $cf7_fields['fieldCount']; $i++) { 
-													echo $cf7_fields['selHtml'];
-												}*/
-													
-													// fieldCount
-											//cf7-id pass mapping func
-											//bui;d table
-										
-											if($meta_condition[1]=='os_page') {
-												Bsfm_Postmeta::select_all_pages($meta_condition[2]);
-											}								
+										<table style="float: right;">
+   										<tbody>
+											<?php
+											$cf7_field_data = get_post_meta( $cf7_id, '_form' );
+											print_r($form_fields);
+										// foreach ($form_fields['cf7_fields'] as $key => $value) {
+										// 		# code...
+										// 	}	
+											
+											$reg = '/(?<=\[)([^\]]+)/';
+											$str = $cf7_field_data[0];
+											preg_match_all($reg, $str, $matches);
+											$map_cf7fields = sizeof($matches[0]);
+											$cf7_fields = "<tr><td><select>";
+											$select = "your-name";
+											foreach ($matches[0] as $value) {
+												$field = explode(' ',$value);
+												$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
+											}
+											$cf7_fields.= "</select></td></tr>";
+											echo $cf7_fields;		
+										echo '</tbody></table>';						
 									echo '</div>';
 								endif;
 						echo '</fieldset>';
