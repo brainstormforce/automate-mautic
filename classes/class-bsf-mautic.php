@@ -196,24 +196,34 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
  	
 		public static function bsfm_add_cf7_mautic( $query ) {
-			if ( !$query || !is_array($query)) return;
+			if (!is_array($query)) return;
 			$cf7_id = $query['_wpcf7'];
 			$status = Bsfm_Postmeta::bsfm_get_cf7_condition( $cf7_id );
-			if( is_array($status) ) {
+			if( is_array($status) and (sizeof($status)>0) ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
 			}
- 			$method = 'POST';
-			$url = '/api/contacts/new';
-			$body = array(
-				'firstname'	=> $query['your-name'],
-				'email'		=> $query['your-email']
-			);
- 			self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
+			// get actions
+			// @get all fields
+			// @map and assign to body
+			// call maping function
+			foreach ($status as $rule) {
+				$body = self::bsf_get_cf7_mautic_fields_maping($cf7_id, $rule);
+	 			$method = 'POST';
+				$url = '/api/contacts/new';
+				$body = array(
+					'firstname'	=> $query['your-name'],
+					'email'		=> $query['your-email']
+				);
+	 			self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
+			}
  		}
- 		
+ 		public static bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id) {
+ 			// map fields and return array
+ 			return $array;
+ 		}
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
