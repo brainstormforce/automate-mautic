@@ -56,23 +56,21 @@
    										<tbody>
 											<?php
 											$cf7_field_data = get_post_meta( $cf7_id, '_form' );
-											print_r($form_fields);
-										// foreach ($form_fields['cf7_fields'] as $key => $value) {
-										// 		# code...
-										// 	}	
-											
 											$reg = '/(?<=\[)([^\]]+)/';
 											$str = $cf7_field_data[0];
 											preg_match_all($reg, $str, $matches);
-											$map_cf7fields = sizeof($matches[0]);
-											$cf7_fields = "<tr><td><select>";
-											$select = "your-name";
-											foreach ($matches[0] as $value) {
-												$field = explode(' ',$value);
-												$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
-											}
-											$cf7_fields.= "</select></td></tr>";
-											echo $cf7_fields;		
+											//$map_cf7fields = sizeof($matches[0]);
+											foreach ($form_fields['cf7_fields'] as $form_field) {
+										 		$cf7_fields = "<tr><td><select>";
+												$select = $form_field;
+												foreach ($matches[0] as $value) {
+													$field = explode(' ',$value);
+													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
+												}
+												$cf7_fields.= "</select></td></tr>";
+												echo $cf7_fields;	
+											}	
+												
 										echo '</tbody></table>';						
 									echo '</div>';
 								endif;
