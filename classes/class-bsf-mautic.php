@@ -196,6 +196,24 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
  	
 		public static function bsfm_add_cf7_mautic( $query ) {
+			print_r($query);
+			update_option('test_cf7',$query);
+
+			// debug
+			$query = array(
+			    '_wpcf7' => 576,
+			    '_wpcf7_version' => 4.5.1,
+			    '_wpcf7_locale' => 'en_US',
+			    '_wpcf7_unit_tag' => 'wpcf7-f576-p683-o1',
+			    'your-name' => 'fsdfdsfs',
+			    'your-email' => 'ff@fff.in',
+			    'your-subject' => 'sdfsf',
+			    'your-message' => 'sdfdsfsfsfs dsd',
+			    '_wpcf7_is_ajax_call' => 1
+			)
+
+
+			//die();
 			if (!is_array($query)) return;
 			$cf7_id = $query['_wpcf7'];
 			$status = Bsfm_Postmeta::bsfm_get_cf7_condition( $cf7_id );
@@ -220,14 +238,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 	 			self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
 			}
  		}
- 		public static bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
+ 		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
 			// map fields and return array
 			$forms_fields = get_post_meta( $rule_id, '_bsfm_rule_fields_map_api' );
 			$cf7_fields = $forms_fields['cf7_fields'];
 			$mautic_fields = $forms_fields['mautic_cfields'];
  			foreach ( $cf7_fields as $key => $field ) {
  				$cf7_field = $cf7_fields[$key];
- 				$mapping[$mautic_fields[$key]] = $query[$cf7_field]
+ 				$mapping[$mautic_fields[$key]] = $query[$cf7_field];
  			}
  			return $mapping;
  		}
