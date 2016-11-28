@@ -104,10 +104,6 @@ jQuery(document).ready(function( $ ) {
 				gParent.find('div.second-action').html(PreSeg);
 				jq( ".root-seg-action" ).select2();
 			break;
-			case 'new_segments' :
-				var NewSeg = mbTemplate( { clas: this.value } );
-				gParent.find('div.second-action').html(NewSeg);
-			break;
 		}
 	});
 	// apend form field mapping

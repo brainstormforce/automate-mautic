@@ -17,7 +17,6 @@
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
 		<select class="select-action form-control" name="pm_action[]">
-	  		<option value="tag">Add Tag</option>
 	    	<option value="segment">Segment</option>
 		</select>
 		<div class="first-action" style="display:inline;"></div>
@@ -32,7 +31,6 @@
 	<# } #>
 	<# if( 'sub-seg-action' === data.clas ) { #>
 		<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-			<option value="new_segments">Enter new segment</option>
 			<option value="pre_segments">Select predefined segment</option>
 		</select>
 	<# } #>
@@ -44,9 +42,6 @@
 	<# } #>
 	<# if( 'pre_segments' === data.clas ) { #>
 		<?php Bsfm_Postmeta::select_all_segments(); ?>
-	<# } #>
-	<# if( 'new_segments' === data.clas ) { #>
-		<input type="text" name="new_segment" placeholder="enter name of segment" />
 	<# } #>
 	<# if( 'mautic_fields' === data.clas ) { #>
 		<table style="float: right;">
