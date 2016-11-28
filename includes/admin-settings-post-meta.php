@@ -51,27 +51,15 @@
 									</div>
 									<div class="second-condition" style="display:inline;">
 
-						<!-- <table style='float: right;'><tbody>
-							<tr>
-								<td>
-									<select class='mautic_form' name='cf7_fields[]'>
-
-										<table style="float: right;">
-											<tbody>
-												   <tr>
-												     <td>
-												        <select class="mautic_form" name="cf7_fields[]">
-												           <option value="your-name">your-name</option>
-												           <option value="your-email">your-email</option>
-												           <option value="your-message">your-message</option>
-												        </select>
-												     </td>
-												  </tr> -->
+										<table style='float: right;'><tbody>
+			
 									<?php
-											$cf7_fields = Bsfm_Postmeta::make_cf7_fields( $cf7_id, 'your-name');
-											print_r($cf7_fields);
+												Bsfm_Postmeta::get_all_cf7_fields( $cf7_id, 'your-email');
+												/*for ($i=0; $i < $cf7_fields['fieldCount']; $i++) { 
 													echo $cf7_fields['selHtml'];
-
+												}*/
+													
+													// fieldCount
 											//cf7-id pass mapping func
 											//bui;d table
 										

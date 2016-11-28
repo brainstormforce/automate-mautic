@@ -95,13 +95,13 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$reg = '/(?<=\[)([^\]]+)/';
 		$str = $cf7_field_data[0];
 		preg_match_all($reg, $str, $matches);
-		$cf7_fields = "<select>";
+		$cf7_fields = "<tr><td><select>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
 		}
-		$cf7_fields.= "</select>";
-		return $cf7_fields;
+		$cf7_fields.= "</select></td></tr>";
+		echo $cf7_fields;
 	}
 	public static function make_cf7_fields( $cf7_id='', $select='' ) {
 		//get all contact form fields
