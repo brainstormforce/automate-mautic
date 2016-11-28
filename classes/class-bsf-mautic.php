@@ -37,6 +37,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 			// cf7 integration
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
+			// debug
+			// add_action( 'init', array( $this, 'bsfm_add_cf7_mautic' ), 10, 3 );
 		}
 		public function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
@@ -196,24 +198,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
  	
 		public static function bsfm_add_cf7_mautic( $query ) {
-			print_r($query);
-			update_option('test_cf7',$query);
-
-			// debug
-			$query = array(
-			    '_wpcf7' => 576,
-			    '_wpcf7_version' => 4.5.1,
-			    '_wpcf7_locale' => 'en_US',
-			    '_wpcf7_unit_tag' => 'wpcf7-f576-p683-o1',
-			    'your-name' => 'fsdfdsfs',
-			    'your-email' => 'ff@fff.in',
-			    'your-subject' => 'sdfsf',
-			    'your-message' => 'sdfdsfsfsfs dsd',
-			    '_wpcf7_is_ajax_call' => 1
-			)
-
-
-			//die();
 			if (!is_array($query)) return;
 			$cf7_id = $query['_wpcf7'];
 			$status = Bsfm_Postmeta::bsfm_get_cf7_condition( $cf7_id );
@@ -223,29 +207,32 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				return;
 			}
-			// get actions
-			// @get all fields
-			// @map and assign to body
-			// call maping function
 			foreach ($status as $rule) {
 				$body_fields = self::bsf_get_cf7_mautic_fields_maping($cf7_id, $rule, $query);
-	 			$method = 'POST';
-				$url = '/api/contacts/new';
-				$body = array(
+				if(!is_array($body_fields)) {
+					$body = array(
 					'firstname'	=> $query['your-name'],
 					'email'		=> $query['your-email']
-				);
+					);
+				}
+				else {
+					$body = $body_fields;
+				}
+	 			$method = 'POST';
+				$url = '/api/contacts/new';
 	 			self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
 			}
  		}
  		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
 			// map fields and return array
 			$forms_fields = get_post_meta( $rule_id, '_bsfm_rule_fields_map_api' );
-			$cf7_fields = $forms_fields['cf7_fields'];
-			$mautic_fields = $forms_fields['mautic_cfields'];
+			$forms_fields = unserialize($forms_fields[0]);
+			if(isset($forms_fields['cf7_fields'])) {
+				$cf7_fields = $forms_fields['cf7_fields'];
+				$mautic_fields = $forms_fields['mautic_cfields'];
+			}
  			foreach ( $cf7_fields as $key => $field ) {
- 				$cf7_field = $cf7_fields[$key];
- 				$mapping[$mautic_fields[$key]] = $query[$cf7_field];
+ 				$mapping[$mautic_fields[$key]] = $query[$field];
  			}
  			return $mapping;
  		}

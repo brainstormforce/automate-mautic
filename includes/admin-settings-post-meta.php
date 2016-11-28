@@ -68,7 +68,6 @@
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
 										<select class="select-action form-control" name="pm_action[]">
-											<option value="tag" <?php selected( $meta_action[0],'tag' ); ?> >Add Tag</option>
 											<option value="segment" <?php selected( $meta_action[0],'segment' ); ?> >Segment</option>
 										</select>
 							<?php if($meta_action[0]=='segment') :	?>

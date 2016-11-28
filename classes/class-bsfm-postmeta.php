@@ -176,10 +176,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public static function bsfm_update_post_meta( $post_id, $post, $update ) {
 		$post_type = get_post_type($post_id);
 		if ( "bsf-mautic-rule" != $post_type ) return;
-		//update conditions
-		// echo "<pre>";
-		// print_r($_POST);
-		// echo "</pre>";
 		if ( isset( $_POST['pm_condition'] ) ) {
 			$conditions = $_POST['pm_condition'];
 			$cp_keys = array_keys( $conditions, "CP");
