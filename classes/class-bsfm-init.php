@@ -1,8 +1,8 @@
 <?php
 /**
- * UABB initial setup
+ * MauticPress initial setup
  *
- * @since 1.1.0.4
+ * @since 1.0.0
  */
 if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	
@@ -20,15 +20,14 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 		 *	Set static object to store data from database.
 		 */
 		self::get_bsfm_options();
-		// Load all the required files of bb-ultimate-addon
 		self::includes();
 	}
 
 	function includes() {
  		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-helper.php';
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
-		/*	//Load the appropriate text-domain
-			$this->load_plugin_textdomain();
+		/*Load the appropriate text-domain
+		$this->load_plugin_textdomain();
 		*/
 	}
 	/**

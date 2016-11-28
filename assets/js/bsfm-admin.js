@@ -106,7 +106,7 @@ jQuery(document).ready(function( $ ) {
 			break;
 		}
 	});
-	// apend form field mapping
+	// append form field mapping
 	jq(document).on( "change", ".sub-cf-condition", function() {
 		gParent = jq(this).parent().parent();
 		cf7Id = parseInt(this.value);

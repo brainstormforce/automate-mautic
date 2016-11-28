@@ -10,7 +10,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		private static $instance;
 		/**
-		* Initiator
+		*	Initiator
 		*/
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
@@ -20,8 +20,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 			return self::$instance;
 		}
-
-		// __clone and __wakeup functions >>> singlton pattern
 		public function includes() {
 			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-init.php';
 			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-postmeta.php';
@@ -35,10 +33,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
 			//add comment author
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
-			// cf7 integration
+			//cf7 integration
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
-			// debug
-			// add_action( 'init', array( $this, 'bsfm_add_cf7_mautic' ), 10, 3 );
 		}
 		public function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
@@ -67,7 +63,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 			$args = array(
 				'labels'             => $labels,
-                'description'        => __( 'Description.', 'bsfmautic' ),
+				'description'        => __( 'Description.', 'bsfmautic' ),
 				'public'             => true,
 				'publicly_queryable' => true,
 				'show_ui'            => true,
@@ -84,8 +80,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			register_post_type( 'bsf-mautic-rule', $args );
 		}
 		/**
-		 * Writes Tracking JS to the HTML source of WP head
-		 */
+		* Writes Tracking JS to the HTML source of WP head
+		*/
 		public function bsf_mautic_tracking_script()
 		{
 			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
@@ -100,11 +96,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if ( $enable_mautic_tracking ) {
 				$base_url = trim($bsfm_options['bsfm-base-url'], " \t\n\r\0\x0B/");
 				$bsfm_trackingJS = "<script>
-			    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-			        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-			        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-			    })(window,document,'script','{$base_url}/mtc.js','mt');
-			    mt('send', 'pageview');
+				(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+				w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+				m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','{$base_url}/mtc.js','mt');
+				mt('send', 'pageview');
 				</script>";
 				echo $bsfm_trackingJS;
 			}
@@ -141,9 +137,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
 		public function bsfm_add_registered_user( $user_id ) {
 			if( !$user_id ) return;
-			//get register user conditions
+			//get user registerd condition rules
 			$status = Bsfm_Postmeta::bsfm_get_wpur_condition();
-			if( is_array($status) ) {
+			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
@@ -163,9 +159,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
 			if( !isset($commentdata['comment_author_email']) ) return;
-			//get comment post conditions
+			//get comment post condition rules
 			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
-			if( is_array($status) ) {
+			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
@@ -178,7 +174,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
-			//$arraytags = array('aaa','bbb');
 			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 		}
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
@@ -201,15 +196,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if (!is_array($query)) return;
 			$cf7_id = $query['_wpcf7'];
 			$status = Bsfm_Postmeta::bsfm_get_cf7_condition( $cf7_id );
-			if( is_array($status) and (sizeof($status)>0) ) {
+			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
 			}
 			foreach ($status as $rule) {
-				$body_fields = self::bsf_get_cf7_mautic_fields_maping($cf7_id, $rule, $query);
-				if(!is_array($body_fields)) {
+				$body_fields = self::bsf_get_cf7_mautic_fields_maping( $cf7_id, $rule, $query );
+				if( !is_array($body_fields) ) {
 					$body = array(
 					'firstname'	=> $query['your-name'],
 					'email'		=> $query['your-email']
@@ -218,13 +213,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				else {
 					$body = $body_fields;
 				}
-	 			$method = 'POST';
+				$method = 'POST';
 				$url = '/api/contacts/new';
-	 			self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
+				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
 			}
- 		}
- 		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
-			// map fields and return array
+		}
+
+		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
+			//map fields and return array
 			$forms_fields = get_post_meta( $rule_id, '_bsfm_rule_fields_map_api' );
 			$forms_fields = unserialize($forms_fields[0]);
 			if(isset($forms_fields['cf7_fields'])) {
@@ -236,6 +232,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
  			}
  			return $mapping;
  		}
+
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
@@ -319,6 +316,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				}
 			}
 		}
+
 		function bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $mautic_credentials ) {
 			$errorMsg = '';
 			$status = 'error';
@@ -360,24 +358,5 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 			return $response;
 		}
-
-		/*	function activation_reset() {
-
-			$no_memory = $this->check_memory_limit();
-
-				if( $no_memory == true && ! defined( 'WP_CLI' ) ) {
-
-					$msg  = __('Unfortunately, plugin could not be activated as the memory allocated by your host has almost exhausted. UABB plugin recommends that your site should have 15M PHP memory remaining. ', 'uabb');
-					$msg .= '<br/><br/>' . __('Please check ', 'uabb') . '<a target="_blank" href="https://www.ultimatebeaver.com/docs/increase-memory-limit-site/">' . __('this article', 'uabb') . '</a> ';
-					$msg .= __(' for solution or contact ', 'uabb') . '<a target="_blank" href="http://store.brainstormforce.com/support">' . __(' support', 'uabb') . '</a>.';
-					$msg .= '<br/><br/><a class="button button-primary" href="'.network_admin_url( 'plugins.php' ). '">' . __('Return to Plugins Page', 'uabb') . '</a>';
-
-					deactivate_plugins( plugin_basename( __FILE__ ) );
-					wp_die( $msg );
-				}
-			delete_option( 'uabb_hide_branding' );
-			// Force check graupi bundled products
-			update_site_option( 'bsf_force_check_extensions', true );
-		} */
 	}
 endif;
