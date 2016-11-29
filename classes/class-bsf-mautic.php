@@ -155,7 +155,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=> $user_info->user_email,
 				'website'	=> $user_info->user_url
 			);
-			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			// API Method
+			//self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			
+			//form method
+			$body =  array( $user_info->first_name, $user_info->last_name, $user_info->user_email, $user_info->user_url );
+			
+			BSF_Mautic_Form::bsfm_mautic_form_method($body);
 		}
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {

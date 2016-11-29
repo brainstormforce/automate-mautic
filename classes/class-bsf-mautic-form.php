@@ -38,7 +38,7 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 	*	For Performance
 	*	Set static object to store data from database.
 	*/
-	public static function bsfm_mautic_form_method( $cdata ) {
+	public static function bsfm_mautic_form_method( $udata ) {
 
 		if ( ! isset( $query['return'] ) ) {
 			$query['return'] = get_home_url();
@@ -49,18 +49,15 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 			$mautic_method = unserialize($mautic_method[0]);
 		}
 		$bsfm	=	BSF_Mautic_Helper::get_bsfm_mautic();
+		//$mautic_fields = array_flip($mautic_method['form_fields']);
+		$query = array();
+		foreach ( $mautic_method['form_fields'] as $key => $form_field ) {
+			$query[$form_field] = $udata[$key];
+		}
 
-		// $query = array(
-		// 	$mautic_method['form_fields'][1]	=>	$cdata['comment_author'],
-		// 	$mautic_method['form_fields'][2]	=>	$cdata['comment_author_email'],
-		// );
-
-		$query = array(
-			'firstname'	=>	'abab',
-			'email'		=>	'ab@ab.in'
-		);
-		$query['formId']= $mautic_method['mautic_form_id'];
+		$query['formId'] = $mautic_method['mautic_form_id'];
 	 	$query['return'] = get_home_url();
+
 		$data = array(
 			'mauticform' => $query
 		);
