@@ -92,7 +92,7 @@
 			}
 			
 			active.addClass('fl-active');
-			$('#fl-'+ active.attr('href').split('#').pop() +'-form').fadeIn();
+			$('#'+ active.attr('href').split('#').pop() +'-form').fadeIn();
 		},
 		
 		/**

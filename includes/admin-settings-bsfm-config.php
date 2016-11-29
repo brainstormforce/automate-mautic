@@ -1,8 +1,8 @@
-<div id="fl-bsfm-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
+<div id="f1-bsfm-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
 
 	<h3 class="bsfm-settings-form-header"><?php _e( 'Mautic Configuration', 'bsfmautic' ); ?></h3>
 
-	<form id="mautic-config-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
+	<form id="bsfm-config-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
 		<div class="bsfm-settings-form-content">
 				<?php
 					$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();

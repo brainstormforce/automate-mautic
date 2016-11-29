@@ -1,5 +1,5 @@
-<div id="fl-bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
-	<form id="mautic-config-form" action="#" method="post">
+<div id="bsfm-bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
+	<form id="bsfm-post-meta-form" action="#" method="post">
 		<div class="bsfm-settings-form-content">
 			<?php
 			if( isset($_GET['action']) && $_GET['action']=='edit') {

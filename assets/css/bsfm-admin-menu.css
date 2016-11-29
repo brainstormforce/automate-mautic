@@ -89,11 +89,11 @@
 .bsfm-settings-form-content {
     display: none;
 }
-/*.fl-settings-network-admin .bsfm-settings-form-content,
+.fl-settings-network-admin .bsfm-settings-form-content,
 .fl-settings-single-install .bsfm-settings-form-content {
     display: block;
 }
-*/
+
 /* Media Query - Max Width 900px
 ----------------------------------------------------------- */
 
