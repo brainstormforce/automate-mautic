@@ -208,7 +208,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 					$update_maping['mautic_cfields'] = $_POST['mautic_cfields'][$_POST['sub_cf_condition'][$sub_key]];
 					//$update_mapings = serialize($update_maping);
 					// print_r($update_maping);
-					// $update_conditions[$i] = array($conditions[$i],$_POST['sub_cf_condition'][$sub_key],$update_maping[$sub_key]);
+					$update_conditions[$i] = array(
+						$conditions[$i],
+						$_POST['sub_cf_condition'][$sub_key],
+						$update_maping);
 				}
 			}
 			$update_conditions = serialize($update_conditions);

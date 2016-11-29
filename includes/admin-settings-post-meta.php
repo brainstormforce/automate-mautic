@@ -14,10 +14,10 @@
 				if (isset($meta_actions[0])) {
 					$meta_actions = unserialize($meta_actions[0]);
 				}
-				$form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
-				if (isset($form_fields[0])) {
-					$form_fields = unserialize($form_fields[0]);
-				}
+				// $form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
+				// if (isset($form_fields[0])) {
+				// 	$form_fields = unserialize($form_fields[0]);
+				// }
 				// echo "<pre>";
 				// print_r($form_fields);
 				// echo "</pre>";
@@ -64,6 +64,11 @@
 									preg_match_all($reg, $str, $matches);
 									array_pop($matches[0]);
 									$map_cf7fields = sizeof( $matches[0] );
+									
+									print_r($meta_condition[2]['cf7_fields']);
+									print_r($meta_condition[2]['mautic_cfields']);
+									die();
+
 									?>
 									<div class="first-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
@@ -72,18 +77,18 @@
 										<table style="float: right;">
 											<tbody>
 												<?php
-												foreach ($form_fields['mautic_cfields'] as $mform_field) {
-													echo '<tr><td>';
+												foreach ( $meta_condition[2]['mautic_cfields'] as $mform_field) {
+														echo '<tr><td>';
 														echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
 														Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
 														echo '</select></td></tr>';
-													}
+												}
 												?>
 											</tbody>
 										</table>
 										<!-- Fetch cf7 fields -->
 										<table style="float: right;">
-   										<tbody>
+											<tbody>
 											<?php
 											foreach ($form_fields['cf7_fields'] as $form_field) {
 										 		$cf7_fields = '<tr><td><select name="cf7_fields['.$cf7_id.']">';
@@ -94,7 +99,6 @@
 												$cf7_fields.= "</select></td></tr>";
 												echo $cf7_fields;	
 											}	
-												
 										echo '</tbody></table>';						
 									echo '</div>';
 								endif;
