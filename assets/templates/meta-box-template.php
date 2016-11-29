@@ -57,6 +57,22 @@
 		</table>
 	<# } #>
 	<# if( 'm_form' === data.clas ) { #>
-		<?php Bsfm_Postmeta::select_all_mforms(); ?>
+		<table style=" ">
+			<tbody>
+				<tr>
+					<td><label>Form id : </label></td>
+					<td><input name="mautic_form_field[]" value=""/></td>
+				</tr>
+				<tr>
+					<td><label>Name Field : </label></td>
+					<td><input name="mautic_form_field[]" value=""/></td>
+				</tr>
+				<tr>
+					<td><label>Email Field : </label></td>
+					<td><input name="mautic_form_field[]" value=""/></td>
+				</tr>
+			</tbody>
+		</table>
+		<?php //Bsfm_Postmeta::select_all_mforms(); ?>
 	<# } #>
 </script>

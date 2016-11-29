@@ -27,18 +27,19 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 	*	For Performance
 	*	Set static object to store data from database.
 	*/
-	public static function bsfm_mautic_form_method( $query=array() ) {
-		$ip = $this->_get_ip();
+	public static function bsfm_mautic_form_method( $method=null, $query=array() ) {
 		if ( ! isset( $query['return'] ) ) {
 			$query['return'] = get_home_url();
 		}
-		$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
+		$bsfm	=	BSF_Mautic_Helper::get_bsfm_mautic();
+		$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 		// $query = $this->_add_mautic_form_id( $query );
 		// $query = $this->_remove_hyphen( $query );
 		$data = array(
 			'mauticform' => $query,
 		);
-		$url = path_join( $settings['url'], "form/submit?formId={$query['formId']}" );
+
+		$url = path_join( $bsfm['bsfm-base-url'], "form/submit?formId={$query['formId']}" );
 		$response = wp_remote_post(
 			$url,
 			array(
@@ -54,7 +55,7 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
 			error_log( "CF7_Mautic Error: $error_message" );
-			error_log( "      posted url: $url" );
+			error_log( "posted url: $url" );
 		}
 	}
 }
