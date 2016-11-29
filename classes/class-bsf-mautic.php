@@ -175,8 +175,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
+			// debug - Form Submit method
 			// if( BSF_Mautic_Form::is_mautic_form_method() ) {
-				BSF_Mautic_Form::bsfm_mautic_form_method($body);
+				BSF_Mautic_Form::bsfm_mautic_form_method($commentdata);
 			// }
 			// else {
 			// 	self::bsfm_mautic_api_call($url, $method, $body, $set_actions);

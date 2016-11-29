@@ -21,7 +21,7 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 	}
 
 	function includes() {
-		add_action( 'init', array( $this, 'bsfm_mautic_form_method' ) );
+		//add_action( 'init', array( $this, 'bsfm_mautic_form_method' ) );
 	}
 
 	public static function is_mautic_form_method() {
@@ -38,45 +38,33 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 	*	For Performance
 	*	Set static object to store data from database.
 	*/
-	public static function bsfm_mautic_form_method( $query ) {
-
-		$query = array(
-			'firstname'	=>	'aaa',
-			'email'		=>	'rahul@fff.in',
-			'message'	=>	'gdggdg'
-		);
+	public static function bsfm_mautic_form_method( $cdata ) {
 
 		if ( ! isset( $query['return'] ) ) {
 			$query['return'] = get_home_url();
 		}
-		/*
-			@filter rule_id array for form method
-			@loop thorugh values
-		*/
 		$rule_id = 778;
 		$mautic_method = get_post_meta( $rule_id, 'bsfm_mautic_method' );
 		if (isset($mautic_method[0])) {
 			$mautic_method = unserialize($mautic_method[0]);
 		}
-		//$mautic_method['mautic_form_field']
 		$bsfm	=	BSF_Mautic_Helper::get_bsfm_mautic();
 
-		// print_r($mautic_method);
-		// print_r($bsfm);
-		// print_r($query);
-		// die();
+		// $query = array(
+		// 	$mautic_method['form_fields'][1]	=>	$cdata['comment_author'],
+		// 	$mautic_method['form_fields'][2]	=>	$cdata['comment_author_email'],
+		// );
 
-		// $query = $this->_add_mautic_form_id( $query );
-		// $query = $this->_remove_hyphen( $query );
-
-		$query['formId'] = $mautic_method['form_fields'][0];
-		$query['subject'] = 'hwleoksdkfsf';
+		$query = array(
+		'firstname'	=>	'abab',
+		'email'		=>	'ab@ab.in'
+		);
+		$query['formId']= $mautic_method['form_fields'][0];
+	 	$query['return'] = get_home_url();
 		$data = array(
 			'mauticform' => $query
 		);
-
 		$url = path_join( $bsfm['bsfm-base-url'], "form/submit?formId={$query['formId']}" );
-
 		$response = wp_remote_post(
 			$url,
 			array(
@@ -86,7 +74,6 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 				'cookies' => array()
 			)
 		);
-	 
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
 			error_log( "CF7_Mautic Error: $error_message" );
