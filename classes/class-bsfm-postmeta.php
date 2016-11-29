@@ -218,9 +218,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
 			// update data submit method
 			$update_method = array(
-					'method'		=>	$_POST['method'],
-					'form_fields'	=>	$_POST['mautic_form_field']
-					);
+				'method'		=>	$_POST['method'],
+				'mautic_form_id'=>	$_POST['mautic_form_id'],
+				'form_fields'	=>	$_POST['mautic_form_field']
+			);
 			$update_method = serialize($update_method);
 			update_post_meta( $post_id, 'bsfm_mautic_method', $update_method );
 		}

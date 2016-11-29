@@ -481,9 +481,9 @@ final class BSFMauticAdminSettings {
 
 	static public function bsfm_authenticate_update()
 	{
-		// @todo check if the request is sent from user with admin rights
-		// @todo check if Base URL, Consumer/Client Key and Consumer/Client secret are not empty
-		// @todo load this array from database or config file
+			// @todo check if the request is sent from user with admin rights
+			// @todo check if Base URL, Consumer/Client Key and Consumer/Client secret are not empty
+			// @todo load this array from database or config file
 			$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
 			$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
 			$post = $_POST;
@@ -506,21 +506,21 @@ final class BSFMauticAdminSettings {
 				$cpts_err = true;
 			}
 			$settings = array(
-			    'baseUrl'      => $mautic_api_url,
-			    'version'      => 'OAuth2',
-			    'clientKey'    => $bsfm_public_key,
-			    'clientSecret' => $bsfm_secret_key, 
-			    'callback'     => admin_url( 'edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#bsfm-config' ),
-			    'response_type'=> 'code'
+				'baseUrl'		=> $mautic_api_url,
+				'version'		=> 'OAuth2',
+				'clientKey'		=> $bsfm_public_key,
+				'clientSecret'	=> $bsfm_secret_key, 
+				'callback'		=> admin_url( 'edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#bsfm-config' ),
+				'response_type'	=> 'code'
 			);
 
 			update_option( 'bsfm_mautic_credentials', $settings );
 			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
 			//OAuth 2.0
-            $authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
-            $state    = md5(time().mt_rand());
-            $authurl .= '&state='.$state;
-            $authurl .= '&response_type='.$settings['response_type'];
+			$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
+			$state    = md5(time().mt_rand());
+			$authurl .= '&state='.$state;
+			$authurl .= '&response_type='.$settings['response_type'];
 			wp_redirect( $authurl );
 			exit;
 	}

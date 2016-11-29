@@ -56,10 +56,10 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 		// );
 
 		$query = array(
-		'firstname'	=>	'abab',
-		'email'		=>	'ab@ab.in'
+			'firstname'	=>	'abab',
+			'email'		=>	'ab@ab.in'
 		);
-		$query['formId']= $mautic_method['form_fields'][0];
+		$query['formId']= $mautic_method['mautic_form_id'];
 	 	$query['return'] = get_home_url();
 		$data = array(
 			'mauticform' => $query

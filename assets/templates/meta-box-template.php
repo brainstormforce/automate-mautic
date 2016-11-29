@@ -61,6 +61,10 @@
 			<tbody>
 				<tr>
 					<td><label>Form id : </label></td>
+					<td><input type="number" name="mautic_form_id" value=""/></td>
+				</tr>
+				<tr>
+					<td><label>Form id : </label></td>
 					<td><input name="mautic_form_field[]" value=""/></td>
 				</tr>
 				<tr>
