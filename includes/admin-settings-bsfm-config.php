@@ -61,7 +61,7 @@
 			<div class="uabb-form-setting">
 				<h4><?php _e( 'Enable Javascript (JS) Tracking', 'bsfmautic' ); ?></h4>
 				<p class="uabb-admin-help">
-					<?php _e('This setting enable you to add Mautic tracking JS to your site. Mautic instance will be able to track information about your visitors that way. Need more information about JS tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+					<?php _e( 'This setting enable you to add Mautic tracking JS to your site. Mautic instance will be able to track information about your visitors that way. Need more information about JS tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
 					<input type="checkbox" class="uabb-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable JS Tracking', 'bsfmautic' ); ?>
@@ -73,7 +73,7 @@
 			<div class="uabb-form-setting">
 				<h4><?php _e( 'Enable Image Tracking', 'bsfmautic' ); ?></h4>
 				<p class="uabb-admin-help">
-					<?php _e('This setting enable you to add Mautic tracking image to your site. Mautic instance will be able to track information about your visitors that way. Need more information about pixel tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+					<?php _e( 'This setting enable you to add Mautic tracking image to your site. Mautic instance will be able to track information about your visitors that way. Need more information about pixel tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
 					<input type="checkbox" class="uabb-enabled-panels" name="bsfm-enabled-tracking-img" value="" <?php echo $bsfm_enabled_track_img; ?> ><?php _e( 'Enable Image Tracking', 'bsfmautic' ); ?>
