@@ -4,7 +4,8 @@
 
 	<form id="bsfm-branding-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-branding' ); ?>" method="post">
 
-		<?php /*if ( FLBuilderAdminSettings::multisite_support() && ! is_network_admin() ) : ?>
+		<?php 
+		/*if ( FLBuilderAdminSettings::multisite_support() && ! is_network_admin() ) : ?>
 		<label>
 			<input class="fl-override-ms-cb" type="checkbox" name="fl-override-ms" value="1" <?php if(get_option('_fl_builder_uabb_branding')) echo 'checked="checked"'; ?> />
 			<?php _e('Override network settings?', 'bsfmautic'); ?>
@@ -13,10 +14,7 @@
 		
 		<div class="fl-settings-form-content">
 			<?php
-				// FLBuilderModel::update_admin_settings_option( '_fl_builder_uabb_branding', '' );
-				//$bsfm    = BB_Ultimate_Addon_Helper::get_builder_uabb_branding();
 				$checked = '';
-
 				$bsfm 	= BSF_Mautic_Helper::get_bsf_mautic_branding();
 				$bsfm_plugin_name = $bsfm_plugin_desc = $bsfm_author_name = $bsfm_author_url = $bsfm_plugin_short_name = $bsfm_knowledge_base_url = $bsfm_contact_support_url = $bsfm_hide_branding = '';
 				if( is_array($bsfm) ) {

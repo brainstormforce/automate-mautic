@@ -16,7 +16,6 @@
 						$bsfm_callback_uri = ( array_key_exists( 'bsfm-callback-uri', $bsfm ) ) ? $bsfm['bsfm-callback-uri'] : '';
 					}
 				?>
-			<!-- Load Panels -->
 			<!-- Base Url -->
 			<div class="uabb-form-setting">
 				<h4><?php _e( 'Base URL', 'bsfmautic' ); ?></h4>
@@ -26,13 +25,12 @@
 				<input type="text" class="regular-text" name="bsfm-base-url" value="<?php echo $bsfm_base_url; ?>" class="uabb-wp-text uabb-google-map-api" />
 			</div>
 
-			<!-- Load Panels -->
 			<!-- Client Public Key -->
 			<div class="uabb-form-setting">
 				<h4><?php _e( 'Public Key', 'bsfmautic' ); ?></h4>
 				<input type="text" class="regular-text" name="bsfm-public-key" value="<?php echo $bsfm_public_key; ?>" class="uabb-wp-text uabb-google-map-api" />
 			</div>
-			<!-- Load Panels -->
+			
 			<!-- Client Secret Key -->
 			<div class="uabb-form-setting">
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
@@ -49,7 +47,7 @@
 			<p class="submit">
 				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'uabb' ); ?>" />
 			</p>
-			<!-- Load Panels -->
+
 			<!-- Client Callback Url -->
 			<div class="uabb-form-setting">
 				<h4><?php _e( 'Callback URI-remove-?', 'bsfmautic' ); ?></h4>
@@ -59,16 +57,14 @@
 				<input type="submit" name="bsfm-push-data" class="button-primary" value="<?php esc_attr_e( 'Send to Mautic', 'uabb' ); ?>" />
 			</p>
 
-			<!-- Load Panels -->
-
 			<!-- Enable pixel tracking -->
 			<div class="uabb-form-setting">
-				<h4><?php _e( 'Enable Pixel Tracking', 'bsfmautic' ); ?></h4>
+				<h4><?php _e( 'Enable Javascript (JS) Tracking', 'bsfmautic' ); ?></h4>
 				<p class="uabb-admin-help">
-					<?php _e('This setting enable you to add Mautic tracking to your site. Mautic instance will be able to track information about your visitors that way.', 'bsfmautic'); ?>
+					<?php _e('This setting enable you to add Mautic tracking JS to your site. Mautic instance will be able to track information about your visitors that way. Need more information about JS tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
-					<input type="checkbox" class="uabb-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable Pixel Tracking', 'bsfmautic' ); ?>
+					<input type="checkbox" class="uabb-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable JS Tracking', 'bsfmautic' ); ?>
 				</label>
 			</div>
 
@@ -77,14 +73,13 @@
 			<div class="uabb-form-setting">
 				<h4><?php _e( 'Enable Image Tracking', 'bsfmautic' ); ?></h4>
 				<p class="uabb-admin-help">
-					<?php _e('This setting enable you to add Mautic tracking image to your site. Mautic instance will be able to track information about your visitors that way.', 'bsfmautic'); ?>
+					<?php _e('This setting enable you to add Mautic tracking image to your site. Mautic instance will be able to track information about your visitors that way. Need more information about pixel tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
 					<input type="checkbox" class="uabb-enabled-panels" name="bsfm-enabled-tracking-img" value="" <?php echo $bsfm_enabled_track_img; ?> ><?php _e( 'Enable Image Tracking', 'bsfmautic' ); ?>
 				</label>
 			</div>
 		</div>
-
 		<p class="submit">
 			<input type="submit" name="fl-save-uabb" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'uabb' ); ?>" />
 		</p>

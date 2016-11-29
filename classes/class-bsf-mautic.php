@@ -231,11 +231,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					$mautic_fields = $meta_condition[2]['mautic_cfields'];
 				}
 			}
- 			foreach ( $cf7_fields as $key => $field ) {
- 				$mapping[$mautic_fields[$key]] = $query[$field];
- 			}
- 			return $mapping;
- 		}
+			foreach ( $cf7_fields as $key => $field ) {
+				$mapping[$mautic_fields[$key]] = $query[$field];
+			}
+			return $mapping;
+		}
 
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';

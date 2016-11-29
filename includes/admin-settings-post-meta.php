@@ -1,7 +1,7 @@
 <div id="fl-bsfm-post-meta" class="fl-settings-form bsfm-config-fl-post-meta">
 	<form id="mautic-config-form" action="#" method="post">
 		<div class="fl-settings-form-content">
-		<?php
+			<?php
 			if( isset($_GET['action']) && $_GET['action']=='edit') {
 				if(isset($_GET['post'])) {
 					$post_id = $_GET['post'];
@@ -14,7 +14,7 @@
 				if (isset($meta_actions[0])) {
 					$meta_actions = unserialize($meta_actions[0]);
 				}
-		?>
+			?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
