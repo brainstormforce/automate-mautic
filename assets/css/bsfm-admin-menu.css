@@ -1,71 +1,71 @@
 /* Heading
 ----------------------------------------------------------- */
 
-.fl-settings-heading img {
+.bsfm-settings-heading img {
     height: 40px;
     margin-right: 5px;
     vertical-align: middle;
 }
-.fl-settings-heading span {
+.bsfm-settings-heading span {
     vertical-align: middle;
 }
 
 /* Nav
 ----------------------------------------------------------- */
 
-.fl-settings-nav {
+.bsfm-settings-nav {
     float: left;
     margin: 15px 2% 0 0;
     width: 19%;
 }
-.fl-settings-nav ul {
+.bsfm-settings-nav ul {
     background: #fff;
     border: 1px solid #e5e5e5;
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.04);
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
 }
-.fl-settings-nav ul li {
+.bsfm-settings-nav ul li {
     display: block;
     margin: 0;
 }
-.fl-settings-nav ul li a {
+.bsfm-settings-nav ul li a {
     border-bottom: 1px solid #eee;
     display: block;
     padding: 10px;
 }
-.fl-settings-nav ul li a:hover,
-.fl-settings-nav ul li a.fl-active {
+.bsfm-settings-nav ul li a:hover,
+.bsfm-settings-nav ul li a.fl-active {
     background: #f5f5f5;
 }
-.fl-settings-nav ul li:last-child a {
+.bsfm-settings-nav ul li:last-child a {
     border-bottom: none;
 }
-.fl-settings-nav a {
+.bsfm-settings-nav a {
     text-decoration: none;
 }
-.fl-settings-nav .fl-settings-save {
+.bsfm-settings-nav .fl-settings-save {
     padding: 0 2px;
 }
-.fl-settings-nav .button-primary {
+.bsfm-settings-nav .button-primary {
     width: 100%;
 }
 
 /* Content
 ----------------------------------------------------------- */
 
-.fl-settings-content {
+.bsfm-settings-content {
     float: left;
     margin-top: 15px;
     width: 78%;
 }
-.fl-settings-form-content h4 {
+.bsfm-settings-form-content h4 {
     font-size: 14px;
     margin: 30px 0 5px;
 }
 
 /* Welcome Page
 ----------------------------------------------------------- */
-
+/*
 #fl-welcome-form {
     max-width: none;
 }
@@ -104,35 +104,35 @@
     max-width: 100%;
     display: inline-block;
 }
-
+*/
 /* Settings Forms
 ----------------------------------------------------------- */
 
-.fl-settings-form {
+.bsfm-settings-form {
     display: none;
     max-width: 450px;
 }
-.fl-settings-form-header {
+.bsfm-settings-form-header {
     margin-bottom: 20px !important;
 }
-.fl-settings-form .form-table {
+.bsfm-settings-form .form-table {
     margin: 12px 0;
 }
-.fl-settings-form th {
+.bsfm-settings-form th {
     font-weight: bold;
     vertical-align: middle;
 }
-.fl-settings-form th,
-.fl-settings-form td {
+.bsfm-settings-form th,
+.bsfm-settings-form td {
     font-size: 13px;
     font-weight: normal;
     padding: 12px;
 }
-.fl-settings-form-content {
+.bsfm-settings-form-content {
     display: none;
 }
-.fl-settings-network-admin .fl-settings-form-content,
-.fl-settings-single-install .fl-settings-form-content {
+.fl-settings-network-admin .bsfm-settings-form-content,
+.fl-settings-single-install .bsfm-settings-form-content {
     display: block;
 }
 
@@ -158,7 +158,7 @@
     /* Nav
     ----------------------------------------------------------- */
 
-    .fl-settings-nav {
+    .bsfm-settings-nav {
         float: none;
         margin: 15px 0 0 0;
         width: 100%;
@@ -167,16 +167,16 @@
     /* Content
     ----------------------------------------------------------- */
 
-    .fl-settings-content {
+    .bsfm-settings-content {
         float: none;
         margin-top: 15px;
         width: 100%;
     }
-    .fl-settings-content .fl-settings-save {
+    .bsfm-settings-content .fl-settings-save {
         float: none;
         width: 100%;
     }
-    .fl-settings-content .fl-settings-save .button-primary {
+    .bsfm-settings-content .fl-settings-save .button-primary {
         width: 100%;
     }
 }
@@ -189,8 +189,8 @@
     /* Settings Forms
     ----------------------------------------------------------- */
 
-    .fl-settings-form th,
-    .fl-settings-form td {
+    .bsfm-settings-form th,
+    .bsfm-settings-form td {
         padding: 5px 17px;
     }
 }

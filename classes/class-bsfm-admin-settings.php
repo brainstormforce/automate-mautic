@@ -178,7 +178,7 @@ final class BSFMauticAdminSettings {
 			}
 		}
 		else if( ! empty( $_POST ) && ! isset( $_POST['email'] ) ) {
-			echo '<div class="updated"><p>' . __( 'Settings updated!', 'uabb' ) . '</p></div>';
+			echo '<div class="updated"><p>' . __( 'Settings updated!', 'bsfmautic' ) . '</p></div>';
 		}
 	}
 	

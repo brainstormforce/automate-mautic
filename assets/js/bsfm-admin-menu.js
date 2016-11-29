@@ -43,7 +43,7 @@
 		 */
 		_bind: function()
 		{
-			$('.fl-settings-nav a').on('click', BSFMauticAdminSettings._navClicked);
+			$('.bsfm-settings-nav a').on('click', BSFMauticAdminSettings._navClicked);
 			$('.fl-override-ms-cb').on('click', BSFMauticAdminSettings._overrideCheckboxClicked);
 			$('.fl-module-all-cb').on('click', BSFMauticAdminSettings._moduleAllCheckboxClicked);
 			$('.fl-module-cb').on('click', BSFMauticAdminSettings._moduleCheckboxClicked);
@@ -80,12 +80,12 @@
 		 */
 		_initNav: function()
 		{
-			var links  = $('.fl-settings-nav a'),
+			var links  = $('.bsfm-settings-nav a'),
 				hash   = window.location.hash,
 				active = hash === '' ? [] : links.filter('[href~="'+ hash +'"]');
 				
 			$('a.fl-active').removeClass('fl-active');
-			$('.fl-settings-form').hide();
+			$('.bsfm-settings-form').hide();
 				
 			if(hash === '' || active.length === 0) {
 				active = links.eq(0);
@@ -106,7 +106,7 @@
 		{
 			if($(this).attr('href').indexOf('#') > -1) {
 				$('a.fl-active').removeClass('fl-active');
-				$('.fl-settings-form').hide();
+				$('.bsfm-settings-form').hide();
 				$(this).addClass('fl-active');
 				$('#fl-'+ $(this).attr('href').split('#').pop() +'-form').fadeIn();
 			}
@@ -134,7 +134,7 @@
 		_initOverride: function()
 		{
 			var cb      = $(this),
-				content = cb.closest('.fl-settings-form').find('.fl-settings-form-content');
+				content = cb.closest('.bsfm-settings-form').find('.bsfm-settings-form-content');
 				
 			if(this.checked) {
 				content.show();
@@ -154,7 +154,7 @@
 		_overrideCheckboxClicked: function()
 		{
 			var cb      = $(this),
-				content = cb.closest('.fl-settings-form').find('.fl-settings-form-content');
+				content = cb.closest('.bsfm-settings-form').find('.bsfm-settings-form-content');
 				
 			if(this.checked) {
 				content.show();

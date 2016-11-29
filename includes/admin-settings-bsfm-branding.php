@@ -1,6 +1,6 @@
-<div id="fl-bsfm-branding-form" class="fl-settings-form bsfm-branding-fl-settings-form">
+<div id="fl-bsfm-branding-form" class="bsfm-settings-form bsfm-branding-bsfm-settings-form">
 
-	<h3 class="fl-settings-form-header"><?php _e( 'Branding', 'bsfmautic' ); ?></h3>
+	<h3 class="bsfm-settings-form-header"><?php _e( 'Branding', 'bsfmautic' ); ?></h3>
 
 	<form id="bsfm-branding-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-branding' ); ?>" method="post">
 
@@ -12,7 +12,7 @@
 		</label>
 		<?php endif; */ ?>
 		
-		<div class="fl-settings-form-content">
+		<div class="bsfm-settings-form-content">
 			<?php
 				$checked = '';
 				$bsfm 	= BSF_Mautic_Helper::get_bsf_mautic_branding();
