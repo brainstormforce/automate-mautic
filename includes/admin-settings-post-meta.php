@@ -64,11 +64,6 @@
 									preg_match_all($reg, $str, $matches);
 									array_pop($matches[0]);
 									$map_cf7fields = sizeof( $matches[0] );
-									
-									print_r($meta_condition[2]['cf7_fields']);
-									print_r($meta_condition[2]['mautic_cfields']);
-									die();
-
 									?>
 									<div class="first-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
@@ -77,7 +72,7 @@
 										<table style="float: right;">
 											<tbody>
 												<?php
-												foreach ( $meta_condition[2]['mautic_cfields'] as $mform_field) {
+												foreach( $meta_condition[2]['mautic_cfields'] as $mform_field ) {
 														echo '<tr><td>';
 														echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
 														Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
@@ -90,8 +85,8 @@
 										<table style="float: right;">
 											<tbody>
 											<?php
-											foreach ($form_fields['cf7_fields'] as $form_field) {
-										 		$cf7_fields = '<tr><td><select name="cf7_fields['.$cf7_id.']">';
+											foreach( $meta_condition[2]['cf7_fields'] as $form_field ) {
+										 		$cf7_fields = '<tr><td><select name="cf7_fields['.$cf7_id.'][]">';
 												foreach ($matches[0] as $value) {
 													$field = explode(' ',$value);
 													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $form_field);
