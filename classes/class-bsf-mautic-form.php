@@ -38,19 +38,23 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 	*	For Performance
 	*	Set static object to store data from database.
 	*/
-	public static function bsfm_mautic_form_method( $rule_id = null, $method = null, $query=array() ) {
+	public static function bsfm_mautic_form_method( $query=array() ) {
 		if ( ! isset( $query['return'] ) ) {
 			$query['return'] = get_home_url();
 		}
+		/*
+			@filter rule_id array for form method
+			@loop thorugh values
+		*/
+		$rule_ids = 778;
 		$mautic_method = get_post_meta( $rule_id, 'bsfm_mautic_method' );
 		if (isset($mautic_method[0])) {
 			$mautic_method = unserialize($mautic_method[0]);
 		}
-		//$mautic_method['mautic_form_field']
-		$bsfm	=	BSF_Mautic_Helper::get_bsfm_mautic();
-		$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 		// $query = $this->_add_mautic_form_id( $query );
 		// $query = $this->_remove_hyphen( $query );
+		$query['formId'] = $mautic_method[0];
+		$query['subject'] = 'hwleoksdkfsf';
 		$data = array(
 			'mauticform' => $query,
 		);
