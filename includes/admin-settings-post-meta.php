@@ -14,14 +14,6 @@
 				if (isset($meta_actions[0])) {
 					$meta_actions = unserialize($meta_actions[0]);
 				}
-				// $form_fields = get_post_meta( $post_id, '_bsfm_rule_fields_map_api' );
-				// if (isset($form_fields[0])) {
-				// 	$form_fields = unserialize($form_fields[0]);
-				// }
-				// echo "<pre>";
-				// print_r($form_fields);
-				// echo "</pre>";
-				// die();
 		?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
@@ -75,7 +67,7 @@
 												foreach( $meta_condition[2]['mautic_cfields'] as $mform_field ) {
 														echo '<tr><td>';
 														echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
-														Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
+															Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
 														echo '</select></td></tr>';
 												}
 												?>

@@ -208,18 +208,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 					$form_id = $_POST['sub_cf_condition'][$sub_key];
 					$update_maping['cf7_fields'] = $_POST['cf7_fields'][$form_id];
 					$update_maping['mautic_cfields'] = $_POST['mautic_cfields'][$form_id];
-					//$update_mapings = serialize($update_maping);
-					
 					$update_conditions[$i] = array(
 						$conditions[$i],
 						$_POST['sub_cf_condition'][$sub_key],
 						$update_maping );
-						// echo "<pre>";
-						// print_r($update_maping);
-						// echo "</pre>";
-						// //die();
 				}
-				
 			}
 			$update_conditions = serialize($update_conditions);
 			update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
@@ -245,12 +238,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$update_actions = serialize($update_actions);
 			update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
 		}
-		// if( isset( $_POST['cf7_fields'] ) && isset( $_POST['mautic_cfields'] ) ) {
-		// 	$update_maping['cf7_fields'] = $_POST['cf7_fields'];
-		// 	$update_maping['mautic_cfields'] = $_POST['mautic_cfields'];
-		// 	$update_mapings = serialize($update_maping);
-		// 	update_post_meta( $post_id, '_bsfm_rule_fields_map_api', $update_mapings );
-		// }
 	}
 	/**
 	* check if rule is set

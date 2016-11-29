@@ -221,11 +221,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
 			//map fields and return array
-			$forms_fields = get_post_meta( $rule_id, '_bsfm_rule_fields_map_api' );
-			$forms_fields = unserialize($forms_fields[0]);
-			if(isset($forms_fields['cf7_fields'])) {
-				$cf7_fields = $forms_fields['cf7_fields'];
-				$mautic_fields = $forms_fields['mautic_cfields'];
+			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
+			if (isset($meta_conditions[0])) {
+				$meta_conditions = unserialize($meta_conditions[0]);	
+			}
+			foreach ($meta_conditions as $meta_condition) {
+				if( $meta_condition[0]=='CF7' && $meta_condition[1]==$form_id ) {
+					$cf7_fields = $meta_condition[2]['cf7_fields'];
+					$mautic_fields = $meta_condition[2]['mautic_cfields'];
+				}
 			}
  			foreach ( $cf7_fields as $key => $field ) {
  				$mapping[$mautic_fields[$key]] = $query[$field];
