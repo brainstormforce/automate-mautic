@@ -123,12 +123,4 @@ jQuery(document).ready(function( $ ) {
 			gParent.find('div.second-condition').append(Mauticfields);
 		});
 	});
-	/**/
-	//methods
-	jq(document).on( "click", ".select-method input", function() {
-		if( this.value == 'm_form' ) {
-			var MauticForms = mbTemplate( { clas: this.value } );
-			jq('.select-method').append(MauticForms);
-		}
-	});
 });

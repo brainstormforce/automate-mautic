@@ -56,26 +56,4 @@
 			</tbody>
 		</table>
 	<# } #>
-	<# if( 'm_form' === data.clas ) { #>
-		<table style=" ">
-			<tbody>
-				<tr>
-					<td><label>Choose Form: </label></td>
-					<td><?php Bsfm_Postmeta::select_all_mforms(); ?></td>
-				</tr>
-				<tr>
-					<td><label>Form Fields: </label></td>
-					<td>
-						<select class="mautic_form_fields" name=''>
-							<?php Bsfm_Postmeta::mautic_get_all_form_fields(); ?>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td><label>Name Field : </label></td>
-					<td><input name="mautic_form_field[]" value=""/></td>
-				</tr>
-			</tbody>
-		</table>
-	<# } #>
 </script>
