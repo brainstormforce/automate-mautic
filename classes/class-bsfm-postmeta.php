@@ -136,7 +136,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 	//get all mautic custom fields
 	public static function mautic_get_all_cfields( $select = null ) {
-		//get all mautic fields here	
+		//get all mautic fields here
 		$url = "/api/contacts/list/fields";
 		$method = "GET";
 		$body = $all_mfields = '';
@@ -176,6 +176,23 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$cf7html = "Please activate Contact Form 7 plugin first";
 		}
 		echo $cf7html;
+	}
+	//get all mautic custom fields
+	public static function mautic_get_all_form_fields( $select = null ) {
+		//get all mautic fields here
+		$url = "/api/forms/6";
+		$method = "GET";
+		$body = $all_form_fields = '';
+		$mautic_formfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+		// $mautic_formfields = $mautic_formfields->fields;
+		// echo "<pre>";
+		// print_r($mautic_formfields->form->fields);
+		// echo "</pre>";
+		//die();
+		foreach ( $mautic_formfields->form->fields as $key => $field) {
+			$all_form_fields .= Bsfm_Postmeta::make_option( $field->alias, $field->label, $select);
+		}
+		echo $all_form_fields;
 	}
 	public static function bsfm_clean_condition_action( $post_id ) {
 		$post_type = get_post_type($post_id);

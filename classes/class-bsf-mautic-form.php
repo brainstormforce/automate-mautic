@@ -43,7 +43,7 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 		if ( ! isset( $query['return'] ) ) {
 			$query['return'] = get_home_url();
 		}
-		$rule_id = 778;
+		$rule_id = 778; // need rule id
 		$mautic_method = get_post_meta( $rule_id, 'bsfm_mautic_method' );
 		if (isset($mautic_method[0])) {
 			$mautic_method = unserialize($mautic_method[0]);
@@ -52,16 +52,11 @@ if ( ! class_exists( 'BSF_Mautic_Form' ) ) :
 		//$mautic_fields = array_flip($mautic_method['form_fields']);
 		$query = array();
 		foreach ( $mautic_method['form_fields'] as $key => $form_field ) {
-			//$query[$form_field] = $udata[$key];
+			$query[$form_field] = $udata[$key];
 		}
 
 		$query['formId'] = $mautic_method['mautic_form_id'];
 	 	$query['return'] = get_home_url();
-
-	 	// 'firstname' => 'john',
-		// 'lastname'	=> 'lukas',
-		$query['firstname'] = 'Henry';
-		$query['lastname'] = 'Cliff';
 		$data = array(
 			'mauticform' => $query,
 		);

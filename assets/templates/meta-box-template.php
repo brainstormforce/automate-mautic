@@ -64,8 +64,11 @@
 					<td><?php Bsfm_Postmeta::select_all_mforms(); ?></td>
 				</tr>
 				<tr>
-					<td><label>Form id : </label></td>
-					<td><input name="mautic_form_field[]" value=""/></td>
+					<td><label>Form Fields: </label></td>
+					<td>
+						<select class="mautic_form_fields" name=''>
+							<?php Bsfm_Postmeta::mautic_get_all_form_fields(); ?></td>
+						</select>
 				</tr>
 				<tr>
 					<td><label>Name Field : </label></td>
