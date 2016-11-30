@@ -1,10 +1,10 @@
-<div class="wrap <?php BSFMauticAdminSettings::render_page_class(); ?>">
+<div class="wrap <?php //BSFMauticAdminSettings::render_page_class(); ?>">
 
 	<h2 class="bsfm-settings-heading">
 		<?php BSFMauticAdminSettings::render_page_heading(); ?>
 	</h2>
 	
-	<?php BSFMauticAdminSettings::render_update_message(); ?>
+	<?php //BSFMauticAdminSettings::render_update_message(); ?>
 
 	<div class="bsfm-settings-nav">
 		<ul>

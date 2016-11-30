@@ -72,7 +72,7 @@
 		},
 		
 		/**
-		 * Initializes the nav for the builder's admin settings page.
+		 * Initializes the nav for the admin settings page.
 		 *
 		 * @since 1.0
 		 * @access private
@@ -90,9 +90,8 @@
 			if(hash === '' || active.length === 0) {
 				active = links.eq(0);
 			}
-			
 			active.addClass('fl-active');
-			$('#'+ active.attr('href').split('#').pop() +'-form').fadeIn();
+			$('#fl-'+ active.attr('href').split('#').pop() +'-form').fadeIn();
 		},
 		
 		/**
@@ -109,7 +108,6 @@
 				$('.bsfm-settings-form').hide();
 				$(this).addClass('fl-active');
 				$('#fl-'+ $(this).attr('href').split('#').pop() +'-form').fadeIn();
-				console.log('#fl-'+ $(this).attr('href').split('#').pop() +'-form');
 			}
 		},
 		

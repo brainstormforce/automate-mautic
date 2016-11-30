@@ -25,6 +25,7 @@ final class BSFMauticAdminSettings {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new BSFMauticAdminSettings();
 			self::$instance->hooks();
+			//self::$instance->render();
 		}
 		return self::$instance;
 	}
@@ -142,13 +143,24 @@ final class BSFMauticAdminSettings {
 	 */
 	static public function render_page_class() {
 		if ( self::multisite_support() ) {
-			echo 'bsfm-settings-network-admin';
+			echo 'fl-settings-network-admin';
 		}
 		else {
-			echo 'bsfm-settings-single-install';
+			echo 'fl-settings-single-install';
 		}
 	}
-
+	/***
+	 * Renders the admin settings page heading.
+	 * @since 1.0.0
+	 * @return void
+	 */
+	static public function render_page_heading()
+	{
+		if ( ! empty( $icon ) ) {
+			echo '<img src="' . $icon . '" />';
+		}
+		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "UABB" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
+	}
 	/** 
 	 * Renders the update message.
 	 *
@@ -251,7 +263,7 @@ final class BSFMauticAdminSettings {
 	{
 		if ( is_network_admin() ) {
 			// Prev : settings.php?page=uabb-builder-multisite-settings - need to add multisite part
-			// echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
+			echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
 		}
 		else {
 			echo admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
@@ -269,7 +281,7 @@ final class BSFMauticAdminSettings {
 	{
 		if ( is_network_admin() ) {
 			//pending
-			//return network_admin_url( '/settings.php?page=uabb-builder-multisite-settings#' . $type );
+			return network_admin_url( '/settings.php?page=uabb-builder-multisite-settings#' . $type );
 		}
 		else {
 			return admin_url( '/options-general.php?page=bsf-mautic-settings#' . $type );
@@ -314,7 +326,16 @@ final class BSFMauticAdminSettings {
 			self::get_mautic_data();
 		}
 	}
-	
+	/** 
+	* Checks to see if multisite is supported.
+	*
+	* @since 1.0.0
+	* @return void
+	*/	 
+	static public function multisite_support() {			
+		return is_multisite() && class_exists( 'FLBuilderMultisiteSettings' );
+	}
+
 	/** 
 	 * Get Mautic Data.
 	 *

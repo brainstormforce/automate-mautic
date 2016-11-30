@@ -87,7 +87,7 @@
     padding: 12px;
 }
 .bsfm-settings-form-content {
-    display: none;
+    /*display: none;*/
 }
 .fl-settings-network-admin .bsfm-settings-form-content,
 .fl-settings-single-install .bsfm-settings-form-content {
