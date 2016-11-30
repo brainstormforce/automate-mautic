@@ -241,6 +241,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
+			if(!isset($credentials['expires_in'])) {
+				return;
+			}
 			// if token expired, get new access token
 			if( $credentials['expires_in'] < time() ) {
 				$grant_type = 'refresh_token';
@@ -277,6 +280,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 							$status = 'error';
 							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
 							echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+							return;
 						}
 					}
 				}

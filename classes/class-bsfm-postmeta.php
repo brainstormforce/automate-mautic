@@ -68,6 +68,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$method = "GET";
 		$body = '';
 		$segments = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+		if( empty($segments) ) {
+			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+		 	return;
+		}
 		$all_segments = '<select class="root-seg-action" name="ss_seg_action[]">';
 			foreach( $segments->lists as $offset => $list ) {
 				$all_segments .= Bsfm_Postmeta::make_option( $list->id, $list->name, $select);
