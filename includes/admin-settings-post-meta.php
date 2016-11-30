@@ -140,13 +140,6 @@
 								</div>
 							</fieldset>
 						</div>
-						<div class="actions">
-							<h4> Select Method </h4>
-							<fieldset class="select-method">
-								<input type="radio" name="method" value="m_api" checked><span>Api</span> 
-								<input type="radio" name="method" value="m_form"><span>Form</span>
-							</fieldset>
-						</div>
 				</div>
 				<?php
 			}
@@ -205,13 +198,6 @@
 						</fieldset>
 					</div>				 
 					<fieldset class="bsfm-add-action add-new-item"><div class="ui-state-disabled"><span class="dashicons dashicons-plus-alt"></span> Add new action</div></fieldset>
-				</div>
-				<div class="actions">
-					<h4> Select Method </h4>
-					<fieldset class="select-method">
-						<input type="radio" name="method" value="m_api" checked><span>Api</span> 
-						<input type="radio" name="method" value="m_form"><span>Form</span>
-					</fieldset>
 				</div>
 			</div>
 			<!-- default fields end -->

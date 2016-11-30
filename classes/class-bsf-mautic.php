@@ -22,7 +22,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
 		public function includes() {
 			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-init.php';
-			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsf-mautic-form.php';
 			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-postmeta.php';
 		}
 		public function hooks() {

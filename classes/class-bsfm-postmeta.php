@@ -338,7 +338,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	/**
 	* @param rule_id array
 	* @return actions array
-	*/ 
+	*/
 	public static function bsfm_get_all_actions( $rules = array() ) {
 		/*
 		* @ todo get all rule_id 
