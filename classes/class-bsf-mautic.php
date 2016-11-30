@@ -161,7 +161,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//form method
 			$body =  array( $user_info->first_name, $user_info->last_name, $user_info->user_email, $user_info->user_url );
 			
-			BSF_Mautic_Form::bsfm_mautic_form_method($body);
+			BSF_Mautic_Form::bsfm_mautic_form_method($body, $set_actions);
 		}
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {

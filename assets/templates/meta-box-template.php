@@ -60,8 +60,8 @@
 		<table style=" ">
 			<tbody>
 				<tr>
-					<td><label>Form id : </label></td>
-					<td><input type="number" name="mautic_form_id" value=""/></td>
+					<td><label>Choose Form: </label></td>
+					<td><?php Bsfm_Postmeta::select_all_mforms(); ?></td>
 				</tr>
 				<tr>
 					<td><label>Form id : </label></td>
@@ -77,6 +77,5 @@
 				</tr>
 			</tbody>
 		</table>
-		<?php //Bsfm_Postmeta::select_all_mforms(); ?>
 	<# } #>
 </script>
