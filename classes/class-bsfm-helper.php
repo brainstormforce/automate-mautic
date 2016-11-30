@@ -4,12 +4,6 @@
  */
 if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 	class BSF_Mautic_Helper {
-
-		// Class variables
-		// public static $uabb_field;
-		// public static $uabb_param;
-		// public static $uabb_object;
-
 		/*
 		* Constructor function that initializes required actions and hooks
 		* @Since 1.0

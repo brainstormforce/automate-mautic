@@ -10,7 +10,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		private static $instance;
 		/**
-		*	Initiator
+		* Initiator
 		*/
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
@@ -80,7 +80,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			register_post_type( 'bsf-mautic-rule', $args );
 		}
 		/**
-		* Writes Tracking JS to the HTML source of WP head
+		* Writes Mautic Tracking JS to the HTML source of WP head
 		*/
 		public function bsf_mautic_tracking_script()
 		{
@@ -105,15 +105,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				echo $bsfm_trackingJS;
 			}
 		}
-
 		/**
 		 * Writes Mautic Tracking image to site 
 		 */
 		public function bsf_mautic_tracking_image( $atts, $content = null )
 		{
 			global $wp;
-			$bsfm_options	= BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
-			$enable_img_tracking	= true;
+			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
+			$enable_img_tracking = true;
 			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking-img', $bsfm_options ) ) { 
 				if( $bsfm_options['bsfm-enabled-tracking-img'] == 1 ) {
 					$enable_img_tracking = true;
@@ -131,7 +130,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$attrs['url']	   = $current_url;
 				$url_query = $attrs;
 				$encoded_query = urlencode(base64_encode(serialize($url_query)));
-				$image   = '<img style="display:none" src="' . $base_url . '/mtracking.gif?d=' . $encoded_query . '" alt="mautic is open source marketing automation" />';
+				$image = '<img style="display:none" src="' . $base_url . '/mtracking.gif?d=' . $encoded_query . '" alt="mautic is open source marketing automation" />';
 				echo $image;
 			}
 		}
@@ -155,12 +154,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'website'	=> $user_info->user_url
 			);
 			// API Method
-			//self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
-			
-			//form method
-			$body =  array( $user_info->first_name, $user_info->last_name, $user_info->user_email, $user_info->user_url );
-			
-			BSF_Mautic_Form::bsfm_mautic_form_method($body, $set_actions);
+			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 		}
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
@@ -180,13 +174,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
-			// debug - Form Submit method
-			// if( BSF_Mautic_Form::is_mautic_form_method() ) {
-				BSF_Mautic_Form::bsfm_mautic_form_method($commentdata);
-			// }
-			// else {
-			// 	self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
-			// }
+			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+
 		}
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
 			$query = self::bsfm_create_query();
@@ -203,7 +192,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 			return apply_filters( 'Bsfm_CF7_query_mapping', $query );
 		}
- 	
+
 		public static function bsfm_add_cf7_mautic( $query ) {
 			if (!is_array($query)) return;
 			$cf7_id = $query['_wpcf7'];
@@ -257,9 +246,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$grant_type = 'refresh_token';
 				$response = BSFMauticAdminSettings::bsf_mautic_get_access_token( $grant_type );
 				if ( is_wp_error( $response ) ) {
-				  	$errorMsg = $response->get_error_message();
-				    $status = 'error';
-				    $msg = $default_error_msg;
+					$errorMsg = $response->get_error_message();
+					$status = 'error';
+					echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
 				} else {
 					$access_details = json_decode( $response['body'] );
 					$expiration = time() + $access_details->expires_in;
@@ -277,10 +266,19 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( $method=="GET" ) {
 				$url = $url .'?access_token='. $access_token;
 				$response = wp_remote_get( $url );
-				if( $method=="GET" ) {
+				if( is_array($response) ) {
 					$response_body = $response['body'];
 					$body_data = json_decode($response_body);
 					return $body_data;
+					$response_code = $response['response']['code'];
+					if( $response_code != 201 ) {
+						if( $response_code != 200 ) {
+							$ret = false;
+							$status = 'error';
+							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+							echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+						}
+					}
 				}
 			}
 			else if( $method=="POST" ) {			// add new contact to mautic request
@@ -298,7 +296,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';
-				$msg = $default_error_msg;
+				echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
 			} else {
 				if( is_array($response) ) {
 					$response_code = $response['response']['code'];
@@ -307,7 +305,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 							$ret = false;
 							$status = 'error';
 							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-							$msg = $default_error_msg;
+							echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
 						}
 					} else {
 						$response_body = $response['body'];

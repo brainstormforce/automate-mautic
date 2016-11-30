@@ -61,6 +61,12 @@
 										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
 									</div>
 									<div class="second-condition" style="display:inline;">
+									<?php
+										$active_plugins = get_option( 'active_plugins' );
+										$plugin = 'contact-form-7/wp-contact-form-7.php';
+										$cf7html = "";
+										if ( true === array_search( $plugin, $active_plugins ) ) {
+									?>
 										<table style="float: right;">
 											<tbody>
 												<?php
@@ -86,7 +92,8 @@
 												$cf7_fields.= "</select></td></tr>";
 												echo $cf7_fields;	
 											}	
-										echo '</tbody></table>';						
+										echo '</tbody></table>';	
+									}
 									echo '</div>';
 								endif;
 								if( $meta_condition[0]=='UR' ) :

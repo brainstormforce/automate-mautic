@@ -154,7 +154,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$plugin = 'contact-form-7/wp-contact-form-7.php';
 			$cf7html ="";
 			if ( false === array_search( $plugin, $active_plugins ) || ! file_exists( WP_PLUGIN_DIR . '/' . $plugin ) ) {
-				$cf7html = "Please activate Contact Form 7 plugin first";
+				$cf7html = "Please activate Contact Form 7 plugin.";
 				return false;
 			} else {
 				$cf7_args = array(

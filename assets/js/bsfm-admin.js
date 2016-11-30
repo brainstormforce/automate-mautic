@@ -6,8 +6,6 @@ jQuery(document).ready(function( $ ) {
 	        var data = $(this).sortable('serialize');
 	        var res = data.split("&");
 	        var res = res[0];
-			//var res = res.slice(1,4);
-			//console.log(res);
 		}
     });
     jq( "#bsfm-sortable-condition" ).disableSelection();
@@ -116,7 +114,6 @@ jQuery(document).ready(function( $ ) {
 			cf7Id: cf7Id
 		};
 		jq.post(ajaxurl, data, function(cf7) {
-			// console.log(cf7);
 			cf7 = JSON.parse(cf7);
 			var Mauticfields = mbTemplate( { clas: 'mautic_fields', fieldCnt: cf7.fieldCount, formId: cf7Id } );
 			gParent.find('div.second-condition').html(Mauticfields);
