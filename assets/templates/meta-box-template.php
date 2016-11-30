@@ -67,15 +67,12 @@
 					<td><label>Form Fields: </label></td>
 					<td>
 						<select class="mautic_form_fields" name=''>
-							<?php Bsfm_Postmeta::mautic_get_all_form_fields(); ?></td>
+							<?php Bsfm_Postmeta::mautic_get_all_form_fields(); ?>
 						</select>
+					</td>
 				</tr>
 				<tr>
 					<td><label>Name Field : </label></td>
-					<td><input name="mautic_form_field[]" value=""/></td>
-				</tr>
-				<tr>
-					<td><label>Email Field : </label></td>
 					<td><input name="mautic_form_field[]" value=""/></td>
 				</tr>
 			</tbody>

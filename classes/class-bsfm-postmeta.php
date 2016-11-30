@@ -184,11 +184,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$method = "GET";
 		$body = $all_form_fields = '';
 		$mautic_formfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
-		// $mautic_formfields = $mautic_formfields->fields;
-		// echo "<pre>";
-		// print_r($mautic_formfields->form->fields);
-		// echo "</pre>";
-		//die();
+		array_pop($mautic_formfields->form->fields);
 		foreach ( $mautic_formfields->form->fields as $key => $field) {
 			$all_form_fields .= Bsfm_Postmeta::make_option( $field->alias, $field->label, $select);
 		}
