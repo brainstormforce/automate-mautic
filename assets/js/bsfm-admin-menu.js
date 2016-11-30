@@ -109,6 +109,7 @@
 				$('.bsfm-settings-form').hide();
 				$(this).addClass('fl-active');
 				$('#fl-'+ $(this).attr('href').split('#').pop() +'-form').fadeIn();
+				console.log('#fl-'+ $(this).attr('href').split('#').pop() +'-form');
 			}
 		},
 		
