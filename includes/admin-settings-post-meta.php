@@ -19,22 +19,22 @@
 					<div class="conditions">
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 					<?php	
-						foreach ($meta_conditions as $order => $meta_condition) :	
+						foreach ($meta_conditions as $order => $meta_condition) :
 					?>
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
 							<span class="dashicons dashicons-minus remove-item"></span>
-							<span class="dashicons dashicons-editor-justify sort-items"></span> 
+							<span class="dashicons dashicons-editor-justify sort-items"></span>
 							<select class="select-condition form-control" name="pm_condition[]">
-								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> >User Register on WordPress</option>
-								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> >User Post a Comment</option>
-								<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> >User Submit Contact Form 7</option>
+								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> ><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
+								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> ><?php  _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
+								<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
 							</select>
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
 									<div class="first-condition" style="display:inline;">
 										<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> >Anywhere on website</option>
-											<option value="os_page" <?php selected( $meta_condition[1],'os_page' ); ?> >On Specific Page</option>
-											<option value="os_post" <?php selected( $meta_condition[1],'os_post' ); ?> >On Specific Post</option>
+											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere on website', 'bsfmautic' ) ?></option>
+											<option value="os_page" <?php selected( $meta_condition[1],'os_page' ); ?> ><?php _e( 'On Specific Page', 'bsfmautic' ) ?></option>
+											<option value="os_post" <?php selected( $meta_condition[1],'os_post' ); ?> ><?php _e( 'On Specific Post', 'bsfmautic' ) ?></option>
 										</select>
 									</div>
 									<div class="second-condition" style="display:inline;">
@@ -44,7 +44,7 @@
 											}
 											elseif($meta_condition[1]=='os_post') {
 												Bsfm_Postmeta::select_all_posts($meta_condition[2]);
-											}									
+											}
 								echo '</div>';
 								endif;
 								if( $meta_condition[0]=='CF7' ) : 
@@ -61,15 +61,14 @@
 										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
 									</div>
 									<div class="second-condition" style="display:inline;">
-									
 										<table style="float: right;">
 											<tbody>
 												<?php
 												foreach( $meta_condition[2]['mautic_cfields'] as $mform_field ) {
-														echo '<tr><td>';
-														echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
-															Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
-														echo '</select></td></tr>';
+													echo '<tr><td>';
+													echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
+														Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
+													echo '</select></td></tr>';
 												}
 												?>
 											</tbody>
@@ -114,12 +113,12 @@
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
 										<select class="select-action form-control" name="pm_action[]">
-											<option value="segment" <?php selected( $meta_action[0],'segment' ); ?> >Segment</option>
+											<option value="segment" <?php selected( $meta_action[0],'segment' ); ?> ><?php _e( 'Segment', 'bsfmautic' ) ?></option>
 										</select>
 							<?php if($meta_action[0]=='segment') :	?>
 									<div class="first-action" style="display:inline;">
 										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-											<option value="pre_segments" <?php selected( $meta_action[1],'pre_segments' ); ?> >Select predefined segment</option>
+											<option value="pre_segments" <?php selected( $meta_action[1],'pre_segments' ); ?> ><?php _e( 'Select predefined segment', 'bsfmautic' ) ?></option>
 										</select>
 									</div>
 							<?php 
@@ -165,9 +164,9 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 							<select class="select-condition form-control" name="pm_condition[]">
-								<option value="UR">User Register on WordPress</option>
-								<option value="CP">User Post a Comment</option>
-								<option value="CF7">User Submit Contact Form 7</option>
+								<option value="UR"><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
+								<option value="CP"><?php _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
+								<option value="CF7"><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
 							</select>
 							<div class="first-condition" style="display:inline;"></div>
 							<div class="second-condition" style="display:inline;"></div>
@@ -186,11 +185,11 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 								<select class="select-action form-control" name="pm_action[]">
-									<option value="segment">Segment</option>
+									<option value="segment"><?php _e( 'Segment', 'bsfmautic' ) ?></option>
 								</select>
 							<div class="first-action" style="display:inline;">
 								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-									<option value="pre_segments">Select predefined segment</option>
+									<option value="pre_segments"><?php _e( 'Select predefined segment', 'bsfmautic' ) ?></option>
 								</select>
 							</div>
 							<div class="second-action" style="display:inline;">
@@ -198,7 +197,7 @@
 							</div>
 						</fieldset>
 					</div>				 
-					<fieldset class="bsfm-add-action add-new-item"><div class="ui-state-disabled"><span class="dashicons dashicons-plus-alt"></span> Add new action</div></fieldset>
+					<fieldset class="bsfm-add-action add-new-item"><div class="ui-state-disabled"><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
 				</div>
 			</div>
 			<!-- default fields end -->
