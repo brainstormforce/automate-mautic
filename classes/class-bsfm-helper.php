@@ -4,31 +4,35 @@
  */
 if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 	class BSF_Mautic_Helper {
-		/*
-		* Constructor function that initializes required actions and hooks
-		* @Since 1.0
+		private static $instance;
+		/**
+		* Initiator
 		*/
-		function __construct() {
-			$this->set_constants();
+		public static function instance(){
+			if ( ! isset( self::$instance ) ) {
+				self::$instance = new BSF_Mautic_Helper();
+				self::$instance->set_constants();
+			}
+			return self::$instance;
 		}
-		function set_constants() {
+		public function set_constants() {
 			$branding         = self::get_bsf_mautic_branding();
-			$branding_name    = 'UABB';
-			$branding_modules = __('UABB Modules', 'uabb');
+			// $branding_name    = 'UABB';
+			// $branding_modules = __('UABB Modules', 'uabb');
 
-			//	Branding - %s
-			if (
-				is_array( $branding ) &&
-				array_key_exists( 'uabb-plugin-short-name', $branding ) &&
-				$branding['uabb-plugin-short-name'] != ''
-			) {
-				$branding_name = $branding['uabb-plugin-short-name'];
-			}
+			// //	Branding - %s
+			// if (
+			// 	is_array( $branding ) &&
+			// 	array_key_exists( 'uabb-plugin-short-name', $branding ) &&
+			// 	$branding['uabb-plugin-short-name'] != ''
+			// ) {
+			// 	$branding_name = $branding['uabb-plugin-short-name'];
+			// }
 
-			//	Branding - %s Modules
-			if ( $branding_name != 'UABB') {
-				$branding_modules = sprintf( __( '%s Modules', 'uabb' ), $branding_name );
-			}
+			// //	Branding - %s Modules
+			// if ( $branding_name != 'UABB') {
+			// 	$branding_modules = sprintf( __( '%s Modules', 'uabb' ), $branding_name );
+			// }
 			define( 'BSFM_PREFIX', 'BSFM' );
 			//define( 'UABB_CAT', $branding_modules );			
 		}
@@ -101,5 +105,5 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 			return apply_filters( 'bsfm_get_bsfmautic_branding', $bsfm );
 		}
 	}
-	new BSF_Mautic_Helper();
+$BSF_Mautic_Helper = BSF_Mautic_Helper::instance();
 endif;
