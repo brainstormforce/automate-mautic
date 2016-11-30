@@ -77,6 +77,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 				$all_segments .= Bsfm_Postmeta::make_option( $list->id, $list->name, $select);
 			}
 		$all_segments .= '</select>';
+		set_transient( 'bsfm_all_segments', $all_segments, DAY_IN_SECONDS );
 		echo $all_segments;
 	}
 	public static function select_all_mforms( $select = null ) {
@@ -91,6 +92,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 				$all_mforms .= Bsfm_Postmeta::make_option($form->id, $form->name, $select);
 			}
 		$all_mforms .= '</select>';
+		set_transient( 'bsfm_all_mforms', $all_mforms, DAY_IN_SECONDS );
 		echo $all_mforms;
 	}
 	public static function get_all_cf7_fields( $cf7_id = null, $select = null ) {
@@ -148,6 +150,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		foreach ($mautic_cfields as $key => $field) {
 			$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
 		}
+		set_transient( 'bsfm_all_mfields', $all_mfields, DAY_IN_SECONDS );
 		echo $all_mfields;
 	}
 	//list all cf7 forms
