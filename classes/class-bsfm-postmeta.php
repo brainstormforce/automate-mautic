@@ -27,6 +27,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
 		add_action( 'wp_ajax_get_edd_var_price', array( $this, 'bsf_get_edd_variable_price' ) );
+
 		//	check if plugin active
 		//	filter to get all payment status
 		//	add_filters( 'edd_payments_table_views', array( $this, 'bsf_make_edd_payment_status' ), 8 );
@@ -329,12 +330,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	* @param comment data
 	* @return rule id array
 	*/ 
-	public static function bsfm_get_edd_condition( $payment_id ) {
+	public static function bsfm_get_edd_condition( $payment_meta ) {
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule' );
 		$set_rules = $download_id = $price_id = array();
 		$posts = get_posts( $args );
-		$payment_meta = edd_get_payment_meta( $payment_id );
-
 		// status >>> payment_status  --NA $payment_meta['downloads'][0][id] -- downloads array
 
 		foreach ( $payment_meta['downloads'] as $downloads ) {
@@ -357,8 +356,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						}
 					endforeach;
 		endforeach;
-		$set_rules;
-		die();
 		return $set_rules;
 	}
 

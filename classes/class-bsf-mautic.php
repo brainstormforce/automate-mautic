@@ -187,21 +187,25 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 */
 		public static function bsfm_edd_purchase_to_mautic( $payment_id ) {
 			// Basic payment meta			
-			// $payment_meta = edd_get_payment_meta( $payment_id );
+			$payment_meta = edd_get_payment_meta( $payment_id );
 			// Cart details
 			// $cart_items = edd_get_payment_meta_cart_details( $payment_id );
 
-			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_id );
+			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta );
 			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
 			}
-			print_r($status);
-			print_r($set_actions);
-			die();
-
+			$method = 'POST';
+			$url = '/api/contacts/new';
+			$body = array(
+				'firstname'	=>	$payment_meta['user_info']['first_name'],
+				'lastname'	=>	$payment_meta['user_info']['last_name'],
+				'email'		=>	$payment_meta['user_info']['email']
+			);
+			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 		}
 
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
