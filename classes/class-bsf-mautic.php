@@ -317,6 +317,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				}
 			}
 			else if( $method=="POST" ) {	// add new contact to mautic request
+
+				// Remove contacts from segments
+				if(isset($segments['remove_segment']) && sizeof($segments['remove_segment']) > 0 {
+					$remove_seg = $segments['remove_segment'];
+					//bsfm_mautic_get_contact_by_email
+					// call add to segment function 
+				}
+
 				$response = wp_remote_post( $url, array(
 				'method' => $method,
 				'timeout' => 45,
@@ -369,6 +377,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		function bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $mautic_credentials ) {
 			$errorMsg = '';
 			$status = 'error';
+			//$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
 			if( is_int($segment_id) && is_int($contact_id) ) {
 				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/add/".$contact_id;
 				$access_token = $mautic_credentials['access_token'];
@@ -407,5 +416,54 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 			return $response;
 		}
+		// get email
+		// fetch Contact Id
+		// remove from segment
+		function bsfm_mautic_get_contact_by_email( $segment_id, $email, $mautic_credentials ) {
+			$errorMsg = '';
+			$status = 'error';
+
+			// fetch contact Id from Email
+			// $contact_id
+
+			if( is_int($segment_id) && is_int($contact_id) ) {
+				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
+				$access_token = $mautic_credentials['access_token'];
+				$body = array(	
+					"access_token" => $access_token
+				);
+				$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => $body,
+					'cookies' => array()
+				)
+				);
+				if ( is_wp_error( $response ) ) {
+					$errorMsg = $response->get_error_message();
+					$status = 'error';
+				} else {
+					if( is_array($response) ) { 							
+						$response_code = $response['response']['code'];
+						if( $response_code != 200 ) {
+							$status = 'error';
+							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+						} else {
+							$status = 'success';
+						}
+					}
+				}
+			}
+			$response = array(
+				'status' => $status,
+				'error_message' => $errorMsg            
+			);
+			return $response;
+		}
+
 	}
 endif;
