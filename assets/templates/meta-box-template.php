@@ -26,6 +26,7 @@
 		<div class="first-action" style="display:inline;">
 			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 				<option value="pre_segments">Select predefined segment</option>
+				<option value="remove_segment">Remove from segment</option>
 			</select>
 		</div>
 		<div class="second-action" style="display:inline;">

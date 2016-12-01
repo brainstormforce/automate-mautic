@@ -316,7 +316,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					}
 				}
 			}
-			else if( $method=="POST" ) {			// add new contact to mautic request
+			else if( $method=="POST" ) {	// add new contact to mautic request
 				$response = wp_remote_post( $url, array(
 				'method' => $method,
 				'timeout' => 45,

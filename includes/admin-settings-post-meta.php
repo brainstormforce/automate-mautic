@@ -140,9 +140,10 @@
 									<div class="first-action" style="display:inline;">
 										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 											<option value="pre_segments" <?php selected( $meta_action[1],'pre_segments' ); ?> ><?php _e( 'Select predefined segment', 'bsfmautic' ) ?></option>
+											<option value="remove_segment" <?php selected( $meta_action[1],'remove_segment' ); ?> ><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
 										</select>
 									</div>
-							<?php 
+							<?php
 								endif;
 								if($meta_action[1]=='pre_segments') :
 							?>
@@ -154,7 +155,7 @@
 							<?php
 								endforeach;
 							?>
-							</div>				 
+							</div>
 							<fieldset class="bsfm-add-action add-new-item">
 								<div>
 									<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ); ?>

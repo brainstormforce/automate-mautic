@@ -411,7 +411,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		* @ fetch all actions for that rule
 		* @ return Array
 		*/
-		$all_actions = array();
+		$all_actions = array(
+			'add_segment' => array(),
+			'remove_segment' => array()
+		);
 		foreach ( $rules as $rule ) :
 			$rule_id = $rule;
 			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
@@ -421,7 +424,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						if( $meta_action[1]=='pre_segments' ){
 							//make array of segment id's
 							$segment_id = $meta_action[2];
-							array_push($all_actions, $segment_id);
+							array_push($all_actions['add_segment'], $segment_id);
+						}
+						if( $meta_action[1]=='remove_segment' ){
+							//make array of segment id's
+							$segment_id = $meta_action[2];
+							array_push($all_actions['remove_segment'], $segment_id);
 						}
 					}
 				endforeach;
