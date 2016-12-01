@@ -127,4 +127,18 @@ jQuery(document).ready(function( $ ) {
 			gParent.find('div.second-condition').append(cf7.selHtml);
 		});
 	});
+
+	jq(document).on( "change", ".sub-edd-condition", function() {
+		gParent = jq(this).parent().parent();
+		download_id = parseInt(this.value);
+		var data= {
+			action:'get_edd_var_price',
+			download_id: download_id
+		};
+		jq.post(ajaxurl, data, function(selHtml) {
+			var varPrices = mbTemplate( { clas: 'edd_payment_status' } );
+			gParent.find('div.second-condition').html(varPrices);
+			gParent.find('div.second-condition').append(selHtml);
+		});
+	});
 });

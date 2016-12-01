@@ -60,4 +60,16 @@
 			</tbody>
 		</table>
 	<# } #>
+	<# if( 'edd_payment_status' === data.clas ) { #>
+		<?php //Bsfm_Postmeta::bsf_make_edd_payment_status(); ?>
+		<select id="sub-sub-condition" class="root-edd-condition form-control" name="ss_edd_condition[]">
+			<option name="publish"> Completed </option>
+			<option name="pending"> Pending </option>
+			<option name="refunded"> Refunded </option>
+			<option name="revoked"> Revoked </option>
+			<option name="failed"> Failed </option>
+			<option name="abandoned"> Abandoned </option>
+		</select>
+		<?php //Bsfm_Postmeta::bsf_get_edd_variable_price(); ?>
+	<# } #>
 </script>

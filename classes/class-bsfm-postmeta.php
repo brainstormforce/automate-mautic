@@ -26,6 +26,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
+
+		add_action( 'wp_ajax_get_edd_var_price', array( $this, 'bsf_get_edd_variable_price' ) );
+
+		//	check if plugin active
+		//	filter to get all payment status
+		//	add_filters( 'edd_payments_table_views', array( $this, 'bsf_make_edd_payment_status' ), 8 );
 	}
 	/**
 	* Register meta box(es).
@@ -387,7 +393,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public static function select_all_edd_downloads( $select = null ) {
 		$args = array('post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish' );
 		$downloads = get_posts( $args );
-		$all_downloads = '<select id="ss-cp-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
+		$all_downloads = '<select id="ss-edd-condition" class="sub-edd-condition form-control" name="ss_edd_condition[]">';
 			foreach ( $downloads as $download ) : setup_postdata( $download );
 				$all_downloads .= Bsfm_Postmeta::make_option($download->ID, $download->post_title, $select);	
 			endforeach; 
@@ -395,6 +401,45 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		wp_reset_postdata();
 		echo $all_downloads;
 	}
+
+	/** 
+	 * Get all EDD payment status
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function bsf_make_edd_payment_status( $payment_status = null ) {
+
+		echo 'status here';
+		//$downloads = '<select id="sub-sub-condition" class="root-cp-condition form-control select2-hidden-accessible" name="ss_cp_condition[]">';
+	}
+
+	/** 
+	 * Get EDD - downloads variable price
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function bsf_get_edd_variable_price( $download_id='', $select='' ) {
+		//get all contact form fields
+		$download_id = $_POST['download_id'];
+		$edd_prices = edd_get_variable_prices( $download_id );
+		$edd_vprice_sel = "<select class='edd_var_price' name='edd_var_price[]'>";
+		if( $edd_prices ) {
+			foreach( $edd_prices as $price_id => $price ) {
+				$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $select);
+			}
+		}
+		$edd_vprice_sel.= "</select>";
+		echo $edd_vprice_sel;
+		// print_r(json_encode( array(
+		// 		'fieldCount' => $map_cf7fields,
+		// 		'selHtml' => $cf7_fields
+		// )));
+		wp_die();
+	}
+
+
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
 endif;
