@@ -26,9 +26,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
-
 		add_action( 'wp_ajax_get_edd_var_price', array( $this, 'bsf_get_edd_variable_price' ) );
-
 		//	check if plugin active
 		//	filter to get all payment status
 		//	add_filters( 'edd_payments_table_views', array( $this, 'bsf_make_edd_payment_status' ), 8 );
@@ -223,6 +221,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$conditions = $_POST['pm_condition'];
 			$cp_keys = array_keys( $conditions, "CP");
 			$cf7_keys = array_keys( $conditions, "CF7");
+			$edd_keys = array_keys( $conditions, "EDD");
 			$condition_cnt = sizeof( $conditions );
 			for($i=0; $i < $condition_cnt; $i++) {
 				if($conditions[$i]=='UR') {
@@ -246,7 +245,20 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						$_POST['sub_cf_condition'][$sub_key],
 						$update_maping );
 				}
+				if ($conditions[$i] == "EDD") {
+					$sub_key = array_search($i,$edd_keys);
+					$update_maping = '';
+					$download_id = $_POST['sub_edd_condition'][$sub_key];
+					$update_conditions[$i] = array(
+						$conditions[$i],
+						$_POST['sub_cf_condition'][$sub_key],
+						$_POST['ss_edd_condition'][$sub_key],
+						$_POST['ss_edd_var_price'][$sub_key] );
+				}
 			}
+
+			print_r($_POST);
+
 			$update_conditions = serialize($update_conditions);
 			update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
 			// update data submit method
@@ -393,11 +405,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public static function select_all_edd_downloads( $select = null ) {
 		$args = array('post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish' );
 		$downloads = get_posts( $args );
-		$all_downloads = '<select id="ss-edd-condition" class="sub-edd-condition form-control" name="ss_edd_condition[]">';
+		$all_downloads = '<select id="sub-edd-condition" class="sub-edd-condition form-control" name="sub_edd_condition[]">';
+		$all_downloads .= '<option> Select Download </option>';
 			foreach ( $downloads as $download ) : setup_postdata( $download );
 				$all_downloads .= Bsfm_Postmeta::make_option($download->ID, $download->post_title, $select);	
 			endforeach; 
-		$all_downloads.='</select>';
+		$all_downloads .='</select>';
 		wp_reset_postdata();
 		echo $all_downloads;
 	}
@@ -424,18 +437,14 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		//get all contact form fields
 		$download_id = $_POST['download_id'];
 		$edd_prices = edd_get_variable_prices( $download_id );
-		$edd_vprice_sel = "<select class='edd_var_price' name='edd_var_price[]'>";
+		$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
 		if( $edd_prices ) {
 			foreach( $edd_prices as $price_id => $price ) {
 				$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $select);
 			}
 		}
-		$edd_vprice_sel.= "</select>";
+		$edd_vprice_sel .= "</select>";
 		echo $edd_vprice_sel;
-		// print_r(json_encode( array(
-		// 		'fieldCount' => $map_cf7fields,
-		// 		'selHtml' => $cf7_fields
-		// )));
 		wp_die();
 	}
 
