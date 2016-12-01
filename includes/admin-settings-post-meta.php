@@ -90,6 +90,26 @@
 										echo '</tbody></table>';
 									echo '</div>';
 								endif;
+
+								if( $meta_condition[0]=='EDD' ) : ?>
+									<div class="first-condition" style="display:inline;">
+										<?php Bsfm_Postmeta::select_all_edd_downloads( $meta_condition[1] ); ?>
+									</div>
+									<div class="second-condition" style="display:inline;">
+										<?php Bsfm_Postmeta::bsf_make_edd_payment_status( $meta_condition[2] );
+										$edd_prices = edd_get_variable_prices( $meta_condition[1] );
+										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
+										if( $edd_prices ) {
+											foreach( $edd_prices as $price_id => $price ) {
+												$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $meta_condition[3]);
+											}
+										}
+										$edd_vprice_sel .= "</select>";
+										echo $edd_vprice_sel;
+									?>
+									</div>
+								<?php
+								endif;
 								if( $meta_condition[0]=='UR' ) :
 									echo '<div class="first-condition" style="display:inline;"></div>';
 									echo '<div class="second-condition" style="display:inline;"></div>';

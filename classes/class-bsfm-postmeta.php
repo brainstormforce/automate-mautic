@@ -251,14 +251,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 					$download_id = $_POST['sub_edd_condition'][$sub_key];
 					$update_conditions[$i] = array(
 						$conditions[$i],
-						$_POST['sub_cf_condition'][$sub_key],
+						$_POST['sub_edd_condition'][$sub_key],
 						$_POST['ss_edd_condition'][$sub_key],
 						$_POST['ss_edd_var_price'][$sub_key] );
 				}
 			}
-
-			print_r($_POST);
-
 			$update_conditions = serialize($update_conditions);
 			update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
 			// update data submit method
@@ -328,9 +325,9 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 	public static function bsfm_get_wpur_condition() {
 		/*
-		@todo fetch all rules ID
-		@todo check meta for user register condition
-		@todo return rule id array
+			@todo fetch all rules ID
+			@todo check meta for user register condition
+			@todo return rule id array
 		*/
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
@@ -421,10 +418,14 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function bsf_make_edd_payment_status( $payment_status = null ) {
-
-		echo 'status here';
-		//$downloads = '<select id="sub-sub-condition" class="root-cp-condition form-control select2-hidden-accessible" name="ss_cp_condition[]">';
+	public static function bsf_make_edd_payment_status( $select = null ) {
+		$status = array( 'publish ', 'pending ', 'refunded ', 'revoked ', 'failed ', 'abandoned ');
+		$select_status = '<select id="sub-sub-condition" class="root-edd-condition form-control" name="ss_edd_condition[]">';
+		foreach ( $status as $payment_status ) :
+			$select_status .= Bsfm_Postmeta::make_option($payment_status, $payment_status, $select);
+		endforeach;
+		$select_status .= '</select>';
+		echo $select_status;
 	}
 
 	/** 
@@ -447,7 +448,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		echo $edd_vprice_sel;
 		wp_die();
 	}
-
 
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
