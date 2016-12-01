@@ -99,7 +99,7 @@
 						?>
 					</div>
 					<fieldset class="bsfm-add-condition add-new-item">
-						<div class="ui-state-disabled">
+						<div>
 							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
 						</div>
 					</fieldset>
@@ -136,7 +136,7 @@
 							?>
 							</div>				 
 							<fieldset class="bsfm-add-action add-new-item">
-								<div class="ui-state-disabled">
+								<div>
 									<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ); ?>
 								</div>
 							</fieldset>
@@ -175,7 +175,7 @@
 						</fieldset>
 					</div>				 
 					<fieldset class="bsfm-add-condition add-new-item">
-						<div class="ui-state-disabled">
+						<div>
 							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
 						</div>
 					</fieldset>
@@ -199,7 +199,7 @@
 							</div>
 						</fieldset>
 					</div>				 
-					<fieldset class="bsfm-add-action add-new-item"><div class="ui-state-disabled"><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
+					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
 				</div>
 			</div>
 			<!-- default fields end -->

@@ -2,6 +2,9 @@
 	<# if( 'select-cf' === data.clas ) { #>
 		<?php Bsfm_Postmeta::select_all_cf7forms(); ?>
 	<# } #>
+	<# if( 'select-edd-products' === data.clas ) { #>
+		<?php Bsfm_Postmeta::select_all_edd_downloads(); ?>
+	<# } #>
 	<# if ( 'condition-field' === data.clas ) { #>
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>

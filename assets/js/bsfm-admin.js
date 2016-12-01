@@ -56,6 +56,13 @@ jQuery(document).ready(function( $ ) {
 				parent.find('div.first-condition').html(cfSelect);
 				jq( ".sub-cf-condition" ).select2();
 			break;
+
+			case 'EDD' :
+				var cfSelect = mbTemplate( { clas: "select-edd-products" } );
+				parent.find('div.second-condition').html('');
+				parent.find('div.first-condition').html(cfSelect);
+				jq( ".sub-cf-condition" ).select2();
+			break;
 		}
 	});
 	jq(document).on( "change", ".sub-cp-condition", function() {

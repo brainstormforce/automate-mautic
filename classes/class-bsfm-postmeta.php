@@ -377,6 +377,24 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		endforeach;
 		return $all_actions;
 	}
+
+	/** 
+	 * Get all EDD products
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function select_all_edd_downloads( $select = null ) {
+		$args = array('post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish' );
+		$downloads = get_posts( $args );
+		$all_downloads = '<select id="ss-cp-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
+			foreach ( $downloads as $download ) : setup_postdata( $download );
+				$all_downloads .= Bsfm_Postmeta::make_option($download->ID, $download->post_title, $select);	
+			endforeach; 
+		$all_downloads.='</select>';
+		wp_reset_postdata();
+		echo $all_downloads;
+	}
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
 endif;
