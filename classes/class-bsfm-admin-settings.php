@@ -42,10 +42,10 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	public function bsfm_mb_templates() {
-		$post_type = isset( $_REQUEST['post_type'] ) ? $_REQUEST['post_type'] : '';
-		if(isset($_REQUEST['post']) || $post_type =='bsf-mautic-rule' ) {
+		$post_type_req = isset( $_REQUEST['post_type'] ) ? $_REQUEST['post_type'] : '';
+		if( isset($_REQUEST['post']) || $post_type =='bsf-mautic-rule' ) {
 			$post_type = isset( $_REQUEST['post'] ) ? get_post_type( $_REQUEST['post'] ) : '';
-			if( 'bsf-mautic-rule' == $post_type || $_REQUEST['post_type']=='bsf-mautic-rule' ) {
+			if( 'bsf-mautic-rule' == $post_type || 'bsf-mautic-rule' == $post_type_req ) {
 				include BSF_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
 			}
 		}
