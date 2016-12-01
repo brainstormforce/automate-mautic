@@ -64,20 +64,26 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 	public static function select_all_segments( $select = null ) {
 		//get all segments
-		$url = "/api/segments";
-		$method = "GET";
-		$body = '';
-		$segments = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+		$segments_trans = get_transient( 'bsfm_all_segments' );
+		if( $segments_trans ) {
+			$segments = $segments_trans;
+		}
+		else {
+			$url = "/api/segments";
+			$method = "GET";
+			$body = '';
+			$segments = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+			set_transient( 'bsfm_all_segments', $segments , DAY_IN_SECONDS );
+		}
 		if( empty($segments) ) {
 			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
-		 	return;
+			return;
 		}
 		$all_segments = '<select class="root-seg-action" name="ss_seg_action[]">';
 			foreach( $segments->lists as $offset => $list ) {
 				$all_segments .= Bsfm_Postmeta::make_option( $list->id, $list->name, $select);
 			}
 		$all_segments .= '</select>';
-		set_transient( 'bsfm_all_segments', $all_segments, DAY_IN_SECONDS );
 		echo $all_segments;
 	}
 	public static function select_all_mforms( $select = null ) {
