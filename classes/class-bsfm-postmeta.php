@@ -448,7 +448,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		echo $edd_vprice_sel;
 		wp_die();
 	}
-
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
 endif;

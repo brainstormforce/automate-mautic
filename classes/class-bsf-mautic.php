@@ -35,6 +35,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 			//cf7 integration
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
+			//edd intgration 
+			add_action( 'edd_complete_purchase', array( $this, 'bsfm_edd_purchase_to_mautic' ) );
 		}
 		public function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
@@ -177,6 +179,21 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 
 		}
+
+		/** 
+		 * Add edd purchasers to Mautic
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function bsfm_edd_complete_purchase_tomautic( $payment_id ) {
+			// Basic payment meta			
+			$payment_meta = edd_get_payment_meta( $payment_id );
+			// Cart details
+			// $cart_items = edd_get_payment_meta_cart_details( $payment_id );
+
+		}
+
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
 			$query = self::bsfm_create_query();
 			if ( $query ) {
