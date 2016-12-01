@@ -177,7 +177,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'website'	=>	$commentdata['comment_author_url']
 			);
 			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
-
 		}
 
 		/** 
@@ -186,11 +185,22 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public static function bsfm_edd_complete_purchase_tomautic( $payment_id ) {
+		public static function bsfm_edd_purchase_to_mautic( $payment_id ) {
 			// Basic payment meta			
-			$payment_meta = edd_get_payment_meta( $payment_id );
+			// $payment_meta = edd_get_payment_meta( $payment_id );
 			// Cart details
 			// $cart_items = edd_get_payment_meta_cart_details( $payment_id );
+
+			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_id );
+			if( is_array($status) && sizeof($status)>0 ) {
+				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
+			}
+			else {
+				return;
+			}
+			print_r($status);
+			print_r($set_actions);
+			die();
 
 		}
 

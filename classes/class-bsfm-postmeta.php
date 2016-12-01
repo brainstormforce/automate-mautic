@@ -323,6 +323,45 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		endforeach;
 		return $set_rules;
 	}
+
+	/**
+	* check if rule is set
+	* @param comment data
+	* @return rule id array
+	*/ 
+	public static function bsfm_get_edd_condition( $payment_id ) {
+		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule' );
+		$set_rules = $download_id = $price_id = array();
+		$posts = get_posts( $args );
+		$payment_meta = edd_get_payment_meta( $payment_id );
+
+		// status >>> payment_status  --NA $payment_meta['downloads'][0][id] -- downloads array
+
+		foreach ( $payment_meta['downloads'] as $downloads ) {
+			array_push( $download_id, $downloads['id']);
+			array_push( $price_id, $downloads['options']['price_id']);
+		}
+		foreach ( $posts as $post ) : setup_postdata( $post );
+			 	$rule_id = $post->ID;
+				$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
+				$meta_conditions = unserialize($meta_conditions[0]);
+					foreach  ($meta_conditions as $meta_condition ) :	
+						if( $meta_condition[0]=='EDD' ) {
+							if( in_array( $meta_condition[1], $download_id) ) {
+								// status check
+								if( in_array( $meta_condition[3], $price_id) ) {
+									array_push( $set_rules, $rule_id);
+								}
+								// status check
+							}
+						}
+					endforeach;
+		endforeach;
+		$set_rules;
+		die();
+		return $set_rules;
+	}
+
 	public static function bsfm_get_wpur_condition() {
 		/*
 			@todo fetch all rules ID
@@ -400,7 +439,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	 * @return void
 	 */
 	public static function select_all_edd_downloads( $select = null ) {
-		$args = array('post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish' );
+		$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish' );
 		$downloads = get_posts( $args );
 		$all_downloads = '<select id="sub-edd-condition" class="sub-edd-condition form-control" name="sub_edd_condition[]">';
 		$all_downloads .= '<option> Select Download </option>';
