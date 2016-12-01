@@ -87,18 +87,24 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		echo $all_segments;
 	}
 	public static function select_all_mforms( $select = null ) {
-		//get all Mautic forms
-		$url = "/api/forms";
-		$method = "GET";
-		$body = '';
-		$forms = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+		$mforms_trans = get_transient( 'bsfm_all_mforms' );
+		if( $mforms_trans ) {
+			$forms = $mforms_trans;
+		}
+		else {
+			//get all Mautic forms
+			$url = "/api/forms";
+			$method = "GET";
+			$body = '';
+			$forms = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+			set_transient( 'bsfm_all_mforms', $forms, DAY_IN_SECONDS );
+		}
 		$forms = $forms->forms;
 		$all_mforms = '<select class="mautic_form">';
 			foreach( $forms as $offset => $form ) {
 				$all_mforms .= Bsfm_Postmeta::make_option($form->id, $form->name, $select);
 			}
 		$all_mforms .= '</select>';
-		set_transient( 'bsfm_all_mforms', $all_mforms, DAY_IN_SECONDS );
 		echo $all_mforms;
 	}
 	public static function get_all_cf7_fields( $cf7_id = null, $select = null ) {
@@ -148,15 +154,23 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 	//get all mautic custom fields
 	public static function mautic_get_all_cfields( $select = null ) {
+		$mautic_cfields_trans = get_transient( 'bsfm_all_cfields' );
+		$all_mfields = '';
+		if( $mautic_cfields_trans ) {
+			$mautic_cfields = $mautic_cfields_trans;
+		}
+		else {
+			//get all Mautic forms
+			$url = "/api/contacts/list/fields";
+			$method = "GET";
+			$body = '';
+			$mautic_cfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+			set_transient( 'bsfm_all_cfields', $mautic_cfields, DAY_IN_SECONDS );
+		}
 		//get all mautic fields here
-		$url = "/api/contacts/list/fields";
-		$method = "GET";
-		$body = $all_mfields = '';
-		$mautic_cfields = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
-		foreach ($mautic_cfields as $key => $field) {
+		foreach ( $mautic_cfields as $key => $field ) {
 			$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
 		}
-		set_transient( 'bsfm_all_mfields', $all_mfields, DAY_IN_SECONDS );
 		echo $all_mfields;
 	}
 	//list all cf7 forms
