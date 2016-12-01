@@ -321,7 +321,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				// Remove contacts from segments
 				if(isset($segments['remove_segment']) && sizeof($segments['remove_segment']) > 0 {
 					$remove_seg = $segments['remove_segment'];
-					//bsfm_mautic_get_contact_by_email
+					// bsfm_mautic_get_contact_by_email($param['email'])
+						$url = $url .'?access_token='. $access_token;
+						$response = wp_remote_get( $url );
+						if( is_array($response) ) {
+							$response_body = $response['body'];
+							$body_data = json_decode($response_body);
+						}
 					// call add to segment function 
 				}
 
@@ -378,6 +384,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$errorMsg = '';
 			$status = 'error';
 			//$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
+
+
+			/api/contacts/?search=aa&&access_token=
+
+
 			if( is_int($segment_id) && is_int($contact_id) ) {
 				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/add/".$contact_id;
 				$access_token = $mautic_credentials['access_token'];
