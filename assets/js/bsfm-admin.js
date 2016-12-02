@@ -13,6 +13,8 @@ jQuery(document).ready(function( $ ) {
 	jq( "#bsfm-sortable-action" ).disableSelection();
 	jq( ".select-condition" ).select2();
 	jq( ".select-action" ).select2();
+	jq( ".sub-cp-action" ).select2();
+	jq( ".root-seg-action" ).select2();
 	//get markups from template
 	var mbTemplate = wp.template( "bsfm-template" );
 	jq(document).on( "click", ".remove-item", function() {
@@ -61,7 +63,7 @@ jQuery(document).ready(function( $ ) {
 				var cfSelect = mbTemplate( { clas: "select-edd-products" } );
 				parent.find('div.second-condition').html('');
 				parent.find('div.first-condition').html(cfSelect);
-				jq( ".sub-cf-condition" ).select2();
+				jq( ".sub-edd-condition" ).select2();
 			break;
 		}
 	});
@@ -127,6 +129,8 @@ jQuery(document).ready(function( $ ) {
 			var Mauticfields = mbTemplate( { clas: 'mautic_fields', fieldCnt: cf7.fieldCount, formId: cf7Id } );
 			gParent.find('div.second-condition').html(Mauticfields);
 			gParent.find('div.second-condition').append(cf7.selHtml);
+			jq( ".cf7_form" ).select2();
+			jq( ".mautic_forms" ).select2();
 		});
 	});
 	// clean transients
@@ -149,6 +153,8 @@ jQuery(document).ready(function( $ ) {
 			var varPrices = mbTemplate( { clas: 'edd_payment_status' } );
 			gParent.find('div.second-condition').html(varPrices);
 			gParent.find('div.second-condition').append(selHtml);
+			jq( ".root-edd-condition" ).select2();
+			jq( ".edd_var_price" ).select2();
 		});
 	});
 });

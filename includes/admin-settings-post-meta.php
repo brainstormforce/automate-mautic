@@ -79,7 +79,7 @@
 											<tbody>
 											<?php
 											foreach( $meta_condition[2]['cf7_fields'] as $form_field ) {
-										 		$cf7_fields = '<tr><td><select name="cf7_fields['.$cf7_id.'][]">';
+										 		$cf7_fields = '<tr><td><select class="cf7_form" name="cf7_fields['.$cf7_id.'][]">';
 												foreach ($matches[0] as $value) {
 													$field = explode(' ',$value);
 													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $form_field);

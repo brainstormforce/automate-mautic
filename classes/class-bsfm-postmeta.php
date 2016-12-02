@@ -138,7 +138,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
 		$cf7_fields = "<table style='float: right;'><tbody>";
-		$cf7_fields_sel = "<tr><td><select class='mautic_form' name='cf7_fields[$cf7_id][]'>";
+		$cf7_fields_sel = "<tr><td><select class='cf7_form' name='cf7_fields[$cf7_id][]'>";
 		foreach ($matches[0] as $value) {
 			$field = explode(' ',$value);
 			$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
