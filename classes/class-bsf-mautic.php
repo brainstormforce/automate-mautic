@@ -327,18 +327,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
 					$status = $res['status'];
 					$errorMsg  = $res['error_message'];
-					// call add to segment function 
+					return;
 				}
-
 				$response = wp_remote_post( $url, array(
-				'method' => $method,
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking' => true,
-				'headers' => array(),
-				'body' => $param,
-				'cookies' => array()
+					'method' => $method,
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => $param,
+					'cookies' => array()
 				));
 			}
 			if ( is_wp_error( $response ) ) {
@@ -365,8 +364,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
 							// fetch segment_id from rule and add contact to segment
-							if( is_array( $segments ) ) {
-								foreach ($segments as $segment_id) {
+							if(isset( $segments['add_segment'] ) ) {
+						
+								print_r($segments['add_segment']);
+						die();
+								foreach ( $segments['add_segment'] as $segment_id) {
 									$segment_id = (int)$segment_id;
 									$action = "add";
 									$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
