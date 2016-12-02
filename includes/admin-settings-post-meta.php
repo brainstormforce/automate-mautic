@@ -139,13 +139,13 @@
 							<?php if($meta_action[0]=='segment') :	?>
 									<div class="first-action" style="display:inline;">
 										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-											<option value="pre_segments" <?php selected( $meta_action[1],'pre_segments' ); ?> ><?php _e( 'Select predefined segment', 'bsfmautic' ) ?></option>
+											<option value="add_segment" <?php selected( $meta_action[1],'add_segment' ); ?> ><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
 											<option value="remove_segment" <?php selected( $meta_action[1],'remove_segment' ); ?> ><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
 										</select>
 									</div>
 							<?php
 								endif;
-								if($meta_action[1]=='pre_segments') :
+								if($meta_action[1]=='add_segment') :
 							?>
 									<div class="second-action" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_segments($meta_action[2]); ?>
@@ -161,6 +161,10 @@
 									<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ); ?>
 								</div>
 							</fieldset>
+						</div>
+						<div id="save-action">
+							<input style="float: right;" type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+							<span class="spinner"></span>
 						</div>
 				</div>
 				<?php
@@ -212,7 +216,8 @@
 								</select>
 							<div class="first-action" style="display:inline;">
 								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-									<option value="pre_segments"><?php _e( 'Select predefined segment', 'bsfmautic' ) ?></option>
+									<option value="add_segment"><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
+									<option value="remove_segment"><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
 								</select>
 							</div>
 							<div class="second-action" style="display:inline;">

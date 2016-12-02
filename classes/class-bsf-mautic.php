@@ -262,7 +262,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
 
 		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
-			//map fields and return array
 			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
 			if (isset($meta_conditions[0])) {
 				$meta_conditions = unserialize($meta_conditions[0]);	
@@ -379,7 +378,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		}
 
 		function bsfm_remove_contact_from_segment( $param = array(), $remove_segment = array() ) {
-			// Remove contacts from segments
+			//Remove contacts from segments
 			$action = "remove";
 			$email = $param['email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
@@ -399,8 +398,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$errorMsg = '';
 			$status = 'error';
 			// $url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
-
-			// /api/contacts/?search=aa&&access_token=
 
 			if( is_int($segment_id) && is_int($contact_id) ) {
 				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/".$act."/".$contact_id;
@@ -440,22 +437,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 			return $response;
 		}
-		// get email
-		// fetch Contact Id
-		// remove from segment
 		function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
-			// https://rahulw.mautic.net/api/contacts/?search=aa&&access_token=NDU4OGRiOWRjMTQz
 			$errorMsg = '';
 			$status = 'error';
 			$access_token = $mautic_credentials['access_token'];
-			// fetch contact Id from Email
-			// $contact_id
 			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&&access_token='. $access_token;
 			$response = wp_remote_get( $url );
 			if( is_array($response) ) {
 				$response_body = $response['body'];
 				$body_data = json_decode($response_body);
-
 				$contact = $body_data->contacts;
 				$contact_id = $contact[0]->id;
 				$response_code = $response['response']['code'];

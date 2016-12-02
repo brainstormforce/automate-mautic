@@ -27,10 +27,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
 		add_action( 'wp_ajax_get_edd_var_price', array( $this, 'bsf_get_edd_variable_price' ) );
-
-		//	check if plugin active
-		//	filter to get all payment status
-		//	add_filters( 'edd_payments_table_views', array( $this, 'bsf_make_edd_payment_status' ), 8 );
+		add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'bsf_clean_mautic_transient' ) );
 	}
 	/**
 	* Register meta box(es).
@@ -296,11 +293,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	* @return rule id array
 	*/ 
 	public static function bsfm_get_comment_condition( $comment_data = array() ) {
-		/*
-		@todo fetch all rules ID
-		@todo check meta for comment post 1.page 2.post 3.anywhere
-		@todo check correspondig action and return
-		*/
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
 		$set_rules = array();
@@ -360,11 +352,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 
 	public static function bsfm_get_wpur_condition() {
-		/*
-			@todo fetch all rules ID
-			@todo check meta for user register condition
-			@todo return rule id array
-		*/
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
 		$ur_rules = array();
@@ -406,11 +393,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	* @return actions array
 	*/
 	public static function bsfm_get_all_actions( $rules = array() ) {
-		/*
-		* @ todo get all rule_id 
-		* @ fetch all actions for that rule
-		* @ return Array
-		*/
 		$all_actions = array(
 			'add_segment' => array(),
 			'remove_segment' => array()
@@ -421,7 +403,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$meta_actions = unserialize($meta_actions[0]);
 				foreach($meta_actions as $order => $meta_action) :
 					if( $meta_action[0]=='segment' ){
-						if( $meta_action[1]=='pre_segments' ){
+						if( $meta_action[1]=='add_segment' ){
 							//make array of segment id's
 							$segment_id = $meta_action[2];
 							array_push($all_actions['add_segment'], $segment_id);
@@ -463,7 +445,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	 * @return void
 	 */
 	public static function bsf_make_edd_payment_status( $select = null ) {
-		$status = array( 'publish ', 'pending ', 'refunded ', 'revoked ', 'failed ', 'abandoned ');
+		$status = array( 'publish', 'pending', 'refunded', 'revoked', 'failed', 'abandoned');
 		$select_status = '<select id="sub-sub-condition" class="root-edd-condition form-control" name="ss_edd_condition[]">';
 		foreach ( $status as $payment_status ) :
 			$select_status .= Bsfm_Postmeta::make_option($payment_status, $payment_status, $select);
@@ -491,6 +473,18 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$edd_vprice_sel .= "</select>";
 		echo $edd_vprice_sel;
 		wp_die();
+	}
+	/** 
+	 * Clean Set Mautic data transients
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function bsf_clean_mautic_transient() {
+		delete_transient( 'bsfm_all_segments' );
+		delete_transient( 'bsfm_all_mforms' );
+		delete_transient( 'bsfm_all_cfields' );
+		die();
 	}
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();

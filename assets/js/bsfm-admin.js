@@ -101,16 +101,18 @@ jQuery(document).ready(function( $ ) {
 			break;
 		}
 	});
-	jq(document).on( "change", ".sub-cp-action", function() {
+	/*	// multiple actions
+		jq(document).on( "change", ".sub-cp-action", function() {
 		gParent = jq(this).parent().parent();
 		switch(this.value) {
-			case 'pre_segments' :
+			case 'add_segment' :
 				var PreSeg = mbTemplate( { clas: this.value } );
 				gParent.find('div.second-action').html(PreSeg);
 				jq( ".root-seg-action" ).select2();
 			break;
 		}
 	});
+	*/
 	// append form field mapping
 	jq(document).on( "change", ".sub-cf-condition", function() {
 		gParent = jq(this).parent().parent();
@@ -127,7 +129,15 @@ jQuery(document).ready(function( $ ) {
 			gParent.find('div.second-condition').append(cf7.selHtml);
 		});
 	});
-
+	// clean transients
+	jq(document).on( "click", "#refresh-mautic", function() {
+		var data= {
+			action:'clean_mautic_transient'
+		};
+		jq.post(ajaxurl, data, function(){
+			//
+		});
+	});
 	jq(document).on( "change", ".sub-edd-condition", function() {
 		gParent = jq(this).parent().parent();
 		download_id = parseInt(this.value);
