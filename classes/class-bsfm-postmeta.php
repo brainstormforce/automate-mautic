@@ -17,17 +17,19 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new Bsfm_Postmeta();
 			self::$instance->hooks();
+			self::$instance->includes();
 		}
 		return self::$instance;
 	}
  
+ 	public function includes() {
+		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-ajax.php';
+ 	}
+
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
-		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
-		add_action( 'wp_ajax_get_edd_var_price', array( $this, 'bsf_get_edd_variable_price' ) );
-		add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'bsf_clean_mautic_transient' ) );
 	}
 	/**
 	* Register meta box(es).
