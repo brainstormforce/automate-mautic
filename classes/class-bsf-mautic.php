@@ -205,7 +205,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'lastname'	=>	$payment_meta['user_info']['last_name'],
 				'email'		=>	$payment_meta['user_info']['email']
 			);
-			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+
+			$remove_segment = $set_actions['remove_segment'];
+			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+				self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+			}
+			$add_segment = $set_actions['pre_segment'];
+			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
+				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			}	
+			//self::bsfm_remove_contact_from_segment();
+
 		}
 
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
@@ -317,32 +327,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				}
 			}
 			else if( $method=="POST" ) {	// add new contact to mautic request
-				// Remove contacts from segments
-				$remove_segment = $segments['remove_segment'];
-				if( is_array( $remove_segment ) && (sizeof($remove_segment)>0) ) {
-					$action = "remove";
-					$email = $param['email'];
-					foreach ( $remove_segment as $segment_id) {
-						$segment_id = (int)$segment_id;
-						$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-						if( isset( $contact_id ) ) {
-							$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-							$status = $res['status'];
-							$errorMsg  = $res['error_message'];
-						}
-					}
-					return;
-				}
-
-				// if(isset($segments['remove_segment']) && sizeof($segments['remove_segment']) > 0 ) {
-				// 	$remove_seg = $segments['remove_segment'];
-				// 	$email = $param['email'];
-				// 		if( isset( $contact_id ) ) {
-				// 			$action = "remove";
-				// 			$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
-							
-				// 		}
-				// }
 				$response = wp_remote_post( $url, array(
 					'method' => $method,
 					'timeout' => 45,
@@ -378,7 +362,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
 							// fetch segment_id from rule and add contact to segment
-							
 							$add_segment = $segments['add_segment'];
 							if( is_array( $add_segment ) ) {
 								foreach ( $add_segment as $segment_id) {
@@ -393,6 +376,23 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					}
 				}
 			}
+		}
+
+		function bsfm_remove_contact_from_segment( $param = array(), $remove_segment = array() ) {
+			// Remove contacts from segments
+			$action = "remove";
+			$email = $param['email'];
+			$credentials = get_option( 'bsfm_mautic_credentials' );
+			foreach ( $remove_segment as $segment_id) {
+				$segment_id = (int)$segment_id;
+				$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				if( isset( $contact_id ) ) {
+					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+					$status = $res['status'];
+					$errorMsg  = $res['error_message'];
+				}
+			}
+			return;
 		}
 
 		function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
@@ -447,16 +447,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// https://rahulw.mautic.net/api/contacts/?search=aa&&access_token=NDU4OGRiOWRjMTQz
 			$errorMsg = '';
 			$status = 'error';
-
+			$access_token = $mautic_credentials['access_token'];
 			// fetch contact Id from Email
 			// $contact_id
-			$url = $credentials['baseUrl'] . '/api/contacts/?search='. $email .'&&access_token='. $access_token;
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&&access_token='. $access_token;
 			$response = wp_remote_get( $url );
 			if( is_array($response) ) {
 				$response_body = $response['body'];
 				$body_data = json_decode($response_body);
+
 				$contact = $body_data->contacts;
-				$contact_id = $contact->id;
+				$contact_id = $contact[0]->id;
 				$response_code = $response['response']['code'];
 				if( $response_code != 201 ) {
 					if( $response_code != 200 ) {
@@ -467,8 +468,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						return;
 					}
 				}
+				return $contact_id;
 			}
-			return $contact_id;
 		}
 	}
 endif;
