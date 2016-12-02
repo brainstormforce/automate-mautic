@@ -317,12 +317,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				}
 			}
 			else if( $method=="POST" ) {	// add new contact to mautic request
-
 				// Remove contacts from segments
-				if(isset($segments['remove_segment']) && sizeof($segments['remove_segment']) > 0 {
+				if(isset($segments['remove_segment']) && sizeof($segments['remove_segment']) > 0 ) {
 					$remove_seg = $segments['remove_segment'];
-					// bsfm_mautic_get_contact_by_email($param['email'])
+					$email = $param['email'];
+					$contact_id	= bsfm_mautic_get_contact_by_email( $email, $credentials );
+
+					$action = "remove";
+					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
+
 						$url = $url .'?access_token='. $access_token;
+						
 						$response = wp_remote_get( $url );
 						if( is_array($response) ) {
 							$response_body = $response['body'];
@@ -369,7 +374,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 							if( is_array( $segments ) ) {
 								foreach ($segments as $segment_id) {
 									$segment_id = (int)$segment_id;
-									$res = self::bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $credentials);
+									$action = "add";
+									$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 								}
 							}
 							$status = $res['status'];
@@ -380,19 +386,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 		}
 
-		function bsfm_mautic_add_contact_to_segment( $segment_id, $contact_id, $mautic_credentials ) {
+		function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
 			$errorMsg = '';
 			$status = 'error';
-			//$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
+			// $url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
 
-
-			/api/contacts/?search=aa&&access_token=
-
+			// /api/contacts/?search=aa&&access_token=
 
 			if( is_int($segment_id) && is_int($contact_id) ) {
-				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/add/".$contact_id;
+				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/".$add."/".$contact_id;
 				$access_token = $mautic_credentials['access_token'];
-				$body = array(	
+				$body = array(
 					"access_token" => $access_token
 				);
 				$response = wp_remote_post( $url, array(
@@ -430,45 +434,32 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		// get email
 		// fetch Contact Id
 		// remove from segment
-		function bsfm_mautic_get_contact_by_email( $segment_id, $email, $mautic_credentials ) {
+		function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
+			// https://rahulw.mautic.net/api/contacts/?search=aa&&access_token=NDU4OGRiOWRjMTQz
+
 			$errorMsg = '';
 			$status = 'error';
 
 			// fetch contact Id from Email
 			// $contact_id
-
-			if( is_int($segment_id) && is_int($contact_id) ) {
-				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
-				$access_token = $mautic_credentials['access_token'];
-				$body = array(	
-					"access_token" => $access_token
-				);
-				$response = wp_remote_post( $url, array(
-					'method' => 'POST',
-					'timeout' => 45,
-					'redirection' => 5,
-					'httpversion' => '1.0',
-					'blocking' => true,
-					'headers' => array(),
-					'body' => $body,
-					'cookies' => array()
-				)
-				);
-				if ( is_wp_error( $response ) ) {
-					$errorMsg = $response->get_error_message();
-					$status = 'error';
-				} else {
-					if( is_array($response) ) { 							
-						$response_code = $response['response']['code'];
-						if( $response_code != 200 ) {
-							$status = 'error';
-							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-						} else {
-							$status = 'success';
-						}
+			$url = $credentials['baseUrl'] . '/api/contacts/?search='. $email .'&&access_token='. $access_token;
+			$response = wp_remote_get( $url );
+			if( is_array($response) ) {
+				$response_body = $response['body'];
+				$body_data = json_decode($response_body);
+				return $body_data;
+				$response_code = $response['response']['code'];
+				if( $response_code != 201 ) {
+					if( $response_code != 200 ) {
+						$ret = false;
+						$status = 'error';
+						$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+						echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+						return;
 					}
 				}
 			}
+
 			$response = array(
 				'status' => $status,
 				'error_message' => $errorMsg            
