@@ -325,14 +325,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 					$action = "remove";
 					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
-
-						$url = $url .'?access_token='. $access_token;
-						
-						$response = wp_remote_get( $url );
-						if( is_array($response) ) {
-							$response_body = $response['body'];
-							$body_data = json_decode($response_body);
-						}
+					$status = $res['status'];
+					$errorMsg  = $res['error_message'];
 					// call add to segment function 
 				}
 
@@ -436,7 +430,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		// remove from segment
 		function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
 			// https://rahulw.mautic.net/api/contacts/?search=aa&&access_token=NDU4OGRiOWRjMTQz
-
 			$errorMsg = '';
 			$status = 'error';
 
@@ -447,7 +440,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( is_array($response) ) {
 				$response_body = $response['body'];
 				$body_data = json_decode($response_body);
-				return $body_data;
+				$contact = $body_data->contacts;
+				$contact_id = $contact->id;
 				$response_code = $response['response']['code'];
 				if( $response_code != 201 ) {
 					if( $response_code != 200 ) {
@@ -459,13 +453,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					}
 				}
 			}
-
-			$response = array(
-				'status' => $status,
-				'error_message' => $errorMsg            
-			);
-			return $response;
+			return $contact_id;
 		}
-
 	}
 endif;
