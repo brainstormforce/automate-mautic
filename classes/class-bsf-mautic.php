@@ -364,15 +364,20 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
 							// fetch segment_id from rule and add contact to segment
-							if(isset( $segments['add_segment'] ) ) {
-						
-								print_r($segments['add_segment']);
-						die();
-								foreach ( $segments['add_segment'] as $segment_id) {
+							
+							$add_segment = $segments['add_segment'];
+							if( is_array( $add_segment ) ) {
+								foreach ( $add_segment as $segment_id) {
 									$segment_id = (int)$segment_id;
 									$action = "add";
 									$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+									
+										echo "<pre>";
+								print_r( $res );
+							echo "</pre>";
+
 								}
+							die();
 							}
 							$status = $res['status'];
 							$errorMsg  = $res['error_message'];
@@ -390,7 +395,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// /api/contacts/?search=aa&&access_token=
 
 			if( is_int($segment_id) && is_int($contact_id) ) {
-				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/".$add."/".$contact_id;
+				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/".$act."/".$contact_id;
 				$access_token = $mautic_credentials['access_token'];
 				$body = array(
 					"access_token" => $access_token
