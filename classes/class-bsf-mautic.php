@@ -318,17 +318,31 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 			else if( $method=="POST" ) {	// add new contact to mautic request
 				// Remove contacts from segments
-				if(isset($segments['remove_segment']) && sizeof($segments['remove_segment']) > 0 ) {
-					$remove_seg = $segments['remove_segment'];
-					$email = $param['email'];
-					$contact_id	= bsfm_mautic_get_contact_by_email( $email, $credentials );
-
+				$remove_segment = $segments['remove_segment'];
+				if( is_array( $remove_segment ) && (sizeof($remove_segment)>0) ) {
 					$action = "remove";
-					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
-					$status = $res['status'];
-					$errorMsg  = $res['error_message'];
+					$email = $param['email'];
+					foreach ( $remove_segment as $segment_id) {
+						$segment_id = (int)$segment_id;
+						$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+						if( isset( $contact_id ) ) {
+							$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+							$status = $res['status'];
+							$errorMsg  = $res['error_message'];
+						}
+					}
 					return;
 				}
+
+				// if(isset($segments['remove_segment']) && sizeof($segments['remove_segment']) > 0 ) {
+				// 	$remove_seg = $segments['remove_segment'];
+				// 	$email = $param['email'];
+				// 		if( isset( $contact_id ) ) {
+				// 			$action = "remove";
+				// 			$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
+							
+				// 		}
+				// }
 				$response = wp_remote_post( $url, array(
 					'method' => $method,
 					'timeout' => 45,
@@ -371,13 +385,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 									$segment_id = (int)$segment_id;
 									$action = "add";
 									$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-									
-										echo "<pre>";
-								print_r( $res );
-							echo "</pre>";
-
 								}
-							die();
 							}
 							$status = $res['status'];
 							$errorMsg  = $res['error_message'];
