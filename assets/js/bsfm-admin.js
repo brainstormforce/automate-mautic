@@ -36,6 +36,9 @@ jQuery(document).ready(function( $ ) {
 		m++;
 		jq( "#bsfm-sortable-action" ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
 		jq( ".select-action" ).select2();
+		jq( ".select-action" ).select2();
+		jq( ".root-seg-action" ).select2();
+		jq( ".sub-cp-action" ).select2();
 	});
 	jq(document).on( "change", ".select-condition", function() {
 		parent = jq(this).parent();
