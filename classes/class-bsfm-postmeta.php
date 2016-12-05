@@ -30,6 +30,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
+		//do_action( 'edd_update_payment_status', $payment_id, $new_status, $old_status );
+		//add_action( 'edd_update_payment_status', 
 	}
 	/**
 	* Register meta box(es).
@@ -303,7 +305,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule' );
 		$set_rules = $download_id = $price_id = array();
 		$posts = get_posts( $args );
-		// status >>> payment_status  --NA $payment_meta['downloads'][0][id] -- downloads array
 
 		foreach ( $payment_meta['downloads'] as $downloads ) {
 			array_push( $download_id, $downloads['id']);
@@ -316,11 +317,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 					foreach  ($meta_conditions as $meta_condition ) :	
 						if( $meta_condition[0]=='EDD' ) {
 							if( in_array( $meta_condition[1], $download_id) ) {
-								// status check
-								if( in_array( $meta_condition[3], $price_id) ) {
-									array_push( $set_rules, $rule_id);
-								}
-								// status check
+								// status check 
+								//if( in_array( $meta_condition[2], $download_id) ) {
+									if( in_array( $meta_condition[3], $price_id) ) {
+										array_push( $set_rules, $rule_id);
+									}
+								//}
 							}
 						}
 					endforeach;
