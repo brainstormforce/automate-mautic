@@ -25,7 +25,6 @@ final class BSFMauticAdminSettings {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new BSFMauticAdminSettings();
 			self::$instance->hooks();
-			//self::$instance->render();
 		}
 		return self::$instance;
 	}

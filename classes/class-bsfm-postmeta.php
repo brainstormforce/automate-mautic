@@ -30,8 +30,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
-		//do_action( 'edd_update_payment_status', $payment_id, $new_status, $old_status );
-		//add_action( 'edd_update_payment_status', 
 	}
 	/**
 	* Register meta box(es).
@@ -301,7 +299,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	* @param comment data
 	* @return rule id array
 	*/ 
-	public static function bsfm_get_edd_condition( $payment_meta ) {
+	public static function bsfm_get_edd_condition( $payment_meta, $status ) {
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule' );
 		$set_rules = $download_id = $price_id = array();
 		$posts = get_posts( $args );
@@ -318,11 +316,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						if( $meta_condition[0]=='EDD' ) {
 							if( in_array( $meta_condition[1], $download_id) ) {
 								// status check 
-								//if( in_array( $meta_condition[2], $download_id) ) {
+								if( $status == $meta_condition[2] ) ) {
 									if( in_array( $meta_condition[3], $price_id) ) {
 										array_push( $set_rules, $rule_id);
 									}
-								//}
+								}
 							}
 						}
 					endforeach;

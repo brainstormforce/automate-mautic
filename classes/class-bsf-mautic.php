@@ -36,7 +36,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//cf7 integration
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			//edd intgration 
-			add_action( 'edd_complete_purchase', array( $this, 'bsfm_edd_purchase_to_mautic' ) );
+			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
 		}
 		public function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
@@ -185,12 +185,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public static function bsfm_edd_purchase_to_mautic( $payment_id ) {
+		public static function bsfm_edd_purchase_to_mautic( $payment_id, $new_status, $old_status ) {
 			// Basic payment meta			
 			$payment_meta = edd_get_payment_meta( $payment_id );
-			// Cart details
 
-			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta );
+			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
 			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
