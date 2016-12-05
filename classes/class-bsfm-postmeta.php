@@ -147,8 +147,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			set_transient( 'bsfm_all_cfields', $mautic_cfields, DAY_IN_SECONDS );
 		}
 		//get all mautic fields here
-		foreach ( $mautic_cfields as $key => $field ) {
-			$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
+		if( $mautic_cfields ) {
+			foreach ( $mautic_cfields as $key => $field ) {
+				$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
+			}
 		}
 		echo $all_mfields;
 	}

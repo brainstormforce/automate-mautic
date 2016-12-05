@@ -25,7 +25,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-postmeta.php';
 		}
 		public function hooks() {
-			register_activation_hook( __FILE__, array( $this, 'bsfm_activation_reset' ) );
+			register_activation_hook( __FILE__ , array( $this, 'bsfm_activation_reset' ) );
 			add_action( 'init', array( $this, 'bsf_mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'bsf_mautic_tracking_script' ) );
 			add_action( 'wp_footer', array( $this, 'bsf_mautic_tracking_image' ) );
@@ -38,7 +38,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			//edd intgration 
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
 		}
-		public function bsfm_activation_reset() {
+		static function bsfm_activation_reset() {
 			delete_option( 'bsfm_hide_branding' );
 		}
 		/**

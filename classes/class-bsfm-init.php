@@ -26,6 +26,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	function includes() {
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-helper.php';
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
+		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-branding.php';
 		//Load the appropriate text-domain
 		$this->load_plugin_textdomain();
 	}

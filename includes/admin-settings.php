@@ -1,4 +1,4 @@
-<div class="wrap <?php //BSFMauticAdminSettings::render_page_class(); ?>">
+<div class="wrap">
 
 	<h2 class="bsfm-settings-heading">
 		<?php BSFMauticAdminSettings::render_page_heading(); ?>

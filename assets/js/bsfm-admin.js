@@ -1,13 +1,6 @@
 jQuery(document).ready(function( $ ) {
 	var jq = jQuery.noConflict();
-	jq( "#bsfm-sortable-condition" ).sortable({
-		axis: 'y',
-		stop: function (event, ui) {
-		var data = $(this).sortable('serialize');
-		var res = data.split("&");
-		var res = res[0];
-	}
-	});
+	jq( "#bsfm-sortable-condition" ).sortable();
 	jq( "#bsfm-sortable-condition" ).disableSelection();
 	jq( "#bsfm-sortable-action" ).sortable();
 	jq( "#bsfm-sortable-action" ).disableSelection();
@@ -15,6 +8,16 @@ jQuery(document).ready(function( $ ) {
 	jq( ".select-action" ).select2();
 	jq( ".sub-cp-action" ).select2();
 	jq( ".root-seg-action" ).select2();
+	jq( ".ss-cp-condition" ).select2();
+	jq( ".sub-edd-condition" ).select2();
+	jq( ".root-edd-condition" ).select2();
+	jq( ".sub-cp-condition" ).select2();
+	jq( ".edd_var_price" ).select2();
+	jq( ".cf7_form" ).select2();
+	jq( ".mautic_forms" ).select2();
+	jq( ".sub-cf-condition" ).select2();
+	jq( ".root-cp-condition" ).select2();
+
 	//get markups from template
 	var mbTemplate = wp.template( "bsfm-template" );
 	jq(document).on( "click", ".remove-item", function() {

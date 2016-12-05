@@ -163,8 +163,7 @@
 							</fieldset>
 						</div>
 						<div id="save-action">
-							<input style="float: right;" type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
-							<span class="spinner"></span>
+							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
 						</div>
 				</div>
 				<?php

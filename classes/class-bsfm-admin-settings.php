@@ -133,21 +133,7 @@ final class BSFMauticAdminSettings {
 	static public function render() {
 		include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings.php';
 	}
-	
-	/** 
-	 * Renders the page class for network installs and single site installs.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	static public function render_page_class() {
-		if ( self::multisite_support() ) {
-			echo 'bsfm-settings-network-admin';
-		}
-		else {
-			echo 'bsfm-settings-single-install';
-		}
-	}
+
 	/***
 	 * Renders the admin settings page heading.
 	 * @since 1.0.0
