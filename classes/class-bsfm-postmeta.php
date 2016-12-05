@@ -316,7 +316,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						if( $meta_condition[0]=='EDD' ) {
 							if( in_array( $meta_condition[1], $download_id) ) {
 								// status check 
-								if( $status == $meta_condition[2] ) ) {
+								if( $status == $meta_condition[2] ) {
 									if( in_array( $meta_condition[3], $price_id) ) {
 										array_push( $set_rules, $rule_id);
 									}
