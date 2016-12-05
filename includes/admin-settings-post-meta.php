@@ -145,7 +145,7 @@
 									</div>
 							<?php
 								endif;
-								if($meta_action[1]=='add_segment') :
+								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment') :
 							?>
 									<div class="second-action" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_segments($meta_action[2]); ?>

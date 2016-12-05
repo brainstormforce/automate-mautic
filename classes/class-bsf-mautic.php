@@ -156,7 +156,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'website'	=> $user_info->user_url
 			);
 			// API Method
-			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			$remove_segment = $set_actions['remove_segment'];
+			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+				self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+			}
+			$add_segment = $set_actions['add_segment'];
+			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
+				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			}
 		}
 
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
@@ -176,7 +183,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
-			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+		 	$remove_segment = $set_actions['remove_segment'];
+			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+				self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+			}
+			$add_segment = $set_actions['add_segment'];
+			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
+				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			}
 		}
 
 		/** 
@@ -254,6 +268,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$method = 'POST';
 				$url = '/api/contacts/new';
 				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
+
+				$remove_segment = $set_actions['remove_segment'];
+				if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+					self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+				}
+				$add_segment = $set_actions['add_segment'];
+				if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
+					self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+				}	
 			}
 		}
 
