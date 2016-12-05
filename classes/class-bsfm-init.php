@@ -41,7 +41,6 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 			'bsf_mautic_branding' => get_option('_bsf_mautic_branding')
 		);
 	}
-
 	function load_plugin_textdomain() {
 		load_plugin_textdomain( 'bsfmautic');
 	}

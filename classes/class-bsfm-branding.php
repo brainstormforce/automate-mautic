@@ -22,7 +22,7 @@ final class BSFMBranding {
 	 */
 	static public function bsfm_plugins_page($plugins) {
 
-		$branding = BB_Ultimate_Addon_Helper::get_builder_uabb_branding();
+		$branding = BSF_Mautic_Helper::get_bsf_mautic_branding();
 		$basename = plugin_basename( BSF_MAUTIC_PLUGIN_DIR . 'mauticpress.php' );
 		
 		if ( isset( $plugins[ $basename ] ) && is_array( $branding ) ) {
