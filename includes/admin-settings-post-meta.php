@@ -130,7 +130,7 @@
 							<?php	
 								foreach ($meta_actions as $order => $meta_action) :	
 							?>
-								<fieldset class="ui-state-default">
+								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
 										<select class="select-action form-control" name="pm_action[]">

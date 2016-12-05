@@ -276,7 +276,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$add_segment = $set_actions['add_segment'];
 				if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
 					self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
-				}	
+				}
 			}
 		}
 
