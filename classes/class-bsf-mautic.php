@@ -120,7 +120,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					$enable_img_tracking = true;
 				} else {
 					$enable_img_tracking = false;
-				}	
+				}
 			}
 			if ( $enable_img_tracking ) {
 				$base_url = trim($bsfm_options['bsfm-base-url'], " \t\n\r\0\x0B/");
@@ -189,7 +189,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// Basic payment meta			
 			$payment_meta = edd_get_payment_meta( $payment_id );
 			// Cart details
-			// $cart_items = edd_get_payment_meta_cart_details( $payment_id );
 
 			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta );
 			if( is_array($status) && sizeof($status)>0 ) {
@@ -215,7 +214,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 			}	
 			//self::bsfm_remove_contact_from_segment();
-
 		}
 
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
@@ -397,8 +395,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
 			$errorMsg = '';
 			$status = 'error';
-			// $url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/remove/".$contact_id;
-
 			if( is_int($segment_id) && is_int($contact_id) ) {
 				$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/".$act."/".$contact_id;
 				$access_token = $mautic_credentials['access_token'];

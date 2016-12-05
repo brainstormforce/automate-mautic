@@ -6,7 +6,7 @@
  */
 if ( ! class_exists( 'BSFMauticAdminAjax' ) ) :
 
-final class BSFMauticAdminAjax {
+class BSFMauticAdminAjax {
 	
 	private static $instance;
 	/**
@@ -87,7 +87,7 @@ final class BSFMauticAdminAjax {
 		wp_die();
 	}
 	/** 
-	 * Clean Set Mautic data transients
+	 * Clean Mautic data transients
 	 *
 	 * @since 1.0.0
 	 * @return void

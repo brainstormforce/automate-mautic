@@ -26,9 +26,8 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	function includes() {
  		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-helper.php';
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
-		/*Load the appropriate text-domain
+		//Load the appropriate text-domain
 		$this->load_plugin_textdomain();
-		*/
 	}
 	/**
 	*	For Performance
@@ -42,25 +41,9 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 		);
 	}
 
-	/*function load_plugin_textdomain() {
-		//Traditional WordPress plugin locale filter
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'bsfmautic' );
-
-		//Setup paths to current locale file
-		$mofile_global = trailingslashit( WP_LANG_DIR ) . 'plugins/bb-ultimate-addon/' . $locale . '.mo';
-		$mofile_local  = trailingslashit( BB_ULTIMATE_ADDON_DIR ) . 'languages/' . $locale . '.mo';
-
-		if ( file_exists( $mofile_global ) ) {
-			//Look in global /wp-content/languages/plugins/bb-ultimate-addon/ folder
-			return load_textdomain( 'bsfmautic', $mofile_global );
-		}
-		else if ( file_exists( $mofile_local ) ) {
-			//Look in local /wp-content/plugins/bb-ultimate-addon/languages/ folder
-			return load_textdomain( 'bsfmautic', $mofile_local );
-		}
-		//Nothing found
-		return false;
-	} */
+	function load_plugin_textdomain() {
+		load_plugin_textdomain( 'bsfmautic');
+	}
 }
 endif;
 /**

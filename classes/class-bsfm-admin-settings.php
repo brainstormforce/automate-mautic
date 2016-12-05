@@ -333,7 +333,7 @@ final class BSFMauticAdminSettings {
 	* @return void
 	*/	 
 	static public function multisite_support() {			
-		return is_multisite() && class_exists( 'FLBuilderMultisiteSettings' );
+		// return is_multisite() && class_exists( 'FLBuilderMultisiteSettings' );
 	}
 
 	/** 
@@ -457,13 +457,6 @@ final class BSFMauticAdminSettings {
 				update_option( '_bsf_mautic_branding', $bsfm );
 			}
 		}
-		/**
-		 *	For Performance
-		 *	Update UABB static object from database.
-		 */
-		//BSF_Mautic_Init::set_uabb_options();
-		//Clear all asset cache.
-		//FLBuilderModel::delete_asset_cache_for_all_posts();
 	}
 
 	static public function bsfm_authenticate_update()
