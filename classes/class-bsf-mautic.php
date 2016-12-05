@@ -158,7 +158,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// API Method
 			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
-				self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+				self::bsfm_remove_contact_from_segment( $body, $set_actions );
 			}
 			$add_segment = $set_actions['add_segment'];
 			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
@@ -185,9 +185,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 		 	$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
-				self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+				self::bsfm_remove_contact_from_segment( $body, $set_actions );
 			}
+
 			$add_segment = $set_actions['add_segment'];
+
 			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
 				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 			}
@@ -220,7 +222,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
-				self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+				self::bsfm_remove_contact_from_segment( $body, $set_actions );
 			}
 			$add_segment = $set_actions['add_segment'];
 			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
@@ -271,7 +273,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 				$remove_segment = $set_actions['remove_segment'];
 				if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
-					self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+					self::bsfm_remove_contact_from_segment( $body, $set_actions );
 				}
 				$add_segment = $set_actions['add_segment'];
 				if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
@@ -375,8 +377,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						$contact_created = json_decode($response_body);
 						$contact = $contact_created->contact;
 						/*
-						* if contact is created add to segment here
-						*/
+						 * if contact is created add to segment here
+						 */
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
 							// fetch segment_id from rule and add contact to segment
@@ -396,18 +398,29 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 		}
 
-		function bsfm_remove_contact_from_segment( $param = array(), $remove_segment = array() ) {
+		function bsfm_remove_contact_from_segment( $param = array(), $set_actions = array() ) {
 			//Remove contacts from segments
 			$action = "remove";
 			$email = $param['email'];
+			$remove_segment = $set_actions['remove_segment'];
+			$add_segment = $set_actions['add_segment'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			foreach ( $remove_segment as $segment_id) {
 				$segment_id = (int)$segment_id;
-				$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 				if( isset( $contact_id ) ) {
 					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 					$status = $res['status'];
 					$errorMsg  = $res['error_message'];
+				}
+			}
+			if( is_array( $add_segment ) ) {
+				$action = "add";
+				foreach ( $add_segment as $segment_id) {
+					$segment_id = (int)$segment_id;
+					if( isset( $contact_id ) ) {
+						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+					}
 				}
 			}
 			return;
