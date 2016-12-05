@@ -89,7 +89,7 @@ final class BSFMauticAdminSettings {
 			$cap	= 'delete_users';
 			$slug	= 'bsf-mautic-settings';
 			$func	= __CLASS__ . '::render';
-			add_submenu_page( 'edit.php?post_type=bsf-mautic-rule', 'Settings', 'Settings', $cap, $slug, $func );
+			add_submenu_page( 'edit.php?post_type=bsf-mautic-rule', 'Settings',  __( 'Settings', 'bsfmautic' ) , $cap, $slug, $func );
 		}
 	}
 	
@@ -142,10 +142,10 @@ final class BSFMauticAdminSettings {
 	 */
 	static public function render_page_class() {
 		if ( self::multisite_support() ) {
-			echo 'fl-settings-network-admin';
+			echo 'bsfm-settings-network-admin';
 		}
 		else {
-			echo 'fl-settings-single-install';
+			echo 'bsfm-settings-single-install';
 		}
 	}
 	/***
@@ -158,7 +158,7 @@ final class BSFMauticAdminSettings {
 		if ( ! empty( $icon ) ) {
 			echo '<img src="' . $icon . '" />';
 		}
-		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "UABB" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
+		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "BSFM" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
 	}
 	/** 
 	 * Renders the update message.
@@ -278,13 +278,7 @@ final class BSFMauticAdminSettings {
 	 */	 
 	static public function get_form_action( $type = '' )
 	{
-		if ( is_network_admin() ) {
-			//pending
-			return network_admin_url( '/settings.php?page=uabb-builder-multisite-settings#' . $type );
-		}
-		else {
-			return admin_url( '/options-general.php?page=bsf-mautic-settings#' . $type );
-		}
+		return admin_url( '/options-general.php?page=bsf-mautic-settings#' . $type );
 	}
 	
 	/** 
@@ -299,7 +293,7 @@ final class BSFMauticAdminSettings {
 		return file_exists( BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php' );
 	}
 	
-	/** 
+	/**
 	 * Adds an error message to be rendered.
 	 *
 	 * @since 1.0.0
@@ -311,12 +305,12 @@ final class BSFMauticAdminSettings {
 		self::$errors[] = $message;
 	}
 
-	/** 
+	/**
 	 * Save the mautic code.
 	 *
 	 * @since 1.0.0
 	 * @return void
-	 */	 
+	 */
 	static public function bsfm_set_mautic_code() {
 		if( isset($_GET['code']) ) {
 			$credentials = get_option( 'bsfm_mautic_credentials' );
@@ -331,8 +325,8 @@ final class BSFMauticAdminSettings {
 	* @since 1.0.0
 	* @return void
 	*/	 
-	static public function multisite_support() {			
-		// return is_multisite() && class_exists( 'FLBuilderMultisiteSettings' );
+	static public function multisite_support() {
+		return is_multisite();
 	}
 
 	/** 

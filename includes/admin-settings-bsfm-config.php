@@ -19,7 +19,7 @@
 			<!-- Base Url -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Base URL', 'bsfmautic' ); ?></h4>
-				<p class="uabb-admin-help">
+				<p class="bsfm-admin-help">
 					<?php _e('This setting is required for Mautic Integration.', 'bsfmautic'); ?>
 				</p>
 				<input type="text" class="regular-text" name="bsfm-base-url" value="<?php echo $bsfm_base_url; ?>" class="uabb-wp-text uabb-google-map-api" />
@@ -35,7 +35,7 @@
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
 				<input type="text" class="regular-text" name="bsfm-secret-key" value="<?php echo $bsfm_secret_key; ?>" class="uabb-wp-text uabb-google-map-api" />
-				<p class="uabb-admin-help">
+				<p class="bsfm-admin-help">
 					<?php _e('This setting is required to integrate Mautic in your website.', 'bsfmautic'); ?>
 					<?php
 					if( empty( $branding_name ) && empty( $branding_short_name ) ) :
@@ -50,7 +50,7 @@
 			<!-- Enable pixel tracking -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Javascript (JS) Tracking', 'bsfmautic' ); ?></h4>
-				<p class="uabb-admin-help">
+				<p class="bsfm-admin-help">
 					<?php _e( 'This setting enable you to add Mautic tracking JS to your site. Mautic instance will be able to track information about your visitors that way. Need more information about JS tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
@@ -62,7 +62,7 @@
 			<!-- Enable image tracking -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Image Tracking', 'bsfmautic' ); ?></h4>
-				<p class="uabb-admin-help">
+				<p class="bsfm-admin-help">
 					<?php _e( 'This setting enable you to add Mautic tracking image to your site. Mautic instance will be able to track information about your visitors that way. Need more information about pixel tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>

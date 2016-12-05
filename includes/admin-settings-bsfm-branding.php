@@ -3,14 +3,6 @@
 	<h3 class="bsfm-settings-form-header"><?php _e( 'Branding', 'bsfmautic' ); ?></h3>
 
 	<form id="bsfm-branding-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-branding' ); ?>" method="post">
-
-		<?php 
-		/*if ( FLBuilderAdminSettings::multisite_support() && ! is_network_admin() ) : ?>
-		<label>
-			<input class="fl-override-ms-cb" type="checkbox" name="fl-override-ms" value="1" <?php if(get_option('_fl_builder_uabb_branding')) echo 'checked="checked"'; ?> />
-			<?php _e('Override network settings?', 'bsfmautic'); ?>
-		</label>
-		<?php endif; */ ?>
 		
 		<div class="bsfm-settings-form-content">
 			<?php
@@ -73,7 +65,7 @@
  		
 			<?php /* Hide This Form */ ?>
 			<div class="bsfm-form-setting">
-				<h4><?php echo _e( 'Hide White Label Settings', 'bsfmautic' ); ?></h4>
+				<h4><?php _e( 'Hide White Label Settings', 'bsfmautic' ); ?></h4>
 				<p class="bsfm-admin-help"><?php _e('Enable this option to hide White Label settings. Re-activate the plugin to enable this form again.', 'bsfmautic'); ?></p>
 				<label>					
 					<input type="checkbox" class="bsfm-hide-branding" name="bsfm-hide-branding" value="" <?php echo $bsfm_hide_branding; ?> ><?php _e( 'Hide White Label Settings', 'bsfmautic' ); ?>

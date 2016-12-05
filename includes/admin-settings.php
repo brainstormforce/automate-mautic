@@ -4,7 +4,7 @@
 		<?php BSFMauticAdminSettings::render_page_heading(); ?>
 	</h2>
 	
-	<?php //BSFMauticAdminSettings::render_update_message(); ?>
+	<?php BSFMauticAdminSettings::render_update_message(); ?>
 
 	<div class="bsfm-settings-nav">
 		<ul>

@@ -21,10 +21,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		}
 		return self::$instance;
 	}
- 
- 	public function includes() {
-		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-ajax.php';
- 	}
+
+	public function includes() {
+	require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-ajax.php';
+	}
 
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
@@ -160,7 +160,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$plugin = 'contact-form-7/wp-contact-form-7.php';
 			$cf7html ="";
 			if ( false === array_search( $plugin, $active_plugins ) || ! file_exists( WP_PLUGIN_DIR . '/' . $plugin ) ) {
-				$cf7html = "Please activate Contact Form 7 plugin.";
+				$cf7html = "";
+				$cf7html = __( 'Please activate Contact Form 7 plugin.', 'bsfmautic' );
 				return false;
 			} else {
 				$cf7_args = array(

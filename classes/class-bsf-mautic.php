@@ -211,8 +211,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$add_segment = $set_actions['add_segment'];
 			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
 				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
-			}	
-			//self::bsfm_remove_contact_from_segment();
+			}
 		}
 
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
