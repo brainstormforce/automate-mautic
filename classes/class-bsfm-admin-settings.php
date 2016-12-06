@@ -19,8 +19,8 @@ final class BSFMauticAdminSettings {
 
 	static public $errors = array();
 	/**
-	* Initiator
-	*/
+	 * Initiator
+	 */
 	public static function instance(){
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new BSFMauticAdminSettings();
@@ -59,21 +59,21 @@ final class BSFMauticAdminSettings {
 	 */
 	static public function init_hooks()
 	{
+		//add_action( 'network_admin_menu', __CLASS__ . '::menu' );
+		add_action( 'admin_menu', __CLASS__ . '::menu' );
 		if ( ! is_admin() ) {
 			return;
 		}
-		add_action( 'network_admin_menu', __CLASS__ . '::menu' );
-		add_action( 'admin_menu', __CLASS__ . '::menu' );
 		$post_type = '';
-		if(isset($_REQUEST['post_type'])) {
+		if( isset( $_REQUEST['post_type'] ) ) {
 			$post_type = $_REQUEST['post_type'];
 		}
-		elseif(isset($_REQUEST['post'])) {
+		elseif( isset( $_REQUEST['post'] ) ) {
 			$post_type = get_post_type( $_REQUEST['post'] );
 		}
-		if( (isset( $_REQUEST['page']) && 'bsf-mautic-settings' == $_REQUEST['page'] ) || ('bsf-mautic-rule' == $post_type) ) {
-			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
+		if((isset( $_REQUEST['page']) && 'bsf-mautic-settings' == $_REQUEST['page'] ) || ('bsf-mautic-rule' == $post_type) ) {
 			self::save();
+			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
 		}
 	}
 	
@@ -247,7 +247,6 @@ final class BSFMauticAdminSettings {
 	static public function render_form_action( $type = '' )
 	{
 		if ( is_network_admin() ) {
-			// Prev : settings.php?page=uabb-builder-multisite-settings - need to add multisite part
 			echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
 		}
 		else {
@@ -329,12 +328,10 @@ final class BSFMauticAdminSettings {
 				$grant_type = 'authorization_code';
 				$response = self::bsf_mautic_get_access_token( $grant_type );
 				$access_details = json_decode( $response['body'] );
-
 					if( isset( $access_details->error ) ) {
 						echo json_encode($result);
 						exit('unable to connect');
 					}
-
 				$expiration = time() + $access_details->expires_in;
 				$credentials['access_token'] = $access_details->access_token;
 				$credentials['expires_in'] = $expiration;
@@ -416,12 +413,12 @@ final class BSFMauticAdminSettings {
 		}
 		if ( isset( $_POST['bsfm-branding-nonce'] ) && wp_verify_nonce( $_POST['bsfm-branding-nonce'], 'bsfm-branding' ) ) {
 			if( isset( $_POST['bsfm-plugin-name'] ) ) 			{	$bsfm['bsfm-plugin-name']			= wp_kses_post( $_POST['bsfm-plugin-name'] );	}
-			if( isset( $_POST['bsfm-plugin-short-name'] ) ) 	{	$bsfm['bsfm-plugin-short-name']		= wp_kses_post( $_POST['bsfm-plugin-short-name'] );	}
-			if( isset( $_POST['bsfm-plugin-desc'] ) ) 			{	$bsfm['bsfm-plugin-desc']			= wp_kses_post( $_POST['bsfm-plugin-desc'] );	}
-			if( isset( $_POST['bsfm-author-name'] ) ) 			{	$bsfm['bsfm-author-name']			= wp_kses_post( $_POST['bsfm-author-name'] );	}
-			if( isset( $_POST['bsfm-author-url'] ) ) 			{	$bsfm['bsfm-author-url']			= sanitize_text_field( $_POST['bsfm-author-url'] );	}
-			if( isset( $_POST['bsfm-knowledge-base-url'] ) ) 	{	$bsfm['bsfm-knowledge-base-url']	= sanitize_text_field( $_POST['bsfm-knowledge-base-url'] );	}
-			if( isset( $_POST['bsfm-contact-support-url'] ) ) 	{	$bsfm['bsfm-contact-support-url']	= sanitize_text_field( $_POST['bsfm-contact-support-url'] );	}
+			if( isset( $_POST['bsfm-plugin-short-name'] ) )		{	$bsfm['bsfm-plugin-short-name']		= wp_kses_post( $_POST['bsfm-plugin-short-name'] );	}
+			if( isset( $_POST['bsfm-plugin-desc'] ) )			{	$bsfm['bsfm-plugin-desc']			= wp_kses_post( $_POST['bsfm-plugin-desc'] );	}
+			if( isset( $_POST['bsfm-author-name'] ) )			{	$bsfm['bsfm-author-name']			= wp_kses_post( $_POST['bsfm-author-name'] );	}
+			if( isset( $_POST['bsfm-author-url'] ) )			{	$bsfm['bsfm-author-url']			= sanitize_text_field( $_POST['bsfm-author-url'] );	}
+			if( isset( $_POST['bsfm-knowledge-base-url'] ) )	{	$bsfm['bsfm-knowledge-base-url']	= sanitize_text_field( $_POST['bsfm-knowledge-base-url'] );	}
+			if( isset( $_POST['bsfm-contact-support-url'] ) )	{	$bsfm['bsfm-contact-support-url']	= sanitize_text_field( $_POST['bsfm-contact-support-url'] );	}
 
 			if( isset( $_POST['bsfm-hide-branding'] ) ) {
 				update_option( 'bsfm_hide_branding', true );

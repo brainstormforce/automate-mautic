@@ -15,26 +15,22 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	 */
 
 	public function __construct() {
-		/**
-		 *	For Performance
-		 *	Set static object to store data from database.
-		 */
-		self::get_bsfm_options();
 		self::includes();
+		// self::get_bsfm_options(); // get settings issue on config page
+		add_action( 'wp_loaded', array( $this, 'get_bsfm_options') );
 	}
 
 	function includes() {
-		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-helper.php';
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-branding.php';
+		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-helper.php';
 		//Load the appropriate text-domain
 		$this->load_plugin_textdomain();
 	}
 	/**
-	*	For Performance
-	*	Set static object to store data from database.
-	*/
-
+	 *	For Performance
+	 *	Set static object to store data from database.
+	 */
 	static function get_bsfm_options() {
 		self::$bsfm_options = array(
 			'bsf_mautic_settings'     => get_option('_bsf_mautic_config'),

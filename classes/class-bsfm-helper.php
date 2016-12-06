@@ -18,7 +18,6 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 		public function set_constants() {
 			$branding         = self::get_bsf_mautic_branding();
 			define( 'BSFM_PREFIX', 'BSFM' );
-			//define( 'UABB_CAT', $branding_modules );
 		}
 		
 		static public function get_bsfm_mautic()

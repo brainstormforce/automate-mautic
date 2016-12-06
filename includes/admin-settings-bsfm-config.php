@@ -36,12 +36,7 @@
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
 				<input type="text" class="regular-text" name="bsfm-secret-key" value="<?php echo $bsfm_secret_key; ?>" class="uabb-wp-text uabb-google-map-api" />
 				<p class="bsfm-admin-help">
-					<?php _e('This setting is required to integrate Mautic in your website.', 'bsfmautic'); ?>
-					<?php
-					if( empty( $branding_name ) && empty( $branding_short_name ) ) :
-						_e('Need help to get Mautic API secret key? Read ', 'bsfmautic'); ?><a target="_blank" href="#"><?php _e('this article', 'bsfmautic'); ?></a>.</p><?php
-					endif;
-					?>
+					<?php _e('This setting is required to integrate Mautic in your website. Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target="_blank" href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article', 'bsfmautic'); ?></a>
 				</p>
 			</div>
 			<p class="submit">

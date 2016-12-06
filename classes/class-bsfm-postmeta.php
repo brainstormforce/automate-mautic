@@ -23,7 +23,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 
 	public function includes() {
-	require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-ajax.php';
+		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-ajax.php';
 	}
 
 	public function hooks() {
