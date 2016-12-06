@@ -134,7 +134,7 @@ final class BSFMauticAdminSettings {
 		include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings.php';
 	}
 
-	/***
+	/**
 	 * Renders the admin settings page heading.
 	 * @since 1.0.0
 	 * @return void
@@ -437,48 +437,45 @@ final class BSFMauticAdminSettings {
 
 	static public function bsfm_authenticate_update()
 	{
-			// @todo check if the request is sent from user with admin rights
-			// @todo check if Base URL, Consumer/Client Key and Consumer/Client secret are not empty
-			// @todo load this array from database or config file
-			$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-			$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
-			$post = $_POST;
-			$cpts_err = false;
-			$lists = null;
-			$ref_list_id = null;
+		$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
+		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
+		$post = $_POST;
+		$cpts_err = false;
+		$lists = null;
+		$ref_list_id = null;
 
-			$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
-			$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
-			$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
+		$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
+		$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
+		$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
 
-			if( $mautic_api_url == '' ) {	
-				$status = 'error';
-				$message = 'API URL is missing.';
-				$cpts_err = true;
-			}
-			if( $bsfm_secret_key == '' ) {
-				$status = 'error';
-				$message = 'Secret Key is missing.';
-				$cpts_err = true;
-			}
-			$settings = array(
-				'baseUrl'		=> $mautic_api_url,
-				'version'		=> 'OAuth2',
-				'clientKey'		=> $bsfm_public_key,
-				'clientSecret'	=> $bsfm_secret_key, 
-				'callback'		=> admin_url( 'edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#bsfm-config' ),
-				'response_type'	=> 'code'
-			);
+		if( $mautic_api_url == '' ) {	
+			$status = 'error';
+			$message = 'API URL is missing.';
+			$cpts_err = true;
+		}
+		if( $bsfm_secret_key == '' ) {
+			$status = 'error';
+			$message = 'Secret Key is missing.';
+			$cpts_err = true;
+		}
+		$settings = array(
+			'baseUrl'		=> $mautic_api_url,
+			'version'		=> 'OAuth2',
+			'clientKey'		=> $bsfm_public_key,
+			'clientSecret'	=> $bsfm_secret_key, 
+			'callback'		=> admin_url( 'edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#bsfm-config' ),
+			'response_type'	=> 'code'
+		);
 
-			update_option( 'bsfm_mautic_credentials', $settings );
-			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
-			//OAuth 2.0
-			$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
-			$state    = md5(time().mt_rand());
-			$authurl .= '&state='.$state;
-			$authurl .= '&response_type='.$settings['response_type'];
-			wp_redirect( $authurl );
-			exit;
+		update_option( 'bsfm_mautic_credentials', $settings );
+		$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
+		//OAuth 2.0
+		$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
+		$state    = md5(time().mt_rand());
+		$authurl .= '&state='.$state;
+		$authurl .= '&response_type='.$settings['response_type'];
+		wp_redirect( $authurl );
+		exit;
 	}
 }
 $BSFMauticAdminSettings = BSFMauticAdminSettings::instance();

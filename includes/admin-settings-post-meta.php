@@ -226,6 +226,9 @@
 					</div>				 
 					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
 				</div>
+				<div id="save-action">
+							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+				</div>
 			</div>
 			<!-- default fields end -->
 		<?php	}	?>

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * White labeling for the builder.
+ * White labeling
  *
- * @since 1.8
+ * @since 1.0.0
  */
 final class BSFMBranding {
 	/**

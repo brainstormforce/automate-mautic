@@ -13,7 +13,6 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	/**
 	 *  Constructor
 	 */
-
 	public function __construct() {
 		self::includes();
 		// self::get_bsfm_options(); // get settings issue on config page
@@ -29,7 +28,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	}
 	/**
 	 *	For Performance
-	 *	Set static object to store data from database.
+	 *  Set static object to store data from database.
 	 */
 	static function get_bsfm_options() {
 		self::$bsfm_options = array(

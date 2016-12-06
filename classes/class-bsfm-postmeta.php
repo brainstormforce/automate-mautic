@@ -32,8 +32,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 	}
 	/**
-	* Register meta box(es).
-	*/
+	 * Register meta box(es).
+	 */
 	public function bsf_mautic_register_meta_box() {
 		add_meta_box( 'bsf-mautic-rule', __( 'Conditions and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
 	}
