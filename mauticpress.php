@@ -9,9 +9,7 @@
  * Text Domain: bsfmautic
  */
 //exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) || ! function_exists( 'add_action' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
+if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
 define( 'BSF_MAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
