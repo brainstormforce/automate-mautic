@@ -27,8 +27,12 @@
 							<select class="select-condition form-control" name="pm_condition[]">
 								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> ><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> ><?php  _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
-								<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
-								<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
+									<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
+								<?php }
+								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
+									<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php } ?>
 							</select>
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
 									<div class="first-condition" style="display:inline;">
@@ -191,8 +195,12 @@
 							<select class="select-condition form-control" name="pm_condition[]">
 								<option value="UR"><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP"><?php _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
-								<option value="CF7"><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
-								<option value="EDD"><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
+									<option value="CF7"><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
+								<?php }
+								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
+									<option value="EDD"><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php } ?>
 							</select>
 							<div class="first-condition" style="display:inline;"></div>
 							<div class="second-condition" style="display:inline;"></div>
