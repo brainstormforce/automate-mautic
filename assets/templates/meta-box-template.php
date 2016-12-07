@@ -11,8 +11,12 @@
 		<select class="select-condition form-control" name="pm_condition[]">
 			<option value="UR">User Register on WordPress</option>
 			<option value="CP">User Post a Comment</option>
-			<option value="CF7">User Submit Contact Form 7</option>
-			<option value="EDD">Easy Digital Downloads Purchase</option>
+			<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
+				<option value="CF7">User Submit Contact Form 7</option>
+			<?php }
+			if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
+				<option value="EDD">Easy Digital Downloads Purchase</option>
+			<?php } ?>	
 		</select>
 		<div class="first-condition" style="display:inline;"></div>
 		<div class="second-condition" style="display:inline;"></div>

@@ -158,10 +158,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	public static function select_all_cf7forms( $select = null ) {
 		//get all contact forms
 		if (class_exists( 'WPCF7_ContactForm' )) {
-			$active_plugins = get_option( 'active_plugins' );
-			$plugin = 'contact-form-7/wp-contact-form-7.php';
 			$cf7html ="";
-			if ( false === array_search( $plugin, $active_plugins ) || ! file_exists( WP_PLUGIN_DIR . '/' . $plugin ) ) {
+			if ( !is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
 				$cf7html = "";
 				$cf7html = __( 'Please activate Contact Form 7 plugin.', 'bsfmautic' );
 				return false;
