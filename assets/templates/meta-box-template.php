@@ -9,10 +9,15 @@
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
 		<select class="select-condition form-control" name="pm_condition[]">
+			<option> Select Condition </option>
 			<option value="UR">User Register on WordPress</option>
 			<option value="CP">User Post a Comment</option>
-			<option value="CF7">User Submit Contact Form 7</option>
-			<option value="EDD">Easy Digital Downloads Purchase</option>
+			<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
+				<option value="CF7">User Submit Contact Form 7</option>
+			<?php }
+			if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
+				<option value="EDD">Easy Digital Downloads Purchase</option>
+			<?php } ?>
 		</select>
 		<div class="first-condition" style="display:inline;"></div>
 		<div class="second-condition" style="display:inline;"></div>
@@ -21,7 +26,7 @@
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
 		<select class="select-action form-control" name="pm_action[]">
-	    	<option value="segment">Segment</option>
+	    	<option value="segment"> Segment </option>
 		</select>
 		<div class="first-action" style="display:inline;">
 			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
@@ -35,7 +40,7 @@
 	<# } #>
 	<# if( 'sub-cp-condition' === data.clas ) { #>
 		<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-			<option value="ao_website">Anywhere on website</option>
+			<option value="ao_website">Anywhere On Website</option>
 			<option value="os_page">On Specific Page</option>
 			<option value="os_post">On Specific Post</option>
 		</select>
@@ -53,6 +58,7 @@
 				<tr>
 					<td>
 						<select class="mautic_forms" name='mautic_cfields[<# print(data.formId); #>][]'>
+							<option> Select Mautic Field </option>
 							<?php Bsfm_Postmeta::mautic_get_all_cfields(); ?>
 						</select>
 					</td>

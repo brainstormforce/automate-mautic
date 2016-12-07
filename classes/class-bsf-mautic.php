@@ -59,7 +59,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$args = array(
 				'labels'             => $labels,
 				'description'        => __( 'Description.', 'bsfmautic' ),
-				'public'             => true,
+				'public'             => false,
 				'publicly_queryable' => true,
 				'show_ui'            => true,
 				'show_in_menu'       => true,

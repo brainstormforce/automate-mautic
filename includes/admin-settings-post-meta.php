@@ -19,21 +19,27 @@
 					<div class="conditions">
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 					<?php	
+					if( ! empty($meta_conditions) ) {
 						foreach ($meta_conditions as $order => $meta_condition) :
 					?>
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span>
 							<select class="select-condition form-control" name="pm_condition[]">
+								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> ><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> ><?php  _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
-								<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
-								<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
+									<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
+								<?php }
+								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
+									<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php } ?>
 							</select>
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
 									<div class="first-condition" style="display:inline;">
 										<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere on website', 'bsfmautic' ) ?></option>
+											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere On Website', 'bsfmautic' ) ?></option>
 											<option value="os_page" <?php selected( $meta_condition[1],'os_page' ); ?> ><?php _e( 'On Specific Page', 'bsfmautic' ) ?></option>
 											<option value="os_post" <?php selected( $meta_condition[1],'os_post' ); ?> ><?php _e( 'On Specific Post', 'bsfmautic' ) ?></option>
 										</select>
@@ -91,24 +97,28 @@
 									echo '</div>';
 								endif;
 
-								if( $meta_condition[0]=='EDD' ) : ?>
+								if( $meta_condition[0]=='EDD' ) : 
+									if( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) {
+								?>
 									<div class="first-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_edd_downloads( $meta_condition[1] ); ?>
 									</div>
 									<div class="second-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::bsf_make_edd_payment_status( $meta_condition[2] );
+										$edd_vprice_sel ='';
 										$edd_prices = edd_get_variable_prices( $meta_condition[1] );
-										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
 										if( $edd_prices ) {
+										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
 											foreach( $edd_prices as $price_id => $price ) {
 												$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $meta_condition[3]);
 											}
-										}
 										$edd_vprice_sel .= "</select>";
+										}
 										echo $edd_vprice_sel;
 									?>
 									</div>
 								<?php
+								}
 								endif;
 								if( $meta_condition[0]=='UR' ) :
 									echo '<div class="first-condition" style="display:inline;"></div>';
@@ -116,6 +126,7 @@
 								endif;
 						echo '</fieldset>';
 						endforeach;
+						}
 						?>
 					</div>
 					<fieldset class="bsfm-add-condition add-new-item">
@@ -128,6 +139,7 @@
 							<h4> Action </h4>
 							<div id="bsfm-sortable-action" class="bsfm-item-wrap">
 							<?php	
+								if( ! empty( $meta_actions ) ) {
 								foreach ($meta_actions as $order => $meta_action) :	
 							?>
 								<fieldset class="ui-state-new">
@@ -154,6 +166,7 @@
 								</fieldset>
 							<?php
 								endforeach;
+								}
 							?>
 							</div>
 							<fieldset class="bsfm-add-action add-new-item">
@@ -189,10 +202,15 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 							<select class="select-condition form-control" name="pm_condition[]">
+								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR"><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP"><?php _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
-								<option value="CF7"><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
-								<option value="EDD"><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
+									<option value="CF7"><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
+								<?php }
+								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
+									<option value="EDD"><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+								<?php } ?>
 							</select>
 							<div class="first-condition" style="display:inline;"></div>
 							<div class="second-condition" style="display:inline;"></div>
@@ -227,7 +245,7 @@
 					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
 				</div>
 				<div id="save-action">
-							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+						<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
 				</div>
 			</div>
 			<!-- default fields end -->
