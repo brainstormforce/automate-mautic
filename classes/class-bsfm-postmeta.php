@@ -21,10 +21,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		}
 		return self::$instance;
 	}
- 
- 	public function includes() {
+
+	public function includes() {
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-ajax.php';
- 	}
+	}
 
 	public function hooks() {
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
@@ -32,8 +32,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 	}
 	/**
-	* Register meta box(es).
-	*/
+	 * Register meta box(es).
+	 */
 	public function bsf_mautic_register_meta_box() {
 		add_meta_box( 'bsf-mautic-rule', __( 'Conditions and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
 	}
@@ -147,8 +147,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			set_transient( 'bsfm_all_cfields', $mautic_cfields, DAY_IN_SECONDS );
 		}
 		//get all mautic fields here
-		foreach ( $mautic_cfields as $key => $field ) {
-			$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
+		if( $mautic_cfields ) {
+			foreach ( $mautic_cfields as $key => $field ) {
+				$all_mfields .= Bsfm_Postmeta::make_option( $field->alias, $field->alias, $select);
+			}
 		}
 		echo $all_mfields;
 	}
@@ -160,7 +162,8 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$plugin = 'contact-form-7/wp-contact-form-7.php';
 			$cf7html ="";
 			if ( false === array_search( $plugin, $active_plugins ) || ! file_exists( WP_PLUGIN_DIR . '/' . $plugin ) ) {
-				$cf7html = "Please activate Contact Form 7 plugin.";
+				$cf7html = "";
+				$cf7html = __( 'Please activate Contact Form 7 plugin.', 'bsfmautic' );
 				return false;
 			} else {
 				$cf7_args = array(
@@ -233,14 +236,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			}
 			$update_conditions = serialize($update_conditions);
 			update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
-			// update data submit method
-			$update_method = array(
-				'method'		=>	$_POST['method'],
-				'mautic_form_id'=>	$_POST['mautic_form_id'],
-				'form_fields'	=>	$_POST['mautic_form_field']
-			);
-			$update_method = serialize($update_method);
-			update_post_meta( $post_id, 'bsfm_mautic_method', $update_method );
 		}
 		//update actions
 		if ( isset( $_POST['pm_action'] ) ) {
@@ -316,7 +311,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 						if( $meta_condition[0]=='EDD' ) {
 							if( in_array( $meta_condition[1], $download_id) ) {
 								// status check 
-								if( $status == $meta_condition[2] ) ) {
+								if( $status == $meta_condition[2] ) {
 									if( in_array( $meta_condition[3], $price_id) ) {
 										array_push( $set_rules, $rule_id);
 									}

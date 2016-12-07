@@ -130,7 +130,7 @@
 							<?php	
 								foreach ($meta_actions as $order => $meta_action) :	
 							?>
-								<fieldset class="ui-state-default">
+								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
 										<select class="select-action form-control" name="pm_action[]">
@@ -145,7 +145,7 @@
 									</div>
 							<?php
 								endif;
-								if($meta_action[1]=='add_segment') :
+								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment') :
 							?>
 									<div class="second-action" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_segments($meta_action[2]); ?>
@@ -163,8 +163,7 @@
 							</fieldset>
 						</div>
 						<div id="save-action">
-							<input style="float: right;" type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
-							<span class="spinner"></span>
+							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
 						</div>
 				</div>
 				<?php
@@ -226,6 +225,9 @@
 						</fieldset>
 					</div>				 
 					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
+				</div>
+				<div id="save-action">
+							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
 				</div>
 			</div>
 			<!-- default fields end -->

@@ -14,6 +14,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 define( 'BSF_MAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BSF_MAUTIC_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
-//load main plugin class
+
+/**
+ * Initiate plugin
+ */
 require_once( BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsf-mautic.php' );
 $BSF_Mautic = BSF_Mautic::instance();
+
+/**
+ * clear white label settings
+ */
+register_activation_hook( __FILE__ ,'bsfm_activation_reset');
+function bsfm_activation_reset() {
+	delete_option( 'bsfm_hide_branding' );
+}

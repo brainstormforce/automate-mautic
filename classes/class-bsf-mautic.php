@@ -10,8 +10,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 		private static $instance;
 		/**
-		* Initiator
-		*/
+		 * Initiator
+		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new BSF_Mautic();
@@ -25,27 +25,20 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-postmeta.php';
 		}
 		public function hooks() {
-			register_activation_hook( __FILE__, array( $this, 'bsfm_activation_reset' ) );
 			add_action( 'init', array( $this, 'bsf_mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'bsf_mautic_tracking_script' ) );
 			add_action( 'wp_footer', array( $this, 'bsf_mautic_tracking_image' ) );
-			//add new registered user
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
-			//add comment author
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
-			//cf7 integration
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
-			//edd intgration 
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
 		}
-		public function bsfm_activation_reset() {
-			delete_option( 'bsfm_hide_branding' );
-		}
+
 		/**
-		* Register a bsf-mautic-rule post type.
-		* @Since 1.0.0
-		* @link http://codex.wordpress.org/Function_Reference/register_post_type
-		*/
+		 * Register a bsf-mautic-rule post type.
+		 * @since 1.0.0
+		 * @link http://codex.wordpress.org/Function_Reference/register_post_type
+		 */
 		public function bsf_mautic_register_posttype() {
 			$labels = array(
 				'name'               => _x( 'Rules', 'post type general name', 'bsfmautic' ),
@@ -81,9 +74,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 			register_post_type( 'bsf-mautic-rule', $args );
 		}
-		/**
-		* Writes Mautic Tracking JS to the HTML source of WP head
-		*/
+
+		/** 
+		 * Writes Mautic Tracking JS to the HTML source of WP head
+		 *
+		 * @since 1.0.0
+		 */
 		public function bsf_mautic_tracking_script()
 		{
 			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
@@ -107,8 +103,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				echo $bsfm_trackingJS;
 			}
 		}
-		/**
+
+		/** 
 		 * Writes Mautic Tracking image to site 
+		 *
+		 * @since 1.0.0
 		 */
 		public function bsf_mautic_tracking_image( $atts, $content = null )
 		{
@@ -136,6 +135,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				echo $image;
 			}
 		}
+		
+		/** 
+		 * Add registered WP users to Mautic contacts
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public function bsfm_add_registered_user( $user_id ) {
 			if( !$user_id ) return;
 			//get user registerd condition rules
@@ -156,9 +162,22 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'website'	=> $user_info->user_url
 			);
 			// API Method
-			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			$remove_segment = $set_actions['remove_segment'];
+			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+				self::bsfm_remove_contact_from_segment( $body, $set_actions );
+			}
+			$add_segment = $set_actions['add_segment'];
+			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
+				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			}
 		}
 
+		/** 
+		 * Add comments author to Mautic contacts
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
 			if( !isset($commentdata['comment_author_email']) ) return;
 			//get comment post condition rules
@@ -176,7 +195,16 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
-			self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+		 	$remove_segment = $set_actions['remove_segment'];
+			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+				self::bsfm_remove_contact_from_segment( $body, $set_actions );
+			}
+
+			$add_segment = $set_actions['add_segment'];
+
+			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
+				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+			}
 		}
 
 		/** 
@@ -206,13 +234,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
-				self::bsfm_remove_contact_from_segment( $body, $remove_segment );
+				self::bsfm_remove_contact_from_segment( $body, $set_actions );
 			}
 			$add_segment = $set_actions['add_segment'];
 			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
 				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
-			}	
-			//self::bsfm_remove_contact_from_segment();
+			}
 		}
 
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
@@ -231,6 +258,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			return apply_filters( 'Bsfm_CF7_query_mapping', $query );
 		}
 
+		/** 
+		 * Add cf7 submissions to Mautic contacts
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public static function bsfm_add_cf7_mautic( $query ) {
 			if (!is_array($query)) return;
 			$cf7_id = $query['_wpcf7'];
@@ -255,9 +288,24 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$method = 'POST';
 				$url = '/api/contacts/new';
 				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
+
+				$remove_segment = $set_actions['remove_segment'];
+				if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+					self::bsfm_remove_contact_from_segment( $body, $set_actions );
+				}
+				$add_segment = $set_actions['add_segment'];
+				if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
+					self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
+				}
 			}
 		}
 
+		/** 
+		 * Map cf7 and Mautic contact fields
+		 * 
+		 * @since 1.0.0
+		 * @return array 
+		 */
 		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
 			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
 			if (isset($meta_conditions[0])) {
@@ -275,6 +323,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			return $mapping;
 		}
 
+		/** 
+		 * Add contacts to Mautic, Add to segments, return GET request data
+		 * 
+		 * @since 1.0.0
+		 */
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
@@ -310,16 +363,16 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					$response_body = $response['body'];
 					$body_data = json_decode($response_body);
 					return $body_data;
-					$response_code = $response['response']['code'];
-					if( $response_code != 201 ) {
-						if( $response_code != 200 ) {
-							$ret = false;
-							$status = 'error';
-							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-							echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
-							return;
+						$response_code = $response['response']['code'];
+						if( $response_code != 201 ) {
+							if( $response_code != 200 ) {
+								$ret = false;
+								$status = 'error';
+								$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+								echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+								return;
+							}
 						}
-					}
 				}
 			}
 			else if( $method=="POST" ) {	// add new contact to mautic request
@@ -352,9 +405,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						$response_body = $response['body'];
 						$contact_created = json_decode($response_body);
 						$contact = $contact_created->contact;
-						/*
-						* if contact is created add to segment here
-						*/
+						/**
+						 * if contact is created add to segment here
+						 */
 						if( isset($contact->id) ) {
 							$contact_id =  (int)$contact->id;
 							// fetch segment_id from rule and add contact to segment
@@ -374,23 +427,44 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 		}
 
-		function bsfm_remove_contact_from_segment( $param = array(), $remove_segment = array() ) {
+		/** 
+		 * Remove contacts from segment
+		 * 
+		 * @since 1.0.0
+		 */
+		function bsfm_remove_contact_from_segment( $param = array(), $set_actions = array() ) {
 			//Remove contacts from segments
 			$action = "remove";
 			$email = $param['email'];
+			$remove_segment = $set_actions['remove_segment'];
+			$add_segment = $set_actions['add_segment'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			foreach ( $remove_segment as $segment_id) {
 				$segment_id = (int)$segment_id;
-				$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 				if( isset( $contact_id ) ) {
 					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 					$status = $res['status'];
 					$errorMsg  = $res['error_message'];
 				}
 			}
+			if( is_array( $add_segment ) ) {
+				$action = "add";
+				foreach ( $add_segment as $segment_id) {
+					$segment_id = (int)$segment_id;
+					if( isset( $contact_id ) ) {
+						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+					}
+				}
+			}
 			return;
 		}
 
+		/** 
+		 * Add contacts to segment
+		 * 
+		 * @since 1.0.0
+		 */
 		function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
 			$errorMsg = '';
 			$status = 'error';
@@ -432,6 +506,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 			return $response;
 		}
+
+		/** 
+		 * Get Mautic contact ID
+		 * @return mautic contact id 
+		 * @since 1.0.0
+		 */
 		function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
 			$errorMsg = '';
 			$status = 'error';

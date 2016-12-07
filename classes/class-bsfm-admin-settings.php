@@ -19,8 +19,8 @@ final class BSFMauticAdminSettings {
 
 	static public $errors = array();
 	/**
-	* Initiator
-	*/
+	 * Initiator
+	 */
 	public static function instance(){
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new BSFMauticAdminSettings();
@@ -33,6 +33,7 @@ final class BSFMauticAdminSettings {
 		add_action( 'admin_init', array( $this,'bsfm_set_mautic_code' ) );
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 		add_action( 'admin_footer', array( $this, 'bsfm_mb_templates' ) );
+		add_action( 'wp_loaded', array( $this, 'bsf_mautic_authenticate_update' ) );
 	}
 	/** 
 	 * Include template to render meta box html
@@ -59,21 +60,21 @@ final class BSFMauticAdminSettings {
 	 */
 	static public function init_hooks()
 	{
+		//add_action( 'network_admin_menu', __CLASS__ . '::menu' );
+		add_action( 'admin_menu', __CLASS__ . '::menu' );
 		if ( ! is_admin() ) {
 			return;
 		}
-		add_action( 'network_admin_menu', __CLASS__ . '::menu' );
-		add_action( 'admin_menu', __CLASS__ . '::menu' );
 		$post_type = '';
-		if(isset($_REQUEST['post_type'])) {
+		if( isset( $_REQUEST['post_type'] ) ) {
 			$post_type = $_REQUEST['post_type'];
 		}
-		elseif(isset($_REQUEST['post'])) {
+		elseif( isset( $_REQUEST['post'] ) ) {
 			$post_type = get_post_type( $_REQUEST['post'] );
 		}
-		if( (isset( $_REQUEST['page']) && 'bsf-mautic-settings' == $_REQUEST['page'] ) || ('bsf-mautic-rule' == $post_type) ) {
-			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
+		if((isset( $_REQUEST['page']) && 'bsf-mautic-settings' == $_REQUEST['page'] ) || ('bsf-mautic-rule' == $post_type) ) {
 			self::save();
+			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
 		}
 	}
 	
@@ -89,7 +90,7 @@ final class BSFMauticAdminSettings {
 			$cap	= 'delete_users';
 			$slug	= 'bsf-mautic-settings';
 			$func	= __CLASS__ . '::render';
-			add_submenu_page( 'edit.php?post_type=bsf-mautic-rule', 'Settings', 'Settings', $cap, $slug, $func );
+			add_submenu_page( 'edit.php?post_type=bsf-mautic-rule', 'Settings',  __( 'Settings', 'bsfmautic' ) , $cap, $slug, $func );
 		}
 	}
 	
@@ -133,22 +134,8 @@ final class BSFMauticAdminSettings {
 	static public function render() {
 		include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings.php';
 	}
-	
-	/** 
-	 * Renders the page class for network installs and single site installs.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	static public function render_page_class() {
-		if ( self::multisite_support() ) {
-			echo 'fl-settings-network-admin';
-		}
-		else {
-			echo 'fl-settings-single-install';
-		}
-	}
-	/***
+
+	/**
 	 * Renders the admin settings page heading.
 	 * @since 1.0.0
 	 * @return void
@@ -158,7 +145,7 @@ final class BSFMauticAdminSettings {
 		if ( ! empty( $icon ) ) {
 			echo '<img src="' . $icon . '" />';
 		}
-		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "UABB" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
+		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "BSFM" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
 	}
 	/** 
 	 * Renders the update message.
@@ -261,7 +248,6 @@ final class BSFMauticAdminSettings {
 	static public function render_form_action( $type = '' )
 	{
 		if ( is_network_admin() ) {
-			// Prev : settings.php?page=uabb-builder-multisite-settings - need to add multisite part
 			echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
 		}
 		else {
@@ -278,13 +264,7 @@ final class BSFMauticAdminSettings {
 	 */	 
 	static public function get_form_action( $type = '' )
 	{
-		if ( is_network_admin() ) {
-			//pending
-			return network_admin_url( '/settings.php?page=uabb-builder-multisite-settings#' . $type );
-		}
-		else {
-			return admin_url( '/options-general.php?page=bsf-mautic-settings#' . $type );
-		}
+		return admin_url( '/options-general.php?page=bsf-mautic-settings#' . $type );
 	}
 	
 	/** 
@@ -299,7 +279,7 @@ final class BSFMauticAdminSettings {
 		return file_exists( BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php' );
 	}
 	
-	/** 
+	/**
 	 * Adds an error message to be rendered.
 	 *
 	 * @since 1.0.0
@@ -311,12 +291,12 @@ final class BSFMauticAdminSettings {
 		self::$errors[] = $message;
 	}
 
-	/** 
+	/**
 	 * Save the mautic code.
 	 *
 	 * @since 1.0.0
 	 * @return void
-	 */	 
+	 */
 	static public function bsfm_set_mautic_code() {
 		if( isset($_GET['code']) ) {
 			$credentials = get_option( 'bsfm_mautic_credentials' );
@@ -331,8 +311,8 @@ final class BSFMauticAdminSettings {
 	* @since 1.0.0
 	* @return void
 	*/	 
-	static public function multisite_support() {			
-		// return is_multisite() && class_exists( 'FLBuilderMultisiteSettings' );
+	static public function multisite_support() {
+		return is_multisite();
 	}
 
 	/** 
@@ -349,12 +329,9 @@ final class BSFMauticAdminSettings {
 				$grant_type = 'authorization_code';
 				$response = self::bsf_mautic_get_access_token( $grant_type );
 				$access_details = json_decode( $response['body'] );
-
 					if( isset( $access_details->error ) ) {
-						echo json_encode($result);
 						exit('unable to connect');
 					}
-
 				$expiration = time() + $access_details->expires_in;
 				$credentials['access_token'] = $access_details->access_token;
 				$credentials['expires_in'] = $expiration;
@@ -430,18 +407,14 @@ final class BSFMauticAdminSettings {
 				update_option( '_bsf_mautic_config', $bsfm );
 			}
 		}
-		if ( isset( $_POST['bsfm-save-authenticate'] ) && $_POST['bsfm-save-authenticate']=='Save and Authenticate' ) {
-			self::bsfm_authenticate_update();
-			//provide action to authenticate differnet API's
-		}
 		if ( isset( $_POST['bsfm-branding-nonce'] ) && wp_verify_nonce( $_POST['bsfm-branding-nonce'], 'bsfm-branding' ) ) {
 			if( isset( $_POST['bsfm-plugin-name'] ) ) 			{	$bsfm['bsfm-plugin-name']			= wp_kses_post( $_POST['bsfm-plugin-name'] );	}
-			if( isset( $_POST['bsfm-plugin-short-name'] ) ) 	{	$bsfm['bsfm-plugin-short-name']		= wp_kses_post( $_POST['bsfm-plugin-short-name'] );	}
-			if( isset( $_POST['bsfm-plugin-desc'] ) ) 			{	$bsfm['bsfm-plugin-desc']			= wp_kses_post( $_POST['bsfm-plugin-desc'] );	}
-			if( isset( $_POST['bsfm-author-name'] ) ) 			{	$bsfm['bsfm-author-name']			= wp_kses_post( $_POST['bsfm-author-name'] );	}
-			if( isset( $_POST['bsfm-author-url'] ) ) 			{	$bsfm['bsfm-author-url']			= sanitize_text_field( $_POST['bsfm-author-url'] );	}
-			if( isset( $_POST['bsfm-knowledge-base-url'] ) ) 	{	$bsfm['bsfm-knowledge-base-url']	= sanitize_text_field( $_POST['bsfm-knowledge-base-url'] );	}
-			if( isset( $_POST['bsfm-contact-support-url'] ) ) 	{	$bsfm['bsfm-contact-support-url']	= sanitize_text_field( $_POST['bsfm-contact-support-url'] );	}
+			if( isset( $_POST['bsfm-plugin-short-name'] ) )		{	$bsfm['bsfm-plugin-short-name']		= wp_kses_post( $_POST['bsfm-plugin-short-name'] );	}
+			if( isset( $_POST['bsfm-plugin-desc'] ) )			{	$bsfm['bsfm-plugin-desc']			= wp_kses_post( $_POST['bsfm-plugin-desc'] );	}
+			if( isset( $_POST['bsfm-author-name'] ) )			{	$bsfm['bsfm-author-name']			= wp_kses_post( $_POST['bsfm-author-name'] );	}
+			if( isset( $_POST['bsfm-author-url'] ) )			{	$bsfm['bsfm-author-url']			= sanitize_text_field( $_POST['bsfm-author-url'] );	}
+			if( isset( $_POST['bsfm-knowledge-base-url'] ) )	{	$bsfm['bsfm-knowledge-base-url']	= sanitize_text_field( $_POST['bsfm-knowledge-base-url'] );	}
+			if( isset( $_POST['bsfm-contact-support-url'] ) )	{	$bsfm['bsfm-contact-support-url']	= sanitize_text_field( $_POST['bsfm-contact-support-url'] );	}
 
 			if( isset( $_POST['bsfm-hide-branding'] ) ) {
 				update_option( 'bsfm_hide_branding', true );
@@ -458,50 +431,54 @@ final class BSFMauticAdminSettings {
 		}
 	}
 
+	static public function bsf_mautic_authenticate_update() 
+	{
+		if ( isset( $_POST['bsfm-save-authenticate'] ) && $_POST['bsfm-save-authenticate']=='Save and Authenticate' ) {
+			self::bsfm_authenticate_update();
+		}
+	}
+	
 	static public function bsfm_authenticate_update()
 	{
-			// @todo check if the request is sent from user with admin rights
-			// @todo check if Base URL, Consumer/Client Key and Consumer/Client secret are not empty
-			// @todo load this array from database or config file
-			$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-			$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
-			$post = $_POST;
-			$cpts_err = false;
-			$lists = null;
-			$ref_list_id = null;
+		$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
+		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
+		$post = $_POST;
+		$cpts_err = false;
+		$lists = null;
+		$ref_list_id = null;
 
-			$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
-			$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
-			$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
+		$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
+		$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
+		$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
 
-			if( $mautic_api_url == '' ) {	
-				$status = 'error';
-				$message = 'API URL is missing.';
-				$cpts_err = true;
-			}
-			if( $bsfm_secret_key == '' ) {
-				$status = 'error';
-				$message = 'Secret Key is missing.';
-				$cpts_err = true;
-			}
-			$settings = array(
-				'baseUrl'		=> $mautic_api_url,
-				'version'		=> 'OAuth2',
-				'clientKey'		=> $bsfm_public_key,
-				'clientSecret'	=> $bsfm_secret_key, 
-				'callback'		=> admin_url( 'edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#bsfm-config' ),
-				'response_type'	=> 'code'
-			);
+		if( $mautic_api_url == '' ) {	
+			$status = 'error';
+			$message = 'API URL is missing.';
+			$cpts_err = true;
+		}
+		if( $bsfm_secret_key == '' ) {
+			$status = 'error';
+			$message = 'Secret Key is missing.';
+			$cpts_err = true;
+		}
+		$settings = array(
+			'baseUrl'		=> $mautic_api_url,
+			'version'		=> 'OAuth2',
+			'clientKey'		=> $bsfm_public_key,
+			'clientSecret'	=> $bsfm_secret_key, 
+			'callback'		=> admin_url( 'edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#bsfm-config' ),
+			'response_type'	=> 'code'
+		);
 
-			update_option( 'bsfm_mautic_credentials', $settings );
-			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
-			//OAuth 2.0
-			$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
-			$state    = md5(time().mt_rand());
-			$authurl .= '&state='.$state;
-			$authurl .= '&response_type='.$settings['response_type'];
-			wp_redirect( $authurl );
-			exit;
+		update_option( 'bsfm_mautic_credentials', $settings );
+		$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
+		//OAuth 2.0
+		$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
+		$state    = md5(time().mt_rand());
+		$authurl .= '&state='.$state;
+		$authurl .= '&response_type='.$settings['response_type'];
+		wp_redirect( $authurl );
+		exit;
 	}
 }
 $BSFMauticAdminSettings = BSFMauticAdminSettings::instance();

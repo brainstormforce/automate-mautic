@@ -9,15 +9,7 @@ if ( ! class_exists( 'BSFMauticAdminAjax' ) ) :
 class BSFMauticAdminAjax {
 	
 	private static $instance;
-	/**
-	 * Holds any errors that may arise from
-	 * saving admin settings.
-	 *
-	 * @since 1.0.0
-	 * @var array $errors
-	 */
 
-	static public $errors = array();
 	/**
 	 * Initiator
 	 */
@@ -35,7 +27,7 @@ class BSFMauticAdminAjax {
 		add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'bsf_clean_mautic_transient' ) );
 	}
 	/** 
-	 * the Make cf7 form fields select Html
+	 * Make cf7 form fields select Html
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -49,17 +41,17 @@ class BSFMauticAdminAjax {
 		preg_match_all($reg, $str, $matches);
 		array_pop($matches[0]);
 		$map_cf7fields = sizeof($matches[0]);
-		$cf7_fields = "<table style='float: right;'><tbody>";
-		$cf7_fields_sel = "<tr><td><select class='cf7_form' name='cf7_fields[$cf7_id][]'>";
-		foreach ($matches[0] as $value) {
-			$field = explode(' ',$value);
-			$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
-		}
-		$cf7_fields_sel.= "</select></td></tr>";
-		for ( $i=0; $i < $map_cf7fields; $i++) { 
-			$cf7_fields.= $cf7_fields_sel;
-		}
-		$cf7_fields.= "</tbody></table>";
+			$cf7_fields = "<table style='float: right;'><tbody>";
+			$cf7_fields_sel = "<tr><td><select class='cf7_form' name='cf7_fields[$cf7_id][]'>";
+				foreach ($matches[0] as $value) {
+					$field = explode(' ',$value);
+					$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
+				}
+			$cf7_fields_sel.= "</select></td></tr>";
+				for ( $i=0; $i < $map_cf7fields; $i++) { 
+					$cf7_fields.= $cf7_fields_sel;
+				}
+			$cf7_fields.= "</tbody></table>";
 		print_r(json_encode( array(
 				'fieldCount' => $map_cf7fields,
 				'selHtml' => $cf7_fields
@@ -87,7 +79,7 @@ class BSFMauticAdminAjax {
 		wp_die();
 	}
 	/** 
-	 * Clean Mautic data transients
+	 * Refresh Mautic transients data
 	 *
 	 * @since 1.0.0
 	 * @return void
