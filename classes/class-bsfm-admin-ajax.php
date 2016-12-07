@@ -68,13 +68,15 @@ class BSFMauticAdminAjax {
 		//get all contact form fields
 		$download_id = $_POST['download_id'];
 		$edd_prices = edd_get_variable_prices( $download_id );
-		$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
+		$edd_vprice_sel = '';
 		if( $edd_prices ) {
+		$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
+		$edd_vprice_sel .= "<option>Select Variable Price</option>";
 			foreach( $edd_prices as $price_id => $price ) {
 				$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $select);
 			}
-		}
 		$edd_vprice_sel .= "</select>";
+		}
 		echo $edd_vprice_sel;
 		wp_die();
 	}

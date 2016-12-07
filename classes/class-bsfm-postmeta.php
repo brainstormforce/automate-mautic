@@ -417,10 +417,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	 * @return void
 	 */
 	public static function bsf_make_edd_payment_status( $select = null ) {
-		$status = array( 'publish', 'pending', 'refunded', 'revoked', 'failed', 'abandoned');
+		$status_val = array( 'publish', 'refunded', 'revoked', 'failed', 'abandoned');
+		$status_label = array( 'Completed', 'Refunded', 'Revoked', 'Failed', 'Abandoned');
 		$select_status = '<select id="sub-sub-condition" class="root-edd-condition form-control" name="ss_edd_condition[]">';
-		foreach ( $status as $payment_status ) :
-			$select_status .= Bsfm_Postmeta::make_option($payment_status, $payment_status, $select);
+		$select_status .= '<option> Select Payment Status</option>';
+		foreach ( $status_val as $key => $payment_status ) :
+			$select_status .= Bsfm_Postmeta::make_option($payment_status, $status_label[$key], $select);
 		endforeach;
 		$select_status .= '</select>';
 		echo $select_status;

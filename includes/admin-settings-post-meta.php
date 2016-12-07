@@ -25,6 +25,7 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span>
 							<select class="select-condition form-control" name="pm_condition[]">
+								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> ><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> ><?php  _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
 								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
@@ -95,24 +96,28 @@
 									echo '</div>';
 								endif;
 
-								if( $meta_condition[0]=='EDD' ) : ?>
+								if( $meta_condition[0]=='EDD' ) : 
+									if( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) {
+								?>
 									<div class="first-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_edd_downloads( $meta_condition[1] ); ?>
 									</div>
 									<div class="second-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::bsf_make_edd_payment_status( $meta_condition[2] );
+										$edd_vprice_sel ='';
 										$edd_prices = edd_get_variable_prices( $meta_condition[1] );
-										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
 										if( $edd_prices ) {
+										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
 											foreach( $edd_prices as $price_id => $price ) {
 												$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $meta_condition[3]);
 											}
-										}
 										$edd_vprice_sel .= "</select>";
+										}
 										echo $edd_vprice_sel;
 									?>
 									</div>
 								<?php
+								}
 								endif;
 								if( $meta_condition[0]=='UR' ) :
 									echo '<div class="first-condition" style="display:inline;"></div>';
@@ -193,6 +198,7 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 							<select class="select-condition form-control" name="pm_condition[]">
+								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR"><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP"><?php _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
 								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
@@ -235,7 +241,7 @@
 					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
 				</div>
 				<div id="save-action">
-							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+						<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
 				</div>
 			</div>
 			<!-- default fields end -->

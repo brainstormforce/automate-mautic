@@ -9,6 +9,7 @@
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
 		<select class="select-condition form-control" name="pm_condition[]">
+			<option> Select Condition </option>
 			<option value="UR">User Register on WordPress</option>
 			<option value="CP">User Post a Comment</option>
 			<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
