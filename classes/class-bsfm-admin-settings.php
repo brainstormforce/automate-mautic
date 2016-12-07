@@ -33,6 +33,7 @@ final class BSFMauticAdminSettings {
 		add_action( 'admin_init', array( $this,'bsfm_set_mautic_code' ) );
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 		add_action( 'admin_footer', array( $this, 'bsfm_mb_templates' ) );
+		add_action( 'wp_loaded', array( $this, 'bsf_mautic_authenticate_update' ) );
 	}
 	/** 
 	 * Include template to render meta box html
@@ -329,7 +330,6 @@ final class BSFMauticAdminSettings {
 				$response = self::bsf_mautic_get_access_token( $grant_type );
 				$access_details = json_decode( $response['body'] );
 					if( isset( $access_details->error ) ) {
-						echo json_encode($result);
 						exit('unable to connect');
 					}
 				$expiration = time() + $access_details->expires_in;
@@ -407,10 +407,6 @@ final class BSFMauticAdminSettings {
 				update_option( '_bsf_mautic_config', $bsfm );
 			}
 		}
-		if ( isset( $_POST['bsfm-save-authenticate'] ) && $_POST['bsfm-save-authenticate']=='Save and Authenticate' ) {
-			self::bsfm_authenticate_update();
-			//provide action to authenticate differnet API's
-		}
 		if ( isset( $_POST['bsfm-branding-nonce'] ) && wp_verify_nonce( $_POST['bsfm-branding-nonce'], 'bsfm-branding' ) ) {
 			if( isset( $_POST['bsfm-plugin-name'] ) ) 			{	$bsfm['bsfm-plugin-name']			= wp_kses_post( $_POST['bsfm-plugin-name'] );	}
 			if( isset( $_POST['bsfm-plugin-short-name'] ) )		{	$bsfm['bsfm-plugin-short-name']		= wp_kses_post( $_POST['bsfm-plugin-short-name'] );	}
@@ -435,6 +431,13 @@ final class BSFMauticAdminSettings {
 		}
 	}
 
+	static public function bsf_mautic_authenticate_update() 
+	{
+		if ( isset( $_POST['bsfm-save-authenticate'] ) && $_POST['bsfm-save-authenticate']=='Save and Authenticate' ) {
+			self::bsfm_authenticate_update();
+		}
+	}
+	
 	static public function bsfm_authenticate_update()
 	{
 		$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
