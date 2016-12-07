@@ -29,6 +29,7 @@
 }
 .bsf-mautic-metabox fieldset.bsfm-add-action:hover, fieldset.bsfm-add-condition:hover {
     background: #f5f5f5;
+    cursor: pointer;
 }
 #bsfm-config-form .bsf-mautic-status-connected {
     background-color: #1baf1b;

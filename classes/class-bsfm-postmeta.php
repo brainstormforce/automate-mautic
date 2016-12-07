@@ -48,6 +48,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		//get all pages
 		$all_pages= '<select id="sub-sub-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
 		$pages = get_pages();
+		$all_pages .= '<option> Select Page </option>';
 		foreach ( $pages as $page ) {
 			$all_pages .= Bsfm_Postmeta::make_option($page->ID, $page->post_title, $select);
 		}
@@ -59,6 +60,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$all_posts = '<select id="ss-cp-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
 		$args = array( 'posts_per_page' => -1 );
 		$posts = get_posts( $args );
+		$all_posts .= '<option> Select Post </option>';
 		foreach ( $posts as $post ) : setup_postdata( $post );
 			$all_posts .= Bsfm_Postmeta::make_option($post->ID, $post->post_title, $select);	
 		endforeach; 
@@ -84,6 +86,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			return;
 		}
 		$all_segments = '<select class="root-seg-action" name="ss_seg_action[]">';
+			$all_segments .= '<option> Select Segment </option>';
 			foreach( $segments->lists as $offset => $list ) {
 				$all_segments .= Bsfm_Postmeta::make_option( $list->id, $list->name, $select);
 			}
@@ -111,25 +114,26 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$all_mforms .= '</select>';
 		echo $all_mforms;
 	}
-	public static function get_all_cf7_fields( $cf7_id = null, $select = null ) {
-		// duplicate function
-		$cf7_field_data = get_post_meta( $cf7_id, '_form' );
-		$reg = '/(?<=\[)([^\]]+)/';
-		$str = $cf7_field_data[0];
-		preg_match_all($reg, $str, $matches);
-		$map_cf7fields = sizeof($matches[0]);
-		$cf7_fields = "<tr><td><select>";
-		foreach ($matches[0] as $value) {
-			$field = explode(' ',$value);
-			$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
-		}
-		$cf7_fields.= "</select></td></tr>";
-		$fields_return = array(
-				'fieldCount' => $map_cf7fields,
-				'selHtml' => $cf7_fields
-		);
-		return $fields_return;
-	}
+	// public static function get_all_cf7_fields( $cf7_id = null, $select = null ) {
+	// 	// duplicate function
+	// 	$cf7_field_data = get_post_meta( $cf7_id, '_form' );
+	// 	$reg = '/(?<=\[)([^\]]+)/';
+	// 	$str = $cf7_field_data[0];
+	// 	preg_match_all($reg, $str, $matches);
+	// 	$map_cf7fields = sizeof($matches[0]);
+	// 	$cf7_fields = "<tr><td><select>";
+	// 	$cf7_fields.= "<option> Select Field </option>";
+	// 	foreach ($matches[0] as $value) {
+	// 		$field = explode(' ',$value);
+	// 		$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
+	// 	}
+	// 	$cf7_fields.= "</select></td></tr>";
+	// 	$fields_return = array(
+	// 			'fieldCount' => $map_cf7fields,
+	// 			'selHtml' => $cf7_fields
+	// 	);
+	// 	return $fields_return;
+	// }
 
 	//get all mautic custom fields
 	public static function mautic_get_all_cfields( $select = null ) {

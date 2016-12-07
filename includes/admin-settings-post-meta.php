@@ -19,6 +19,7 @@
 					<div class="conditions">
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 					<?php	
+					if( ! empty($meta_conditions) ) {
 						foreach ($meta_conditions as $order => $meta_condition) :
 					?>
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
@@ -38,7 +39,7 @@
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
 									<div class="first-condition" style="display:inline;">
 										<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere on website', 'bsfmautic' ) ?></option>
+											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere On Website', 'bsfmautic' ) ?></option>
 											<option value="os_page" <?php selected( $meta_condition[1],'os_page' ); ?> ><?php _e( 'On Specific Page', 'bsfmautic' ) ?></option>
 											<option value="os_post" <?php selected( $meta_condition[1],'os_post' ); ?> ><?php _e( 'On Specific Post', 'bsfmautic' ) ?></option>
 										</select>
@@ -125,6 +126,7 @@
 								endif;
 						echo '</fieldset>';
 						endforeach;
+						}
 						?>
 					</div>
 					<fieldset class="bsfm-add-condition add-new-item">
@@ -137,6 +139,7 @@
 							<h4> Action </h4>
 							<div id="bsfm-sortable-action" class="bsfm-item-wrap">
 							<?php	
+								if( ! empty( $meta_actions ) ) {
 								foreach ($meta_actions as $order => $meta_action) :	
 							?>
 								<fieldset class="ui-state-new">
@@ -163,6 +166,7 @@
 								</fieldset>
 							<?php
 								endforeach;
+								}
 							?>
 							</div>
 							<fieldset class="bsfm-add-action add-new-item">
