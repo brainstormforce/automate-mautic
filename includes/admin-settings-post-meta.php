@@ -136,7 +136,7 @@
 					</fieldset>
 					</div>
 						<div class="actions">
-							<h4> Action </h4>
+							<h4> <?php _e( 'Action', 'bsfmautic' ) ?> </h4>
 							<div id="bsfm-sortable-action" class="bsfm-item-wrap">
 							<?php	
 								if( ! empty( $meta_actions ) ) {
@@ -145,9 +145,7 @@
 								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
-										<select class="select-action form-control" name="pm_action[]">
-											<option value="segment" <?php selected( $meta_action[0],'segment' ); ?> ><?php _e( 'Segment', 'bsfmautic' ) ?></option>
-										</select>
+										<input type="hidden" name="pm_action[]" value="segment">
 							<?php if($meta_action[0]=='segment') :	?>
 									<div class="first-action" style="display:inline;">
 										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
@@ -175,8 +173,10 @@
 								</div>
 							</fieldset>
 						</div>
-						<div id="save-action">
-							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+						<div id="save-action" class="bsfm-refresh-mautic-wrap">
+							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">
+							<span class="spinner bsfm-wp-spinner"></span>
+							<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
 						</div>
 				</div>
 				<?php
@@ -196,7 +196,7 @@
 			<!-- default fields -->
 			<div class="bsf-mautic-metabox">
 				<div class="conditions">
-					<h4> Conditions </h4>
+					<h4> <?php _e( 'Conditions', 'bsfmautic' ) ?> </h4>
 					<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default" id="item-1">
 							<span class="dashicons dashicons-minus remove-item"></span>
@@ -223,14 +223,12 @@
 					</fieldset>
 				</div>
 				<div class="actions">
-					<h4> Action </h4>
+					<h4> <?php _e( 'Action', 'bsfmautic' ) ?> </h4>
 					<div id="bsfm-sortable-action" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
-								<select class="select-action form-control" name="pm_action[]">
-									<option value="segment"><?php _e( 'Segment', 'bsfmautic' ) ?></option>
-								</select>
+							<input type="hidden" name="pm_action[]" value="segment">
 							<div class="first-action" style="display:inline;">
 								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 									<option value="add_segment"><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
@@ -244,8 +242,9 @@
 					</div>				 
 					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
 				</div>
-				<div id="save-action">
-						<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+				<div id="save-action" class="bsfm-refresh-mautic-wrap">
+					<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">
+					<span class="spinner bsfm-wp-spinner"></span>
 				</div>
 			</div>
 			<!-- default fields end -->

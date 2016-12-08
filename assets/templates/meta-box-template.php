@@ -25,9 +25,7 @@
 	<# if ( 'action-field' === data.clas ) { #>
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
-		<select class="select-action form-control" name="pm_action[]">
-	    	<option value="segment"> Segment </option>
-		</select>
+		<input type="hidden" name="pm_action[]" value="segment">
 		<div class="first-action" style="display:inline;">
 			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 				<option value="add_segment">Add to segment</option>

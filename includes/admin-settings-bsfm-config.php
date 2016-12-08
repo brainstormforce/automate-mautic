@@ -51,7 +51,7 @@
 				// If not authorized 
 				if( isset( $credentials['access_token'] ) ) { ?>
 				<p class="submit">
-					<span class="bsf-mautic-status-connected"> Connected </span>
+					<span class="bsf-mautic-status-connected"> <?php _e('Connected', 'bsfmautic'); ?> </span>
 					<input type="submit" name="bsfm-disconnect-mautic" class="button" value="<?php esc_attr_e( 'Disconnect Mautic', 'bsfmautic' ); ?>" />
 				</p>
 				<?php } ?>

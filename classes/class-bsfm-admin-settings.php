@@ -298,7 +298,7 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	static public function bsfm_set_mautic_code() {
-		if( isset($_GET['code']) ) {
+		if( isset( $_GET['code'] ) && 'bsf-mautic-settings' == $_REQUEST['page'] ) {
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 			$credentials['access_code'] =  esc_attr( $_GET['code'] );
 			update_option( 'bsfm_mautic_credentials', $credentials );

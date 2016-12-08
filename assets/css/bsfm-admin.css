@@ -42,3 +42,12 @@
     padding: 3px 6px;
     color: #fff;
 }
+.bsf-mautic-metabox .bsfm-refresh-mautic-wrap {
+    margin-top: 1.3em;
+}
+.bsf-mautic-metabox .bsfm-wp-spinner-msg {
+    color: #9acd32;
+    display: inline-block;
+    margin-top: 5px;
+    display: none;
+}
