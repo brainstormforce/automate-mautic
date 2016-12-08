@@ -6,9 +6,10 @@
 		<div class="bsfm-settings-form-content">
 			<?php
 				$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = '';
+				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = $bsfm_enabled_track_show = '';
 				if( is_array($bsfm) ) {
 					$bsfm_enabled_track	= ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? ' checked' : '';
+					$bsfm_enabled_track_show = ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? 'style="display: block;"' : 'style="display: none;"';
 					$bsfm_tracking_type_js	= ( array_key_exists( 'bsfm-tracking-type', $bsfm ) && $bsfm['bsfm-tracking-type'] == 'js' )  ? ' checked' : '';
 					$bsfm_tracking_type_img	= ( array_key_exists( 'bsfm-tracking-type', $bsfm ) && $bsfm['bsfm-tracking-type'] == 'img' )  ? ' checked' : '';
 					$bsfm_base_url = ( array_key_exists( 'bsfm-base-url', $bsfm ) ) ? $bsfm['bsfm-base-url'] : '';
@@ -69,11 +70,11 @@
 
 			<!-- Load Panels -->
 			<!-- Enable image tracking -->
-			<div class="bsfm-config-fields">
+			<div class="bsfm-config-fields bsfm-config-select-tracking" <?php echo $bsfm_enabled_track_show; ?>>
 				<h4><?php _e( 'Select Tracking Type', 'bsfmautic' ); ?></h4>
 				<p>
-					<input type="radio" class="bsfm-enabled-panels" name="bsfm-tracking-type" value="js" <?php echo $bsfm_tracking_type_js; ?> ><?php _e( ' Javascript (JS) tracking', 'bsfmautic' ); ?><br>
-					<input type="radio" class="bsfm-enabled-panels" name="bsfm-tracking-type" value="img" <?php echo $bsfm_tracking_type_img; ?> ><?php _e( ' Image Tracking', 'bsfmautic' ); ?>
+					<input type="radio" name="bsfm-tracking-type" value="js" <?php echo $bsfm_tracking_type_js; ?> ><?php _e( ' Javascript (JS) tracking', 'bsfmautic' ); ?><br>
+					<input type="radio" name="bsfm-tracking-type" value="img" <?php echo $bsfm_tracking_type_img; ?> ><?php _e( ' Image Tracking', 'bsfmautic' ); ?>
 				</p>
 			</div>
 		</div>

@@ -153,4 +153,8 @@ jQuery(document).ready(function( $ ) {
 			jq( ".edd_var_price" ).select2();
 		});
 	});
+
+	jq('.bsfm-enabled-panels').click(function(){	 
+    	jq(".bsfm-config-select-tracking").fadeToggle(1000);
+	});
 });
