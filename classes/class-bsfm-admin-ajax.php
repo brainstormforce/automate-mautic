@@ -43,7 +43,7 @@ class BSFMauticAdminAjax {
 		$map_cf7fields = sizeof($matches[0]);
 			$cf7_fields = "<table style='float: right;'><tbody>";
 			$cf7_fields_sel = "<tr><td><select class='cf7_form' name='cf7_fields[$cf7_id][]'>";
-			$cf7_fields_sel.= "<option> Select Cf7 Field </option>";
+			$cf7_fields_sel.= "<option> Select CF7 Field </option>";
 				foreach ($matches[0] as $value) {
 					$field = explode(' ',$value);
 					$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);

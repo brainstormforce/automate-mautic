@@ -60,7 +60,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'labels'             => $labels,
 				'description'        => __( 'Description.', 'bsfmautic' ),
 				'public'             => false,
-				'publicly_queryable' => true,
+				'publicly_queryable' => false,
 				'show_ui'            => true,
 				'show_in_menu'       => true,
 				'query_var'          => true,
