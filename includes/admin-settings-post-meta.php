@@ -17,6 +17,7 @@
 			?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
+						<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 					<?php	
 					if( ! empty($meta_conditions) ) {
@@ -196,7 +197,7 @@
 			<!-- default fields -->
 			<div class="bsf-mautic-metabox">
 				<div class="conditions">
-					<h4> <?php _e( 'Conditions', 'bsfmautic' ) ?> </h4>
+					<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
 					<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default" id="item-1">
 							<span class="dashicons dashicons-minus remove-item"></span>
@@ -245,6 +246,7 @@
 				<div id="save-action" class="bsfm-refresh-mautic-wrap">
 					<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">
 					<span class="spinner bsfm-wp-spinner"></span>
+					<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
 				</div>
 			</div>
 			<!-- default fields end -->
