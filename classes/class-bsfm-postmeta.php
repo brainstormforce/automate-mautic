@@ -30,7 +30,12 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
 		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
+		add_action( 'admin_menu', array( $this, 'bsfm_remove_meta_boxes' ) );
 	}
+	public function bsfm_remove_meta_boxes() {
+		remove_meta_box( 'slugdiv' , 'bsf-mautic-rule' , 'normal' ); 
+	}
+
 	/**
 	 * Register meta box(es).
 	 */
