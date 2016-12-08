@@ -132,7 +132,7 @@
 					</div>
 					<fieldset class="bsfm-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
+							<span class="dashicons dashicons-plus-alt bsfm-new-item-icon"></span><?php _e( ' Add new condition', 'bsfmautic' ); ?>
 						</div>
 					</fieldset>
 					</div>
@@ -168,9 +168,9 @@
 								}
 							?>
 							</div>
-							<fieldset class="bsfm-add-action add-new-item">
+							<fieldset class="add-new-item">
 								<div>
-									<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ); ?>
+									<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'bsfmautic' ); ?></span>
 								</div>
 							</fieldset>
 						</div>
@@ -219,7 +219,7 @@
 					</div>				 
 					<fieldset class="bsfm-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
+							<span class="dashicons dashicons-plus-alt bsfm-new-item-icon"></span><?php _e( ' Add new condition', 'bsfmautic' ); ?>
 						</div>
 					</fieldset>
 				</div>
@@ -241,7 +241,11 @@
 							</div>
 						</fieldset>
 					</div>				 
-					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
+						<fieldset class="add-new-item">
+								<div>
+									<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'bsfmautic' ); ?></span>
+								</div>
+						</fieldset>
 				</div>
 				<div id="save-action" class="bsfm-refresh-mautic-wrap">
 					<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">

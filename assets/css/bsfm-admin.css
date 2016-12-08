@@ -18,17 +18,19 @@
 .bsf-mautic-metabox select {
     border-radius: 4px;
 }
-.bsf-mautic-metabox .add-new-item span {
+.bsf-mautic-metabox span.bsfm-new-item-icon {
     color: #008000;
-    margin-left: 5px;   
+    margin-left: 5px; 
 }
-.bsf-mautic-metabox fieldset.bsfm-add-action, fieldset.bsfm-add-condition {
+.bsf-mautic-metabox fieldset.add-new-item {
     background: #fff;
     border-width: 1px;
     border-radius: 0 0 5px 5px;
 }
-.bsf-mautic-metabox fieldset.bsfm-add-action:hover, fieldset.bsfm-add-condition:hover {
+.bsf-mautic-metabox fieldset.add-new-item:hover {
     background: #f5f5f5;
+}
+.bsf-mautic-metabox fieldset.bsfm-add-condition:hover, span.bsfm-add-action:hover {
     cursor: pointer;
 }
 #bsfm-config-form .bsf-mautic-status-connected {
