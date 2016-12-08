@@ -25,6 +25,7 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 			$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 			$defaults = array(
 				'bsfm-enabled-tracking'	=> '',
+				'bsfm-tracking-type'	=> '',
 				'bsfm-base-url'			=> '',
 				'bsfm-public-key'		=> '',
 				'bsfm-secret-key'		=> '',
