@@ -46,7 +46,6 @@
 			</div>
 			<p class="submit">
 				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'bsfmautic' ); ?>" />
-				<span class="bsf-mautic-status-disconnect"> <?php _e('Not Connected', 'bsfmautic'); ?> </span>
 			</p>
 			<?php } ?>
 				<?php

@@ -36,11 +36,6 @@
 .bsf-mautic-metabox .refresh-mautic-data {
     float: left;
 }
-#bsfm-config-form .bsf-mautic-status-disconnect {
-    background-color: #b4b9be;
-    padding: 3px 6px;
-    color: #fff;
-}
 .bsf-mautic-metabox .bsfm-refresh-mautic-wrap {
     margin-top: 1em;
     display: inline-block;
