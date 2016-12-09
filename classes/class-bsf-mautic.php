@@ -62,7 +62,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'public'             => false,
 				'publicly_queryable' => false,
 				'show_ui'            => true,
-				'show_in_menu'       => true,
+				'show_in_menu'       => 'options-general.php',
 				'query_var'          => true,
 				'rewrite'            => array( 'slug' => 'bsf-mautic-rule' ),
 				'capability_type'    => 'post',

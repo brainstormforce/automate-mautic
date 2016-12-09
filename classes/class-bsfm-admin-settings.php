@@ -90,7 +90,8 @@ final class BSFMauticAdminSettings {
 			$cap	= 'delete_users';
 			$slug	= 'bsf-mautic-settings';
 			$func	= __CLASS__ . '::render';
-			add_submenu_page( 'edit.php?post_type=bsf-mautic-rule', 'Settings',  __( 'Settings', 'bsfmautic' ) , $cap, $slug, $func );
+			//add_submenu_page( 'edit.php?post_type=bsf-mautic-rule', 'Settings',  __( 'Settings', 'bsfmautic' ) , $cap, $slug, $func );
+			add_options_page( 'Rules',  __( 'Mautic', 'bsfmautic' ), 'administrator', 'bsf-mautic', $func );
 		}
 	}
 	
@@ -124,7 +125,42 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	static public function render() {
-		include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings.php';
+		//include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings.php';
+		include BSF_MAUTIC_PLUGIN_DIR . 'classes/class-rules-table.php';
+		include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
+	}
+
+	static public function bsfm_rules_list() {
+
+		// new CPTabMenu( "popups" );
+		$new_post_url = 'options-general.php?page=bsf-mautic&tab=add_new_rule';	
+		?>
+		<div class="wrap convertplug-popup-list">
+		<h1>
+			Mautic Rules <a class="page-title-action" href="<?php echo $new_post_url; ?>" >Add New</a>
+		</h1>
+		<?php
+		if ( ! empty( $_GET['s'] ) ) {
+			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'convertplug-v2' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
+		}
+		?>
+		<form method="get" action="" >
+
+			<?php
+			if ( isset( $_GET['page'] ) ) {
+				echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
+			}
+			$cp_list_table = new Bsfm_Rules_Table();
+			$cp_list_table->prepare_items();
+			$cp_list_table->search_box( 'search', 'cp_popup_search' );
+			?>
+		</form>
+		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+			<input type="hidden" name="action" value="cp_popup_list" />
+			<?php $cp_list_table->display(); ?>
+		</form>
+		</div>
+		<?php
 	}
 
 	/**
@@ -183,7 +219,7 @@ final class BSFMauticAdminSettings {
 			echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
 		}
 		else {
-			echo admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
+			echo admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' . $type );
 		}
 	}
 	
@@ -401,7 +437,7 @@ final class BSFMauticAdminSettings {
 			'version'		=> 'OAuth2',
 			'clientKey'		=> $bsfm_public_key,
 			'clientSecret'	=> $bsfm_secret_key, 
-			'callback'		=> admin_url( 'edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#bsfm-config' ),
+			'callback'		=> admin_url( 'options-general.php?page=bsf-mautic&tab=auth_mautic' ),
 			'response_type'	=> 'code'
 		);
 

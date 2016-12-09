@@ -2,9 +2,23 @@
 
 	<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'auth_mautic'; ?>
 	<h2 class="nav-tab-wrapper">
-		<a href="?post_type=bsf-mautic-rule&page=bsf-mautic-settings&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'bsfmautic'); ?> </a>
-		<a href="?post_type=bsf-mautic-rule&page=bsf-mautic-settings&tab=enable_tracking" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e('Tracking', 'bsfmautic'); ?> </a>
+		<a href="?page=bsf-mautic&tab=all_rules" class="nav-tab <?php echo $active_tab == 'all_rules' ? 'nav-tab-active' : ''; ?>"> <?php _e('All Rule', 'bsfmautic'); ?> </a>
+		<a href="?page=bsf-mautic&tab=add_new_rule" class="nav-tab <?php echo $active_tab == 'add_new_rule' ? 'nav-tab-active' : ''; ?>"> <?php _e('Add New Rule', 'bsfmautic'); ?> </a>
+		<a href="?page=bsf-mautic&tab=bsfm_settings" class="nav-tab <?php echo $active_tab == 'bsfm_settings' ? 'nav-tab-active' : ''; ?>"> <?php _e('Settings', 'bsfmautic'); ?> </a>
+		<a href="?page=bsf-mautic&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'bsfmautic'); ?> </a>
+		<a href="?page=bsf-mautic&tab=enable_tracking" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e('Tracking', 'bsfmautic'); ?> </a>
 	</h2>
+	<?php
+	if( $active_tab == 'all_rules' ) {
+		BSFMauticAdminSettings::bsfm_rules_list();
+	}
+	if( $active_tab == 'add_new_rule' ) { ?>
+		<p> ADD NEW RULE </p>
+	<?php }
+	if( $active_tab == 'bsfm_settings' ) { ?>
+		<p> SETTINGS </p>
+	<?php } ?>
+
 	<form id="bsfm-config-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
 		<div class="bsfm-settings-form-content">
 			<?php

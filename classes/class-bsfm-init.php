@@ -15,7 +15,6 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	 */
 	public function __construct() {
 		self::includes();
-		// self::get_bsfm_options(); // get settings issue on config page
 		add_action( 'wp_loaded', array( $this, 'get_bsfm_options') );
 	}
 
