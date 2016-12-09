@@ -328,16 +328,21 @@ final class BSFMauticAdminSettings {
 			if( isset( $credentials['access_code']  ) ) {
 				$grant_type = 'authorization_code';
 				$response = self::bsf_mautic_get_access_token( $grant_type );
-				$access_details = json_decode( $response['body'] );
-					if( isset( $access_details->error ) ) {
-						echo $access_details->error;
-						return;
+
+				if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+					$access_details               = json_decode( $response['body'] );
+					if( isset($access_details->error_description) ) {
+						$errorMsg = $access_details->error_description;
 					}
-				$expiration = time() + $access_details->expires_in;
-				$credentials['access_token'] = $access_details->access_token;
-				$credentials['expires_in'] = $expiration;
-				$credentials['refresh_token'] = $access_details->refresh_token;
-				update_option( 'bsfm_mautic_credentials', $credentials );
+					$status   = 'error';
+				} else {
+					$access_details               = json_decode( $response['body'] );
+					$expiration                   = time() + $access_details->expires_in;
+					$credentials['access_token']  = $access_details->access_token;
+					$credentials['expires_in']    = $expiration;
+					$credentials['refresh_token'] = $access_details->refresh_token;
+					update_option( 'bsfm_mautic_credentials', $credentials );
+				}
 			}
 		}
 	}
@@ -350,6 +355,11 @@ final class BSFMauticAdminSettings {
 	 */
 	public static function bsf_mautic_get_access_token($grant_type) {
 		$credentials = get_option('bsfm_mautic_credentials');
+
+		if ( ! isset( $credentials['baseUrl'] ) ) {
+
+			return;
+		}
 		$url = $credentials['baseUrl'] . "/oauth/v2/token";
 		$body = array(	
 			"client_id" => $credentials['clientKey'],
@@ -399,9 +409,9 @@ final class BSFMauticAdminSettings {
 			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
 			if( isset( $_POST['bsfm-tracking-type'] ) ) {	$bsfm['bsfm-tracking-type'] = $_POST['bsfm-tracking-type'];	}
 			
-			if( isset( $_POST['bsfm-disconnect-mautic'] ) ) {	
-				delete_option( 'bsfm_mautic_credentials' );
-			}
+			// if( isset( $_POST['bsfm-disconnect-mautic'] ) ) {	
+			// 	delete_option( 'bsfm_mautic_credentials' );
+			// }
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {

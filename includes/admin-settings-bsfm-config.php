@@ -33,13 +33,13 @@
 			<!-- Client Public Key -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Public Key', 'bsfmautic' ); ?></h4>
-				<input type="text" class="regular-text" name="bsfm-public-key" value="<?php echo $bsfm_public_key; ?>" class="bsfm-wp-text bsfm-google-map-api" />
+				<input type="text" class="regular-text" name="bsfm-public-key" class="bsfm-wp-text bsfm-google-map-api" />
 			</div>
 			
 			<!-- Client Secret Key -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
-				<input type="text" class="regular-text" name="bsfm-secret-key" value="<?php echo $bsfm_secret_key; ?>" class="bsfm-wp-text bsfm-google-map-api" />
+				<input type="text" class="regular-text" name="bsfm-secret-key" class="bsfm-wp-text bsfm-google-map-api" />
 				<p class="bsfm-admin-help">
 					<?php _e('This setting is required to integrate Mautic in your website. Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target='_blank' href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article', 'bsfmautic'); ?></a>
 				</p>
@@ -53,8 +53,9 @@
 				// If not authorized 
 				if( isset( $credentials['access_token'] ) ) { ?>
 				<p class="submit">
-					<span class="bsf-mautic-status-connected"> <?php _e('Connected', 'bsfmautic'); ?> </span>
-					<input type="submit" name="bsfm-disconnect-mautic" class="button" value="<?php esc_attr_e( 'Disconnect Mautic', 'bsfmautic' ); ?>" />
+					<input type="button" name="bsfm-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'bsfmautic' ); ?>" />
+					<!-- input type="submit" name="bsfm-disconnect-mautic" class="button" value="<?php esc_attr_e( 'Disconnect Mautic', 'bsfmautic' ); ?>" / -->
+					<a class="bsfm-disconnect-mautic"> <?php _e( 'Disconnect Mautic', 'bsfmautic' ); ?> </a> 
 				</p>
 				<?php } ?>
 			<!-- Enable pixel tracking -->
