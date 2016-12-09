@@ -155,8 +155,6 @@ jQuery(document).ready(function( $ ) {
 	});
 
 	jq('.bsfm-disconnect-mautic').click(function(){
-		// jq(".bsfm-config-select-tracking").fadeToggle(1000);
-		//status = ;
 		if( confirm('Are you sure you wish to disconnect from Mautic?') ) {
 			var data= {
 				action:'config_disconnect_mautic'
