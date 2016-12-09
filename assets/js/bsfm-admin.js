@@ -168,8 +168,7 @@ jQuery(document).ready(function( $ ) {
 		}
 	
 	});
-
 	jq('.bsfm-enabled-panels').click(function(){	 
-		jq(".bsfm-config-select-tracking").fadeToggle(1000);
+		jq(".bsfm-config-select-tracking").toggle(this.checked);
 	});
 });
