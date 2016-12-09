@@ -8,11 +8,7 @@
 
 	<div class="bsfm-settings-nav">
 		<ul>
-			<?php BSFMauticAdminSettings::render_nav_items(); ?>
+			<?php BSFMauticAdminSettings::render_form( 'bsfm-config' ); ?>
 		</ul>
-	</div>
-
-	<div class="bsfm-settings-content">
-		<?php BSFMauticAdminSettings::render_forms(); ?>
 	</div>
 </div>

@@ -115,14 +115,6 @@ final class BSFMauticAdminSettings {
 			wp_enqueue_script( 'bsfm-select2-script', BSF_MAUTIC_PLUGIN_URL . '/assets/js/select2.min.js' , array( 'jquery' ) );
 			wp_enqueue_style( 'bsfm-select2-style', BSF_MAUTIC_PLUGIN_URL . '/assets/css/select2.min.css' );
 		}
-		//Load AJAX script only on Builder UI Panel
-		if ( ( isset( $_REQUEST['page'] ) && 'bsf-mautic-settings' == $_REQUEST['page'] ) ) {
-			wp_enqueue_script( 'bsfm-admin-menu-js', BSF_MAUTIC_PLUGIN_URL . 'assets/js/bsfm-admin-menu.js' );
-			wp_register_style( 'bsfm-admin-menu-css', BSF_MAUTIC_PLUGIN_URL . 'assets/css/bsfm-admin-menu.css' );
-		}
-		if( 'bsf-mautic-rule_page_bsf-mautic-settings' == $hook || 'bsf-mautic-rule_page_bsf-mautic-multisite-settings' == $hook ) {
-			wp_enqueue_style( 'bsfm-admin-menu-css' );
-		}
 	}
 	
 	/** 
@@ -145,7 +137,7 @@ final class BSFMauticAdminSettings {
 		if ( ! empty( $icon ) ) {
 			echo '<img src="' . $icon . '" />';
 		}
-		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "BSFM" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
+		echo '<span>' . sprintf( _x( 'Settings', '%s stands for custom branded "BSFM" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
 	}
 	/** 
 	 * Renders the update message.
@@ -163,53 +155,7 @@ final class BSFMauticAdminSettings {
 			echo '<div class="updated"><p>' . __( 'Settings updated!', 'bsfmautic' ) . '</p></div>';
 		}
 	}
-	
-	/** 
-	 * Renders the nav items for the admin settings menu.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */	
-	static public function render_nav_items()
-	{
-		$items['bsfm-config'] = array(
-			'title' 	=> __( 'Mautic Configuration', 'bsfmautic' ),
-			'show'		=>  true,
-			'priority'	=> 505
-		);
 
-		$item_data = apply_filters( 'bsf_mautic_admin_settings_nav_items', $items );
-		
-		$sorted_data = array();
-		foreach ( $item_data as $key => $data ) {
-			$data['key'] = $key;
-			$sorted_data[ $data['priority'] ] = $data;
-		}
-		ksort( $sorted_data );
-		foreach ( $sorted_data as $data ) {
-			if ( $data['show'] ) {
-				echo '<li><a href="#' . $data['key'] . '">' . $data['title'] . '</a></li>';
-			}
-		}
-	}
-	
-	/** 
-	 * Renders the admin settings forms.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	static public function render_forms()
-	{
-		// License
-		if ( is_network_admin() || ! self::multisite_support() )  {
-			//self::render_form( 'license' );
-		}
-		self::render_form( 'bsfm-config' );
-		// Let extensions hook into form rendering.
-		do_action( 'bsf_mautic_admin_settings_render_forms' );
-	}
-	
 	/** 
 	 * Renders an admin settings form based on the type specified.
 	 *

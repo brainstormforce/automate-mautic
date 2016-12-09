@@ -1,7 +1,5 @@
 <div id="fl-bsfm-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
 
-	<h3 class="bsfm-settings-form-header"><?php _e( 'Mautic Configuration', 'bsfmautic' ); ?></h3>
-
 	<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'auth_mautic'; ?>
 	<h2 class="nav-tab-wrapper">
 		<a href="?post_type=bsf-mautic-rule&page=bsf-mautic-settings&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'bsfmautic'); ?> </a>
@@ -47,7 +45,7 @@
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
 				<input type="text" class="regular-text" name="bsfm-secret-key" class="bsfm-wp-text bsfm-google-map-api" />
 				<p class="bsfm-admin-help">
-					<?php _e('This setting is required to integrate Mautic in your website. Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target='_blank' href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article', 'bsfmautic'); ?></a>
+					<?php _e('This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target='_blank' href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article.', 'bsfmautic'); ?></a>
 				</p>
 			</div>
 			<p class="submit">
@@ -71,7 +69,7 @@
  			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'bsfmautic' ); ?></h4>
 				<p class="bsfm-admin-help">
-					<?php _e( 'This setting enables you to add Mautic tracking code in your site. Need more information about tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+					<?php _e( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>.', 'bsfmautic'); ?>
 				</p>
 				<label>
 					<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable Tracking', 'bsfmautic' ); ?>
