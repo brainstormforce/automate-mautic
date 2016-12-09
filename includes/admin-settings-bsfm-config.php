@@ -62,7 +62,7 @@
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'bsfmautic' ); ?></h4>
 				<p class="bsfm-admin-help">
-					<?php _e( 'This setting enables you to add Mautic tracking code in your site.  Need more information about tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+					<?php _e( 'This setting enables you to add Mautic tracking code in your site. Need more information about tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
 					<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Tracking', 'bsfmautic' ); ?>
