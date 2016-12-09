@@ -387,7 +387,7 @@ final class BSFMauticAdminSettings {
 			return;
 		}
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {
-			$bsfm['bsfm-enabled-tracking'] = false;
+			$bsfm = get_option('_bsf_mautic_config');
 			if( isset( $_POST['bsfm-base-url'] ) ) {	$bsfm['bsfm-base-url'] = esc_url( $_POST['bsfm-base-url'] ); }
 			if( isset( $_POST['bsfm-public-key'] ) ) {	$bsfm['bsfm-public-key'] = sanitize_key( $_POST['bsfm-public-key'] ); }
 			if( isset( $_POST['bsfm-secret-key'] ) ) {	$bsfm['bsfm-secret-key'] = sanitize_key( $_POST['bsfm-secret-key'] ); }
@@ -395,9 +395,19 @@ final class BSFMauticAdminSettings {
 			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
 			if( isset( $_POST['bsfm-tracking-type'] ) ) {	$bsfm['bsfm-tracking-type'] = $_POST['bsfm-tracking-type'];	}
 			
-			// if( isset( $_POST['bsfm-disconnect-mautic'] ) ) {	
-			// 	delete_option( 'bsfm_mautic_credentials' );
-			// }
+			// Update the site-wide option since we're in the network admin.
+			if ( is_network_admin() ) {
+				update_site_option( '_bsf_mautic_config', $bsfm );
+			}
+			else {
+				update_option( '_bsf_mautic_config', $bsfm );
+			}
+		}
+		if ( isset( $_POST['bsf-mautic-nonce-tracking'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-tracking'], 'bsfmautictrack' ) ) {
+			$bsfm = get_option('_bsf_mautic_config');
+			$bsfm['bsfm-enabled-tracking'] = false;
+			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
+			if( isset( $_POST['bsfm-tracking-type'] ) ) {	$bsfm['bsfm-tracking-type'] = $_POST['bsfm-tracking-type'];	}
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {
@@ -407,6 +417,7 @@ final class BSFMauticAdminSettings {
 				update_option( '_bsf_mautic_config', $bsfm );
 			}
 		}
+
 	}
 
 	static public function bsf_mautic_authenticate_update() 

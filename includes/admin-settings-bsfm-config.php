@@ -90,7 +90,7 @@
 			<p class="submit">
 				<input type="submit" name="fl-save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
 			</p>
-			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
+			<?php wp_nonce_field('bsfmautictrack', 'bsf-mautic-nonce-tracking'); ?>
 		<?php } ?>
 		</div>
 	</form>
