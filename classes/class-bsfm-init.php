@@ -21,7 +21,6 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 
 	function includes() {
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
-		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-branding.php';
 		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-helper.php';
 		//Load the appropriate text-domain
 		$this->load_plugin_textdomain();
@@ -32,8 +31,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	 */
 	static function get_bsfm_options() {
 		self::$bsfm_options = array(
-			'bsf_mautic_settings'     => get_option('_bsf_mautic_config'),
-			'bsf_mautic_branding' => get_option('_bsf_mautic_branding')
+			'bsf_mautic_settings'     => get_option('_bsf_mautic_config')
 		);
 	}
 	function load_plugin_textdomain() {

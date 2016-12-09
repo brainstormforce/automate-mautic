@@ -183,14 +183,6 @@ final class BSFMauticAdminSettings {
 			'priority'	=> 505
 		);
 
-		if ( get_option( 'bsfm_hide_branding' ) != true ) {
-			$items['bsfm-branding'] = array(
-				'title' 	=> __( 'Branding', 'bsfmautic' ),
-				'show'		=>  true,
-				'priority'	=> 506
-			);
-		}
-
 		$item_data = apply_filters( 'bsf_mautic_admin_settings_nav_items', $items );
 		
 		$sorted_data = array();
@@ -219,7 +211,6 @@ final class BSFMauticAdminSettings {
 			//self::render_form( 'license' );
 		}
 		self::render_form( 'bsfm-config' );
-		self::render_form( 'bsfm-branding' );
 		// Let extensions hook into form rendering.
 		do_action( 'bsf_mautic_admin_settings_render_forms' );
 	}
@@ -419,28 +410,6 @@ final class BSFMauticAdminSettings {
 			}
 			else {
 				update_option( '_bsf_mautic_config', $bsfm );
-			}
-		}
-		if ( isset( $_POST['bsfm-branding-nonce'] ) && wp_verify_nonce( $_POST['bsfm-branding-nonce'], 'bsfm-branding' ) ) {
-			if( isset( $_POST['bsfm-plugin-name'] ) ) 			{	$bsfm['bsfm-plugin-name']			= wp_kses_post( $_POST['bsfm-plugin-name'] );	}
-			if( isset( $_POST['bsfm-plugin-short-name'] ) )		{	$bsfm['bsfm-plugin-short-name']		= wp_kses_post( $_POST['bsfm-plugin-short-name'] );	}
-			if( isset( $_POST['bsfm-plugin-desc'] ) )			{	$bsfm['bsfm-plugin-desc']			= wp_kses_post( $_POST['bsfm-plugin-desc'] );	}
-			if( isset( $_POST['bsfm-author-name'] ) )			{	$bsfm['bsfm-author-name']			= wp_kses_post( $_POST['bsfm-author-name'] );	}
-			if( isset( $_POST['bsfm-author-url'] ) )			{	$bsfm['bsfm-author-url']			= sanitize_text_field( $_POST['bsfm-author-url'] );	}
-			if( isset( $_POST['bsfm-knowledge-base-url'] ) )	{	$bsfm['bsfm-knowledge-base-url']	= sanitize_text_field( $_POST['bsfm-knowledge-base-url'] );	}
-			if( isset( $_POST['bsfm-contact-support-url'] ) )	{	$bsfm['bsfm-contact-support-url']	= sanitize_text_field( $_POST['bsfm-contact-support-url'] );	}
-
-			if( isset( $_POST['bsfm-hide-branding'] ) ) {
-				update_option( 'bsfm_hide_branding', true );
-			} else {
-				update_option( 'bsfm_hide_branding', false );
-			}
-			// Update the site-wide option since we're in the network admin.
-			if ( is_network_admin() ) {
-				update_site_option( '_bsf_mautic_branding', $bsfm );
-			}
-			else {
-				update_option( '_bsf_mautic_branding', $bsfm );
 			}
 		}
 	}
