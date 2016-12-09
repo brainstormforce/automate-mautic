@@ -30,14 +30,8 @@
 .bsf-mautic-metabox fieldset.add-new-item:hover {
     background: #f5f5f5;
 }
-.bsf-mautic-metabox fieldset.bsfm-add-condition:hover, span.bsfm-add-action:hover {
+.bsf-mautic-metabox fieldset.bsfm-add-condition:hover, span.bsfm-add-action:hover, a.bsfm-disconnect-mautic {
     cursor: pointer;
-}
-#bsfm-config-form .bsf-mautic-status-connected {
-    background-color: #1baf1b;
-    color: #fff;
-    padding: 3px 6px;
-    margin-right: 2em;
 }
 #bsfm-config-form .bsf-mautic-status-disconnect {
     background-color: #b4b9be;
@@ -51,4 +45,7 @@
     color: #9acd32;
     margin-top: 5px;
     display: none;
+}
+#bsfm-config-form .bsfm-disconnect-mautic {
+    margin-left: 1em;
 }

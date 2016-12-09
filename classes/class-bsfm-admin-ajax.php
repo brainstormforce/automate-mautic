@@ -25,6 +25,7 @@ class BSFMauticAdminAjax {
 		add_action( 'wp_ajax_get_cf7_fields', array( $this, 'bsf_make_cf7_fields' ) );
 		add_action( 'wp_ajax_get_edd_var_price', array( $this, 'bsf_get_edd_variable_price' ) );
 		add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'bsf_clean_mautic_transient' ) );
+		add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'bsf_config_disconnect_mautic' ) );
 	}
 	/** 
 	 * Make cf7 form fields select Html
@@ -81,6 +82,18 @@ class BSFMauticAdminAjax {
 		echo $edd_vprice_sel;
 		wp_die();
 	}
+
+	/** 
+	 * disconnect mautic
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function bsf_config_disconnect_mautic() {
+		delete_option( 'bsfm_mautic_credentials' );
+		wp_die();
+	}
+
 	/** 
 	 * Refresh Mautic transients data
 	 *
