@@ -6,10 +6,12 @@
 		<div class="bsfm-settings-form-content">
 			<?php
 				$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = '';
+				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = $bsfm_enabled_track_show = '';
 				if( is_array($bsfm) ) {
 					$bsfm_enabled_track	= ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? ' checked' : '';
-					$bsfm_enabled_track_img	= ( array_key_exists( 'bsfm-enabled-tracking-img', $bsfm ) && $bsfm['bsfm-enabled-tracking-img'] == 1 )  ? ' checked' : '';				
+					$bsfm_enabled_track_show = ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? 'style="display: block;"' : 'style="display: none;"';
+					$bsfm_tracking_type_js	= ( array_key_exists( 'bsfm-tracking-type', $bsfm ) && $bsfm['bsfm-tracking-type'] == 'js' )  ? ' checked' : '';
+					$bsfm_tracking_type_img	= ( array_key_exists( 'bsfm-tracking-type', $bsfm ) && $bsfm['bsfm-tracking-type'] == 'img' )  ? ' checked' : '';
 					$bsfm_base_url = ( array_key_exists( 'bsfm-base-url', $bsfm ) ) ? $bsfm['bsfm-base-url'] : '';
 					$bsfm_public_key = ( array_key_exists( 'bsfm-public-key', $bsfm ) ) ? $bsfm['bsfm-public-key'] : '';
 					$bsfm_secret_key = ( array_key_exists( 'bsfm-secret-key', $bsfm ) ) ? $bsfm['bsfm-secret-key'] : '';
@@ -22,51 +24,62 @@
 				<p class="bsfm-admin-help">
 					<?php _e('This setting is required for Mautic Integration.', 'bsfmautic'); ?>
 				</p>
-				<input type="text" class="regular-text" name="bsfm-base-url" value="<?php echo $bsfm_base_url; ?>" class="uabb-wp-text uabb-google-map-api" />
+				<input type="text" class="regular-text" name="bsfm-base-url" value="<?php echo $bsfm_base_url; ?>" class="bsfm-wp-text bsfm-google-map-api" />
 			</div>
 
+			<?php 
+			$credentials = get_option( 'bsfm_mautic_credentials' );
+			if( ! isset( $credentials['access_token'] ) ) { ?>
 			<!-- Client Public Key -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Public Key', 'bsfmautic' ); ?></h4>
-				<input type="text" class="regular-text" name="bsfm-public-key" value="<?php echo $bsfm_public_key; ?>" class="uabb-wp-text uabb-google-map-api" />
+				<input type="text" class="regular-text" name="bsfm-public-key" value="<?php echo $bsfm_public_key; ?>" class="bsfm-wp-text bsfm-google-map-api" />
 			</div>
 			
 			<!-- Client Secret Key -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
-				<input type="text" class="regular-text" name="bsfm-secret-key" value="<?php echo $bsfm_secret_key; ?>" class="uabb-wp-text uabb-google-map-api" />
+				<input type="text" class="regular-text" name="bsfm-secret-key" value="<?php echo $bsfm_secret_key; ?>" class="bsfm-wp-text bsfm-google-map-api" />
 				<p class="bsfm-admin-help">
 					<?php _e('This setting is required to integrate Mautic in your website. Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target="_blank" href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article', 'bsfmautic'); ?></a>
 				</p>
 			</div>
 			<p class="submit">
-				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'uabb' ); ?>" />
+				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'bsfmautic' ); ?>" />
+				<span class="bsf-mautic-status-disconnect"> <?php _e('Not Connected', 'bsfmautic'); ?> </span>
 			</p>
+			<?php } ?>
+				<?php
+				// If not authorized 
+				if( isset( $credentials['access_token'] ) ) { ?>
+				<p class="submit">
+					<span class="bsf-mautic-status-connected"> <?php _e('Connected', 'bsfmautic'); ?> </span>
+					<input type="submit" name="bsfm-disconnect-mautic" class="button" value="<?php esc_attr_e( 'Disconnect Mautic', 'bsfmautic' ); ?>" />
+				</p>
+				<?php } ?>
 			<!-- Enable pixel tracking -->
 			<div class="bsfm-config-fields">
-				<h4><?php _e( 'Enable Javascript (JS) Tracking', 'bsfmautic' ); ?></h4>
+				<h4><?php _e( 'Enable Mautic Tracking', 'bsfmautic' ); ?></h4>
 				<p class="bsfm-admin-help">
-					<?php _e( 'This setting enable you to add Mautic tracking JS to your site. Mautic instance will be able to track information about your visitors that way. Need more information about JS tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+					<?php _e( 'This setting enables you to add Mautic tracking code in your site. Need more information about tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html" target="_blank">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
-					<input type="checkbox" class="uabb-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable JS Tracking', 'bsfmautic' ); ?>
-				</label>
+					<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable Tracking', 'bsfmautic' ); ?>
+				</label><br>
 			</div>
 
 			<!-- Load Panels -->
 			<!-- Enable image tracking -->
-			<div class="bsfm-config-fields">
-				<h4><?php _e( 'Enable Image Tracking', 'bsfmautic' ); ?></h4>
-				<p class="bsfm-admin-help">
-					<?php _e( 'This setting enable you to add Mautic tracking image to your site. Mautic instance will be able to track information about your visitors that way. Need more information about pixel tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+			<div class="bsfm-config-fields bsfm-config-select-tracking" <?php echo $bsfm_enabled_track_show; ?>>
+				<h4><?php _e( 'Select Tracking Type', 'bsfmautic' ); ?></h4>
+				<p>
+					<input type="radio" name="bsfm-tracking-type" value="js" <?php echo $bsfm_tracking_type_js; ?> ><?php _e( ' Javascript (JS) tracking', 'bsfmautic' ); ?><br>
+					<input type="radio" name="bsfm-tracking-type" value="img" <?php echo $bsfm_tracking_type_img; ?> ><?php _e( ' Pixel Tracking', 'bsfmautic' ); ?>
 				</p>
-				<label>
-					<input type="checkbox" class="uabb-enabled-panels" name="bsfm-enabled-tracking-img" value="" <?php echo $bsfm_enabled_track_img; ?> ><?php _e( 'Enable Image Tracking', 'bsfmautic' ); ?>
-				</label>
 			</div>
 		</div>
 		<p class="submit">
-			<input type="submit" name="fl-save-uabb" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'uabb' ); ?>" />
+			<input type="submit" name="fl-save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
 		</p>
 		<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
 	</form>

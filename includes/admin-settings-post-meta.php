@@ -17,27 +17,30 @@
 			?>
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
+						<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 					<?php	
+					if( ! empty($meta_conditions) ) {
 						foreach ($meta_conditions as $order => $meta_condition) :
 					?>
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span>
 							<select class="select-condition form-control" name="pm_condition[]">
+								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> ><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> ><?php  _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
 								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
-								<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
+									<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
 								<?php }
 								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
-								<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+									<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
 								<?php } ?>
 							</select>
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
 									<div class="first-condition" style="display:inline;">
 										<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere on website', 'bsfmautic' ) ?></option>
+											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere On Website', 'bsfmautic' ) ?></option>
 											<option value="os_page" <?php selected( $meta_condition[1],'os_page' ); ?> ><?php _e( 'On Specific Page', 'bsfmautic' ) ?></option>
 											<option value="os_post" <?php selected( $meta_condition[1],'os_post' ); ?> ><?php _e( 'On Specific Post', 'bsfmautic' ) ?></option>
 										</select>
@@ -95,24 +98,28 @@
 									echo '</div>';
 								endif;
 
-								if( $meta_condition[0]=='EDD' ) : ?>
+								if( $meta_condition[0]=='EDD' ) : 
+									if( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) {
+								?>
 									<div class="first-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_edd_downloads( $meta_condition[1] ); ?>
 									</div>
 									<div class="second-condition" style="display:inline;">
 										<?php Bsfm_Postmeta::bsf_make_edd_payment_status( $meta_condition[2] );
+										$edd_vprice_sel ='';
 										$edd_prices = edd_get_variable_prices( $meta_condition[1] );
-										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
 										if( $edd_prices ) {
+										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
 											foreach( $edd_prices as $price_id => $price ) {
 												$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $meta_condition[3]);
 											}
-										}
 										$edd_vprice_sel .= "</select>";
+										}
 										echo $edd_vprice_sel;
 									?>
 									</div>
 								<?php
+								}
 								endif;
 								if( $meta_condition[0]=='UR' ) :
 									echo '<div class="first-condition" style="display:inline;"></div>';
@@ -120,26 +127,26 @@
 								endif;
 						echo '</fieldset>';
 						endforeach;
+						}
 						?>
 					</div>
 					<fieldset class="bsfm-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
+							<span class="dashicons dashicons-plus-alt bsfm-new-item-icon"></span><?php _e( ' Add new condition', 'bsfmautic' ); ?>
 						</div>
 					</fieldset>
 					</div>
 						<div class="actions">
-							<h4> Action </h4>
+							<h4> <?php _e( 'Action', 'bsfmautic' ) ?> </h4>
 							<div id="bsfm-sortable-action" class="bsfm-item-wrap">
 							<?php	
+								if( ! empty( $meta_actions ) ) {
 								foreach ($meta_actions as $order => $meta_action) :	
 							?>
 								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
-										<select class="select-action form-control" name="pm_action[]">
-											<option value="segment" <?php selected( $meta_action[0],'segment' ); ?> ><?php _e( 'Segment', 'bsfmautic' ) ?></option>
-										</select>
+										<input type="hidden" name="pm_action[]" value="segment">
 							<?php if($meta_action[0]=='segment') :	?>
 									<div class="first-action" style="display:inline;">
 										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
@@ -158,41 +165,35 @@
 								</fieldset>
 							<?php
 								endforeach;
+								}
 							?>
 							</div>
-							<fieldset class="bsfm-add-action add-new-item">
+							<fieldset class="add-new-item">
 								<div>
-									<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ); ?>
+									<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'bsfmautic' ); ?></span>
 								</div>
 							</fieldset>
 						</div>
-						<div id="save-action">
-							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+						<div id="save-action" class="bsfm-refresh-mautic-wrap">
+							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">
+							<span class="spinner bsfm-wp-spinner"></span>
+							<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
 						</div>
 				</div>
 				<?php
 			}
 			else {
-			$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-			$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = '';
-			if( is_array($bsfm) ) {
-				$bsfm_enabled_track	= ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? ' checked' : '';
-				$bsfm_enabled_track_img	= ( array_key_exists( 'bsfm-enabled-tracking-img', $bsfm ) && $bsfm['bsfm-enabled-tracking-img'] == 1 )  ? ' checked' : '';				
-				$bsfm_base_url = ( array_key_exists( 'bsfm-base-url', $bsfm ) ) ? $bsfm['bsfm-base-url'] : '';
-				$bsfm_public_key = ( array_key_exists( 'bsfm-public-key', $bsfm ) ) ? $bsfm['bsfm-public-key'] : '';
-				$bsfm_secret_key = ( array_key_exists( 'bsfm-secret-key', $bsfm ) ) ? $bsfm['bsfm-secret-key'] : '';
-				$bsfm_callback_uri = ( array_key_exists( 'bsfm-callback-uri', $bsfm ) ) ? $bsfm['bsfm-callback-uri'] : '';
-			}
 		?>
 			<!-- default fields -->
 			<div class="bsf-mautic-metabox">
 				<div class="conditions">
-					<h4> Conditions </h4>
+					<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
 					<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default" id="item-1">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 							<select class="select-condition form-control" name="pm_condition[]">
+								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR"><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP"><?php _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
 								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
@@ -208,19 +209,17 @@
 					</div>				 
 					<fieldset class="bsfm-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
+							<span class="dashicons dashicons-plus-alt bsfm-new-item-icon"></span><?php _e( ' Add new condition', 'bsfmautic' ); ?>
 						</div>
 					</fieldset>
 				</div>
 				<div class="actions">
-					<h4> Action </h4>
+					<h4> <?php _e( 'Action', 'bsfmautic' ) ?> </h4>
 					<div id="bsfm-sortable-action" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
-								<select class="select-action form-control" name="pm_action[]">
-									<option value="segment"><?php _e( 'Segment', 'bsfmautic' ) ?></option>
-								</select>
+							<input type="hidden" name="pm_action[]" value="segment">
 							<div class="first-action" style="display:inline;">
 								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 									<option value="add_segment"><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
@@ -232,10 +231,16 @@
 							</div>
 						</fieldset>
 					</div>				 
-					<fieldset class="bsfm-add-action add-new-item"><div><span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ) ?></div></fieldset>
+						<fieldset class="add-new-item">
+								<div>
+									<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'bsfmautic' ); ?></span>
+								</div>
+						</fieldset>
 				</div>
-				<div id="save-action">
-							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button">
+				<div id="save-action" class="bsfm-refresh-mautic-wrap">
+					<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">
+					<span class="spinner bsfm-wp-spinner"></span>
+					<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
 				</div>
 			</div>
 			<!-- default fields end -->

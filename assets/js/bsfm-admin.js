@@ -109,18 +109,6 @@ jQuery(document).ready(function( $ ) {
 			break;
 		}
 	});
-	/*	// multiple actions
-		jq(document).on( "change", ".sub-cp-action", function() {
-		gParent = jq(this).parent().parent();
-		switch(this.value) {
-			case 'add_segment' :
-				var PreSeg = mbTemplate( { clas: this.value } );
-				gParent.find('div.second-action').html(PreSeg);
-				jq( ".root-seg-action" ).select2();
-			break;
-		}
-	});
-	*/
 	// append form field mapping
 	jq(document).on( "change", ".sub-cf-condition", function() {
 		gParent = jq(this).parent().parent();
@@ -141,11 +129,13 @@ jQuery(document).ready(function( $ ) {
 	});
 	// clean transients
 	jq(document).on( "click", "#refresh-mautic", function() {
+		jq( '.bsfm-wp-spinner' ).css( "visibility", "visible" );
 		var data= {
 			action:'clean_mautic_transient'
 		};
 		jq.post(ajaxurl, data, function(){
-			//
+			jq( '.bsfm-wp-spinner' ).css( "visibility", "hidden" );
+			jq( '.bsfm-wp-spinner-msg' ).css( "display", "inline-block" ).fadeOut(3000);
 		});
 	});
 	jq(document).on( "change", ".sub-edd-condition", function() {
@@ -162,5 +152,9 @@ jQuery(document).ready(function( $ ) {
 			jq( ".root-edd-condition" ).select2();
 			jq( ".edd_var_price" ).select2();
 		});
+	});
+
+	jq('.bsfm-enabled-panels').click(function(){	 
+    	jq(".bsfm-config-select-tracking").fadeToggle(1000);
 	});
 });

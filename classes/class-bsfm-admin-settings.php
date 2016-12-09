@@ -298,7 +298,7 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	static public function bsfm_set_mautic_code() {
-		if( isset($_GET['code']) ) {
+		if( isset( $_GET['code'] ) && 'bsf-mautic-settings' == $_REQUEST['page'] ) {
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 			$credentials['access_code'] =  esc_attr( $_GET['code'] );
 			update_option( 'bsfm_mautic_credentials', $credentials );
@@ -330,7 +330,8 @@ final class BSFMauticAdminSettings {
 				$response = self::bsf_mautic_get_access_token( $grant_type );
 				$access_details = json_decode( $response['body'] );
 					if( isset( $access_details->error ) ) {
-						exit('unable to connect');
+						echo $access_details->error;
+						return;
 					}
 				$expiration = time() + $access_details->expires_in;
 				$credentials['access_token'] = $access_details->access_token;
@@ -391,13 +392,16 @@ final class BSFMauticAdminSettings {
 		}
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {
 			$bsfm['bsfm-enabled-tracking'] = false;
-			$bsfm['bsfm-enabled-tracking-img'] = false;
 			if( isset( $_POST['bsfm-base-url'] ) ) {	$bsfm['bsfm-base-url'] = esc_url( $_POST['bsfm-base-url'] ); }
 			if( isset( $_POST['bsfm-public-key'] ) ) {	$bsfm['bsfm-public-key'] = sanitize_key( $_POST['bsfm-public-key'] ); }
 			if( isset( $_POST['bsfm-secret-key'] ) ) {	$bsfm['bsfm-secret-key'] = sanitize_key( $_POST['bsfm-secret-key'] ); }
 			if( isset( $_POST['bsfm-callback-uri'] ) ) {	$bsfm['bsfm-callback-uri'] = esc_url( $_POST['bsfm-callback-uri'] ); }
 			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
-			if( isset( $_POST['bsfm-enabled-tracking-img'] ) ) {	$bsfm['bsfm-enabled-tracking-img'] = true;	}
+			if( isset( $_POST['bsfm-tracking-type'] ) ) {	$bsfm['bsfm-tracking-type'] = $_POST['bsfm-tracking-type'];	}
+			
+			if( isset( $_POST['bsfm-disconnect-mautic'] ) ) {	
+				delete_option( 'bsfm_mautic_credentials' );
+			}
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {

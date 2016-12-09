@@ -43,6 +43,7 @@ class BSFMauticAdminAjax {
 		$map_cf7fields = sizeof($matches[0]);
 			$cf7_fields = "<table style='float: right;'><tbody>";
 			$cf7_fields_sel = "<tr><td><select class='cf7_form' name='cf7_fields[$cf7_id][]'>";
+			$cf7_fields_sel.= "<option> Select CF7 Field </option>";
 				foreach ($matches[0] as $value) {
 					$field = explode(' ',$value);
 					$cf7_fields_sel.= Bsfm_Postmeta::make_option($field[1], $field[1], $select);
@@ -68,13 +69,15 @@ class BSFMauticAdminAjax {
 		//get all contact form fields
 		$download_id = $_POST['download_id'];
 		$edd_prices = edd_get_variable_prices( $download_id );
-		$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
+		$edd_vprice_sel = '';
 		if( $edd_prices ) {
+		$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
+		$edd_vprice_sel .= "<option>Select Variable Price</option>";
 			foreach( $edd_prices as $price_id => $price ) {
 				$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $select);
 			}
-		}
 		$edd_vprice_sel .= "</select>";
+		}
 		echo $edd_vprice_sel;
 		wp_die();
 	}

@@ -59,8 +59,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$args = array(
 				'labels'             => $labels,
 				'description'        => __( 'Description.', 'bsfmautic' ),
-				'public'             => true,
-				'publicly_queryable' => true,
+				'public'             => false,
+				'publicly_queryable' => false,
 				'show_ui'            => true,
 				'show_in_menu'       => true,
 				'query_var'          => true,
@@ -83,9 +83,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		public function bsf_mautic_tracking_script()
 		{
 			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
-			$enable_mautic_tracking	= true;
+			$enable_mautic_tracking	= false;
 			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking', $bsfm_options ) ) {
-				if( $bsfm_options['bsfm-enabled-tracking'] == 1 ) {
+				if( $bsfm_options['bsfm-enabled-tracking'] == 1 && $bsfm_options['bsfm-tracking-type'] == 'js' ) {
 					$enable_mautic_tracking = true;
 				} else {
 					$enable_mautic_tracking = false;
@@ -113,9 +113,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		{
 			global $wp;
 			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
-			$enable_img_tracking = true;
-			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking-img', $bsfm_options ) ) { 
-				if( $bsfm_options['bsfm-enabled-tracking-img'] == 1 ) {
+			$enable_img_tracking = false;
+			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking', $bsfm_options ) ) { 
+				if( $bsfm_options['bsfm-enabled-tracking'] == 1 && $bsfm_options['bsfm-tracking-type'] == 'img' ) {
 					$enable_img_tracking = true;
 				} else {
 					$enable_img_tracking = false;
