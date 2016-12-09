@@ -41,7 +41,7 @@
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
 				<input type="text" class="regular-text" name="bsfm-secret-key" value="<?php echo $bsfm_secret_key; ?>" class="bsfm-wp-text bsfm-google-map-api" />
 				<p class="bsfm-admin-help">
-					<?php _e('This setting is required to integrate Mautic in your website. Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target="_blank" href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article', 'bsfmautic'); ?></a>
+					<?php _e('This setting is required to integrate Mautic in your website. Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target='_blank' href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article', 'bsfmautic'); ?></a>
 				</p>
 			</div>
 			<p class="submit">
@@ -61,10 +61,10 @@
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'bsfmautic' ); ?></h4>
 				<p class="bsfm-admin-help">
-					<?php _e( 'This setting enable you to add Mautic tracking JS to your site. Mautic instance will be able to track information about your visitors that way. Need more information about JS tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+					<?php _e( 'This setting enable you to add Mautic tracking JS to your site. Mautic instance will be able to track information about your visitors that way. Need more information about JS tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
-					<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable JS Tracking', 'bsfmautic' ); ?>
+					<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Tracking', 'bsfmautic' ); ?>
 				</label><br>
 			</div>
 
