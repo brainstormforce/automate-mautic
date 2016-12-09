@@ -61,10 +61,10 @@
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'bsfmautic' ); ?></h4>
 				<p class="bsfm-admin-help">
-					<?php _e( 'This setting enables you to add Mautic tracking code in your site. Need more information about tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
+					<?php _e( 'This setting enables you to add Mautic tracking code in your site. Need more information about tracking? Read <a href="https://mautic.org/docs/en/contacts/contact_monitoring.html" target="_blank">this article</a>', 'bsfmautic'); ?>
 				</p>
 				<label>
-					<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable JS Tracking', 'bsfmautic' ); ?>
+					<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Enable Tracking', 'bsfmautic' ); ?>
 				</label><br>
 			</div>
 
@@ -74,7 +74,7 @@
 				<h4><?php _e( 'Select Tracking Type', 'bsfmautic' ); ?></h4>
 				<p>
 					<input type="radio" name="bsfm-tracking-type" value="js" <?php echo $bsfm_tracking_type_js; ?> ><?php _e( ' Javascript (JS) tracking', 'bsfmautic' ); ?><br>
-					<input type="radio" name="bsfm-tracking-type" value="img" <?php echo $bsfm_tracking_type_img; ?> ><?php _e( ' Image Tracking', 'bsfmautic' ); ?>
+					<input type="radio" name="bsfm-tracking-type" value="img" <?php echo $bsfm_tracking_type_img; ?> ><?php _e( ' Pixel Tracking', 'bsfmautic' ); ?>
 				</p>
 			</div>
 		</div>
