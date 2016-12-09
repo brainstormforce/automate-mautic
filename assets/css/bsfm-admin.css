@@ -33,13 +33,17 @@
 .bsf-mautic-metabox fieldset.bsfm-add-condition:hover, span.bsfm-add-action:hover, a.bsfm-disconnect-mautic {
     cursor: pointer;
 }
+.bsf-mautic-metabox .refresh-mautic-data {
+    float: left;
+}
 #bsfm-config-form .bsf-mautic-status-disconnect {
     background-color: #b4b9be;
     padding: 3px 6px;
     color: #fff;
 }
 .bsf-mautic-metabox .bsfm-refresh-mautic-wrap {
-    margin-top: 1.3em;
+    margin-top: 1em;
+    display: inline-block;
 }
 .bsf-mautic-metabox .bsfm-wp-spinner-msg {
     color: #9acd32;
