@@ -2,6 +2,11 @@
 
 	<h3 class="bsfm-settings-form-header"><?php _e( 'Mautic Configuration', 'bsfmautic' ); ?></h3>
 
+	<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'auth_mautic'; ?>
+	<h2 class="nav-tab-wrapper">
+		<a href="?post_type=bsf-mautic-rule&page=bsf-mautic-settings&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'bsfmautic'); ?> </a>
+		<a href="?post_type=bsf-mautic-rule&page=bsf-mautic-settings&tab=enable_tracking" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e('Tracking', 'bsfmautic'); ?> </a>
+	</h2>
 	<form id="bsfm-config-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
 		<div class="bsfm-settings-form-content">
 			<?php
@@ -17,7 +22,8 @@
 					$bsfm_secret_key = ( array_key_exists( 'bsfm-secret-key', $bsfm ) ) ? $bsfm['bsfm-secret-key'] : '';
 					$bsfm_callback_uri = ( array_key_exists( 'bsfm-callback-uri', $bsfm ) ) ? $bsfm['bsfm-callback-uri'] : '';
 				}
-			?>
+
+			if( $active_tab == 'auth_mautic' ) { ?>
 			<!-- Base Url -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Base URL', 'bsfmautic' ); ?></h4>
@@ -47,6 +53,7 @@
 			<p class="submit">
 				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'bsfmautic' ); ?>" />
 			</p>
+			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
 			<?php } ?>
 				<?php
 				// If not authorized 
@@ -58,7 +65,10 @@
 				</p>
 				<?php } ?>
 			<!-- Enable pixel tracking -->
-			<div class="bsfm-config-fields">
+			<?php 
+			}
+			if( $active_tab == 'enable_tracking' ) { ?>
+ 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'bsfmautic' ); ?></h4>
 				<p class="bsfm-admin-help">
 					<?php _e( 'This setting enables you to add Mautic tracking code in your site. Need more information about tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>', 'bsfmautic'); ?>
@@ -77,10 +87,11 @@
 					<input type="radio" name="bsfm-tracking-type" value="img" <?php echo $bsfm_tracking_type_img; ?> ><?php _e( ' Pixel Tracking', 'bsfmautic' ); ?>
 				</p>
 			</div>
+			<p class="submit">
+				<input type="submit" name="fl-save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
+			</p>
+			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
+		<?php } ?>
 		</div>
-		<p class="submit">
-			<input type="submit" name="fl-save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
-		</p>
-		<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
 	</form>
 </div>

@@ -172,11 +172,6 @@ final class BSFMauticAdminSettings {
 	 */	
 	static public function render_nav_items()
 	{
-		/*$items['bsfm-license'] = array(
-			'title' 	=> __( 'License', 'bsfmautic' ),
-			'show'		=>  true,
-			'priority'	=> 504
-		);*/
 		$items['bsfm-config'] = array(
 			'title' 	=> __( 'Mautic Configuration', 'bsfmautic' ),
 			'show'		=>  true,
