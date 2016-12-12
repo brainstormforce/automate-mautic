@@ -166,7 +166,11 @@ jQuery(document).ready(function( $ ) {
 		else {
 			return false;		
 		}
-	
+	});
+	jq( '.bsfm-config-bsfm-settings-form' ).on( 'click', '.rule-delete-link', function() {
+		if ( ! confirm( "Are you sure you want to delete rule?" ) ) {
+			return false;
+		}
 	});
 	jq('.bsfm-enabled-panels').click(function(){	 
 		jq(".bsfm-config-select-tracking").toggle(this.checked);
