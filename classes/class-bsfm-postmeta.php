@@ -40,11 +40,19 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	 * Register meta box(es).
 	 */
 	public function bsf_mautic_register_meta_box() {
-		add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
+		//add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
+		//add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( __CLASS__, 'bsf_mautic_metabox_view' ), 'normal' );
 	}
-	public function bsf_mautic_metabox_view( $post ) {
+	public function bsf_mautic_metabox_view() {
 		BSFMauticAdminSettings::render_form( 'post-meta' );
 	}
+
+	// test MB
+	public function add_meta_box_b( $id, $title, $callback, $context = 'normal', $priority = 'default', $callback_args = null ) {
+		//$this->has_meta_boxes = true;
+		add_meta_box( "mauticpress_-{$id}", $title, $callback, null, $context, $priority, $callback_args );
+	}
+
 	public static function make_option( $id, $value, $selected = null ) {
 		$selected = selected( $id, $selected, false );
 		return '<option value="' . $id . '"' . $selected . '>' . $value . '</option>';

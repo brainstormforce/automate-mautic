@@ -14,6 +14,10 @@
 	}
 	if( $active_tab == 'add_new_rule' ) { ?>
 		<p> ADD NEW RULE </p>
+		<?php
+			$bsf_post_meta = new Bsfm_Postmeta();
+			$bsf_post_meta->add_meta_box_b( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), $bsf_post_meta->bsf_mautic_metabox_view() , 'normal' );
+		?>
 	<?php }
 	if( $active_tab == 'bsfm_settings' ) { ?>
 		<p> SETTINGS </p>
@@ -59,7 +63,7 @@
 				<h4><?php _e( 'Secret Key', 'bsfmautic' ); ?></h4>	
 				<input type="text" class="regular-text" name="bsfm-secret-key" class="bsfm-wp-text bsfm-google-map-api" />
 				<p class="bsfm-admin-help">
-					<?php _e('This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target='_blank' href="http://docs.sharkz.in/how-to-get-mautic-api-credentials/"><?php _e('this article.', 'bsfmautic'); ?></a>
+					<?php _e('This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read ', 'bsfmautic'); ?><a target='_blank' href="https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/"><?php _e('this article.', 'bsfmautic'); ?></a>
 				</p>
 			</div>
 			<p class="submit">

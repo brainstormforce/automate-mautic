@@ -28,8 +28,8 @@ if(!class_exists("Bsfm_Rules_Table")){
 		public function __construct() {
 			
 			parent::__construct( array(
-				'singular'	=> 'popup',		// Singular name of the listed records.
-				'plural'	=> 'popups', // Plural name of the listed records.
+				'singular'	=> 'rule',		// Singular name of the listed records.
+				'plural'	=> 'rules', // Plural name of the listed records.
 				'ajax'		=> false,					// Does this list table support AJAX?
 			) );
 		}
@@ -45,9 +45,9 @@ if(!class_exists("Bsfm_Rules_Table")){
 		  }
 		}
 
-		/** Text displayed when no popup data is available */
+		/** Text displayed when no rule data is available */
 		public function no_items() {
-		  _e( 'No popups avaliable.', 'convertplug' );
+		  _e( 'No rules avaliable.', 'bsfmautic' );
 		}
 
 		/**
@@ -65,7 +65,7 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 		function column_post_author( array $item ) {
 			if ( '' === trim( $item['post_author'] ) ) {
-				$item['post_author'] = __( '(no post_author)', 'convertplug-v2' );
+				$item['post_author'] = __( '(no post_author)', 'bsfmautic' );
 			}
 
 			$author = get_the_author_meta( 'display_name', $item['post_author'] );
@@ -75,7 +75,7 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 		function column_post_title( array $item ) {
 			if ( '' === trim( $item['post_title'] ) ) {
-				$item['post_title'] = __( '(no post_title)', 'convertplug' );
+				$item['post_title'] = __( '(no post_title)', 'bsfmautic' );
 			}
 
 			$post_link = get_edit_post_link( $item['ID'] );
@@ -84,13 +84,13 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 			$row_actions = array();
 			
-			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'convertplug' ), $item['post_title'] ) ), __( 'Edit', 'convertplug' ) );
+			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'bsfmautic' ), $item['post_title'] ) ), __( 'Edit', 'bsfmautic' ) );
 
-			$wpnonce = wp_create_nonce( 'delete-popup'.$item['ID'] );	
+			$wpnonce = wp_create_nonce( 'delete-rule'.$item['ID'] );	
 			
-			$delete_url = admin_url( "admin-post.php?action=cp_delete_popup&popup_id=".$item['ID'] . "&_wpnonce=" .$wpnonce );
+			$delete_url = admin_url( "admin-post.php?action=bsfm_delete_rule&rule_id=".$item['ID'] . "&_wpnonce=" .$wpnonce );
 
-			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'convertplug' ), $item['post_title'] ) ), __( 'Delete', 'convertplug' ) );
+			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'bsfmautic' ), $item['post_title'] ) ), __( 'Delete', 'bsfmautic' ) );
 
 			return $post_title . $this->row_actions( $row_actions );
 		}
@@ -164,14 +164,14 @@ if(!class_exists("Bsfm_Rules_Table")){
 			}
 
 			$name_id = "bulk-action-{$which}";
-			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'convertplug-v2' ) . "</label>\n";
+			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'bsfmautic' ) . "</label>\n";
 			echo "<select name='{$name_id}' id='{$name_id}'>\n";
-			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'convertplug-v2' ) . "</option>\n";
+			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'bsfmautic' ) . "</option>\n";
 			foreach ( $this->_actions as $name => $title ) {
 				echo "\t<option value='{$name}'>{$title}</option>\n";
 			}
 			echo "</select>\n";
-			submit_button( __( 'Apply', 'convertplug' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
+			submit_button( __( 'Apply', 'bsfmautic' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
 			echo "\n";
 		}
 
@@ -188,11 +188,11 @@ if(!class_exists("Bsfm_Rules_Table")){
 			$hidden = array();
 			$sortable = $this->get_sortable_columns();
 			$this->_column_headers = array($columns, $hidden, $sortable);
-			$this->items = $this->get_popups();
+			$this->items = $this->get_rules();
 			
 		}
 
-		public function get_popups() {
+		public function get_rules() {
 
 			global $wpdb;
 			$page_number = $this->get_pagenum();
@@ -243,6 +243,5 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 			return $result;
 		}
-
 	}
 }
