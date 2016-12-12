@@ -1,5 +1,11 @@
-<div id="bsfm-bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
+<div id="bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
+
 	<form id="bsfm-post-meta-form" action="#" method="post">
+		
+		<div class="wrap">
+			<input type="text" name="bsfm_rule_title" class="bsfm_rule_title" placeholder="Enter Rule Title">
+		</div>
+
 		<div class="bsfm-settings-form-content">
 			<?php
 			if( isset($_GET['action']) && $_GET['action']=='edit') {
@@ -16,6 +22,7 @@
 				}
 			?>
 				<div class="bsf-mautic-metabox">
+
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
@@ -246,6 +253,9 @@
 			<!-- default fields end -->
 		<?php	}	?>
 		</div>
-		<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta'); ?>
+		<p class="submit">
+			<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
+		</p>
+		<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 	</form>
 </div>

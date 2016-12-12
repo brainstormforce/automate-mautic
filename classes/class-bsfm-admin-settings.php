@@ -45,7 +45,6 @@ final class BSFMauticAdminSettings {
 		$post_type = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
 		//if( isset($_REQUEST['post']) || $post_type_req =='bsf-mautic-rule' ) {
 			//$post_type = isset( $_REQUEST['page'] ) ? get_post_type( $_REQUEST['page'] ) : '';
-
 			if( 'bsf-mautic' == $post_type) {
 				include BSF_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
 			}
@@ -369,6 +368,96 @@ final class BSFMauticAdminSettings {
 		if(!current_user_can('delete_users')) {
 			return;
 		}
+
+		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticpmeta' ) ) {
+			// add rule in post_type
+			// update all meta 
+			// action edit or ADD 
+			if( isset($_POST['bsfm_rule_title']) ) {
+				$rule_name = $_POST['bsfm_rule_title'];
+			}
+	
+			// Gather post data.
+			$rule_post_type = array(
+				'post_title'    => $rule_name,
+				'post_content'  => '',
+				'post_status'   => 'publish',
+				'post_type'     => 'bsf-mautic-rule'
+			);
+
+			$rule_id = wp_insert_post( $rule_post_type );
+			$post_id = $rule_id;
+			if( $rule_id !== '' && $rule_id != null ) {
+				$post_action = 'update';
+				$cp_popup_post['ID'] = $rule_id;
+			}
+
+				//update post meta
+				if ( isset( $_POST['pm_condition'] ) ) {
+					$conditions = $_POST['pm_condition'];
+					$cp_keys = array_keys( $conditions, "CP");
+					$cf7_keys = array_keys( $conditions, "CF7");
+					$edd_keys = array_keys( $conditions, "EDD");
+					$condition_cnt = sizeof( $conditions );
+					for($i=0; $i < $condition_cnt; $i++) {
+						if($conditions[$i]=='UR') {
+							$update_conditions[$i] = array( $conditions[$i] );
+						}
+						if ($conditions[$i]=='CP') {
+							$sub_key = array_search($i,$cp_keys);
+							$update_conditions[$i] = array(
+								$conditions[$i],
+								$_POST['sub_cp_condition'][$sub_key], 
+								$_POST['ss_cp_condition'][$sub_key] );
+						}
+						if ($conditions[$i] == "CF7") {
+							$sub_key = array_search($i,$cf7_keys);
+							$update_maping = '';
+							$form_id = $_POST['sub_cf_condition'][$sub_key];
+							$update_maping['cf7_fields'] = $_POST['cf7_fields'][$form_id];
+							$update_maping['mautic_cfields'] = $_POST['mautic_cfields'][$form_id];
+							$update_conditions[$i] = array(
+								$conditions[$i],
+								$_POST['sub_cf_condition'][$sub_key],
+								$update_maping );
+						}
+						if ($conditions[$i] == "EDD") {
+							$sub_key = array_search($i,$edd_keys);
+							$update_maping = '';
+							$download_id = $_POST['sub_edd_condition'][$sub_key];
+							$update_conditions[$i] = array(
+								$conditions[$i],
+								$_POST['sub_edd_condition'][$sub_key],
+								$_POST['ss_edd_condition'][$sub_key],
+								$_POST['ss_edd_var_price'][$sub_key] );
+						}
+					}
+					$update_conditions = serialize($update_conditions);
+					update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
+				}
+				//update actions
+				if ( isset( $_POST['pm_action'] ) ) {
+					$actions = $_POST['pm_action'];
+					$seg_keys = array_keys( $actions, "segment");
+					$action_cnt = sizeof($actions);
+					for($i=0; $i < $action_cnt; $i++) {
+						if($actions[$i]=='tag') {
+							$update_actions[$i] = $actions[$i];
+						}
+						if($actions[$i]=='segment') {
+							$sub_key = array_search($i,$seg_keys);
+							$update_actions[$i] = array(
+								$actions[$i],
+								$_POST['sub_seg_action'][$sub_key],
+								$_POST['ss_seg_action'][$sub_key]
+							);
+						}
+					}
+					$update_actions = serialize($update_actions);
+					update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
+				}
+		}
+
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {
 			$bsfm = get_option('_bsf_mautic_config');
 			if( isset( $_POST['bsfm-base-url'] ) ) {	$bsfm['bsfm-base-url'] = esc_url( $_POST['bsfm-base-url'] ); }
@@ -400,7 +489,6 @@ final class BSFMauticAdminSettings {
 				update_option( '_bsf_mautic_config', $bsfm );
 			}
 		}
-
 	}
 
 	static public function bsf_mautic_authenticate_update() 
