@@ -2,7 +2,14 @@
 
 	<?php 
 		$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'all_rules';
-		$current_action = isset( $_GET[ 'action' ] ) ? $_GET[ 'action' ] : ''; 
+		// $current_action = isset( $_GET[ 'action' ] ) ? $_GET[ 'action' ] : ''; 
+		if( isset( $_GET['action'] ) ) {
+			$current_action = $_GET[ 'action' ];
+			$active_tab = '';
+		}
+		else {
+			$current_action = '';
+		}
 	?>
 	<h2 class="nav-tab-wrapper">
 		<a href="?page=bsf-mautic&tab=all_rules" class="nav-tab <?php echo $active_tab == 'all_rules' ? 'nav-tab-active' : ''; ?>"> <?php _e('All Rule', 'bsfmautic'); ?> </a>
@@ -12,7 +19,7 @@
 	</h2>
 	<?php
 	if( $active_tab == 'all_rules' ) {
-		BSFMauticAdminSettings::bsfm_rules_list();
+			BSFMauticAdminSettings::bsfm_rules_list();
 	}
 	if( $active_tab == 'add_new_rule' || $current_action == 'edit' ) { ?>
 		<?php

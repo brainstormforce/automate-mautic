@@ -473,8 +473,8 @@ final class BSFMauticAdminSettings {
 					$update_actions = serialize($update_actions);
 					update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
 				}
-				admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
-				wp_redirect();
+				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
+				wp_redirect( $redirect );
 		}
 
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {

@@ -1,9 +1,18 @@
 <div id="bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
 
-	<form id="bsfm-post-meta-form" action="<?php BSFMauticAdminSettings::render_tab_action( 'edit' ); ?>" method="post">
+	<form id="bsfm-post-meta-form" action="#" method="post">
 		
+		<?php
+			if(isset($_GET['post'])) {
+				$post_id = $_GET['post'];
+				$rule_title = get_the_title( $post_id );
+			}
+			else {
+				$rule_title = '';
+			}
+		?>
 		<div class="wrap">
-			<input type="text" name="bsfm_rule_title" class="bsfm_rule_title" placeholder="Enter Rule Title">
+			<input type="text" name="bsfm_rule_title" class="bsfm_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title">
 		</div>
 
 		<div class="bsfm-settings-form-content">
@@ -22,7 +31,6 @@
 				}
 			?>
 				<div class="bsf-mautic-metabox">
-
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
