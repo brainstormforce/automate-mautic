@@ -40,8 +40,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	 * Register meta box(es).
 	 */
 	public function bsf_mautic_register_meta_box() {
-		//add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
-		//add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( __CLASS__, 'bsf_mautic_metabox_view' ), 'normal' );
+		add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
+		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic' );
+	
+		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( __CLASS__, 'bsf_mautic_metabox_view' ), 'normal' );
 	}
 	public function bsf_mautic_metabox_view() {
 		BSFMauticAdminSettings::render_form( 'post-meta' );

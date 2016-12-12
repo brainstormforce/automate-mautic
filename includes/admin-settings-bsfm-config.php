@@ -13,11 +13,16 @@
 		BSFMauticAdminSettings::bsfm_rules_list();
 	}
 	if( $active_tab == 'add_new_rule' ) { ?>
-		<p> ADD NEW RULE </p>
-		<?php
-			$bsf_post_meta = new Bsfm_Postmeta();
-			$bsf_post_meta->add_meta_box_b( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), $bsf_post_meta->bsf_mautic_metabox_view() , 'normal' );
-		?>
+		<div class="wrap">
+		<h2> Add New Rule </h2>
+			<?php
+		 	 	global $hook_suffix;
+				//do_action( 'add_meta_boxes', $hook_suffix );
+				//do_meta_boxes( $hook_suffix, 'side', null );
+				$bsf_post_meta = new Bsfm_Postmeta();
+				$bsf_post_meta->add_meta_box_b( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), $bsf_post_meta->bsf_mautic_metabox_view() , 'normal' );
+			?>
+		</div>
 	<?php }
 	if( $active_tab == 'bsfm_settings' ) { ?>
 		<p> SETTINGS </p>

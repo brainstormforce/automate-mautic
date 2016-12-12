@@ -45,6 +45,8 @@
     margin-top: 5px;
     display: none;
 }
-#bsfm-config-form .bsfm-disconnect-mautic, .bsfm-settings-form-content {
-    margin-left: 1em;
+#bsfm-bsfm-post-meta #bsfm-post-meta-form {
+    background: white;
+    padding: 1em 2em;
 }
+    

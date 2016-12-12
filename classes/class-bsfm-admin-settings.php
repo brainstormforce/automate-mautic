@@ -42,13 +42,14 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	public function bsfm_mb_templates() {
-		$post_type_req = isset( $_REQUEST['post_type'] ) ? $_REQUEST['post_type'] : '';
-		if( isset($_REQUEST['post']) || $post_type_req =='bsf-mautic-rule' ) {
-			$post_type = isset( $_REQUEST['post'] ) ? get_post_type( $_REQUEST['post'] ) : '';
-			if( 'bsf-mautic-rule' == $post_type || 'bsf-mautic-rule' == $post_type_req ) {
+		$post_type = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+		//if( isset($_REQUEST['post']) || $post_type_req =='bsf-mautic-rule' ) {
+			//$post_type = isset( $_REQUEST['page'] ) ? get_post_type( $_REQUEST['page'] ) : '';
+
+			if( 'bsf-mautic' == $post_type) {
 				include BSF_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
 			}
-		}
+		//}
 	}
 
 	/** 
@@ -72,7 +73,7 @@ final class BSFMauticAdminSettings {
 		elseif( isset( $_REQUEST['post'] ) ) {
 			$post_type = get_post_type( $_REQUEST['post'] );
 		}
-		if((isset( $_REQUEST['page']) && 'bsf-mautic-settings' == $_REQUEST['page'] ) || ('bsf-mautic-rule' == $post_type) ) {
+		if((isset( $_REQUEST['page']) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			self::save();
 			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
 		}
@@ -108,7 +109,7 @@ final class BSFMauticAdminSettings {
 		elseif( isset($_REQUEST['post']) ) {
 			$post_type = get_post_type( $_REQUEST['post'] );
 		}
-		if ( (isset( $_REQUEST['page'] ) && 'bsf-mautic-settings' == $_REQUEST['page'] ) || ('bsf-mautic-rule' == $post_type) ) {
+		if ( (isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script( 'bsfm-admin-script', BSF_MAUTIC_PLUGIN_URL . '/assets/js/bsfm-admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
@@ -135,7 +136,7 @@ final class BSFMauticAdminSettings {
 		// new CPTabMenu( "popups" );
 		$new_post_url = 'options-general.php?page=bsf-mautic&tab=add_new_rule';	
 		?>
-		<div class="wrap convertplug-popup-list">
+		<div class="wrap">
 		<h1>
 			Mautic Rules <a class="page-title-action" href="<?php echo $new_post_url; ?>" >Add New</a>
 		</h1>
