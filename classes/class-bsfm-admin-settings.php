@@ -222,6 +222,23 @@ final class BSFMauticAdminSettings {
 			echo admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' . $type );
 		}
 	}
+
+	/** 
+	 * Renders tabs.
+	 *
+	 * @since 1.0.0
+	 * @param string $type The type of tab being rendered.
+	 * @return void
+	 */	  
+	static public function render_tab_action( $type = '' )
+	{
+		if ( is_network_admin() ) {
+			echo network_admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
+		}
+		else {
+			echo admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
+		}
+	}
 	
 	/** 
 	 * Returns the action for a form.
@@ -456,6 +473,8 @@ final class BSFMauticAdminSettings {
 					$update_actions = serialize($update_actions);
 					update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
 				}
+				admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
+				wp_redirect();
 		}
 
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {

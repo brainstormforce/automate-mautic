@@ -1,6 +1,6 @@
 <div id="bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
 
-	<form id="bsfm-post-meta-form" action="#" method="post">
+	<form id="bsfm-post-meta-form" action="<?php BSFMauticAdminSettings::render_tab_action( 'edit' ); ?>" method="post">
 		
 		<div class="wrap">
 			<input type="text" name="bsfm_rule_title" class="bsfm_rule_title" placeholder="Enter Rule Title">
@@ -188,7 +188,7 @@
 						</div>
 				</div>
 				<?php
-			}
+			} // end edit
 			else {
 		?>
 			<!-- default fields -->

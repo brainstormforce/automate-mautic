@@ -1,6 +1,9 @@
 <div id="fl-bsfm-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
 
-	<?php $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'auth_mautic'; ?>
+	<?php 
+		$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'all_rules';
+		$current_action = isset( $_GET[ 'action' ] ) ? $_GET[ 'action' ] : ''; 
+	?>
 	<h2 class="nav-tab-wrapper">
 		<a href="?page=bsf-mautic&tab=all_rules" class="nav-tab <?php echo $active_tab == 'all_rules' ? 'nav-tab-active' : ''; ?>"> <?php _e('All Rule', 'bsfmautic'); ?> </a>
 		<a href="?page=bsf-mautic&tab=add_new_rule" class="nav-tab <?php echo $active_tab == 'add_new_rule' ? 'nav-tab-active' : ''; ?>"> <?php _e('Add New Rule', 'bsfmautic'); ?> </a>
@@ -11,7 +14,7 @@
 	if( $active_tab == 'all_rules' ) {
 		BSFMauticAdminSettings::bsfm_rules_list();
 	}
-	if( $active_tab == 'add_new_rule' ) { ?>
+	if( $active_tab == 'add_new_rule' || $current_action == 'edit' ) { ?>
 		<?php
 			Bsfm_Postmeta::bsf_mautic_metabox_view();
 		?>
