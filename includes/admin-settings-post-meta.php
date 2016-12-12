@@ -14,22 +14,22 @@
 		<div class="wrap">
 			<input type="text" name="bsfm_rule_title" class="bsfm_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title">
 		</div>
-
+		<?php
+		if( isset($_GET['action']) && $_GET['action']=='edit') {
+			if(isset($_GET['post'])) {
+				$post_id = $_GET['post'];
+			}
+			$meta_conditions = get_post_meta( $post_id, 'bsfm_rule_condition' );
+			if (isset($meta_conditions[0])) {
+				$meta_conditions = unserialize($meta_conditions[0]);	
+			}
+			$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
+			if (isset($meta_actions[0])) {
+				$meta_actions = unserialize($meta_actions[0]);
+			}
+		?>
 		<div class="bsfm-settings-form-content">
-			<?php
-			if( isset($_GET['action']) && $_GET['action']=='edit') {
-				if(isset($_GET['post'])) {
-					$post_id = $_GET['post'];
-				}
-				$meta_conditions = get_post_meta( $post_id, 'bsfm_rule_condition' );
-				if (isset($meta_conditions[0])) {
-					$meta_conditions = unserialize($meta_conditions[0]);	
-				}
-				$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
-				if (isset($meta_actions[0])) {
-					$meta_actions = unserialize($meta_actions[0]);
-				}
-			?>
+		
 				<div class="bsf-mautic-metabox">
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
@@ -195,11 +195,17 @@
 							<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
 						</div>
 				</div>
+			</div>
+			<p class="submit">
+				<input type="submit" value="Edit Rule" class="button button-primary button-large" name="edit_the_rule">
+			</p>
+			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 				<?php
 			} // end edit
 			else {
 		?>
 			<!-- default fields -->
+			<div class="bsfm-settings-form-content">
 			<div class="bsf-mautic-metabox">
 				<div class="conditions">
 					<h4> <?php _e( 'Trigger', 'bsfmautic' ) ?> </h4>
@@ -259,11 +265,11 @@
 				</div>
 			</div>
 			<!-- default fields end -->
-		<?php	}	?>
-		</div>
-		<p class="submit">
-			<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
-		</p>
-		<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
+			</div>
+			<p class="submit">
+				<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
+			</p>
+			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
+		<?php }	?>
 	</form>
 </div>

@@ -387,9 +387,7 @@ final class BSFMauticAdminSettings {
 		}
 
 		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticpmeta' ) ) {
-			// add rule in post_type
-			// update all meta 
-			// action edit or ADD 
+			
 			if( isset($_POST['bsfm_rule_title']) ) {
 				$rule_name = $_POST['bsfm_rule_title'];
 			}
@@ -402,12 +400,16 @@ final class BSFMauticAdminSettings {
 				'post_type'     => 'bsf-mautic-rule'
 			);
 
+			if( isset($_GET['action']) && $_GET['action']=='edit') {
+				$rule_id = $_GET['post'];
+			}
+
+			if( $rule_id !== '' && $rule_id != null ) {
+				$rule_post_type['ID'] = $rule_id;
+			}
+
 			$rule_id = wp_insert_post( $rule_post_type );
 			$post_id = $rule_id;
-			if( $rule_id !== '' && $rule_id != null ) {
-				$post_action = 'update';
-				$cp_popup_post['ID'] = $rule_id;
-			}
 
 				//update post meta
 				if ( isset( $_POST['pm_condition'] ) ) {

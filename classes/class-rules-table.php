@@ -78,7 +78,9 @@ if(!class_exists("Bsfm_Rules_Table")){
 				$item['post_title'] = __( '(no post_title)', 'bsfmautic' );
 			}
 
-			$post_link = get_edit_post_link( $item['ID'] );
+			// $post_link = get_edit_post_link( $item['ID'] );
+
+			$post_link = admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $item['ID'] );
 
 			$post_title = "<a href='". $post_link ."'>".$item['post_title']."</a>";
 
@@ -94,7 +96,6 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 			return $post_title . $this->row_actions( $row_actions );
 		}
-
 
 		/**
 		 * Get a list of columns in this List Table.
