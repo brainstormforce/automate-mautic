@@ -159,8 +159,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
 				'email'		=> $user_info->user_email,
-				'website'	=> $user_info->user_url
+				'website'	=> $user_info->user_url,
+				'tags'		=> 'hello,rahul,aw'
 			);
+			// 'tags'		=> 'hello,rahul,aw'
 			// API Method
 			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {

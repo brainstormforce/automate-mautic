@@ -188,7 +188,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		delete_post_meta( $post_id, 'bsfm_rule_condition');
 		delete_post_meta( $post_id, 'bsfm_rule_action');
 	}
-	
+
 	/**
 	* check if rule is set
 	* @param comment data
@@ -237,9 +237,16 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			 	$rule_id = $post->ID;
 				$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
 				$meta_conditions = unserialize($meta_conditions[0]);
+				// echo "<pre>";
+				// 	print_r($meta_conditions);
+				// echo "</pre>";
+
+				//$in_array( 'all', $download_id )
+
+
 					foreach  ($meta_conditions as $meta_condition ) :	
 						if( $meta_condition[0]=='EDD' ) {
-							if( in_array( $meta_condition[1], $download_id) ) {
+							if( in_array( $meta_condition[1], $download_id ) || in_array( 'all', $download_id ) ) {
 								// status check 
 								if( $status == $meta_condition[2] ) {
 									if( in_array( $meta_condition[3], $price_id) ) {
@@ -331,7 +338,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish' );
 		$downloads = get_posts( $args );
 		$all_downloads = '<select id="sub-edd-condition" class="sub-edd-condition form-control" name="sub_edd_condition[]">';
-		$all_downloads .= '<option> Select Download </option>';
+		$all_downloads .= '<option> Select Product </option><option value="all"> Any Product </option>';
 			foreach ( $downloads as $download ) : setup_postdata( $download );
 				$all_downloads .= Bsfm_Postmeta::make_option($download->ID, $download->post_title, $select);	
 			endforeach; 

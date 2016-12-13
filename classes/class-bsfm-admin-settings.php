@@ -513,11 +513,11 @@ final class BSFMauticAdminSettings {
 			}
 		}
 		// delete rule
-		if ( isset( $_GET['action'] ) && wp_verify_nonce( $_POST[''], 'bsfmautictrack' ) ) {
+		// if ( isset( $_GET['action'] ) && wp_verify_nonce( $_POST[''], 'bsfmautictrack' ) ) {
 			// rule_id
 			// _wpnonce
 			// action
-		}
+		// }
 
 	}
 
