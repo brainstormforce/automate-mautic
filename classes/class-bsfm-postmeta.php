@@ -332,10 +332,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish' );
 		$downloads = get_posts( $args );
 		$all_downloads = '<select id="sub-edd-condition" class="sub-edd-condition form-control" name="sub_edd_condition[]">';
-		$all_downloads .= '<option> Select Product </option><option value="all"> Any Product </option>';
+		$all_downloads .= '<option> Select Product </option>';
+		$all_downloads .= Bsfm_Postmeta::make_option('all', 'Any Product', $select);
 			foreach ( $downloads as $download ) : setup_postdata( $download );
 				$all_downloads .= Bsfm_Postmeta::make_option($download->ID, $download->post_title, $select);	
-			endforeach; 
+			endforeach;
 		$all_downloads .='</select>';
 		wp_reset_postdata();
 		echo $all_downloads;
