@@ -13,7 +13,7 @@
 	?>
 	<h2 class="nav-tab-wrapper">
 		<a href="?page=bsf-mautic&tab=all_rules" class="nav-tab <?php echo $active_tab == 'all_rules' ? 'nav-tab-active' : ''; ?>"> <?php _e('All Rules', 'bsfmautic'); ?> </a>
-		<a href="?page=bsf-mautic&tab=add_new_rule" class="nav-tab <?php echo $active_tab == 'add_new_rule' ? 'nav-tab-active' : ''; ?>"> <?php _e('Add New Rule', 'bsfmautic'); ?> </a>
+		
 		<a href="?page=bsf-mautic&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'bsfmautic'); ?> </a>
 		<a href="?page=bsf-mautic&tab=enable_tracking" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e('Tracking', 'bsfmautic'); ?> </a>
 	</h2>
