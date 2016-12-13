@@ -189,15 +189,19 @@
 								</div>
 							</fieldset>
 						</div>
-						<div id="save-action" class="bsfm-refresh-mautic-wrap">
-							<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">
+						<!-- div id="save-action" class="bsfm-refresh-mautic-wrap">
+							<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> <?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?> </a>
 							<span class="spinner bsfm-wp-spinner"></span>
 							<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
-						</div>
+						</div -->
 				</div>
 			</div>
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
+
+				<span style="float: right;"><span class="spinner bsfm-wp-spinner"></span>
+				<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data </a>
+				</span>
 			</p>
 			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 				<?php
@@ -259,7 +263,7 @@
 						</fieldset>
 				</div>
 				<div id="save-action" class="bsfm-refresh-mautic-wrap">
-					<input type="button" name="refresh-mautic" id="refresh-mautic" value="Refresh Mautic Data" class="button refresh-mautic-data">
+					<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> <?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?> </a>
 					<span class="spinner bsfm-wp-spinner"></span>
 					<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
 				</div>

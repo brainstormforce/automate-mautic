@@ -30,7 +30,7 @@
 .bsf-mautic-metabox fieldset.add-new-item:hover {
     background: #f5f5f5;
 }
-.bsf-mautic-metabox fieldset.bsfm-add-condition:hover, span.bsfm-add-action:hover, a.bsfm-disconnect-mautic {
+.bsf-mautic-metabox fieldset.bsfm-add-condition:hover, span.bsfm-add-action:hover, a.bsfm-disconnect-mautic, a.refresh-mautic-data {
     cursor: pointer;
 }
 .bsf-mautic-metabox .refresh-mautic-data {
