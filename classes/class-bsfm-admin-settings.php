@@ -91,7 +91,7 @@ final class BSFMauticAdminSettings {
 			$slug	= 'bsf-mautic-settings';
 			$func	= __CLASS__ . '::render';
 			//add_submenu_page( 'edit.php?post_type=bsf-mautic-rule', 'Settings',  __( 'Settings', 'bsfmautic' ) , $cap, $slug, $func );
-			add_options_page( 'MauticPress',  __( 'MauticPress', 'bsfmautic' ), 'administrator', 'bsf-mautic', $func );
+			add_options_page( 'MautiPress',  __( 'MautiPress', 'bsfmautic' ), 'administrator', 'bsf-mautic', $func );
 		}
 	}
 	

@@ -51,7 +51,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	// test MB
 	public function add_meta_box_b( $id, $title, $callback, $context = 'normal', $priority = 'default', $callback_args = null ) {
 		//$this->has_meta_boxes = true;
-		add_meta_box( "mauticpress_-{$id}", $title, $callback, null, $context, $priority, $callback_args );
+		add_meta_box( "mautipress_-{$id}", $title, $callback, null, $context, $priority, $callback_args );
 	}
 
 	public static function make_option( $id, $value, $selected = null ) {
