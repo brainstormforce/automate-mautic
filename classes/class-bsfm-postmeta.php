@@ -28,7 +28,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 
 	public function hooks() {
 		// add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
-		add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
+		// add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 		add_action( 'admin_menu', array( $this, 'bsfm_remove_meta_boxes' ) );
 	}
@@ -39,11 +39,11 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	/**
 	 * Register meta box(es).
 	 */
-	public function bsf_mautic_register_meta_box() {
+	// public function bsf_mautic_register_meta_box() {
 		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
 		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic' );
 		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( __CLASS__, 'bsf_mautic_metabox_view' ), 'normal' );
-	}
+	// }
 	public static function bsf_mautic_metabox_view() {
 		BSFMauticAdminSettings::render_form( 'post-meta' );
 	}
@@ -237,19 +237,13 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			 	$rule_id = $post->ID;
 				$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
 				$meta_conditions = unserialize($meta_conditions[0]);
-				// echo "<pre>";
-				// 	print_r($meta_conditions);
-				// echo "</pre>";
-
-				//$in_array( 'all', $download_id )
-
-
+				
 					foreach  ($meta_conditions as $meta_condition ) :	
 						if( $meta_condition[0]=='EDD' ) {
-							if( in_array( $meta_condition[1], $download_id ) || in_array( 'all', $download_id ) ) {
+							if( in_array( $meta_condition[1], $download_id ) || $meta_condition[1] == 'all' ) {
 								// status check 
 								if( $status == $meta_condition[2] ) {
-									if( in_array( $meta_condition[3], $price_id) ) {
+									if( in_array( $meta_condition[3], $price_id) || $meta_condition[1] == 'all' ) {
 										array_push( $set_rules, $rule_id);
 									}
 								}
