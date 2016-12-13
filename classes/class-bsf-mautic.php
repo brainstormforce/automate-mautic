@@ -61,7 +61,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'description'        => __( 'Description.', 'bsfmautic' ),
 				'public'             => false,
 				'publicly_queryable' => false,
-				'show_ui'            => true,
+				'show_ui'            => false,
 				'show_in_menu'       => 'options-general.php',
 				'query_var'          => true,
 				'rewrite'            => array( 'slug' => 'bsf-mautic-rule' ),
