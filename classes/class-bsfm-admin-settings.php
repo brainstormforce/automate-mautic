@@ -487,7 +487,9 @@ final class BSFMauticAdminSettings {
 			if( isset( $_POST['bsfm-callback-uri'] ) ) {	$bsfm['bsfm-callback-uri'] = esc_url( $_POST['bsfm-callback-uri'] ); }
 			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
 			if( isset( $_POST['bsfm-tracking-type'] ) ) {	$bsfm['bsfm-tracking-type'] = $_POST['bsfm-tracking-type'];	}
-			
+			$mautic_api_url = $bsfm['bsfm-base-url'];
+			$bsfm['bsfm-base-url'] = rtrim( $mautic_api_url ,"/");
+
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {
 				update_site_option( '_bsf_mautic_config', $bsfm );
@@ -510,6 +512,13 @@ final class BSFMauticAdminSettings {
 				update_option( '_bsf_mautic_config', $bsfm );
 			}
 		}
+		// delete rule
+		if ( isset( $_GET['action'] ) && wp_verify_nonce( $_POST[''], 'bsfmautictrack' ) ) {
+			// rule_id
+			// _wpnonce
+			// action
+		}
+
 	}
 
 	static public function bsf_mautic_authenticate_update() 
@@ -531,7 +540,7 @@ final class BSFMauticAdminSettings {
 		$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
 		$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
 		$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
-
+		$mautic_api_url = rtrim( $mautic_api_url ,"/");
 		if( $mautic_api_url == '' ) {	
 			$status = 'error';
 			$message = 'API URL is missing.';

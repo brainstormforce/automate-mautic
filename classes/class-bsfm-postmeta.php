@@ -188,73 +188,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		delete_post_meta( $post_id, 'bsfm_rule_condition');
 		delete_post_meta( $post_id, 'bsfm_rule_action');
 	}
-	// public static function bsfm_update_post_meta( $post_id, $post, $update ) {
-	// 	$post_type = get_post_type($post_id);
-	// 	if ( "bsf-mautic-rule" != $post_type ) return;
-	// 	if ( isset( $_POST['pm_condition'] ) ) {
-	// 		$conditions = $_POST['pm_condition'];
-	// 		$cp_keys = array_keys( $conditions, "CP");
-	// 		$cf7_keys = array_keys( $conditions, "CF7");
-	// 		$edd_keys = array_keys( $conditions, "EDD");
-	// 		$condition_cnt = sizeof( $conditions );
-	// 		for($i=0; $i < $condition_cnt; $i++) {
-	// 			if($conditions[$i]=='UR') {
-	// 				$update_conditions[$i] = array( $conditions[$i] );
-	// 			}
-	// 			if ($conditions[$i]=='CP') {
-	// 				$sub_key = array_search($i,$cp_keys);
-	// 				$update_conditions[$i] = array(
-	// 					$conditions[$i],
-	// 					$_POST['sub_cp_condition'][$sub_key], 
-	// 					$_POST['ss_cp_condition'][$sub_key] );
-	// 			}
-	// 			if ($conditions[$i] == "CF7") {
-	// 				$sub_key = array_search($i,$cf7_keys);
-	// 				$update_maping = '';
-	// 				$form_id = $_POST['sub_cf_condition'][$sub_key];
-	// 				$update_maping['cf7_fields'] = $_POST['cf7_fields'][$form_id];
-	// 				$update_maping['mautic_cfields'] = $_POST['mautic_cfields'][$form_id];
-	// 				$update_conditions[$i] = array(
-	// 					$conditions[$i],
-	// 					$_POST['sub_cf_condition'][$sub_key],
-	// 					$update_maping );
-	// 			}
-	// 			if ($conditions[$i] == "EDD") {
-	// 				$sub_key = array_search($i,$edd_keys);
-	// 				$update_maping = '';
-	// 				$download_id = $_POST['sub_edd_condition'][$sub_key];
-	// 				$update_conditions[$i] = array(
-	// 					$conditions[$i],
-	// 					$_POST['sub_edd_condition'][$sub_key],
-	// 					$_POST['ss_edd_condition'][$sub_key],
-	// 					$_POST['ss_edd_var_price'][$sub_key] );
-	// 			}
-	// 		}
-	// 		$update_conditions = serialize($update_conditions);
-	// 		update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
-	// 	}
-	// 	//update actions
-	// 	if ( isset( $_POST['pm_action'] ) ) {
-	// 		$actions = $_POST['pm_action'];
-	// 		$seg_keys = array_keys( $actions, "segment");
-	// 		$action_cnt = sizeof($actions);
-	// 		for($i=0; $i < $action_cnt; $i++) {
-	// 			if($actions[$i]=='tag') {
-	// 				$update_actions[$i] = $actions[$i];
-	// 			}
-	// 			if($actions[$i]=='segment') {
-	// 				$sub_key = array_search($i,$seg_keys);
-	// 				$update_actions[$i] = array(
-	// 					$actions[$i],
-	// 					$_POST['sub_seg_action'][$sub_key],
-	// 					$_POST['ss_seg_action'][$sub_key]
-	// 				);
-	// 			}
-	// 		}
-	// 		$update_actions = serialize($update_actions);
-	// 		update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
-	// 	}
-	// }
+	
 	/**
 	* check if rule is set
 	* @param comment data
