@@ -1,6 +1,6 @@
 <?php
 /**
- * MauticPress initial setup
+ * MautiPress initial setup
  *
  * @since 1.0.0
  */

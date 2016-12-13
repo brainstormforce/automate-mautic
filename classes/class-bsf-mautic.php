@@ -152,17 +152,29 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				return;
 			}
+
 			$user_info = get_userdata( $user_id );
-			$method = 'POST';
-			$url = '/api/contacts/new';
+			$email = $user_info->user_email;
+			
+			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+
+			if( isset($contact_id) ) {
+				$method = 'PATCH';
+				$url = '/api/contacts/'.$contact_id.'/edit';
+			}
+			else {
+				$method = 'POST';
+				$url = '/api/contacts/new';
+			}
+
 			$body = array(
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
 				'email'		=> $user_info->user_email,
-				'website'	=> $user_info->user_url,
-				'tags'		=> 'hello,rahul,aw'
+				'website'	=> $user_info->user_url
 			);
-			// 'tags'		=> 'hello,rahul,aw'
+			// 'tags'		=> ''
 			// API Method
 			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
@@ -377,7 +389,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 						}
 				}
 			}
-			else if( $method=="POST" ) {	// add new contact to mautic request
+			else if( $method=="POST" || $method=="PATCH" ) {	// add new contact to mautic request
 				$response = wp_remote_post( $url, array(
 					'method' => $method,
 					'timeout' => 45,
@@ -389,6 +401,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					'cookies' => array()
 				));
 			}
+
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';

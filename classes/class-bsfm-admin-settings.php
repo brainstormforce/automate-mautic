@@ -53,7 +53,7 @@ final class BSFMauticAdminSettings {
 
 	/** 
 	 * Adds the admin menu and enqueues CSS/JS if we are on
-	 * the MauticPress admin settings page.
+	 * the MautiPress admin settings page.
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -137,7 +137,7 @@ final class BSFMauticAdminSettings {
 		?>
 		<div class="wrap">
 		<h1>
-			Mautic Rules <a class="page-title-action" href="<?php echo $new_post_url; ?>" >Add New</a>
+			Mautic Rules <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'bsfmautic' ); ?> </a>
 		</h1>
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
@@ -170,10 +170,11 @@ final class BSFMauticAdminSettings {
 	 */
 	static public function render_page_heading()
 	{
+		$icon = BSF_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
 		if ( ! empty( $icon ) ) {
-			echo '<img src="' . $icon . '" />';
+			echo '<img class="bsfm-heading-icon" src="' . $icon . '" />';
 		}
-		echo '<span>' . sprintf( _x( 'Settings', '%s stands for custom branded "BSFM" name.', 'bsfmautic' ), BSFM_PREFIX ) . '</span>';
+		echo '<span>' . _e( 'MautiPress', 'bsfmautic' ) . '</span>';
 	}
 	/** 
 	 * Renders the update message.

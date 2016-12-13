@@ -136,6 +136,7 @@ jQuery(document).ready(function( $ ) {
 		jq.post(ajaxurl, data, function(){
 			jq( '.bsfm-wp-spinner' ).css( "visibility", "hidden" );
 			jq( '.bsfm-wp-spinner-msg' ).css( "display", "inline-block" ).fadeOut(3000);
+			location.reload();
 		});
 	});
 	jq(document).on( "change", ".sub-edd-condition", function() {
