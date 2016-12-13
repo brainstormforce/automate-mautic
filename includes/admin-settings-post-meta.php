@@ -167,6 +167,7 @@
 										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 											<option value="add_segment" <?php selected( $meta_action[1],'add_segment' ); ?> ><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
 											<option value="remove_segment" <?php selected( $meta_action[1],'remove_segment' ); ?> ><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
+											<option value="add_tag" <?php selected( $meta_action[1],'add_tag' ); ?> ><?php _e( 'Add tag', 'bsfmautic' ) ?></option>
 										</select>
 									</div>
 							<?php
@@ -245,6 +246,7 @@
 								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 									<option value="add_segment"><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
 									<option value="remove_segment"><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
+									<option value="add_tag"><?php _e( 'Add tag', 'bsfmautic' ) ?></option>
 								</select>
 							</div>
 							<div class="second-action" style="display:inline;">

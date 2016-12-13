@@ -30,7 +30,7 @@
 			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 				<option value="add_segment">Add to segment</option>
 				<option value="remove_segment">Remove from segment</option>
-				<option value="remove_segment">Add tag</option>
+				<option value="add_tag">Add tag</option>
 			</select>
 		</div>
 		<div class="second-action" style="display:inline;">
