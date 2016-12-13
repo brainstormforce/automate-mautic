@@ -202,8 +202,19 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				return;
 			}
-			$method = 'POST';
-			$url = '/api/contacts/new';
+
+			$email = $commentdata['comment_author_email'];
+			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+
+			if( isset( $contact_id ) ) {
+				$method = 'PATCH';
+				$url = '/api/contacts/'.$contact_id.'/edit';
+			}
+			else {
+				$method = 'POST';
+				$url = '/api/contacts/new';
+			}
 			$body = array(
 				'firstname'	=>	$commentdata['comment_author'],
 				'email'		=>	$commentdata['comment_author_email'],
@@ -238,8 +249,20 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				return;
 			}
-			$method = 'POST';
-			$url = '/api/contacts/new';
+
+			$email = $payment_meta['user_info']['email'];
+			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+
+			if( isset( $contact_id ) ) {
+				$method = 'PATCH';
+				$url = '/api/contacts/'.$contact_id.'/edit';
+			}
+			else {
+				$method = 'POST';
+				$url = '/api/contacts/new';
+			}
+
 			$body = array(
 				'firstname'	=>	$payment_meta['user_info']['first_name'],
 				'lastname'	=>	$payment_meta['user_info']['last_name'],
@@ -290,6 +313,22 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 			foreach ($status as $rule) {
 				$body_fields = self::bsf_get_cf7_mautic_fields_maping( $cf7_id, $rule, $query );
+				$contact_id = '';
+				if( !is_array($body_fields) ) {
+					$email = $query['your-email'];
+					$credentials = get_option( 'bsfm_mautic_credentials' );
+					$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				}
+				
+				if( isset( $contact_id ) ) {
+					$method = 'PATCH';
+					$url = '/api/contacts/'.$contact_id.'/edit';
+				}
+				else {
+					$method = 'POST';
+					$url = '/api/contacts/new';
+				}
+
 				if( !is_array($body_fields) ) {
 					$body = array(
 					'firstname'	=> $query['your-name'],
@@ -299,8 +338,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				else {
 					$body = $body_fields;
 				}
-				$method = 'POST';
-				$url = '/api/contacts/new';
 				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
 
 				$remove_segment = $set_actions['remove_segment'];
