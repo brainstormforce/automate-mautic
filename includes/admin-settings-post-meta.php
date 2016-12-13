@@ -197,7 +197,7 @@
 				</div>
 			</div>
 			<p class="submit">
-				<input type="submit" value="Edit Rule" class="button button-primary button-large" name="edit_the_rule">
+				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
 			</p>
 			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 				<?php
