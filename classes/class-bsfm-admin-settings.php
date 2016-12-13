@@ -456,11 +456,6 @@ final class BSFMauticAdminSettings {
 				}
 				//update actions
 				if ( isset( $_POST['pm_action'] ) ) {
-
-
-					print_r($_POST['pm_action']);
-					die();
-
 					$actions = $_POST['pm_action'];
 					$seg_keys = array_keys( $actions, "segment");
 					$action_cnt = sizeof($actions);

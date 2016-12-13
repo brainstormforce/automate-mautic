@@ -6,7 +6,7 @@ jQuery(document).ready(function( $ ) {
 	jq( "#bsfm-sortable-action" ).disableSelection();
 	jq( ".select-condition" ).select2();
 	jq( ".select-action" ).select2();
-	jq( ".sub-action" ).select2();
+	jq( ".sub-cp-action" ).select2();
 	jq( ".root-seg-action" ).select2();
 	jq( ".ss-cp-condition" ).select2();
 	jq( ".sub-edd-condition" ).select2();
@@ -39,8 +39,9 @@ jQuery(document).ready(function( $ ) {
 		m++;
 		jq( "#bsfm-sortable-action" ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
 		jq( ".select-action" ).select2();
+		jq( ".select-action" ).select2();
 		jq( ".root-seg-action" ).select2();
-		jq( ".sub-action" ).select2();
+		jq( ".sub-cp-action" ).select2();
 	});
 	jq(document).on( "change", ".select-condition", function() {
 		parent = jq(this).parent();
@@ -72,36 +73,6 @@ jQuery(document).ready(function( $ ) {
 			break;
 		}
 	});
-
-	// actions
-	jq(document).on( "change", ".select-action", function() {
-		parent = jq(this).parent();
-		gParent = jq(this).parent().parent();
-		switch(this.value) {
-			case 'add_segment' :
-				var SelAction = mbTemplate( { clas: "sub-action-field" } );
-				parent.find('div.first-action').html(SelAction);
-				jq( ".root-seg-action" ).select2();
-			break;
-
-			case 'remove_segment' :
-				var SelAction = mbTemplate( { clas: "sub-action-field" } );
-				parent.find('div.first-action').html(SelAction);
-				jq( ".root-seg-action" ).select2();
-			break;
-
-			case 'add_tag' :
-				var ActionTab = mbTemplate( { clas: "sub-action-tag" } );
-				parent.find('div.first-action').html(ActionTab);
-				// tokenization
-				jq(".sub-action-tag").select2({
-					tags: true,
-					tokenSeparators: [',', ' ']
-				})
-			break;
-		}
-	});
-
 	jq(document).on( "change", ".sub-cp-condition", function() {
 		gParent = jq(this).parent().parent();
 		switch(this.value) {
@@ -121,7 +92,23 @@ jQuery(document).ready(function( $ ) {
 				gParent.find('div.second-condition').html('');
 		}
 	});
+	jq(document).on( "change", ".select-action", function() {
+		parent = jq(this).parent();
+		gParent = jq(this).parent().parent();
+		switch(this.value) {
+			case 'segment' :
+				var SelAction = mbTemplate( { clas: "sub-seg-action" } );
+				parent.find('div.first-action').html(SelAction);
+				jq( ".sub-cp-action" ).select2();
+				parent.find('div.second-action').html('');
+			break;
 
+			case 'tag' :
+				parent.find('div.first-action').html('');
+				parent.find('div.second-action').html('');
+			break;
+		}
+	});
 	// append form field mapping
 	jq(document).on( "change", ".sub-cf-condition", function() {
 		gParent = jq(this).parent().parent();

@@ -163,17 +163,17 @@
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
 										<input type="hidden" name="pm_action[]" value="segment">
 							<?php if($meta_action[0]=='segment') :	?>
-										<select id="select-action" class="select-action form-control" name="sub_seg_action[]">
-											<option><?php _e( 'Select Action', 'bsfmautic' ) ?></option>
+									<div class="first-action" style="display:inline;">
+										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
 											<option value="add_segment" <?php selected( $meta_action[1],'add_segment' ); ?> ><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
 											<option value="remove_segment" <?php selected( $meta_action[1],'remove_segment' ); ?> ><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
-											<option value="add_tag" <?php selected( $meta_action[1],'add_tag' ); ?> ><?php _e( 'Add tag', 'bsfmautic' ) ?></option>
 										</select>
+									</div>
 							<?php
 								endif;
 								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment') :
 							?>
-									<div class="first-action" style="display:inline;">
+									<div class="second-action" style="display:inline;">
 										<?php Bsfm_Postmeta::select_all_segments($meta_action[2]); ?>
 									</div>
 							<?php	endif;	?>
@@ -241,13 +241,15 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 							<input type="hidden" name="pm_action[]" value="segment">
-							<select id="select-action" class="select-action form-control" name="sub_seg_action[]">
-								<option><?php _e( 'Select Action', 'bsfmautic' ) ?></option>
-								<option value="add_segment"><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
-								<option value="remove_segment"><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
-								<option value="add_tag"><?php _e( 'Add tag', 'bsfmautic' ) ?></option>
-							</select>
-							<div class="first-action" style="display:inline;"></div>
+							<div class="first-action" style="display:inline;">
+								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
+									<option value="add_segment"><?php _e( 'Add to segment', 'bsfmautic' ) ?></option>
+									<option value="remove_segment"><?php _e( 'Remove from segment', 'bsfmautic' ) ?></option>
+								</select>
+							</div>
+							<div class="second-action" style="display:inline;">
+								<?php Bsfm_Postmeta::select_all_segments(); ?>
+							</div>
 						</fieldset>
 					</div>				 
 						<fieldset class="add-new-item">
