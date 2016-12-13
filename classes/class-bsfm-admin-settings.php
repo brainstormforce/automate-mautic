@@ -512,13 +512,19 @@ final class BSFMauticAdminSettings {
 				update_option( '_bsf_mautic_config', $bsfm );
 			}
 		}
-		// delete rule
-		// if ( isset( $_GET['action'] ) && wp_verify_nonce( $_POST[''], 'bsfmautictrack' ) ) {
-			// rule_id
-			// _wpnonce
-			// action
-		// }
+		//delete rule
 
+			echo "Delete 1";
+			//die();
+		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule'.$_GET['rule_id'] ) ) {
+
+			if ( isset($_GET['rule_id']) ) {
+				$rule_id = $_GET['rule_id'];
+				wp_delete_post( $rule_id );
+				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' );
+				wp_redirect( $redirect );
+			}
+		}
 	}
 
 	static public function bsf_mautic_authenticate_update() 

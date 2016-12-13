@@ -90,7 +90,7 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 			$wpnonce = wp_create_nonce( 'delete-rule'.$item['ID'] );	
 			
-			$delete_url = admin_url( "admin-post.php?action=delete_rule&rule_id=".$item['ID'] . "&_wpnonce=" .$wpnonce );
+			$delete_url = admin_url( "options-general.php?page=bsf-mautic&tab=all_rules&action=delete_rule&rule_id=".$item['ID'] . "&_wpnonce=" .$wpnonce );
 
 			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'bsfmautic' ), $item['post_title'] ) ), __( 'Delete', 'bsfmautic' ) );
 
