@@ -456,6 +456,11 @@ final class BSFMauticAdminSettings {
 				}
 				//update actions
 				if ( isset( $_POST['pm_action'] ) ) {
+
+
+					print_r($_POST['pm_action']);
+					die();
+
 					$actions = $_POST['pm_action'];
 					$seg_keys = array_keys( $actions, "segment");
 					$action_cnt = sizeof($actions);
@@ -515,7 +520,7 @@ final class BSFMauticAdminSettings {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=enable_tracking' );
 			wp_redirect( $redirect );
 		}
-		
+
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule'.$_GET['rule_id'] ) ) {
 
 			if ( isset($_GET['rule_id']) ) {

@@ -25,18 +25,25 @@
 	<# if ( 'action-field' === data.clas ) { #>
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
-		<input type="hidden" name="pm_action[]" value="segment">
-		<div class="first-action" style="display:inline;">
-			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-				<option value="add_segment">Add to segment</option>
-				<option value="remove_segment">Remove from segment</option>
-				<option value="add_tag">Add tag</option>
-			</select>
-		</div>
-		<div class="second-action" style="display:inline;">
-			<?php Bsfm_Postmeta::select_all_segments(); ?>
-		</div>
+		<select id="select-action" class="select-action form-control" name="sub_seg_action[]">
+			<option>Select Action</option>
+			<option value="add_segment">Add to segment</option>
+			<option value="remove_segment">Remove from segment</option>
+			<option value="add_tag">Add tag</option>
+		</select>
+		<div class="first-action" style="display:inline;"></div>
 	<# } #>
+
+	<# if ( 'sub-action-field' === data.clas ) { #>
+		<?php Bsfm_Postmeta::select_all_segments(); ?>
+	<# } #>
+
+	<# if ( 'sub-action-tag' === data.clas ) { #>
+		<select id="sub-action-tag" class="sub-action-tag form-control" name="sub_seg_tag[]">
+			<option> Type and Press Enter </option>
+		</select>
+	<# } #>
+
 	<# if( 'sub-cp-condition' === data.clas ) { #>
 		<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
 			<option value="ao_website">Anywhere On Website</option>
