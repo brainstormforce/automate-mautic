@@ -216,7 +216,7 @@ final class BSFMauticAdminSettings {
 	static public function render_form_action( $type = '' )
 	{
 		if ( is_network_admin() ) {
-			echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic-settings#' . $type );
+			echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic#' . $type );
 		}
 		else {
 			echo admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' . $type );
@@ -249,7 +249,7 @@ final class BSFMauticAdminSettings {
 	 */	 
 	static public function get_form_action( $type = '' )
 	{
-		return admin_url( '/options-general.php?page=bsf-mautic-settings#' . $type );
+		return admin_url( '/options-general.php?page=bsf-mautic#' . $type );
 	}
 	
 	/** 
@@ -283,7 +283,7 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	static public function bsfm_set_mautic_code() {
-		if( isset( $_GET['code'] ) && 'bsf-mautic-settings' == $_REQUEST['page'] ) {
+		if( isset( $_GET['code'] ) && 'bsf-mautic' == $_REQUEST['page'] ) {
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 			$credentials['access_code'] =  esc_attr( $_GET['code'] );
 			update_option( 'bsfm_mautic_credentials', $credentials );
