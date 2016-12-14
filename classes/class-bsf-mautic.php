@@ -247,30 +247,16 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$bsfm_edd_prod_slug	= ( array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
 			$bsfm_edd_prod_cat = ( array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
 			$bsfm_edd_prod_tag	= ( array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
-			$config_edd_condition = ( array_key_exists( 'config_edd_condition', $bsfm_opt ) ) ? $bsfm['config_edd_condition'] : '';
 			$seg_action_id = ( array_key_exists( 'config_edd_segment', $bsfm_opt ) ) ? $bsfm['config_edd_segment'] : '';
+			$seg_action_ab = ( array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ) ? $bsfm['config_edd_segment_ab'] : '';
+
 			// General global config conditions
-			$all_actions = array(
+			$all_customer = $all_customer_ab = array(
 				'add_segment' => array(),
 				'remove_segment' => array()
 			);
-			array_push($all_actions['add_segment'], $seg_action_id);
-			// API call 
-
-			// Add Tag
-
-
-
-
-
-			// Advance conditions
-			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
-			if( is_array($status) && sizeof($status)>0 ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
-			}
-			else {
-				return;
-			}
+			array_push( $all_customer['add_segment'], $seg_action_id );
+			array_push( $all_customer_ab['add_segment'], $seg_action_ab );
 
 			$email = $payment_meta['user_info']['email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
@@ -290,9 +276,32 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'lastname'	=>	$payment_meta['user_info']['last_name'],
 				'email'		=>	$payment_meta['user_info']['email']
 			);
+			// Add all customers
+			$ac_segment = $all_customer['add_segment'];
+			if( isset( $seg_action_id ) ) {
+				if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
+					self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
+				}
+			}
+			// Abandoned Customers
+			$ab_segment = $all_customer_ab['add_segment'];
+			if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
+				if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
+					self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
+				}
+			}
+ 
+			// Advance conditions
+			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
+			if( is_array($status) && sizeof($status)>0 ) {
+				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
+			}
+			else {
+				return;
+			}
 
 			$remove_segment = $set_actions['remove_segment'];
-			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+			if( is_array( $remove_segment ) && ( sizeof( $remove_segment )>0 ) ) {
 				self::bsfm_remove_contact_from_segment( $body, $set_actions );
 			}
 			$add_segment = $set_actions['add_segment'];

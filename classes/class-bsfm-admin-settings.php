@@ -482,12 +482,12 @@ final class BSFMauticAdminSettings {
 		if ( isset( $_POST['bsf-mautic-nonce-edd'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-edd'], 'bsfmauticedd' ) ) {
 			$bsfm = get_option('_bsf_mautic_config');
 			$bsfm['bsfm_edd_prod_slug'] = $bsfm['bsfm_edd_prod_cat'] = $bsfm['bsfm_edd_prod_tag'] = false;
-
+			
 			if( isset( $_POST['bsfm_edd_prod_slug'] ) ) {	$bsfm['bsfm_edd_prod_slug'] = true;	}
 			if( isset( $_POST['bsfm_edd_prod_cat'] ) ) {	$bsfm['bsfm_edd_prod_cat'] = true;	}
 			if( isset( $_POST['bsfm_edd_prod_tag'] ) ) {	$bsfm['bsfm_edd_prod_tag'] = true;	}
-			if( isset( $_POST['config_edd_condition'] ) ) {	$bsfm['config_edd_condition'] = sanitize_text_field( $_POST['config_edd_condition'] ); }
 			if( isset( $_POST['ss_seg_action'][0] ) ) {	$bsfm['config_edd_segment'] = $_POST['ss_seg_action'][0]; }
+			if( isset( $_POST['ss_seg_action'][1] ) ) {	$bsfm['config_edd_segment_ab'] = $_POST['ss_seg_action'][1]; }
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {
@@ -536,7 +536,6 @@ final class BSFMauticAdminSettings {
 		}
 
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule'.$_GET['rule_id'] ) ) {
-
 			if ( isset($_GET['rule_id']) ) {
 				$rule_id = $_GET['rule_id'];
 				wp_delete_post( $rule_id );

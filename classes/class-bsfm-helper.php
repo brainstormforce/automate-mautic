@@ -32,8 +32,8 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 				'bsfm_edd_prod_slug'	=> '',
 				'bsfm_edd_prod_cat'		=> '',
 				'bsfm_edd_prod_tag'		=> '',
-				'config_edd_condition'	=> '',
-				'config_edd_segment'	=> ''
+				'config_edd_segment'	=> '',
+				'config_edd_segment_ab'	=> ''
 			);
 
 			//	if empty add all defaults
