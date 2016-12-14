@@ -242,7 +242,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// Basic payment meta			
 			$payment_meta = edd_get_payment_meta( $payment_id );
 
-			$bsfm_opt = BSF_Mautic_Init::$bsfm_opt['bsf_mautic_settings'];
+			$bsfm_opt = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 
 			$bsfm_edd_prod_slug	= ( array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
 			$bsfm_edd_prod_cat = ( array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
