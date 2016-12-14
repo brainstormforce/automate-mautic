@@ -162,6 +162,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( isset($contact_id) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
+				//add to segment
+				$add_segment = $set_actions['add_segment'];
+				if( is_array( $add_segment ) ) {
+					foreach ( $add_segment as $segment_id) {
+						$segment_id = (int)$segment_id;
+						$action = "add";
+						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+					}
+				}
 			}
 			else {
 				$method = 'POST';
@@ -210,6 +219,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
+				//add to segment
+				$add_segment = $set_actions['add_segment'];
+				if( is_array( $add_segment ) ) {
+					foreach ( $add_segment as $segment_id) {
+						$segment_id = (int)$segment_id;
+						$action = "add";
+						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+					}
+				}
 			}
 			else {
 				$method = 'POST';
@@ -241,6 +259,20 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		public static function bsfm_edd_purchase_to_mautic( $payment_id, $new_status, $old_status ) {
 			// Basic payment meta			
 			$payment_meta = edd_get_payment_meta( $payment_id );
+
+			// echo "<pre>";
+			// print_r($payment_meta);
+			
+			// $all_downloads = $payment_meta['downloads'];
+			
+			// foreach ($all_downloads as $download) {
+			// 	//$download->id;
+			// }
+
+
+			// echo "</pre>";
+
+
 			$bsfm_opt = get_option('_bsf_mautic_config');
 
 			$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
@@ -263,6 +295,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
+				//add to segment
+				$add_segment = $set_actions['add_segment'];
+				if( is_array( $add_segment ) ) {
+					foreach ( $add_segment as $segment_id) {
+						$segment_id = (int)$segment_id;
+						$action = "add";
+						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+					}
+				}
 			}
 			else {
 				$method = 'POST';
@@ -274,6 +315,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				'lastname'	=>	$payment_meta['user_info']['last_name'],
 				'email'		=>	$payment_meta['user_info']['email']
 			);
+
+			if( isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_tag) ) {
+				$body['tags'] = 'a,b,c';
+			}
+
 			// Add all customers
 			$ac_segment = $all_customer['add_segment'];
 
@@ -353,6 +399,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				if( isset( $contact_id ) ) {
 					$method = 'PATCH';
 					$url = '/api/contacts/'.$contact_id.'/edit';
+					//add to segment
+					$add_segment = $set_actions['add_segment'];
+					if( is_array( $add_segment ) ) {
+						foreach ( $add_segment as $segment_id) {
+							$segment_id = (int)$segment_id;
+							$action = "add";
+							$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+						}
+					}
 				}
 				else {
 					$method = 'POST';
