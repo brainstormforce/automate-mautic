@@ -241,14 +241,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		public static function bsfm_edd_purchase_to_mautic( $payment_id, $new_status, $old_status ) {
 			// Basic payment meta			
 			$payment_meta = edd_get_payment_meta( $payment_id );
+			$bsfm_opt = get_option('_bsf_mautic_config');
 
-			$bsfm_opt = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
-
-			$bsfm_edd_prod_slug	= ( array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
-			$bsfm_edd_prod_cat = ( array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
-			$bsfm_edd_prod_tag	= ( array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
-			$seg_action_id = ( array_key_exists( 'config_edd_segment', $bsfm_opt ) ) ? $bsfm['config_edd_segment'] : '';
-			$seg_action_ab = ( array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ) ? $bsfm['config_edd_segment_ab'] : '';
+			$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
+			$bsfm_edd_prod_cat = array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
+			$bsfm_edd_prod_tag	= array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
+			$seg_action_id = array_key_exists( 'config_edd_segment', $bsfm_opt ) ? $bsfm_opt['config_edd_segment'] : '';
+			$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
 
 			// General global config conditions
 			$all_customer = $all_customer_ab = array(
@@ -261,7 +260,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$email = $payment_meta['user_info']['email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-
 			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
@@ -278,6 +276,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 			// Add all customers
 			$ac_segment = $all_customer['add_segment'];
+
 			if( isset( $seg_action_id ) ) {
 				if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
 					self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
@@ -458,6 +457,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				}
 			}
 			else if( $method=="POST" || $method=="PATCH" ) {	// add new contact to mautic request
+
+				$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
 				$response = wp_remote_post( $url, array(
 					'method' => $method,
 					'timeout' => 45,
