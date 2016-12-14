@@ -130,7 +130,7 @@ final class BSFMauticAdminSettings {
 	}
 
 	static public function bsfm_rules_list() {
-		
+
 		$new_post_url = 'options-general.php?page=bsf-mautic&tab=add_new_rule';	
 		?>
 		<div class="wrap">
@@ -476,6 +476,25 @@ final class BSFMauticAdminSettings {
 				}
 				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
 				wp_redirect( $redirect );
+		}
+
+		// EDD Config
+		if ( isset( $_POST['bsf-mautic-nonce-edd'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-edd'], 'bsfmauticedd' ) ) {
+			$bsfm = get_option('_bsf_mautic_config');
+
+			if( isset( $_POST['bsfm_edd_prod_slug'] ) ) {	$bsfm['bsfm_edd_prod_slug'] = true;	}
+			if( isset( $_POST['bsfm_edd_prod_cat'] ) ) {	$bsfm['bsfm_edd_prod_cat'] = true;	}
+			if( isset( $_POST['bsfm_edd_prod_tag'] ) ) {	$bsfm['bsfm_edd_prod_tag'] = true;	}
+			if( isset( $_POST['config_edd_condition'] ) ) {	$bsfm['config_edd_condition'] = sanitize_text_field( $_POST['config_edd_condition'] ); }
+			if( isset( $_POST['ss_seg_action'] ) ) {	$bsfm['config_edd_segment'] = $_POST['ss_seg_action'][0]; }
+
+			// Update the site-wide option since we're in the network admin.
+			if ( is_network_admin() ) {
+				update_site_option( '_bsf_mautic_config', $bsfm );
+			}
+			else {
+				update_option( '_bsf_mautic_config', $bsfm );
+			}
 		}
 
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {

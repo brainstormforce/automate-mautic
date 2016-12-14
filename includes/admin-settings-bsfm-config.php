@@ -13,7 +13,9 @@
 	?>
 	<h2 class="nav-tab-wrapper">
 		<a href="?page=bsf-mautic&tab=all_rules" class="nav-tab <?php echo $active_tab == 'all_rules' ? 'nav-tab-active' : ''; ?>"> <?php _e('All Rules', 'bsfmautic'); ?> </a>
-		<a href="?page=bsf-mautic&tab=edd_mautic" class="nav-tab <?php echo $active_tab == 'edd_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('EDD', 'bsfmautic'); ?> </a>
+		<?php if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
+			<a href="?page=bsf-mautic&tab=edd_mautic" class="nav-tab <?php echo $active_tab == 'edd_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('EDD', 'bsfmautic'); ?> </a>
+		<?php } ?>
 		<a href="?page=bsf-mautic&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'bsfmautic'); ?> </a>
 		<a href="?page=bsf-mautic&tab=enable_tracking" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e('Tracking', 'bsfmautic'); ?> </a>
 	</h2>
@@ -100,23 +102,22 @@
 					<p>
 						<select class="select-edd-condition form-control" name="config_edd_condition">>
 							<option> <?php _e( 'None', 'bsfmautic' ); ?> </option>
-							<option> <?php _e( 'Add all customers to this segment', 'bsfmautic' ); ?> </option>
-							<option> <?php _e( 'Add abandoned customers to this segment', 'bsfmautic' ); ?> </option>
+							<option value="edd_all"> <?php _e( 'Add all customers to this segment', 'bsfmautic' ); ?> </option>
+							<option value="edd_aban"> <?php _e( 'Add abandoned customers to this segment', 'bsfmautic' ); ?> </option>
 						</select>
 					</p>
-
 
 					<h4><?php _e( 'EDD Default Tags', 'bsfmautic' ); ?></h4>	
 					<p>
 						<label>
-							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product slug as a tag in Mautic', 'bsfmautic' ); ?>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_slug" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product slug as a tag in Mautic', 'bsfmautic' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product category as a tag in Mautic
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_cat" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product category as a tag in Mautic
 ', 'bsfmautic' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD tags in Mautic', 'bsfmautic' ); ?>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_tag" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD tags in Mautic', 'bsfmautic' ); ?>
 						</label><br>
 					</p>
 					<p class="submit">
