@@ -242,6 +242,28 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// Basic payment meta			
 			$payment_meta = edd_get_payment_meta( $payment_id );
 
+			$bsfm_opt = BSF_Mautic_Init::$bsfm_opt['bsf_mautic_settings'];
+
+			$bsfm_edd_prod_slug	= ( array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
+			$bsfm_edd_prod_cat = ( array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
+			$bsfm_edd_prod_tag	= ( array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
+			$config_edd_condition = ( array_key_exists( 'config_edd_condition', $bsfm_opt ) ) ? $bsfm['config_edd_condition'] : '';
+			$seg_action_id = ( array_key_exists( 'config_edd_segment', $bsfm_opt ) ) ? $bsfm['config_edd_segment'] : '';
+			// General global config conditions
+			$all_actions = array(
+				'add_segment' => array(),
+				'remove_segment' => array()
+			);
+			array_push($all_actions['add_segment'], $seg_action_id);
+			// API call 
+
+			// Add Tag
+
+
+
+
+
+			// Advance conditions
 			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
 			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);

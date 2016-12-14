@@ -2,7 +2,6 @@
 
 	<?php 
 		$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'all_rules';
-		// $current_action = isset( $_GET[ 'action' ] ) ? $_GET[ 'action' ] : ''; 
 		if( isset( $_GET['action'] ) ) {
 			$current_action = $_GET[ 'action' ];
 			$active_tab = '';
@@ -43,6 +42,12 @@
 					$bsfm_public_key = ( array_key_exists( 'bsfm-public-key', $bsfm ) ) ? $bsfm['bsfm-public-key'] : '';
 					$bsfm_secret_key = ( array_key_exists( 'bsfm-secret-key', $bsfm ) ) ? $bsfm['bsfm-secret-key'] : '';
 					$bsfm_callback_uri = ( array_key_exists( 'bsfm-callback-uri', $bsfm ) ) ? $bsfm['bsfm-callback-uri'] : '';
+
+					$bsfm_edd_prod_slug	= ( array_key_exists( 'bsfm_edd_prod_slug', $bsfm ) && $bsfm['bsfm_edd_prod_slug'] == 1 )  ? ' checked' : '';
+					$bsfm_edd_prod_cat = ( array_key_exists( 'bsfm_edd_prod_cat', $bsfm ) && $bsfm['bsfm_edd_prod_cat'] == 1 )  ? ' checked' : '';
+					$bsfm_edd_prod_tag	= ( array_key_exists( 'bsfm_edd_prod_tag', $bsfm ) && $bsfm['bsfm_edd_prod_tag'] == 1 )  ? ' checked' : '';
+					$config_edd_condition = ( array_key_exists( 'config_edd_condition', $bsfm ) ) ? $bsfm['config_edd_condition'] : '';
+					$ss_seg_action = ( array_key_exists( 'config_edd_segment', $bsfm ) ) ? $bsfm['config_edd_segment'] : '';
 				}
 
 			if( $active_tab == 'auth_mautic' ) { ?>
@@ -96,28 +101,28 @@
 					<p>
 						<h4><?php _e( 'EDD Default Segments', 'bsfmautic' ); ?></h4>
 						<div class="second-action" style="display:inline;">
-							<?php Bsfm_Postmeta::select_all_segments(); ?>
+							<?php Bsfm_Postmeta::select_all_segments( $ss_seg_action ); ?>
 						</div>
 					</p>
 					<p>
 						<select class="select-edd-condition form-control" name="config_edd_condition">>
 							<option> <?php _e( 'None', 'bsfmautic' ); ?> </option>
-							<option value="edd_all"> <?php _e( 'Add all customers to this segment', 'bsfmautic' ); ?> </option>
-							<option value="edd_aban"> <?php _e( 'Add abandoned customers to this segment', 'bsfmautic' ); ?> </option>
+							<option value="edd_all" <?php selected( $config_edd_condition, 'edd_all' ); ?> > <?php _e( 'Add all customers to this segment', 'bsfmautic' ); ?> </option>
+							<option value="edd_aban" <?php selected( $config_edd_condition, 'edd_aban' ); ?> > <?php _e( 'Add abandoned customers to this segment', 'bsfmautic' ); ?> </option>
 						</select>
 					</p>
 
 					<h4><?php _e( 'EDD Default Tags', 'bsfmautic' ); ?></h4>	
 					<p>
 						<label>
-							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_slug" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product slug as a tag in Mautic', 'bsfmautic' ); ?>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_slug" value="" <?php echo $bsfm_edd_prod_slug; ?> ><?php _e( 'Automatically add EDD product slug as a tag in Mautic', 'bsfmautic' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_cat" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product category as a tag in Mautic
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_cat" value="" <?php echo $bsfm_edd_prod_cat; ?> ><?php _e( 'Automatically add EDD product category as a tag in Mautic
 ', 'bsfmautic' ); ?>
 						</label><br>
 						<label>
-							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_tag" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD tags in Mautic', 'bsfmautic' ); ?>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_tag" value="" <?php echo $bsfm_edd_prod_tag; ?> ><?php _e( 'Automatically add EDD tags in Mautic', 'bsfmautic' ); ?>
 						</label><br>
 					</p>
 					<p class="submit">

@@ -481,12 +481,13 @@ final class BSFMauticAdminSettings {
 		// EDD Config
 		if ( isset( $_POST['bsf-mautic-nonce-edd'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-edd'], 'bsfmauticedd' ) ) {
 			$bsfm = get_option('_bsf_mautic_config');
+			$bsfm['bsfm_edd_prod_slug'] = $bsfm['bsfm_edd_prod_cat'] = $bsfm['bsfm_edd_prod_tag'] = false;
 
 			if( isset( $_POST['bsfm_edd_prod_slug'] ) ) {	$bsfm['bsfm_edd_prod_slug'] = true;	}
 			if( isset( $_POST['bsfm_edd_prod_cat'] ) ) {	$bsfm['bsfm_edd_prod_cat'] = true;	}
 			if( isset( $_POST['bsfm_edd_prod_tag'] ) ) {	$bsfm['bsfm_edd_prod_tag'] = true;	}
 			if( isset( $_POST['config_edd_condition'] ) ) {	$bsfm['config_edd_condition'] = sanitize_text_field( $_POST['config_edd_condition'] ); }
-			if( isset( $_POST['ss_seg_action'] ) ) {	$bsfm['config_edd_segment'] = $_POST['ss_seg_action'][0]; }
+			if( isset( $_POST['ss_seg_action'][0] ) ) {	$bsfm['config_edd_segment'] = $_POST['ss_seg_action'][0]; }
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {
@@ -495,6 +496,8 @@ final class BSFMauticAdminSettings {
 			else {
 				update_option( '_bsf_mautic_config', $bsfm );
 			}
+			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=edd_mautic' );
+			wp_redirect( $redirect );
 		}
 
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {
@@ -503,8 +506,6 @@ final class BSFMauticAdminSettings {
 			if( isset( $_POST['bsfm-public-key'] ) ) {	$bsfm['bsfm-public-key'] = sanitize_key( $_POST['bsfm-public-key'] ); }
 			if( isset( $_POST['bsfm-secret-key'] ) ) {	$bsfm['bsfm-secret-key'] = sanitize_key( $_POST['bsfm-secret-key'] ); }
 			if( isset( $_POST['bsfm-callback-uri'] ) ) {	$bsfm['bsfm-callback-uri'] = esc_url( $_POST['bsfm-callback-uri'] ); }
-			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
-			if( isset( $_POST['bsfm-tracking-type'] ) ) {	$bsfm['bsfm-tracking-type'] = $_POST['bsfm-tracking-type'];	}
 			$mautic_api_url = $bsfm['bsfm-base-url'];
 			$bsfm['bsfm-base-url'] = rtrim( $mautic_api_url ,"/");
 

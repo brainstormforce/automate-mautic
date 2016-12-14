@@ -28,7 +28,12 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 				'bsfm-base-url'			=> '',
 				'bsfm-public-key'		=> '',
 				'bsfm-secret-key'		=> '',
-				'bsfm-callback-uri'		=> ''
+				'bsfm-callback-uri'		=> '',
+				'bsfm_edd_prod_slug'	=> '',
+				'bsfm_edd_prod_cat'		=> '',
+				'bsfm_edd_prod_tag'		=> '',
+				'config_edd_condition'	=> '',
+				'config_edd_segment'	=> ''
 			);
 
 			//	if empty add all defaults
