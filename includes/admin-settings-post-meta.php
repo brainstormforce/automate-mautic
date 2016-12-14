@@ -189,18 +189,13 @@
 								</div>
 							</fieldset>
 						</div>
-						<!-- div id="save-action" class="bsfm-refresh-mautic-wrap">
-							<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> <?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?> </a>
-							<span class="spinner bsfm-wp-spinner"></span>
-							<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
-						</div -->
 				</div>
 			</div>
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
-
+				<a type="button" href="<?php echo admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' ); ?>" class="button button-primary button-large"><?php _e( 'All Rules', 'bsfmautic' ); ?></a>
 				<span style="float: right;"><span class="spinner bsfm-wp-spinner"></span>
-				<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data </a>
+				<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?></a>
 				</span>
 			</p>
 			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
@@ -262,16 +257,14 @@
 								</div>
 						</fieldset>
 				</div>
-				<div id="save-action" class="bsfm-refresh-mautic-wrap">
-					<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> <?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?> </a>
-					<span class="spinner bsfm-wp-spinner"></span>
-					<span class="bsfm-wp-spinner-msg"> <?php _e( 'Mautic Data Refreshed.', 'bsfmautic' ); ?></span>
-				</div>
 			</div>
 			<!-- default fields end -->
 			</div>
 			<p class="submit">
 				<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
+				<span style="float: right;"><span class="spinner bsfm-wp-spinner"></span>
+					<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?></a>
+				</span>
 			</p>
 			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 		<?php }	?>
