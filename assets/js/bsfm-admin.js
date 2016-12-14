@@ -13,6 +13,7 @@ jQuery(document).ready(function( $ ) {
 	jq( ".root-edd-condition" ).select2();
 	jq( ".sub-cp-condition" ).select2();
 	jq( ".edd_var_price" ).select2();
+	jq( ".select-edd-condition" ).select2();
 	jq( ".cf7_form" ).select2();
 	jq( ".mautic_forms" ).select2();
 	jq( ".sub-cf-condition" ).select2();

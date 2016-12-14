@@ -87,6 +87,46 @@
 			<!-- Enable pixel tracking -->
 			<?php 
 			}
+
+			//EDD tab
+			if( $active_tab == 'edd_mautic' ) { ?>
+				<div class="bsfm-config-fields">
+					<p>
+						<h4><?php _e( 'EDD Default Segments', 'bsfmautic' ); ?></h4>
+						<div class="second-action" style="display:inline;">
+							<?php Bsfm_Postmeta::select_all_segments(); ?>
+						</div>
+					</p>
+					<p>
+						<select class="select-edd-condition form-control" name="config_edd_condition">>
+							<option> <?php _e( 'None', 'bsfmautic' ); ?> </option>
+							<option> <?php _e( 'Add all customers to this segment', 'bsfmautic' ); ?> </option>
+							<option> <?php _e( 'Add abandoned customers to this segment', 'bsfmautic' ); ?> </option>
+						</select>
+					</p>
+
+
+					<h4><?php _e( 'EDD Default Tags', 'bsfmautic' ); ?></h4>	
+					<p>
+						<label>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product slug as a tag in Mautic', 'bsfmautic' ); ?>
+						</label><br>
+						<label>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD product category as a tag in Mautic
+', 'bsfmautic' ); ?>
+						</label><br>
+						<label>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm-enabled-tracking" value="" <?php echo $bsfm_enabled_track; ?> ><?php _e( 'Automatically add EDD tags in Mautic', 'bsfmautic' ); ?>
+						</label><br>
+					</p>
+					<p class="submit">
+						<input type="submit" name="save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
+					</p>
+					<?php wp_nonce_field('bsfmauticedd', 'bsf-mautic-nonce-edd'); ?>
+				</div>
+			<?php
+			}
+
 			if( $active_tab == 'enable_tracking' ) { ?>
  			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'bsfmautic' ); ?></h4>

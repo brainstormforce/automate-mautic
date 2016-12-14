@@ -125,14 +125,12 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	static public function render() {
-		//include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings.php';
 		include BSF_MAUTIC_PLUGIN_DIR . 'classes/class-rules-table.php';
 		include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
 	}
 
 	static public function bsfm_rules_list() {
-
-		// new CPTabMenu( "popups" );
+		
 		$new_post_url = 'options-general.php?page=bsf-mautic&tab=add_new_rule';	
 		?>
 		<div class="wrap">
@@ -174,7 +172,7 @@ final class BSFMauticAdminSettings {
 		if ( ! empty( $icon ) ) {
 			echo '<img class="bsfm-heading-icon" src="' . $icon . '" />';
 		}
-		echo '<span>' . _e( 'MautiPress', 'bsfmautic' ) . '</span>';
+		echo '<div class="bsfm-heading-config"> MautiPress </div>';
 	}
 	/** 
 	 * Renders the update message.
