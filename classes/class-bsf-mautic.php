@@ -330,15 +330,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			foreach ( $downloads as $download ) : setup_postdata( $download );
 					$id = $download->ID;
 					$slug = $download->post_name;
-					array_push( $m_tags, $m_tags);
-					 // $posttags = get_the_tags( $id );
-					 // $category = get_the_category( $id );
+					array_push( $m_tags, $slug);
+					//$posttags = get_the_tags( $id );
+					//$category = get_the_category( $id );
+			// echo "<pre>";
+			// print_r($posttags);
+			// print_r($category);
+			// echo "</pre>";
 
 			endforeach;
-			echo "<pre>";
-			print_r($m_tags);
-			echo "</pre>";
-			die();
+	
+			// die();
 			
 			// echo "<pre>";
 			// // The Loop
