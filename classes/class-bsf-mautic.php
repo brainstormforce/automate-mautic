@@ -263,11 +263,18 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			$email = $payment_meta['user_info']['email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
-			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			//$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+
+			if( isset($_COOKIE['mtc_id']) ) {
+				$contact_id = $_COOKIE['mtc_id'];
+			}
 
 			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
 			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
+			}
+			else {
+				return;
 			}
 
 			if( isset( $contact_id ) ) {
@@ -388,7 +395,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				}
 				// if staus is complete - remove user from abandoned segment
 				if( $new_status == 'publish' ) {
-					$action = 'remove';
+					$seg_action_ab = (int)$seg_action_ab;
+					$action = "remove";
+					$credentials = get_option( 'bsfm_mautic_credentials' );
 					$res = self::bsfm_mautic_contact_to_segment( $seg_action_ab, $contact_id, $credentials, $action);
 				}
 			}
@@ -414,7 +423,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$ac_segment = $all_customer['add_segment'];
 			if( isset( $seg_action_id ) ) {
 				if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
-
 					self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
 				}
 			}
@@ -677,7 +685,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * 
 		 * @since 1.0.0
 		 */
-		function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
+		static function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
 			$errorMsg = '';
 			$status = 'error';
 			if( is_int($segment_id) && is_int($contact_id) ) {
@@ -724,11 +732,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @return mautic contact id 
 		 * @since 1.0.0
 		 */
-		function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
+		static function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
 			$errorMsg = '';
 			$status = 'error';
 			$access_token = $mautic_credentials['access_token'];
-			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&&access_token='. $access_token;
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
 			$response = wp_remote_get( $url );
 			if( is_array($response) ) {
 				$response_body = $response['body'];
