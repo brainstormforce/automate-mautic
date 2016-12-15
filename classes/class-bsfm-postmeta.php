@@ -229,18 +229,20 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			 	$rule_id = $post->ID;
 				$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
 				$meta_conditions = unserialize($meta_conditions[0]);
-					foreach  ($meta_conditions as $meta_condition ) :	
-						if( $meta_condition[0]=='EDD' ) {
-							if( in_array( $meta_condition[1], $download_id ) || $meta_condition[1] == 'all' ) {
-								// status check 
-								if( $status == $meta_condition[2] ) {
-									if( in_array( $meta_condition[3], $price_id) || $meta_condition[1] == 'all' ) {
-										array_push( $set_rules, $rule_id);
+					if( isset( $meta_conditions[0] ) ) {
+						foreach  ($meta_conditions as $meta_condition ) :	
+							if( $meta_condition[0]=='EDD' ) {
+								if( in_array( $meta_condition[1], $download_id ) || $meta_condition[1] == 'all' ) {
+									// status check 
+									if( $status == $meta_condition[2] ) {
+										if( in_array( $meta_condition[3], $price_id) || $meta_condition[1] == 'all' ) {
+											array_push( $set_rules, $rule_id);
+										}
 									}
 								}
 							}
-						}
-					endforeach;
+						endforeach;
+					}
 		endforeach;
 		return $set_rules;
 	}

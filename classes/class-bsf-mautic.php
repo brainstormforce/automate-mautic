@@ -438,19 +438,21 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				}
 			}
 
-			// Add all customers
-			$ac_segment = $all_customer['add_segment'];
-			if( isset( $seg_action_id ) ) {
-				if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
-					self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
+			if( ! isset( $contact_id ) ) {
+				// Add all customers
+				$ac_segment = $all_customer['add_segment'];
+				if( isset( $seg_action_id ) ) {
+					if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
+						self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
+					}
 				}
-			}
 
-			// Abandoned Customers
-			$ab_segment = $all_customer_ab['add_segment'];
-			if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
-				if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
-					self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
+				// Abandoned Customers
+				$ab_segment = $all_customer_ab['add_segment'];
+				if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
+					if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
+						self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
+					}
 				}
 			}
 		}
