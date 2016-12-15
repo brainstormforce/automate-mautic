@@ -27,23 +27,14 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 
 	public function hooks() {
-		// add_action( 'save_post', array( $this, 'bsfm_update_post_meta' ), 10, 3 );
-		// add_action( 'add_meta_boxes', array( $this, 'bsf_mautic_register_meta_box' ) );
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 		add_action( 'admin_menu', array( $this, 'bsfm_remove_meta_boxes' ) );
 	}
+
 	public function bsfm_remove_meta_boxes() {
 		remove_meta_box( 'slugdiv' , 'bsf-mautic-rule' , 'normal' ); 
 	}
 
-	/**
-	 * Register meta box(es).
-	 */
-	// public function bsf_mautic_register_meta_box() {
-		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic-rule' );
-		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( $this, 'bsf_mautic_metabox_view' ), 'bsf-mautic' );
-		// add_meta_box( 'bsf-mautic-rule', __( 'Trigger and Actions', 'bsfmautic' ), array( __CLASS__, 'bsf_mautic_metabox_view' ), 'normal' );
-	// }
 	public static function bsf_mautic_metabox_view() {
 		BSFMauticAdminSettings::render_form( 'post-meta' );
 	}
@@ -58,6 +49,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$selected = selected( $id, $selected, false );
 		return '<option value="' . $id . '"' . $selected . '>' . $value . '</option>';
 	}
+
 	public static function select_all_pages( $select = null ) {
 		//get all pages
 		$all_pages= '<select id="sub-sub-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
