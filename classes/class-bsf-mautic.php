@@ -322,43 +322,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 			//$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'download', 'post__in' => $all_products ) );
 			$set_rules = $download_id = $price_id = $m_tags = array();
-			// For Tag
-	
-			$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish', 'post__in' => $all_products );
-			$downloads = get_posts( $args );
-
-			foreach ( $downloads as $download ) : setup_postdata( $download );
-					$id = $download->ID;
-					$slug = $download->post_name;
-					array_push( $m_tags, $slug);
-					//$posttags = get_the_tags( $id );
-					//$category = get_the_category( $id );
-			// echo "<pre>";
-			// print_r($posttags);
-			// print_r($category);
-			// echo "</pre>";
-
-			endforeach;
-	
-			// die();
-			
-			// echo "<pre>";
-			// // The Loop
-			// 		if ( $query->have_posts() ) {
-						
-			// 			while ( $query->have_posts() ) {
-			// 		// 		//$query->the_post();
-			// 				$test = get_the_title();
-			// 				echo $test;
-			// 		 	}
-
-			// 		// 	/* Restore original Post Data */
-			// 			wp_reset_postdata();	
-			// 		}
-			// echo "</pre>";
-			
-			// die();
-
 			$bsfm_opt = get_option('_bsf_mautic_config');
 			$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
 			$bsfm_edd_prod_cat = array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
@@ -367,6 +330,32 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
 
 
+			$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish', 'post__in' => $all_products );
+			$downloads = get_posts( $args );
+
+			foreach ( $downloads as $download ) : setup_postdata( $download );
+				$id = $download->ID;
+				$categories = get_the_terms( $id, 'download_category' );
+				$tags = get_the_terms( $id, 'download_tag' );
+				$download_terms = wp_get_object_terms( $id, 'download_category' );
+
+				if( $bsfm_edd_prod_slug ) {
+					$slug = $download->post_name;
+					array_push( $m_tags, $slug);
+				}
+
+				if( $bsfm_edd_prod_cat ) {
+					foreach ( $categories as $cat ) {
+						array_push( $m_tags, $cat->name);
+					}
+				}
+
+				if( $bsfm_edd_prod_tag ) {
+					foreach ( $tags as $tag ) {
+						array_push( $m_tags, $tag->name);
+					}
+				}
+			endforeach;
 
 			// General global config conditions
 			$all_customer = $all_customer_ab = array(
@@ -405,12 +394,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$body = array(
 				'firstname'	=>	$payment_meta['user_info']['first_name'],
 				'lastname'	=>	$payment_meta['user_info']['last_name'],
-				'email'		=>	$payment_meta['user_info']['email']
+				'email'		=>	$payment_meta['user_info']['email'],
 			);
 
-			// if( isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_tag) ) {
-			// 	$body['tags'] = 'a,b,c';
-			// }
+			if( isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_tag) ) {
+				if( is_array( $m_tags ) && ( sizeof( $m_tags )>0 ) ) {	
+					$m_tags = implode(",", $m_tags);
+					$body['tags'] = $m_tags;
+				}
+			}
 
 			// Add all customers
 			$ac_segment = $all_customer['add_segment'];
