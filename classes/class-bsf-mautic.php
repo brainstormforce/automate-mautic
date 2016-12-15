@@ -156,10 +156,16 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			$user_info = get_userdata( $user_id );
 			$email = $user_info->user_email;
-			
 			$credentials = get_option( 'bsfm_mautic_credentials' );
-			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 
+			if( isset($_COOKIE['mtc_id']) ) {
+				$contact_id = $_COOKIE['mtc_id'];
+				$contact_id = (int)$contact_id;
+			}
+			else {
+				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			}
+			
 			if( isset($contact_id) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
@@ -212,10 +218,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				return;
 			}
-
 			$email = $commentdata['comment_author_email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
-			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			if( isset($_COOKIE['mtc_id']) ) {
+				$contact_id = $_COOKIE['mtc_id'];
+				$contact_id = (int)$contact_id;
+			}
+			else {
+				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			}
 
 			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
@@ -263,18 +274,18 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			$email = $payment_meta['user_info']['email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
-			//$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 
 			if( isset($_COOKIE['mtc_id']) ) {
 				$contact_id = $_COOKIE['mtc_id'];
+				$contact_id = (int)$contact_id;
+			}
+			else {
+				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
 
 			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
 			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
-			}
-			else {
-				return;
 			}
 
 			if( isset( $contact_id ) ) {
@@ -324,8 +335,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// get all downloads
 			$all_downloads = $payment_meta['downloads'];
 			$all_products = array();
-			foreach ($all_downloads as $download) {
-		 		array_push( $all_products, $download['id']);
+			foreach ( $all_downloads as $download ) {
+		 		array_push( $all_products, $download['id'] );
 			}
 			//$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'download', 'post__in' => $all_products ) );
 			$set_rules = $download_id = $price_id = $m_tags = array();
@@ -336,7 +347,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$seg_action_id = array_key_exists( 'config_edd_segment', $bsfm_opt ) ? $bsfm_opt['config_edd_segment'] : '';
 			$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
 
-
 			$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish', 'post__in' => $all_products );
 			$downloads = get_posts( $args );
 
@@ -344,7 +354,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$id = $download->ID;
 				$categories = get_the_terms( $id, 'download_category' );
 				$tags = get_the_terms( $id, 'download_tag' );
-				$download_terms = wp_get_object_terms( $id, 'download_category' );
 
 				if( $bsfm_edd_prod_slug ) {
 					$slug = $download->post_name;
@@ -374,7 +383,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			$email = $payment_meta['user_info']['email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
-			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+
+			if( isset($_COOKIE['mtc_id']) ) {
+				$contact_id = $_COOKIE['mtc_id'];
+				$contact_id = (int)$contact_id;
+			}
+			else {
+				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			}
+
 			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
@@ -385,20 +402,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				else {
 					$add_segment = $all_customer['add_segment'];
 				}
-
 				if( is_array( $add_segment ) ) {
 					foreach ( $add_segment as $segment_id) {
 						$segment_id = (int)$segment_id;
 						$action = "add";
 						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 					}
-				}
-				// if staus is complete - remove user from abandoned segment
-				if( $new_status == 'publish' ) {
-					$seg_action_ab = (int)$seg_action_ab;
-					$action = "remove";
-					$credentials = get_option( 'bsfm_mautic_credentials' );
-					$res = self::bsfm_mautic_contact_to_segment( $seg_action_ab, $contact_id, $credentials, $action);
 				}
 			}
 			else {
@@ -474,7 +483,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				if( !is_array($body_fields) ) {
 					$email = $query['your-email'];
 					$credentials = get_option( 'bsfm_mautic_credentials' );
-					$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+					if( isset($_COOKIE['mtc_id']) ) {
+						$contact_id = $_COOKIE['mtc_id'];
+						$contact_id = (int)$contact_id;
+					}
+					else {
+						$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+					}
 				}
 				
 				if( isset( $contact_id ) ) {
@@ -659,7 +674,16 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$remove_segment = $set_actions['remove_segment'];
 			$add_segment = $set_actions['add_segment'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
-			$contact_id	= self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+
+			if( isset($_COOKIE['mtc_id']) ) {
+				$contact_id = $_COOKIE['mtc_id'];
+				$contact_id = (int)$contact_id;
+			}
+			else {
+				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			}
+
+
 			foreach ( $remove_segment as $segment_id) {
 				$segment_id = (int)$segment_id;
 				if( isset( $contact_id ) ) {
@@ -685,7 +709,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * 
 		 * @since 1.0.0
 		 */
-		static function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
+		function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
 			$errorMsg = '';
 			$status = 'error';
 			if( is_int($segment_id) && is_int($contact_id) ) {
@@ -732,11 +756,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @return mautic contact id 
 		 * @since 1.0.0
 		 */
-		static function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
+		function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) {
 			$errorMsg = '';
 			$status = 'error';
 			$access_token = $mautic_credentials['access_token'];
-			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&&access_token='. $access_token;
 			$response = wp_remote_get( $url );
 			if( is_array($response) ) {
 				$response_body = $response['body'];
