@@ -32,7 +32,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
-			//add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
+			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
 		}
 
 		/**
@@ -309,31 +309,29 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public static function bsfm_edd_to_mautic_config() {
+		public static function bsfm_edd_to_mautic_config( $payment_id, $new_status, $old_status ) {
 
-				// Basic payment meta			
+			// Basic payment meta			
 			$payment_meta = edd_get_payment_meta( $payment_id );
 
+			// For Tag
 			// echo "<pre>";
 			// print_r($payment_meta);
-			
 			// $all_downloads = $payment_meta['downloads'];
-			
 			// foreach ($all_downloads as $download) {
 			// 	//$download->id;
 			// }
-
-
 			// echo "</pre>";
 
 
 			$bsfm_opt = get_option('_bsf_mautic_config');
-
 			$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
 			$bsfm_edd_prod_cat = array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
 			$bsfm_edd_prod_tag	= array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
 			$seg_action_id = array_key_exists( 'config_edd_segment', $bsfm_opt ) ? $bsfm_opt['config_edd_segment'] : '';
 			$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
+
+
 
 			// General global config conditions
 			$all_customer = $all_customer_ab = array(
@@ -349,16 +347,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
-
-				$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
-				if( is_array($status) && sizeof($status)>0 ) {
-					$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
+				//add to segment
+				if( $new_status == 'abandoned' ) {
+					$add_segment = $all_customer_ab['add_segment'];	
 				}
 				else {
-					return;
+					$add_segment = $all_customer['add_segment'];
 				}
-				//add to segment
-				$add_segment = $set_actions['add_segment'];
 				if( is_array( $add_segment ) ) {
 					foreach ( $add_segment as $segment_id) {
 						$segment_id = (int)$segment_id;
@@ -382,10 +377,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// 	$body['tags'] = 'a,b,c';
 			// }
 
+
+
 			// Add all customers
 			$ac_segment = $all_customer['add_segment'];
 			if( isset( $seg_action_id ) ) {
 				if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
+
 					self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
 				}
 			}
@@ -397,7 +395,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
 				}
 			}
-
 		}
 
 		public static function bsfm_filter_cf7_submit_fields($cf7) {
