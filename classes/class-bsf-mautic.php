@@ -378,12 +378,18 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				else {
 					$add_segment = $all_customer['add_segment'];
 				}
+
 				if( is_array( $add_segment ) ) {
 					foreach ( $add_segment as $segment_id) {
 						$segment_id = (int)$segment_id;
 						$action = "add";
 						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 					}
+				}
+				// if staus is complete - remove user from abandoned segment
+				if( $new_status == 'publish' ) {
+					$action = 'remove';
+					$res = self::bsfm_mautic_contact_to_segment( $seg_action_ab, $contact_id, $credentials, $action);
 				}
 			}
 			else {
