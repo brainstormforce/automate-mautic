@@ -321,7 +321,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 		array_push( $all_products, $download['id']);
 			}
 			//$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'download', 'post__in' => $all_products ) );
-			$set_rules = $download_id = $price_id = $m_tags array();
+			$set_rules = $download_id = $price_id = $m_tags = array();
 			// For Tag
 	
 			$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish', 'post__in' => $all_products );
@@ -335,11 +335,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					 // $category = get_the_category( $id );
 
 			endforeach;
-
-
-
-
-			//die();
+			echo "<pre>";
+			print_r($m_tags);
+			echo "</pre>";
+			die();
 			
 			// echo "<pre>";
 			// // The Loop
