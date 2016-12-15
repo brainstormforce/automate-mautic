@@ -49,7 +49,7 @@
 									<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
 								<?php }
 								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
-									<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+									<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads', 'bsfmautic' ) ?></option>
 								<?php } ?>
 							</select>
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
@@ -220,7 +220,7 @@
 									<option value="CF7"><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
 								<?php }
 								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
-									<option value="EDD"><?php _e( 'Easy Digital Downloads Purchase', 'bsfmautic' ) ?></option>
+									<option value="EDD"><?php _e( 'Easy Digital Downloads', 'bsfmautic' ) ?></option>
 								<?php } ?>
 							</select>
 							<div class="first-condition" style="display:inline;"></div>

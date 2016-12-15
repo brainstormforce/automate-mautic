@@ -275,20 +275,20 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$email = $payment_meta['user_info']['email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 
-			if( isset($_COOKIE['mtc_id']) ) {
-				$contact_id = $_COOKIE['mtc_id'];
-				$contact_id = (int)$contact_id;
-			}
-			else {
-				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-			}
-
 			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
 			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
+			}
+
+			if( isset($_COOKIE['mtc_id']) ) {
+				$contact_id = $_COOKIE['mtc_id'];
+				$contact_id = (int)$contact_id;
+			}
+			else {
+				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
 
 			if( isset( $contact_id ) ) {
@@ -432,7 +432,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 
 			if( isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_tag) ) {
-				if( is_array( $m_tags ) && ( sizeof( $m_tags )>0 ) ) {	
+				if( is_array( $m_tags ) && ( sizeof( $m_tags )>0 ) ) {
 					$m_tags = implode(",", $m_tags);
 					$body['tags'] = $m_tags;
 				}
@@ -692,7 +692,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
-
 
 			foreach ( $remove_segment as $segment_id) {
 				$segment_id = (int)$segment_id;

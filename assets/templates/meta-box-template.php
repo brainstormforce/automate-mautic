@@ -16,7 +16,7 @@
 				<option value="CF7">User Submit Contact Form 7</option>
 			<?php }
 			if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
-				<option value="EDD">Easy Digital Downloads Purchase</option>
+				<option value="EDD">Easy Digital Downloads</option>
 			<?php } ?>
 		</select>
 		<div class="first-condition" style="display:inline;"></div>
