@@ -332,126 +332,128 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 */
 		public static function bsfm_edd_to_mautic_config( $payment_id, $new_status, $old_status ) {
 
-			// Basic payment meta			
-			$payment_meta = edd_get_payment_meta( $payment_id );
+			if( $new_status == 'publish' || $new_status == 'abandoned' ) {
+				// Basic payment meta			
+				$payment_meta = edd_get_payment_meta( $payment_id );
 
-			// get all downloads
-			$all_downloads = $payment_meta['downloads'];
-			$all_products = array();
-			foreach ( $all_downloads as $download ) {
-		 		array_push( $all_products, $download['id'] );
-			}
-			//$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'download', 'post__in' => $all_products ) );
-			$set_rules = $download_id = $price_id = $m_tags = array();
-			$bsfm_opt = get_option('_bsf_mautic_config');
-			$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
-			$bsfm_edd_prod_cat = array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
-			$bsfm_edd_prod_tag	= array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
-			$seg_action_id = array_key_exists( 'config_edd_segment', $bsfm_opt ) ? $bsfm_opt['config_edd_segment'] : '';
-			$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
-
-			$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish', 'post__in' => $all_products );
-			$downloads = get_posts( $args );
-
-			foreach ( $downloads as $download ) : setup_postdata( $download );
-				$id = $download->ID;
-				$categories = get_the_terms( $id, 'download_category' );
-				$tags = get_the_terms( $id, 'download_tag' );
-
-				if( $bsfm_edd_prod_slug ) {
-					$slug = $download->post_name;
-					array_push( $m_tags, $slug);
+				// get all downloads
+				$all_downloads = $payment_meta['downloads'];
+				$all_products = array();
+				foreach ( $all_downloads as $download ) {
+			 		array_push( $all_products, $download['id'] );
 				}
+				//$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'download', 'post__in' => $all_products ) );
+				$set_rules = $download_id = $price_id = $m_tags = array();
+				$bsfm_opt = get_option('_bsf_mautic_config');
+				$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
+				$bsfm_edd_prod_cat = array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
+				$bsfm_edd_prod_tag	= array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
+				$seg_action_id = array_key_exists( 'config_edd_segment', $bsfm_opt ) ? $bsfm_opt['config_edd_segment'] : '';
+				$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
 
-				if( $bsfm_edd_prod_cat ) {
-					foreach ( $categories as $cat ) {
-						array_push( $m_tags, $cat->name);
+				$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish', 'post__in' => $all_products );
+				$downloads = get_posts( $args );
+
+				foreach ( $downloads as $download ) : setup_postdata( $download );
+					$id = $download->ID;
+					$categories = get_the_terms( $id, 'download_category' );
+					$tags = get_the_terms( $id, 'download_tag' );
+
+					if( $bsfm_edd_prod_slug ) {
+						$slug = $download->post_name;
+						array_push( $m_tags, $slug);
 					}
-				}
 
-				if( $bsfm_edd_prod_tag ) {
-					foreach ( $tags as $tag ) {
-						array_push( $m_tags, $tag->name);
+					if( $bsfm_edd_prod_cat ) {
+						foreach ( $categories as $cat ) {
+							array_push( $m_tags, $cat->name);
+						}
 					}
-				}
-			endforeach;
 
-			// General global config conditions
-			$all_customer = $all_customer_ab = array(
-				'add_segment' => array(),
-				'remove_segment' => array()
-			);
-			array_push( $all_customer['add_segment'], $seg_action_id );
-			array_push( $all_customer_ab['add_segment'], $seg_action_ab );
+					if( $bsfm_edd_prod_tag ) {
+						foreach ( $tags as $tag ) {
+							array_push( $m_tags, $tag->name);
+						}
+					}
+				endforeach;
 
-			$email = $payment_meta['user_info']['email'];
-			$credentials = get_option( 'bsfm_mautic_credentials' );
+				// General global config conditions
+				$all_customer = $all_customer_ab = array(
+					'add_segment' => array(),
+					'remove_segment' => array()
+				);
+				array_push( $all_customer['add_segment'], $seg_action_id );
+				array_push( $all_customer_ab['add_segment'], $seg_action_ab );
 
-			if( isset($_COOKIE['mtc_id']) ) {
-				$contact_id = $_COOKIE['mtc_id'];
-				$contact_id = (int)$contact_id;
-			}
-			else {
-				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-			}
+				$email = $payment_meta['user_info']['email'];
+				$credentials = get_option( 'bsfm_mautic_credentials' );
 
-			if( isset( $contact_id ) ) {
-				$method = 'PATCH';
-				$url = '/api/contacts/'.$contact_id.'/edit';
-				//add to segment
-				if( $new_status == 'abandoned' ) {
-					$add_segment = $all_customer_ab['add_segment'];	
+				if( isset($_COOKIE['mtc_id']) ) {
+					$contact_id = $_COOKIE['mtc_id'];
+					$contact_id = (int)$contact_id;
 				}
 				else {
-					$add_segment = $all_customer['add_segment'];
+					$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 				}
-				if( is_array( $add_segment ) ) {
-					foreach ( $add_segment as $segment_id) {
-						$segment_id = (int)$segment_id;
-						$action = "add";
-						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+
+				if( isset( $contact_id ) ) {
+					$method = 'PATCH';
+					$url = '/api/contacts/'.$contact_id.'/edit';
+					//add to segment
+					if( $new_status == 'abandoned' ) {
+						$add_segment = $all_customer_ab['add_segment'];	
+					}
+					elseif( $new_status == 'publish' ) {
+						$add_segment = $all_customer['add_segment'];
+					}
+					if( is_array( $add_segment ) ) {
+						foreach ( $add_segment as $segment_id) {
+							$segment_id = (int)$segment_id;
+							$action = "add";
+							$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+						}
+					}
+					// if staus is complete - remove user from abandoned segment
+					// if( $new_status == 'publish' ) {
+					//  $seg_action_ab = (int)$seg_action_ab;
+					// 	$action = "remove";
+					// 	$credentials = get_option( 'bsfm_mautic_credentials' );
+					// 	$res = self::bsfm_mautic_contact_to_segment( $seg_action_ab, $contact_id, $credentials, $action);
+					// }
+				}
+				else {
+					$method = 'POST';
+					$url = '/api/contacts/new';
+				}
+
+				$body = array(
+					'firstname'	=>	$payment_meta['user_info']['first_name'],
+					'lastname'	=>	$payment_meta['user_info']['last_name'],
+					'email'		=>	$payment_meta['user_info']['email'],
+				);
+
+				if( isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_tag) ) {
+					if( is_array( $m_tags ) && ( sizeof( $m_tags )>0 ) ) {
+						$m_tags = implode(",", $m_tags);
+						$body['tags'] = $m_tags;
 					}
 				}
-				// if staus is complete - remove user from abandoned segment
-				// if( $new_status == 'publish' ) {
-				// 	$seg_action_ab = (int)$seg_action_ab;
-				// 	$action = "remove";
-				// 	$credentials = get_option( 'bsfm_mautic_credentials' );
-				// 	$res = self::bsfm_mautic_contact_to_segment( $seg_action_ab, $contact_id, $credentials, $action);
-				// }
-			}
-			else {
-				$method = 'POST';
-				$url = '/api/contacts/new';
-			}
 
-			$body = array(
-				'firstname'	=>	$payment_meta['user_info']['first_name'],
-				'lastname'	=>	$payment_meta['user_info']['last_name'],
-				'email'		=>	$payment_meta['user_info']['email'],
-			);
-
-			if( isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_tag) ) {
-				if( is_array( $m_tags ) && ( sizeof( $m_tags )>0 ) ) {
-					$m_tags = implode(",", $m_tags);
-					$body['tags'] = $m_tags;
-				}
-			}
-
-			if( ! isset( $contact_id ) ) {
-				// Add all customers
-				$ac_segment = $all_customer['add_segment'];
-				if( isset( $seg_action_id ) ) {
-					if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
-						self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
+				if( ! isset( $contact_id ) ) {
+					// Add all customers
+					$ac_segment = $all_customer['add_segment'];
+					if( isset( $seg_action_id ) && $new_status == 'publish' ) {
+						if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
+							self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
+						}
 					}
-				}
 
-				// Abandoned Customers
-				$ab_segment = $all_customer_ab['add_segment'];
-				if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
-					if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
-						self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
+					// Abandoned Customers
+					$ab_segment = $all_customer_ab['add_segment'];
+					if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
+						if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
+							self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
+							}
 					}
 				}
 			}
