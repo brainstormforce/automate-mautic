@@ -29,7 +29,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'wp_head', array( $this, 'bsf_mautic_tracking_script' ) );
 			add_action( 'wp_footer', array( $this, 'bsf_mautic_tracking_image' ) );
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
-			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+			//add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+			
+			add_action( 'transition_comment_status', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
@@ -39,24 +42,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// add_action( 'wp_footer', array( $this, 'mautic_edd_display_checkout_fields' ) );
 
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
-			// add_action('transition_comment_status', 'my_approve_comment_callback', 10, 3);
 		}
-
-
-
-			// function my_approve_comment_callback($new_status, $old_status, $comment) {
-			//     if($old_status != $new_status) {
-			//         if($new_status == 'approved') {
-			//             // Your code here
-			//         }
-			//     }
-			// }
-
-
-
-
-
-
 
 
 		// public static function wpse_edit_footer() {
@@ -250,14 +236,13 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
-			if( !isset($commentdata['comment_author_email']) ) return;
-			
-			 
+		public function bsfm_add_comment_author( $new_status, $old_status, $commentdata ) {
 
-			if( 1 != $approved ) {
+			if( 'approved' != $new_status ) {
 			 	return;
-			 }
+			}
+			$commentdata =  (array) $commentdata;
+
 			//get comment post condition rules
 			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
 			if( is_array($status) && sizeof($status)>0 ) {
