@@ -32,7 +32,7 @@
 		<div class="bsfm-settings-form-content">
 			<?php
 				$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = $bsfm_enabled_track_show = '';
+				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = $bsfm_enabled_track_show = $bsfm_proactive_tracking = '';
 				if( is_array($bsfm) ) {
 					$bsfm_enabled_track	= ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? ' checked' : '';
 					$bsfm_enabled_track_show = ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? 'style="display: block;"' : 'style="display: none;"';
@@ -46,7 +46,7 @@
 					$bsfm_edd_prod_slug	= ( array_key_exists( 'bsfm_edd_prod_slug', $bsfm ) && $bsfm['bsfm_edd_prod_slug'] == 1 )  ? ' checked' : '';
 					$bsfm_edd_prod_cat = ( array_key_exists( 'bsfm_edd_prod_cat', $bsfm ) && $bsfm['bsfm_edd_prod_cat'] == 1 )  ? ' checked' : '';
 					$bsfm_edd_prod_tag	= ( array_key_exists( 'bsfm_edd_prod_tag', $bsfm ) && $bsfm['bsfm_edd_prod_tag'] == 1 )  ? ' checked' : '';
-					
+					$bsfm_proactive_tracking = ( array_key_exists( 'bsfm_proactive_tracking', $bsfm ) && $bsfm['bsfm_proactive_tracking'] == 1 )  ? ' checked' : '';
 					$ss_seg_action = ( array_key_exists( 'config_edd_segment', $bsfm ) ) ? $bsfm['config_edd_segment'] : '';
 					$ss_seg_action_ab = ( array_key_exists( 'config_edd_segment_ab', $bsfm ) ) ? $bsfm['config_edd_segment_ab'] : '';
 				}
@@ -127,8 +127,15 @@
 						</label><br>
 					</p>	
 
+					<h4><?php _e( 'Proactive Abandonment Tracking', 'bsfmautic' ); ?></h4>	
+					<p>
+						<label>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_proactive_tracking" value="" <?php echo $bsfm_proactive_tracking; ?> ><?php _e( 'Enable Proactive Abandonment Tracking', 'bsfmautic' ); ?>
+						</label><br>
+					</p>	
+
 					<p class="submit">
-						<input type="submit" name="save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
+						<input type="submit" name="save-bsfm" class="button-primary button button-large" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
 					</p>
 					<?php wp_nonce_field('bsfmauticedd', 'bsf-mautic-nonce-edd'); ?>
 				</div>

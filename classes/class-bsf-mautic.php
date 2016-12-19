@@ -37,16 +37,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
 
-			// add refresh links to footer
-			// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
-			// add_action( 'wp_footer', array( $this, 'mautic_edd_display_checkout_fields' ) );
-
+		// add refresh links to footer
+		// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
 		}
 
-
 		// public static function wpse_edit_footer() {
-
 		//     add_filter( 'admin_footer_text', array( $this, 'wpse_edit_text' ), 11 );
 		// }
 
@@ -55,13 +51,25 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		// }
 
 		public function mautic_edd_display_checkout_fields() {
-			$adminajax =  admin_url( 'admin-ajax.php' );
+			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
+			$enable_proactive_tracking	= false;
+			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm_proactive_tracking', $bsfm_options ) ) {
+				if( $bsfm_options['bsfm_proactive_tracking'] == 1 ) {
+					$enable_proactive_tracking = true;
+				} else {
+					$enable_proactive_tracking = false;
+				}
+			}
 
-			wp_enqueue_script( 'bsfm-proactive-ab' , BSF_MAUTIC_PLUGIN_URL . 'assets/js/bsfm-proactive-ab.js', __FILE__ , array(), '1.0.0', false );
-			$bsfm_select_params = array(
-				'bsf_ajax_url'	=> $adminajax
-			);
-			wp_localize_script( 'bsfm-proactive-ab', 'bsf_widget_notices', $bsfm_select_params );
+			if ( $enable_proactive_tracking ) {
+
+				$adminajax =  admin_url( 'admin-ajax.php' );
+				wp_enqueue_script( 'bsfm-proactive-ab' , BSF_MAUTIC_PLUGIN_URL . 'assets/js/bsfm-proactive-ab.js', __FILE__ , array(), '1.0.0', false );
+				$bsfm_select_params = array(
+					'bsf_ajax_url'	=> $adminajax
+				);
+				wp_localize_script( 'bsfm-proactive-ab', 'bsf_widget_notices', $bsfm_select_params );
+			}
 		}
 		/**
 		 * Register a bsf-mautic-rule post type.

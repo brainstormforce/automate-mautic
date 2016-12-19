@@ -481,11 +481,12 @@ final class BSFMauticAdminSettings {
 		// EDD Config
 		if ( isset( $_POST['bsf-mautic-nonce-edd'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-edd'], 'bsfmauticedd' ) ) {
 			$bsfm = get_option('_bsf_mautic_config');
-			$bsfm['bsfm_edd_prod_slug'] = $bsfm['bsfm_edd_prod_cat'] = $bsfm['bsfm_edd_prod_tag'] = false ;
+			$bsfm['bsfm_edd_prod_slug'] = $bsfm['bsfm_edd_prod_cat'] = $bsfm['bsfm_edd_prod_tag'] = $bsfm['bsfm_proactive_tracking'] = false ;
 			
 			if( isset( $_POST['bsfm_edd_prod_slug'] ) ) {	$bsfm['bsfm_edd_prod_slug'] = true;	}
 			if( isset( $_POST['bsfm_edd_prod_cat'] ) ) {	$bsfm['bsfm_edd_prod_cat'] = true;	}
 			if( isset( $_POST['bsfm_edd_prod_tag'] ) ) {	$bsfm['bsfm_edd_prod_tag'] = true;	}
+			if( isset( $_POST['bsfm_proactive_tracking'] ) ) {	$bsfm['bsfm_proactive_tracking'] = true;	}
 
 			if( isset( $_POST['ss_seg_action'][0] ) ) {	$bsfm['config_edd_segment'] = $_POST['ss_seg_action'][0]; }
 			if( isset( $_POST['ss_seg_action'][1] ) ) {	$bsfm['config_edd_segment_ab'] = $_POST['ss_seg_action'][1]; }
