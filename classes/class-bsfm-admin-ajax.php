@@ -152,10 +152,9 @@ class BSFMauticAdminAjax {
 		$body = array(
 			'email'		=>	$_POST['email']
 		);
-		
+
 		$ab_segment = $all_customer_ab['add_segment'];
 		if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
-			echo $contact_id;
 			BSF_Mautic::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
 		}
 		die();
