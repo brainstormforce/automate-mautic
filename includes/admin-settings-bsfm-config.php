@@ -46,6 +46,9 @@
 					$bsfm_edd_prod_slug	= ( array_key_exists( 'bsfm_edd_prod_slug', $bsfm ) && $bsfm['bsfm_edd_prod_slug'] == 1 )  ? ' checked' : '';
 					$bsfm_edd_prod_cat = ( array_key_exists( 'bsfm_edd_prod_cat', $bsfm ) && $bsfm['bsfm_edd_prod_cat'] == 1 )  ? ' checked' : '';
 					$bsfm_edd_prod_tag	= ( array_key_exists( 'bsfm_edd_prod_tag', $bsfm ) && $bsfm['bsfm_edd_prod_tag'] == 1 )  ? ' checked' : '';
+
+					$bsfm_config_subscribe_optin	= ( array_key_exists( 'bsfm_config_subscribe_optin', $bsfm ) && $bsfm['bsfm_config_subscribe_optin'] == 1 )  ? ' checked' : '';
+					
 					$ss_seg_action = ( array_key_exists( 'config_edd_segment', $bsfm ) ) ? $bsfm['config_edd_segment'] : '';
 					$ss_seg_action_ab = ( array_key_exists( 'config_edd_segment_ab', $bsfm ) ) ? $bsfm['config_edd_segment_ab'] : '';
 				}
@@ -125,6 +128,14 @@
 							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_edd_prod_tag" value="" <?php echo $bsfm_edd_prod_tag; ?> ><?php _e( 'Automatically add EDD tags in Mautic', 'bsfmautic' ); ?>
 						</label><br>
 					</p>
+
+					<h4><?php _e( 'Subscribe to Mautic at checkout', 'bsfmautic' ); ?></h4>	
+					<p>
+						<label>
+							<input type="checkbox" class="bsfm-enabled-panels" name="bsfm_config_subscribe_optin" value="" <?php echo $bsfm_config_subscribe_optin; ?> ><?php _e( 'Display subscribe to mautic at checkout', 'bsfmautic' ); ?>
+						</label><br>
+					</p>
+
 					<p class="submit">
 						<input type="submit" name="save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'bsfmautic' ); ?>" />
 					</p>

@@ -33,7 +33,34 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
+
+			// add refresh links to footer
+			// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
+
+			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
 		}
+
+		// public static function wpse_edit_footer() {
+
+		//     add_filter( 'admin_footer_text', array( $this, 'wpse_edit_text' ), 11 );
+		// }
+
+		// public static function wpse_edit_text($content) {
+		//     return "";
+		// }
+
+		public function mautic_edd_display_checkout_fields() {
+			?>
+			<p id="edd-phone-wrap">
+				<label class="edd-label" for="edd-phone">	<?php _e( 'Subscribe to Mautic', 'bsfmautic' ); ?></label>
+					<span class="edd-description">
+					<?php _e( 'Subscribe me to newsletters', 'bsfmautic' ); ?>
+					</span>
+				<input class="edd-input" type="checkbox" name="edd_phone" value="1" id="edd-phone" placeholder="Phone Number" />
+			</p>
+			<?php
+		}
+
 
 		/**
 		 * Register a bsf-mautic-rule post type.
