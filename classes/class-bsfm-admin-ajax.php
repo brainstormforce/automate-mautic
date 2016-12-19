@@ -27,7 +27,8 @@ class BSFMauticAdminAjax {
 		add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'bsf_clean_mautic_transient' ) );
 		add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'bsf_config_disconnect_mautic' ) );
 		// proactive tracking
-		add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'bsf_config_disconnect_mautic' ) );
+		add_action( 'wp_ajax_nopriv_add_practive_leads', array( $this, 'add_proactive_abandoned_leads' ) );
+		add_action( 'wp_ajax_add_practive_leads', array( $this, 'add_proactive_abandoned_leads' ) );
 	}
 	/** 
 	 * Make cf7 form fields select Html
@@ -106,6 +107,71 @@ class BSFMauticAdminAjax {
 		delete_transient( 'bsfm_all_segments' );
 		delete_transient( 'bsfm_all_mforms' );
 		delete_transient( 'bsfm_all_cfields' );
+		die();
+	}
+
+	/** 
+	 * Add proactive abandoned leads to Mautic
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function add_proactive_abandoned_leads() {
+
+		$ab_email = isset($_POST['email']) ? $_POST['email']:'';
+
+		$bsfm_opt = get_option('_bsf_mautic_config');
+		$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
+
+		// General global config conditions
+		$all_customer_ab = array(
+			'add_segment' => array(),
+			'remove_segment' => array()
+		);
+		array_push( $all_customer_ab['add_segment'], $seg_action_ab );
+
+		$credentials = get_option( 'bsfm_mautic_credentials' );
+
+		if( isset($_COOKIE['mtc_id']) ) {
+			$contact_id = $_COOKIE['mtc_id'];
+			$contact_id = (int)$contact_id;
+		}
+		else {
+			$contact_id = BSF_Mautic::bsfm_mautic_get_contact_by_email( $ab_email, $credentials );
+		}
+
+		if( isset( $contact_id ) ) {
+			$method = 'PATCH';
+			$url = '/api/contacts/'.$contact_id.'/edit';
+			//add to segment
+			$add_segment = $all_customer_ab['add_segment'];	
+			if( is_array( $add_segment ) ) {
+				foreach ( $add_segment as $segment_id) {
+					$segment_id = (int)$segment_id;
+					$action = "add";
+
+					$res = BSF_Mautic::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+				}
+			}
+		}
+		else {
+			$method = 'POST';
+			$url = '/api/contacts/new';
+		}
+
+		$body = array(
+			'email'		=>	$_POST['email']
+		);
+
+		if( ! isset( $contact_id ) ) {
+			$ab_segment = $all_customer_ab['add_segment'];
+
+			if( isset( $seg_action_ab ) ) {
+				if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
+					BSF_Mautic::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
+				}
+			}
+		}
 		die();
 	}
 }
