@@ -36,11 +36,28 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			// add refresh links to footer
 			// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
+			// add_action( 'wp_footer', array( $this, 'mautic_edd_display_checkout_fields' ) );
 
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
-			
-			// add_action( 'wp_footer', array( $this, 'mautic_edd_display_checkout_fields' ) );
+			// add_action('transition_comment_status', 'my_approve_comment_callback', 10, 3);
 		}
+
+
+
+			// function my_approve_comment_callback($new_status, $old_status, $comment) {
+			//     if($old_status != $new_status) {
+			//         if($new_status == 'approved') {
+			//             // Your code here
+			//         }
+			//     }
+			// }
+
+
+
+
+
+
+
 
 		// public static function wpse_edit_footer() {
 
@@ -235,9 +252,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 */
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
 			if( !isset($commentdata['comment_author_email']) ) return;
-			if( 1 !== $approved ) {
-				return;
-			}
+			
+			 
+
+			if( 1 != $approved ) {
+			 	return;
+			 }
 			//get comment post condition rules
 			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
 			if( is_array($status) && sizeof($status)>0 ) {

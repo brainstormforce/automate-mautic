@@ -143,16 +143,6 @@ class BSFMauticAdminAjax {
 		if( isset( $contact_id ) ) {
 			$method = 'PATCH';
 			$url = '/api/contacts/'.$contact_id.'/edit';
-			//add to segment
-			$add_segment = $all_customer_ab['add_segment'];	
-			if( is_array( $add_segment ) ) {
-				foreach ( $add_segment as $segment_id) {
-					$segment_id = (int)$segment_id;
-					$action = "add";
-
-					$res = BSF_Mautic::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-				}
-			}
 		}
 		else {
 			$method = 'POST';
@@ -162,15 +152,11 @@ class BSFMauticAdminAjax {
 		$body = array(
 			'email'		=>	$_POST['email']
 		);
-
-		if( ! isset( $contact_id ) ) {
-			$ab_segment = $all_customer_ab['add_segment'];
-
-			if( isset( $seg_action_ab ) ) {
-				if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
-					BSF_Mautic::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
-				}
-			}
+		
+		$ab_segment = $all_customer_ab['add_segment'];
+		if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
+			echo $contact_id;
+			BSF_Mautic::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
 		}
 		die();
 	}
