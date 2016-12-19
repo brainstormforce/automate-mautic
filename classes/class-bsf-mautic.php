@@ -54,9 +54,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			<p id="edd-phone-wrap">
 				<label class="edd-label" for="edd-phone">	<?php _e( 'Subscribe to Mautic', 'bsfmautic' ); ?></label>
 					<span class="edd-description">
+					<input style="width: 5%;" class="edd-input" type="checkbox" name="edd_phone" value="1" id="edd-phone" placeholder="Phone Number" />
 					<?php _e( 'Subscribe me to newsletters', 'bsfmautic' ); ?>
 					</span>
-				<input class="edd-input" type="checkbox" name="edd_phone" value="1" id="edd-phone" placeholder="Phone Number" />
+				
 			</p>
 			<?php
 		}

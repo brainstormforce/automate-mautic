@@ -193,7 +193,7 @@
 			</div>
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
-				<a type="button" href="<?php echo admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' ); ?>" class="button button-primary button-large"><?php _e( 'Back to All Rules', 'bsfmautic' ); ?></a>
+				<a href="<?php echo admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' ); ?>" ><?php _e( 'Back to All Rules', 'bsfmautic' ); ?></a>
 				<span style="float: right;"><span class="spinner bsfm-wp-spinner"></span>
 				<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?></a>
 				</span>
