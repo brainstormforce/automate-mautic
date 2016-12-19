@@ -149,7 +149,7 @@
 			<div class="bsfm-config-fields bsfm-config-select-tracking" <?php echo $bsfm_enabled_track_show; ?>>
 				<h4><?php _e( 'Select Tracking Type', 'bsfmautic' ); ?></h4>
 				<p>
-					<input type="radio" name="bsfm-tracking-type" value="js" <?php echo $bsfm_tracking_type_js; ?> ><?php _e( ' Javascript (JS) Tracking', 'bsfmautic' ); ?><br>
+					<input type="radio" name="bsfm-tracking-type" value="js" <?php echo $bsfm_tracking_type_js; ?> ><?php _e( ' Javascript (JS) Tracking (Recommended)', 'bsfmautic' ); ?><br>
 					<input type="radio" name="bsfm-tracking-type" value="img" <?php echo $bsfm_tracking_type_img; ?> ><?php _e( ' Pixel Tracking', 'bsfmautic' ); ?>
 				</p>
 			</div>
