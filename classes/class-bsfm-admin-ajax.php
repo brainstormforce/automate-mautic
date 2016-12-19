@@ -26,6 +26,8 @@ class BSFMauticAdminAjax {
 		add_action( 'wp_ajax_get_edd_var_price', array( $this, 'bsf_get_edd_variable_price' ) );
 		add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'bsf_clean_mautic_transient' ) );
 		add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'bsf_config_disconnect_mautic' ) );
+		// proactive tracking
+		add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'bsf_config_disconnect_mautic' ) );
 	}
 	/** 
 	 * Make cf7 form fields select Html
