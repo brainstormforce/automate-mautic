@@ -236,7 +236,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
 			if( !isset($commentdata['comment_author_email']) ) return;
 			if( 1 !== $approved ) {
-				return
+				return;
 			}
 			//get comment post condition rules
 			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
