@@ -38,6 +38,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
 
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
+			// add_action( 'wp_footer', array( $this, 'mautic_edd_display_checkout_fields' ) );
 		}
 
 		// public static function wpse_edit_footer() {
@@ -50,19 +51,35 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		// }
 
 		public function mautic_edd_display_checkout_fields() {
+			$adminajax =  admin_url( 'admin-ajax.php' );
+
+			wp_enqueue_script( 'bsfm-proactive-ab' , BSF_MAUTIC_PLUGIN_URL . 'assets/js/bsfm-proactive-ab.js', __FILE__ , array(), '1.0.0', false );
+			$bsfm_select_params = array(
+				'bsf_ajax_url'	=> $adminajax
+		);
+
+			wp_localize_script( 'bsfm-proactive-ab', 'bsf_widget_notices', $bsfm_select_params );
+ 
 			?>
-			<p id="edd-phone-wrap">
-				<label class="edd-label" for="edd-phone">	<?php _e( 'Subscribe to Mautic', 'bsfmautic' ); ?></label>
-					<span class="edd-description">
-					<input style="width: 5%;" class="edd-input" type="checkbox" name="edd_phone" value="1" id="edd-phone" placeholder="Phone Number" />
-					<?php _e( 'Subscribe me to newsletters', 'bsfmautic' ); ?>
-					</span>
-				
-			</p>
+			<script>
+					
+					jQuery(window).on( 'load', function(){
+					var temp = jQuery('#edd-email').val();
+						console.log(temp);
+						var data= {
+							action:'get_edd_var_price',
+							///email: temp,
+							// ajaxurl: 
+						};
+
+						jQuery.post(ajaxurl, data, function(selHtml) {
+								console.log(selHtml);
+						});
+
+				});
+			</script>
 			<?php
 		}
-
-
 		/**
 		 * Register a bsf-mautic-rule post type.
 		 * @since 1.0.0
