@@ -39,6 +39,12 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 			//	if empty add all defaults
 			if( empty( $bsfm ) ) {
 				$bsfm = $defaults;
+				if ( is_network_admin() ) {
+					update_site_option( '_bsf_mautic_config', $bsfm );
+				}
+				else {
+					update_option( '_bsf_mautic_config', $bsfm );
+				}
 			} else {
 
 				//	add new key
