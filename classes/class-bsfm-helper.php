@@ -33,7 +33,7 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 				'bsfm_edd_prod_tag'		=> '',
 				'config_edd_segment'	=> '',
 				'config_edd_segment_ab'	=> '',
-				'bsfm_proactive_tracking' => 1
+				'bsfm_proactive_tracking' => true
 			);
 
 			//	if empty add all defaults
