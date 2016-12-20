@@ -49,9 +49,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$bsfm_screen = get_current_screen();
 			if ( $bsfm_screen->id == 'settings_page_bsf-mautic' ) {
 
-				$rate_text = __( '<span class="alignright">
-				<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>
-				</span>');
+				$rate_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>
+				');
 				return str_replace( '</span>', '', $footer_text ) . ' | ' . $rate_text . '</span>';
 			} else {
 				return $footer_text;
