@@ -81,6 +81,7 @@
 			<p class="submit">
 				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'bsfmautic' ); ?>" />
 			</p>
+
 			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
 			<?php } ?>
 				<?php

@@ -30,25 +30,33 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'wp_footer', array( $this, 'bsf_mautic_tracking_image' ) );
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
 			//add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
-			
+			// add approved comment to mautic
 			add_action( 'transition_comment_status', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
 
-		// add refresh links to footer
-		// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
+			// add refresh links to footer
+			add_filter( 'admin_footer_text', array( $this, 'bsfm_refresh_edit_text' ) );
+
+			// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
 		}
 
-		// public static function wpse_edit_footer() {
-		//     add_filter( 'admin_footer_text', array( $this, 'wpse_edit_text' ), 11 );
-		// }
+		public function bsfm_refresh_edit_text( $footer_text ) {
 
-		// public static function wpse_edit_text($content) {
-		//     return "";
-		// }
+			$bsfm_screen = get_current_screen();
+			if ( $bsfm_screen->id == 'settings_page_bsf-mautic' ) {
+
+				$rate_text = __( '<span class="alignright">
+				<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>
+				</span>');
+				return str_replace( '</span>', '', $footer_text ) . ' | ' . $rate_text . '</span>';
+			} else {
+				return $footer_text;
+			}
+		}
 
 		public function mautic_edd_display_checkout_fields() {
 			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
@@ -383,7 +391,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				foreach ( $all_downloads as $download ) {
 			 		array_push( $all_products, $download['id'] );
 				}
-				//$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'download', 'post__in' => $all_products ) );
+
 				$set_rules = $download_id = $price_id = $m_tags = array();
 				$bsfm_opt = get_option('_bsf_mautic_config');
 				$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
@@ -494,7 +502,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
 						if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
 							self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
-							}
+						}
 					}
 				}
 			}

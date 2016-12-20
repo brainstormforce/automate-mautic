@@ -13,7 +13,7 @@ jQuery(document).ready(function( $ ) {
 					ajaxurl: bsf_widget_notices.bsf_ajax_url
 				};
 				jQuery.post( bsf_widget_notices.bsf_ajax_url , data, function(selHtml) {
-					// success
+					console.log(selHtml);
 				});
 			},4000);
 		}

@@ -1,4 +1,4 @@
-<div id="bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
+<div id="bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta wp-core-ui">
 
 	<form id="bsfm-post-meta-form" action="#" method="post">
 		
