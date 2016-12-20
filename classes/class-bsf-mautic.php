@@ -647,7 +647,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					'cookies' => array()
 				));
 			}
-
+ 
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';
