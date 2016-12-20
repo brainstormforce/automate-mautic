@@ -194,12 +194,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					}
 				}
 				// remove from segment
-				$remove_segment = $set_actions['remove_segment'];
-				if( is_array( $remove_segment ) ) {
-					foreach ( $remove_segment as $segment_id) {
-						$res = self::bsfm_remove_contact_from_segment( $body, $set_actions );
-					}
-				}
+				// $remove_segment = $set_actions['remove_segment'];
+				// if( is_array( $remove_segment ) ) {
+				// 	foreach ( $remove_segment as $segment_id) {
+				// 		$res = self::bsfm_remove_contact_from_segment( $body, $set_actions );
+				// 	}
+				// }
 			}
 			else {
 				$method = 'POST';
