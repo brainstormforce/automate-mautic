@@ -259,9 +259,6 @@
 			</div>
 			<p class="submit">
 				<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
-				<span style="float: right;"><span class="spinner bsfm-wp-spinner"></span>
-					<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'bsfmautic' ); ?></a>
-				</span>
 			</p>
 			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 		<?php }	?>
