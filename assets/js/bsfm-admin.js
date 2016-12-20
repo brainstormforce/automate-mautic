@@ -174,7 +174,4 @@ jQuery(document).ready(function( $ ) {
 			return false;
 		}
 	});
-	jq('.bsfm-enabled-panels').click(function(){	 
-		jq(".bsfm-config-select-tracking").toggle(this.checked);
-	});
 });

@@ -27,9 +27,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		public function hooks() {
 			add_action( 'init', array( $this, 'bsf_mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'bsf_mautic_tracking_script' ) );
-			add_action( 'wp_footer', array( $this, 'bsf_mautic_tracking_image' ) );
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
-			//add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+			// add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 			// add approved comment to mautic
 			add_action( 'transition_comment_status', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 
@@ -38,7 +37,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
 
 			// add refresh links to footer
-			//add_filter( 'admin_footer_text', array( $this, 'bsfm_refresh_edit_text' ) );
 			add_filter('update_footer', array($this, 'bsfm_refresh_edit_text'),999);
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
 		}
@@ -127,7 +125,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 			$enable_mautic_tracking	= false;
 			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking', $bsfm_options ) ) {
-				if( $bsfm_options['bsfm-enabled-tracking'] == 1 && $bsfm_options['bsfm-tracking-type'] == 'js' ) {
+				if( $bsfm_options['bsfm-enabled-tracking'] == 1 ) {
 					$enable_mautic_tracking = true;
 				} else {
 					$enable_mautic_tracking = false;
@@ -143,38 +141,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				mt('send', 'pageview');
 				</script>";
 				echo $bsfm_trackingJS;
-			}
-		}
-
-		/** 
-		 * Writes Mautic Tracking image to site 
-		 *
-		 * @since 1.0.0
-		 */
-		public function bsf_mautic_tracking_image( $atts, $content = null )
-		{
-			global $wp;
-			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
-			$enable_img_tracking = false;
-			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking', $bsfm_options ) ) { 
-				if( $bsfm_options['bsfm-enabled-tracking'] == 1 && $bsfm_options['bsfm-tracking-type'] == 'img' ) {
-					$enable_img_tracking = true;
-				} else {
-					$enable_img_tracking = false;
-				}
-			}
-			if ( $enable_img_tracking ) {
-				$base_url = trim($bsfm_options['bsfm-base-url'], " \t\n\r\0\x0B/");
-				$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
-				$attrs = array();
-				$attrs['title']	 = 'title';
-				$attrs['language']  = get_locale();
-				$attrs['referrer']  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $current_url;
-				$attrs['url']	   = $current_url;
-				$url_query = $attrs;
-				$encoded_query = urlencode(base64_encode(serialize($url_query)));
-				$image = '<img style="display:none" src="' . $base_url . '/mtracking.gif?d=' . $encoded_query . '" alt="mautic is open source marketing automation" />';
-				echo $image;
 			}
 		}
 		

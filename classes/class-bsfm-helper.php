@@ -24,7 +24,6 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 			$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 			$defaults = array(
 				'bsfm-enabled-tracking'	=> true,
-				'bsfm-tracking-type'	=> 'js',
 				'bsfm-base-url'			=> '',
 				'bsfm-public-key'		=> '',
 				'bsfm-secret-key'		=> '',
@@ -34,7 +33,7 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 				'bsfm_edd_prod_tag'		=> '',
 				'config_edd_segment'	=> '',
 				'config_edd_segment_ab'	=> '',
-				'bsfm_proactive_tracking' => ''
+				'bsfm_proactive_tracking' => 1
 			);
 
 			//	if empty add all defaults

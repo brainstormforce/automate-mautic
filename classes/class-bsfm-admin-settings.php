@@ -523,7 +523,6 @@ final class BSFMauticAdminSettings {
 			$bsfm = get_option('_bsf_mautic_config');
 			$bsfm['bsfm-enabled-tracking'] = false;
 			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
-			if( isset( $_POST['bsfm-tracking-type'] ) ) {	$bsfm['bsfm-tracking-type'] = $_POST['bsfm-tracking-type'];	}
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {
