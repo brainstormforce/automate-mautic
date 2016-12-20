@@ -154,7 +154,7 @@ final class BSFMauticAdminSettings {
 			?>
 		</form>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-			<input type="hidden" name="action" value="cp_popup_list" />
+			<input type="hidden" name="action" value="bsfm_rule_list" />
 			<?php $cp_list_table->display(); ?>
 		</form>
 		</div>
