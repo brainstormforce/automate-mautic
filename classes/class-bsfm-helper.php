@@ -21,7 +21,7 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 		
 		static public function get_bsfm_mautic()
 		{
-			$bsfm = get_option('_bsf_mautic_config')
+			$bsfm = get_option('_bsf_mautic_config');
 			$defaults = array(
 				'bsfm-enabled-tracking'	=> true,
 				'bsfm-base-url'			=> '',
