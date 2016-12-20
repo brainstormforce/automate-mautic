@@ -38,9 +38,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
 
 			// add refresh links to footer
-			add_filter( 'admin_footer_text', array( $this, 'bsfm_refresh_edit_text' ) );
-
-			// add_action( 'admin_init', array( $this, 'wpse_edit_footer' ));
+			//add_filter( 'admin_footer_text', array( $this, 'bsfm_refresh_edit_text' ) );
+			add_filter('update_footer', array($this, 'bsfm_refresh_edit_text'),999);
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
 		}
 
@@ -48,10 +47,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			$bsfm_screen = get_current_screen();
 			if ( $bsfm_screen->id == 'settings_page_bsf-mautic' ) {
-
-				$rate_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>
-				');
-				return str_replace( '</span>', '', $footer_text ) . ' | ' . $rate_text . '</span>';
+				$refresh_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>');
+				$text = $refresh_text.' | '.$footer_text;
+				return $text;
 			} else {
 				return $footer_text;
 			}
