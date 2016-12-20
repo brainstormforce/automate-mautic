@@ -21,7 +21,7 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 		
 		static public function get_bsfm_mautic()
 		{
-			$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
+			$bsfm = get_option('_bsf_mautic_config')
 			$defaults = array(
 				'bsfm-enabled-tracking'	=> true,
 				'bsfm-base-url'			=> '',
@@ -46,13 +46,12 @@ if ( ! class_exists( 'BSF_Mautic_Helper' ) ) :
 					update_option( '_bsf_mautic_config', $bsfm );
 				}
 			} else {
-				$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 				//	add new key
-				foreach( $bsfm as $key => $value ) {
+				foreach( $defaults as $key => $value ) {
 					if( is_array( $bsfm ) && !array_key_exists( $key, $bsfm ) ) {
 						$bsfm[$key] = $value;
 					} else {
-						$bsfm = wp_parse_args( $bsfm, $bsfm );
+						$bsfm = wp_parse_args( $bsfm, $defaults );
 					}
 				}
 			}
