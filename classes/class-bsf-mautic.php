@@ -701,13 +701,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$add_segment = $set_actions['add_segment'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 
-			if( isset($_COOKIE['mtc_id']) ) {
-				$contact_id = $_COOKIE['mtc_id'];
-				$contact_id = (int)$contact_id;
-			}
-			else {
-				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-			}
+			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+
 			if( is_array( $remove_segment ) ) {
 				$action = "remove";
 				foreach ( $remove_segment as $segment_id ) {
