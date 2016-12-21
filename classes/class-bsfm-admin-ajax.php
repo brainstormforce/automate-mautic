@@ -136,6 +136,11 @@ class BSFMauticAdminAjax {
 		if( isset($_COOKIE['mtc_id']) ) {
 			$contact_id = $_COOKIE['mtc_id'];
 			$contact_id = (int)$contact_id;
+
+			$email_cid = BSF_Mautic::bsfm_mautic_get_contact_by_email( $ab_email, $credentials );
+			if( isset( $email_cid ) ) {
+				$contact_id = (int)$email_cid;
+			}
 		}
 		else {
 			$contact_id = BSF_Mautic::bsfm_mautic_get_contact_by_email( $ab_email, $credentials );
@@ -144,11 +149,6 @@ class BSFMauticAdminAjax {
 		if( isset( $contact_id ) ) {
 			$method = 'PATCH';
 			$url = '/api/contacts/'.$contact_id.'/edit';
-
-			$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-			if( isset( $email_cid ) ) {
-				$contact_id = (int)$email_cid;
-			}
 		}
 		else {
 			$method = 'POST';

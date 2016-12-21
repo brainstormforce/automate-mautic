@@ -9,13 +9,12 @@ jQuery(document).ready(function( $ ) {
 			setTimeout(function(){
 				var data= {
 					action:'add_practive_leads',
-					email: lead,
-					ajaxurl: bsf_widget_notices.bsf_ajax_url
+					email: lead
 				};
 				jQuery.post( bsf_widget_notices.bsf_ajax_url , data, function(selHtml) {
-					console.log(selHtml);
+						console.log(selHtml);
 				});
-			},4000);
+			},3000);
 		}
 	});
 });

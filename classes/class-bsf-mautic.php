@@ -68,10 +68,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if ( $enable_proactive_tracking ) {
 
 				$adminajax =  admin_url( 'admin-ajax.php' );
-				wp_enqueue_script( 'bsfm-proactive-ab' , BSF_MAUTIC_PLUGIN_URL . 'assets/js/bsfm-proactive-ab.js', __FILE__ , array(), '1.0.0', false );
 				$bsfm_select_params = array(
 					'bsf_ajax_url'	=> $adminajax
 				);
+				wp_enqueue_script( 'bsfm-proactive-ab' , BSF_MAUTIC_PLUGIN_URL . 'assets/js/bsfm-proactive-ab.js', __FILE__ , array( 'jquery' ), '1.0.0', false );
 				wp_localize_script( 'bsfm-proactive-ab', 'bsf_widget_notices', $bsfm_select_params );
 			}
 		}
