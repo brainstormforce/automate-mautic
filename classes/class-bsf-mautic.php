@@ -173,7 +173,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
 			
-			
 			$body = array(
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
@@ -185,14 +184,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
 				// add to segment
-				$add_segment = $set_actions['add_segment'];
-				if( is_array( $add_segment ) ) {
-					foreach ( $add_segment as $segment_id) {
-						$segment_id = (int)$segment_id;
-						$action = "add";
-						$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-					}
-				}
+					// $add_segment = $set_actions['add_segment'];
+					// if( is_array( $add_segment ) ) {
+					// 	foreach ( $add_segment as $segment_id) {
+					// 		$segment_id = (int)$segment_id;
+					// 		$action = "add";
+					// 		$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+					// 	}
+					// }
 				// remove from segment
 				// $remove_segment = $set_actions['remove_segment'];
 				// if( is_array( $remove_segment ) ) {
@@ -655,22 +654,19 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					'cookies' => array()
 				));
 			}
- 
+
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';
 				echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+
 			} else {
+
 				if( is_array($response) ) {
 					$response_code = $response['response']['code'];
-					if( $response_code != 201 ) {
-						if( $response_code != 200 ) {
-							$ret = false;
-							$status = 'error';
-							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-							echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
-						}
-					} else {
+
+					if( $response_code == 200 || $response_code == 201 ) {
+
 						$response_body = $response['body'];
 						$contact_created = json_decode($response_body);
 						$contact = $contact_created->contact;
@@ -691,6 +687,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 							$status = $res['status'];
 							$errorMsg  = $res['error_message'];
 						}
+						
+					} else {
+							$ret = false;
+							$status = 'error';
+							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+							echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
 					}
 				}
 			}
@@ -740,6 +742,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @since 1.0.0
 		 */
 		static function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) {
+
 			$errorMsg = '';
 			$status = 'error';
 			if( is_int($segment_id) && is_int($contact_id) ) {
