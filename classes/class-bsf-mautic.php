@@ -224,6 +224,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				return;
 			}
+
 			$email = $commentdata['comment_author_email'];
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 			if( isset($_COOKIE['mtc_id']) ) {
@@ -457,34 +458,39 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @return void
 		 */
 		public static function bsfm_add_cf7_mautic( $query ) {
-			if (!is_array($query)) return;
+			if ( !is_array($query) ) return;
+
 			$cf7_id = $query['_wpcf7'];
 			$status = Bsfm_Postmeta::bsfm_get_cf7_condition( $cf7_id );
+
 			if( is_array($status) && sizeof($status)>0 ) {
 				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
 			}
-			foreach ($status as $rule) {
+
+			foreach ( $status as $rule ) {
 				$body_fields = self::bsf_get_cf7_mautic_fields_maping( $cf7_id, $rule, $query );
 				$contact_id = '';
+
 				if( !is_array($body_fields) ) {
 					$email = $query['your-email'];
 					$credentials = get_option( 'bsfm_mautic_credentials' );
-					if( isset($_COOKIE['mtc_id']) ) {
+				}
+
+				if( isset($_COOKIE['mtc_id']) ) {
 						$contact_id = $_COOKIE['mtc_id'];
 						$contact_id = (int)$contact_id;
-
 						$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 						if( isset( $email_cid ) ) {
 							$contact_id = (int)$email_cid;
 						}
-					}
-					else {
-						$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-					}
 				}
+				else {
+					$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				}
+
 
 				if( isset( $contact_id ) ) {
 					$method = 'PATCH';
@@ -497,8 +503,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 				if( !is_array($body_fields) ) {
 					$body = array(
-					'firstname'	=> $query['your-name'],
-					'email'		=> $query['your-email']
+						'firstname'	=> $query['your-name'],
+						'email'		=> $query['your-email']
 					);
 				}
 				else {
@@ -752,9 +758,8 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$access_token = $mautic_credentials['access_token'];
 			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
 			$response = wp_remote_get( $url );
-			$response_code = $response['response']['code'];
 
-			if( is_array($response) && $response_code != 401 ) {
+			if( !is_wp_error( $response ) && is_array($response) ) {
 				$response_body = $response['body'];
 				$body_data = json_decode($response_body);
 				$contact = $body_data->contacts;
