@@ -206,10 +206,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 
 			// API Method
-			$remove_segment = $set_actions['remove_segment'];
-			if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
-				self::bsfm_remove_contact_from_segment( $body, $set_actions );
-			}
+			// $remove_segment = $set_actions['remove_segment'];
+			// if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
+			// 	self::bsfm_remove_contact_from_segment( $body, $set_actions );
+			// }
 			$add_segment = $set_actions['add_segment'];
 			if( is_array( $add_segment ) && ( sizeof( $add_segment )>0 ) ) {
 				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
@@ -684,6 +684,16 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 									$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 								}
 							}
+
+							$remove_segment = $segments['remove_segment'];
+							if( is_array( $remove_segment ) ) {
+								foreach ( $remove_segment as $segment_id) {
+									$segment_id = (int)$segment_id;
+									$action = "remove";
+									$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+								}
+							}
+
 							$status = $res['status'];
 							$errorMsg  = $res['error_message'];
 						}
