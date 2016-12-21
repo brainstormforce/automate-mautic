@@ -28,9 +28,10 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			add_action( 'init', array( $this, 'bsf_mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'bsf_mautic_tracking_script' ) );
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
-			// add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+			
 			// add approved comment to mautic
-			add_action( 'transition_comment_status', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
+			// add_action( 'transition_comment_status', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
 
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
@@ -200,13 +201,14 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function bsfm_add_comment_author( $new_status, $old_status, $commentdata ) {
+		//public function bsfm_add_comment_author( $new_status, $old_status, $commentdata ) {
+		// if( 'approved' != $new_status ) {
+		//  	return;
+		// }
+		// $commentdata =  (array) $commentdata;
+		// -- end approved comment
 
-			if( 'approved' != $new_status ) {
-			 	return;
-			}
-			$commentdata =  (array) $commentdata;
-
+		public function bsfm_add_comment_author( $id, $approved, $commentdata ) {
 			//get comment post condition rules
 			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
 			if( is_array($status) && sizeof($status)>0 ) {
@@ -224,24 +226,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			else {
 				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
-
-			// if( isset( $contact_id ) ) {
-			// 	$method = 'PATCH';
-			// 	$url = '/api/contacts/'.$contact_id.'/edit';
-			// 	//add to segment
-			// 	$add_segment = $set_actions['add_segment'];
-			// 	if( is_array( $add_segment ) ) {
-			// 		foreach ( $add_segment as $segment_id) {
-			// 			$segment_id = (int)$segment_id;
-			// 			$action = "add";
-			// 			$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-			// 		}
-			// 	}
-			// }
-			// else {
-			// 	$method = 'POST';
-			// 	$url = '/api/contacts/new';
-			// }
 			$body = array(
 				'firstname'	=>	$commentdata['comment_author'],
 				'email'		=>	$commentdata['comment_author_email'],
