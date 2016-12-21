@@ -513,7 +513,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				else {
 					$body = $body_fields;
 				}
-				//self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
+				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
 
 				$remove_segment = $set_actions['remove_segment'];
 				if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
