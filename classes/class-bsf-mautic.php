@@ -375,6 +375,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					'remove_segment' => array()
 				);
 				array_push( $all_customer['add_segment'], $seg_action_id );
+				array_push( $all_customer['remove_segment'], $seg_action_ab );
 				array_push( $all_customer_ab['add_segment'], $seg_action_ab );
 
 				$email = $payment_meta['user_info']['email'];
@@ -654,7 +655,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 									$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 								}
 							}
-
 							$status = $res['status'];
 							$errorMsg  = $res['error_message'];
 						}
