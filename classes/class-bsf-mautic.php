@@ -35,7 +35,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
-			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
+			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 4 );
 
 			// add refresh links to footer
 			add_filter('update_footer', array($this, 'bsfm_refresh_edit_text'),999);
@@ -169,6 +169,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( isset($_COOKIE['mtc_id']) ) {
 				$contact_id = $_COOKIE['mtc_id'];
 				$contact_id = (int)$contact_id;
+				
+				$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				if( isset( $email_cid ) ) {
+					$contact_id = (int)$email_cid;
+				}
 			}
 			else {
 				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
@@ -224,6 +229,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( isset($_COOKIE['mtc_id']) ) {
 				$contact_id = $_COOKIE['mtc_id'];
 				$contact_id = (int)$contact_id;
+
+				$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				if( isset( $email_cid ) ) {
+					$contact_id = (int)$email_cid;
+				}
 			}
 			else {
 				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
@@ -271,9 +281,15 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				return;
 			}
 
-			if( isset($_COOKIE['mtc_id']) ) {
+			if( isset( $_COOKIE['mtc_id'] ) ) {
+				
 				$contact_id = $_COOKIE['mtc_id'];
 				$contact_id = (int)$contact_id;
+
+				$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				if( isset( $email_cid ) ) {
+					$contact_id = (int)$email_cid;
+				}
 			}
 			else {
 				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
@@ -367,6 +383,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				if( isset($_COOKIE['mtc_id']) ) {
 					$contact_id = $_COOKIE['mtc_id'];
 					$contact_id = (int)$contact_id;
+
+					$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+					if( isset( $email_cid ) ) {
+						$contact_id = (int)$email_cid;
+					}
 				}
 				else {
 					$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
@@ -476,6 +497,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					if( isset($_COOKIE['mtc_id']) ) {
 						$contact_id = $_COOKIE['mtc_id'];
 						$contact_id = (int)$contact_id;
+
+						$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+						if( isset( $email_cid ) ) {
+							$contact_id = (int)$email_cid;
+						}
 					}
 					else {
 						$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
