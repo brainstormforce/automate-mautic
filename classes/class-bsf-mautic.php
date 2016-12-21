@@ -35,7 +35,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
-			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 4 );
+			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
 
 			// add refresh links to footer
 			add_filter('update_footer', array($this, 'bsfm_refresh_edit_text'),999);
@@ -196,7 +196,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 
 			$add_segment = $set_actions['add_segment'];
-			$remove_segment = $set_actions['add_segment'];
+			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
 				self::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 			}
@@ -254,7 +254,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 
 			$add_segment = $set_actions['add_segment'];
-			$remove_segment = $set_actions['add_segment'];
+			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
 				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions );
 			}
@@ -311,7 +311,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			);
 
 			$add_segment = $set_actions['add_segment'];
-			$remove_segment = $set_actions['add_segment'];
+			$remove_segment = $set_actions['remove_segment'];
 			if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
 				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions );
 			}
