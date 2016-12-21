@@ -144,6 +144,11 @@ class BSFMauticAdminAjax {
 		if( isset( $contact_id ) ) {
 			$method = 'PATCH';
 			$url = '/api/contacts/'.$contact_id.'/edit';
+
+			$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			if( isset( $email_cid ) ) {
+				$contact_id = (int)$email_cid;
+			}
 		}
 		else {
 			$method = 'POST';
