@@ -35,7 +35,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
 			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
-			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 10, 3 );
+			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 11, 3 );
 
 			// add refresh links to footer
 			add_filter('update_footer', array($this, 'bsfm_refresh_edit_text'),999);
@@ -295,6 +295,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
 
+
 			if( isset($contact_id) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
@@ -327,7 +328,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( $new_status == 'publish' || $new_status == 'abandoned' ) {
 				// Basic payment meta			
 				$payment_meta = edd_get_payment_meta( $payment_id );
-
 				// get all downloads
 				$all_downloads = $payment_meta['downloads'];
 				$all_products = array();
@@ -403,20 +403,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					elseif( $new_status == 'publish' ) {
 						$add_segment = $all_customer['add_segment'];
 					}
-					if( is_array( $add_segment ) ) {
-						foreach ( $add_segment as $segment_id) {
-							$segment_id = (int)$segment_id;
-							$action = "add";
-							$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-						}
-					}
-					// if staus is complete - remove user from abandoned segment
-					// if( $new_status == 'publish' ) {
-					//  $seg_action_ab = (int)$seg_action_ab;
-					// 	$action = "remove";
-					// 	$credentials = get_option( 'bsfm_mautic_credentials' );
-					// 	$res = self::bsfm_mautic_contact_to_segment( $seg_action_ab, $contact_id, $credentials, $action);
-					// }
 				}
 				else {
 					$method = 'POST';
@@ -426,7 +412,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$body = array(
 					'firstname'	=>	$payment_meta['user_info']['first_name'],
 					'lastname'	=>	$payment_meta['user_info']['last_name'],
-					'email'		=>	$payment_meta['user_info']['email'],
+					'email'		=>	$payment_meta['user_info']['email']
 				);
 
 				if( isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_tag) ) {
@@ -436,21 +422,19 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 					}
 				}
 
-				if( ! isset( $contact_id ) ) {
-					// Add all customers
-					$ac_segment = $all_customer['add_segment'];
-					if( isset( $seg_action_id ) && $new_status == 'publish' ) {
-						if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
-							self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
-						}
+				// Add all customers
+				$ac_segment = $all_customer['add_segment'];
+				if( isset( $seg_action_id ) && $new_status == 'publish' ) {
+					if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
+						self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
 					}
+				}
 
-					// Abandoned Customers
-					$ab_segment = $all_customer_ab['add_segment'];
-					if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
-						if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
-							self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
-						}
+				// Abandoned Customers
+				$ab_segment = $all_customer_ab['add_segment'];
+				if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
+					if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
+						self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
 					}
 				}
 			}
@@ -535,7 +519,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				else {
 					$body = $body_fields;
 				}
-				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
+				//self::bsfm_mautic_api_call( $url, $method, $body, $set_actions);
 
 				$remove_segment = $set_actions['remove_segment'];
 				if( is_array( $remove_segment ) && ( sizeof($remove_segment)>0 ) ) {
@@ -577,6 +561,7 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 		 * @since 1.0.0
 		 */
 		public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
+
 			$status = 'success';
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 			if(!isset($credentials['expires_in'])) {
