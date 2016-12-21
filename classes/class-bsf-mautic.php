@@ -396,13 +396,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				if( isset( $contact_id ) ) {
 					$method = 'PATCH';
 					$url = '/api/contacts/'.$contact_id.'/edit';
-					//add to segment
-					if( $new_status == 'abandoned' ) {
-						$add_segment = $all_customer_ab['add_segment'];	
-					}
-					elseif( $new_status == 'publish' ) {
-						$add_segment = $all_customer['add_segment'];
-					}
 				}
 				else {
 					$method = 'POST';
@@ -424,17 +417,17 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 
 				// Add all customers
 				$ac_segment = $all_customer['add_segment'];
-				if( isset( $seg_action_id ) && $new_status == 'publish' ) {
-					if( is_array( $ac_segment ) && ( sizeof( $ac_segment )>0 ) ) {
+				if( $new_status == 'publish' ) {
+					if( is_array( $ac_segment ) && sizeof( $ac_segment )>0 ) {
 						self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
 					}
 				}
 
 				// Abandoned Customers
 				$ab_segment = $all_customer_ab['add_segment'];
-				if( isset( $seg_action_ab ) && $new_status == 'abandoned' ) {
-					if( is_array( $ab_segment ) && ( sizeof( $ab_segment )>0 ) ) {
-						self::bsfm_mautic_api_call($url, $method, $body, $all_customer_ab);
+				if( $new_status == 'abandoned' ) {
+					if( is_array( $ab_segment ) && sizeof( $ab_segment )>0 ) {
+						self::bsfm_mautic_api_call( $url, $method, $body, $all_customer_ab);
 					}
 				}
 			}
@@ -670,7 +663,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 							$ret = false;
 							$status = 'error';
 							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-							echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
 					}
 				}
 			}
@@ -773,7 +765,9 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			$access_token = $mautic_credentials['access_token'];
 			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
 			$response = wp_remote_get( $url );
-			if( is_array($response) ) {
+			$response_code = $response['response']['code'];
+
+			if( is_array($response) && $response_code != 401 ) {
 				$response_body = $response['body'];
 				$body_data = json_decode($response_body);
 				$contact = $body_data->contacts;
