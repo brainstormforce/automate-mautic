@@ -1,4 +1,4 @@
-<div id="bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta wp-core-ui">
+<div id="bsfm-post-meta" class="bsfm-settings-form wp-core-ui">
 
 	<form id="bsfm-post-meta-form" action="#" method="post">
 		
@@ -45,12 +45,6 @@
 								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> ><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> ><?php  _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
-								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
-									<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> ><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
-								<?php }
-								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
-									<option value="EDD" <?php selected( $meta_condition[0],'EDD' ); ?> ><?php _e( 'Easy Digital Downloads', 'bsfmautic' ) ?></option>
-								<?php } ?>
 							</select>
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
 									<div class="first-condition" style="display:inline;">
@@ -70,72 +64,7 @@
 											}
 								echo '</div>';
 								endif;
-								if( $meta_condition[0]=='CF7' ) : 
-									$cf7_id = $meta_condition[1];
-									//get cf7 data
-									$cf7_field_data = get_post_meta( $cf7_id, '_form' );
-									$reg = '/(?<=\[)([^\]]+)/';
-									$str = $cf7_field_data[0];
-									preg_match_all($reg, $str, $matches);
-									array_pop($matches[0]);
-									$map_cf7fields = sizeof( $matches[0] );
-									?>
-									<div class="first-condition" style="display:inline;">
-										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
-									</div>
-									<div class="second-condition" style="display:inline;">
-										<table style="float: right;">
-											<tbody>
-												<?php
-												foreach( $meta_condition[2]['mautic_cfields'] as $mform_field ) {
-													echo '<tr><td>';
-													echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
-														Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
-													echo '</select></td></tr>';
-												}
-												?>
-											</tbody>
-										</table>
-										<!-- Fetch cf7 fields -->
-										<table style="float: right;">
-											<tbody>
-											<?php
-											foreach( $meta_condition[2]['cf7_fields'] as $form_field ) {
-										 		$cf7_fields = '<tr><td><select class="cf7_form" name="cf7_fields['.$cf7_id.'][]">';
-												foreach ($matches[0] as $value) {
-													$field = explode(' ',$value);
-													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $form_field);
-												}
-												$cf7_fields.= "</select></td></tr>";
-												echo $cf7_fields;	
-											}	
-										echo '</tbody></table>';
-									echo '</div>';
-								endif;
 
-								if( $meta_condition[0]=='EDD' ) : 
-									if( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) {
-								?>
-									<div class="first-condition" style="display:inline;">
-										<?php Bsfm_Postmeta::select_all_edd_downloads( $meta_condition[1] ); ?>
-									</div>
-									<div class="second-condition" style="display:inline;">
-										<?php Bsfm_Postmeta::bsf_make_edd_payment_status( $meta_condition[2] );
-										$edd_vprice_sel ='';
-										$edd_prices = edd_get_variable_prices( $meta_condition[1] );
-										if( $edd_prices ) {
-										$edd_vprice_sel = "<select class='edd_var_price' name='ss_edd_var_price[]'>";
-											foreach( $edd_prices as $price_id => $price ) {
-												$edd_vprice_sel.= Bsfm_Postmeta::make_option($price_id , $price['name'], $meta_condition[3]);
-											}
-										$edd_vprice_sel .= "</select>";
-										}
-										echo $edd_vprice_sel;
-									?>
-									</div>
-								<?php
-								}
-								endif;
 								if( $meta_condition[0]=='UR' ) :
 									echo '<div class="first-condition" style="display:inline;"></div>';
 									echo '<div class="second-condition" style="display:inline;"></div>';
@@ -213,12 +142,6 @@
 								<option><?php _e( 'Select Condition', 'bsfmautic' ) ?></option>
 								<option value="UR"><?php _e( 'User Register on WordPress', 'bsfmautic' ) ?></option>
 								<option value="CP"><?php _e( 'User Post a Comment', 'bsfmautic' ) ?></option>
-								<?php if ( is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) { ?>
-									<option value="CF7"><?php _e( 'User Submit Contact Form 7', 'bsfmautic' ) ?></option>
-								<?php }
-								if ( is_plugin_active( 'easy-digital-downloads/easy-digital-downloads.php' ) ) { ?>
-									<option value="EDD"><?php _e( 'Easy Digital Downloads', 'bsfmautic' ) ?></option>
-								<?php } ?>
 							</select>
 							<div class="first-condition" style="display:inline;"></div>
 							<div class="second-condition" style="display:inline;"></div>
@@ -249,9 +172,9 @@
 						</fieldset>
 					</div>				 
 						<fieldset class="add-new-item">
-								<div>
-									<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'bsfmautic' ); ?></span>
-								</div>
+							<div>
+								<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'bsfmautic' ); ?></span>
+							</div>
 						</fieldset>
 				</div>
 			</div>

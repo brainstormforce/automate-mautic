@@ -28,11 +28,6 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 
 	public function hooks() {
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
-		add_action( 'admin_menu', array( $this, 'bsfm_remove_meta_boxes' ) );
-	}
-
-	public function bsfm_remove_meta_boxes() {
-		remove_meta_box( 'slugdiv' , 'bsf-mautic-rule' , 'normal' ); 
 	}
 
 	public static function bsf_mautic_metabox_view() {

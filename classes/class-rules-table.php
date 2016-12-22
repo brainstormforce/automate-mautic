@@ -8,7 +8,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if(!class_exists("APM_Rules_Table")){
+if( ! class_exists( "APM_Rules_Table" ) ){
 
 	class APM_Rules_Table extends WP_List_Table {
 		
@@ -78,8 +78,6 @@ if(!class_exists("APM_Rules_Table")){
 				$item['post_title'] = __( '(no post_title)', 'bsfmautic' );
 			}
 
-			// $post_link = get_edit_post_link( $item['ID'] );
-
 			$post_link = admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $item['ID'] );
 
 			$post_title = "<a href='". $post_link ."'>".$item['post_title']."</a>";
@@ -125,7 +123,6 @@ if(!class_exists("APM_Rules_Table")){
 		 * @return array List of sortable columns in this List Table.
 		 */
 		protected function get_sortable_columns() {
-			
 
 			$sortable_columns = array(
 				'post_title' => array( 'post_title', true ),

@@ -6,7 +6,7 @@
  * Version: 1.0.0
  * Author: Brainstorm Force
  * Author URI: http://www.brainstormforce.com/
- * Text Domain: mautic-for-wordpress
+ * Text Domain: automateplus-mautic
  */
 //exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

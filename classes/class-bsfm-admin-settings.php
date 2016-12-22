@@ -43,7 +43,7 @@ final class BSFMauticAdminSettings {
 	 */
 	public function bsfm_mb_templates() {
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
-			if( 'bsf-mautic' == $curr_screen) {
+			if( 'bsf-mautic' == $curr_screen ) {
 				include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
 			}
 	}
@@ -68,7 +68,7 @@ final class BSFMauticAdminSettings {
 		elseif( isset( $_REQUEST['post'] ) ) {
 			$post_type = get_post_type( $_REQUEST['post'] );
 		}
-		if((isset( $_REQUEST['page']) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
+		if( ( isset( $_REQUEST['page']) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			self::save();
 			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
 		}
@@ -97,13 +97,8 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	static public function styles_scripts( $hook ) {
-		if( isset($_REQUEST['post_type']) ) {
-			$post_type = $_REQUEST['post_type'];
-		}
-		elseif( isset($_REQUEST['post']) ) {
-			$post_type = get_post_type( $_REQUEST['post'] );
-		}
-		if ( (isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
+
+		if ( ( isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script( 'bsfm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/bsfm-admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
@@ -130,7 +125,7 @@ final class BSFMauticAdminSettings {
 		?>
 		<div class="wrap">
 		<h1>
-			Mautic Rules <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'bsfmautic' ); ?> </a>
+			<?php _e( 'Mautic Rules', 'bsfmautic' ); ?> <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'bsfmautic' ); ?> </a>
 		</h1>
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
@@ -143,14 +138,14 @@ final class BSFMauticAdminSettings {
 			if ( isset( $_GET['page'] ) ) {
 				echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
 			}
-			$cp_list_table = new APM_Rules_Table();
-			$cp_list_table->prepare_items();
-			$cp_list_table->search_box( 'search', 'cp_popup_search' );
+			$list_table = new APM_Rules_Table();
+			$list_table->prepare_items();
+			$list_table->search_box( 'search', 'apm_rule_search' );
 			?>
 		</form>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 			<input type="hidden" name="action" value="bsfm_rule_list" />
-			<?php $cp_list_table->display(); ?>
+			<?php $list_table->display(); ?>
 		</form>
 		</div>
 		<?php
@@ -167,7 +162,7 @@ final class BSFMauticAdminSettings {
 		if ( ! empty( $icon ) ) {
 			echo '<img class="bsfm-heading-icon" src="' . $icon . '" />';
 		}
-		echo '<div class="bsfm-heading-config"> MautiPress </div>';
+		echo '<div class="bsfm-heading-config">' . __( 'AutomatePlus Mautic', 'bsfmautic' ) . '</div>';
 	}
 	/** 
 	 * Renders the update message.

@@ -18,7 +18,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 		add_action( 'wp_loaded', array( $this, 'get_bsfm_options') );
 	}
 
-	function includes() {
+	public function includes() {
 		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
 		//Load the appropriate text-domain
 		$this->load_plugin_textdomain();
@@ -27,13 +27,13 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	 *	For Performance
 	 *  Set static object to store data from database.
 	 */
-	static function get_bsfm_options() {
+	public static function get_bsfm_options() {
 		self::$bsfm_options = array(
 			'bsf_mautic_settings'     => get_option('_bsf_mautic_config')
 		);
 	}
 	function load_plugin_textdomain() {
-		load_plugin_textdomain( 'bsfmautic');
+		load_plugin_textdomain( 'automateplus-mautic');
 	}
 }
 endif;
