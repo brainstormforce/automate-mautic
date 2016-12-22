@@ -143,7 +143,7 @@ final class BSFMauticAdminSettings {
 			if ( isset( $_GET['page'] ) ) {
 				echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
 			}
-			$cp_list_table = new Bsfm_Rules_Table();
+			$cp_list_table = new APM_Rules_Table();
 			$cp_list_table->prepare_items();
 			$cp_list_table->search_box( 'search', 'cp_popup_search' );
 			?>
@@ -548,6 +548,46 @@ final class BSFMauticAdminSettings {
 		}
 	}
 	
+	static public function get_bsfm_mautic() {
+
+		$bsfm = get_option('_bsf_mautic_config');
+		$defaults = array(
+			'bsfm-enabled-tracking'	=> true,
+			'bsfm-base-url'			=> '',
+			'bsfm-public-key'		=> '',
+			'bsfm-secret-key'		=> '',
+			'bsfm-callback-uri'		=> '',
+			'bsfm_edd_prod_slug'	=> '',
+			'bsfm_edd_prod_cat'		=> '',
+			'bsfm_edd_prod_tag'		=> '',
+			'config_edd_segment'	=> '',
+			'config_edd_segment_ab'	=> '',
+			'bsfm_proactive_tracking' => true
+		);
+
+		//	if empty add all defaults
+		if( empty( $bsfm ) ) {
+			$bsfm = $defaults;
+			if ( is_network_admin() ) {
+				update_site_option( '_bsf_mautic_config', $bsfm );
+			}
+			else {
+				update_option( '_bsf_mautic_config', $bsfm );
+			}
+		} else {
+			//	add new key
+			foreach( $defaults as $key => $value ) {
+				if( is_array( $bsfm ) && !array_key_exists( $key, $bsfm ) ) {
+					$bsfm[$key] = $value;
+				} else {
+					$bsfm = wp_parse_args( $bsfm, $defaults );
+				}
+			}
+		}
+
+		return apply_filters( 'bsfm_get_mautic', $bsfm );
+	}
+
 	static public function bsfm_authenticate_update()
 	{
 		$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();

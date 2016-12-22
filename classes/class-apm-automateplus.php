@@ -140,13 +140,13 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				$contact_id = $_COOKIE['mtc_id'];
 				$contact_id = (int)$contact_id;
 				
-				$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				$email_cid = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
 				if( isset( $email_cid ) ) {
 					$contact_id = (int)$email_cid;
 				}
 			}
 			else {
-				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				$contact_id = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
 			
 			$body = array(
@@ -194,13 +194,13 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				$contact_id = $_COOKIE['mtc_id'];
 				$contact_id = (int)$contact_id;
 
-				$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				$email_cid = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
 				if( isset( $email_cid ) ) {
 					$contact_id = (int)$email_cid;
 				}
 			}
 			else {
-				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+				$contact_id = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
 			$body = array(
 				'firstname'	=>	$commentdata['comment_author'],

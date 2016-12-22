@@ -33,7 +33,7 @@
 			<?php
 				$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 				if( empty($bsfm) ) {
-					$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();	
+					$bsfm 	=	BSFMauticAdminSettings::get_bsfm_mautic();	
 				}
 				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = $bsfm_proactive_tracking = '';
 				if( is_array($bsfm) ) {

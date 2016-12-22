@@ -8,8 +8,9 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if(!class_exists("Bsfm_Rules_Table")){
-	class Bsfm_Rules_Table extends WP_List_Table {
+if(!class_exists("APM_Rules_Table")){
+
+	class APM_Rules_Table extends WP_List_Table {
 		
 		/**
 		 * Number of items of the initial data set (before sort, search, and pagination).
