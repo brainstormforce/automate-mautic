@@ -474,14 +474,11 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				$body_fields = self::bsf_get_cf7_mautic_fields_maping( $cf7_id, $rule, $query );
 				$contact_id = '';
 
-				if( !is_array($body_fields) ) {
-					$email = $query['your-email'];
-					$credentials = get_option( 'bsfm_mautic_credentials' );
-				}
-
+				$email = $query['your-email'];
+				$credentials = get_option( 'bsfm_mautic_credentials' ); 
+				
 				if( isset($_COOKIE['mtc_id']) ) {
-					
-					$email = $query['your-email'];
+
 					$contact_id = $_COOKIE['mtc_id'];
 					$contact_id = (int)$contact_id;
 					$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
@@ -511,8 +508,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 				else {
 					$body = $body_fields;
 				}
-
-				echo $url;
 
 				$add_segment = $set_actions['add_segment'];
 				$remove_segment = $set_actions['remove_segment'];
