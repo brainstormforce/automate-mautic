@@ -17,8 +17,103 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new AP_Mautic_Api();
+			self::$instance->hooks();
 		}
 		return self::$instance;
+	}
+
+	public function hooks() {
+		add_action( 'admin_init', array( $this,'bsfm_set_mautic_code' ) );
+	}
+
+	/**
+	 * Save the mautic code.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function bsfm_set_mautic_code() 
+	{
+		if( isset( $_GET['code'] ) && 'bsf-mautic' == $_REQUEST['page'] ) {
+			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$credentials['access_code'] =  esc_attr( $_GET['code'] );
+			update_option( 'bsfm_mautic_credentials', $credentials );
+			self::get_mautic_data();
+		}
+	}
+
+	/** 
+	 * Get Mautic Data.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function get_mautic_data() 
+	{
+		$credentials = get_option( 'bsfm_mautic_credentials' );
+		// If not authorized 
+		if( !isset( $credentials['access_token'] ) ) {
+			if( isset( $credentials['access_code']  ) ) {
+				$grant_type = 'authorization_code';
+				$response = self::bsf_mautic_get_access_token( $grant_type );
+
+				if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+					$access_details               = json_decode( $response['body'] );
+					if( isset($access_details->error_description) ) {
+						$errorMsg = $access_details->error_description;
+					}
+					$status   = 'error';
+				} else {
+					$access_details               = json_decode( $response['body'] );
+					$expiration                   = time() + $access_details->expires_in;
+					$credentials['access_token']  = $access_details->access_token;
+					$credentials['expires_in']    = $expiration;
+					$credentials['refresh_token'] = $access_details->refresh_token;
+					update_option( 'bsfm_mautic_credentials', $credentials );
+				}
+			}
+		}
+	}
+
+	/** 
+	 * Retrieve access token.
+	 *
+	 * @since 1.0.0
+	 * @return response
+	 */
+	public static function bsf_mautic_get_access_token($grant_type) {
+		$credentials = get_option('bsfm_mautic_credentials');
+
+		if ( ! isset( $credentials['baseUrl'] ) ) {
+
+			return;
+		}
+		$url = $credentials['baseUrl'] . "/oauth/v2/token";
+		$body = array(	
+			"client_id" => $credentials['clientKey'],
+			"client_secret" => $credentials['clientSecret'],
+			"grant_type" => $grant_type,
+			"redirect_uri" => $credentials['callback'],
+			'sslverify' => false
+		);
+		if( $grant_type == 'authorization_code' ) {
+			$body["code"] = $credentials['access_code'];
+		} else {
+			$body["refresh_token"] = $credentials['refresh_token'];
+		}
+		// Request to get access token 
+		$response = wp_remote_post( $url, array(
+			'method' => 'POST',
+			'timeout' => 45,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'blocking' => true,
+			'headers' => array(),
+			'body' => $body,
+			'cookies' => array()
+			)
+		);
+		return $response;
 	}
 
 	/** 
@@ -28,7 +123,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) 
 	{
-
 		$status = 'success';
 		$credentials = get_option( 'bsfm_mautic_credentials' );
 		if(!isset($credentials['expires_in'])) {
@@ -37,7 +131,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		// if token expired, get new access token
 		if( $credentials['expires_in'] < time() ) {
 			$grant_type = 'refresh_token';
-			$response = BSFMauticAdminSettings::bsf_mautic_get_access_token( $grant_type );
+			$response = self::bsf_mautic_get_access_token( $grant_type );
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';
@@ -186,7 +280,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) 
 	{
-
 		$errorMsg = '';
 		$status = 'error';
 		if( is_int($segment_id) && is_int($contact_id) ) {
@@ -260,7 +353,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		}
 	}
 	
-	static public function bsfm_authenticate_update()
+	public static function bsfm_authenticate_update()
 	{
 		$bsfm 	=	BSFMauticAdminSettings::get_bsfm_mautic();
 		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";

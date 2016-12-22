@@ -30,7 +30,7 @@ final class BSFMauticAdminSettings {
 	}
 
 	public function hooks() {
-		add_action( 'admin_init', array( $this,'bsfm_set_mautic_code' ) );
+
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 		add_action( 'admin_footer', array( $this, 'bsfm_mb_templates' ) );
 		add_action( 'wp_loaded', array( $this, 'bsf_mautic_authenticate_update' ) );
@@ -257,101 +257,14 @@ final class BSFMauticAdminSettings {
 		self::$errors[] = $message;
 	}
 
-	/**
-	 * Save the mautic code.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	static public function bsfm_set_mautic_code() {
-		if( isset( $_GET['code'] ) && 'bsf-mautic' == $_REQUEST['page'] ) {
-			$credentials = get_option( 'bsfm_mautic_credentials' );
-			$credentials['access_code'] =  esc_attr( $_GET['code'] );
-			update_option( 'bsfm_mautic_credentials', $credentials );
-			self::get_mautic_data();
-		}
-	}
 	/** 
 	* Checks to see if multisite is supported.
 	*
 	* @since 1.0.0
 	* @return void
-	*/	 
+	*/
 	static public function multisite_support() {
 		return is_multisite();
-	}
-
-	/** 
-	 * Get Mautic Data.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	static public function get_mautic_data() {
-		$credentials = get_option( 'bsfm_mautic_credentials' );
-		// If not authorized 
-		if( !isset( $credentials['access_token'] ) ) {
-			if( isset( $credentials['access_code']  ) ) {
-				$grant_type = 'authorization_code';
-				$response = self::bsf_mautic_get_access_token( $grant_type );
-
-				if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
-					$access_details               = json_decode( $response['body'] );
-					if( isset($access_details->error_description) ) {
-						$errorMsg = $access_details->error_description;
-					}
-					$status   = 'error';
-				} else {
-					$access_details               = json_decode( $response['body'] );
-					$expiration                   = time() + $access_details->expires_in;
-					$credentials['access_token']  = $access_details->access_token;
-					$credentials['expires_in']    = $expiration;
-					$credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( 'bsfm_mautic_credentials', $credentials );
-				}
-			}
-		}
-	}
-
-	/** 
-	 * Retrieve access token.
-	 *
-	 * @since 1.0.0
-	 * @return response
-	 */
-	public static function bsf_mautic_get_access_token($grant_type) {
-		$credentials = get_option('bsfm_mautic_credentials');
-
-		if ( ! isset( $credentials['baseUrl'] ) ) {
-
-			return;
-		}
-		$url = $credentials['baseUrl'] . "/oauth/v2/token";
-		$body = array(	
-			"client_id" => $credentials['clientKey'],
-			"client_secret" => $credentials['clientSecret'],
-			"grant_type" => $grant_type,
-			"redirect_uri" => $credentials['callback'],
-			'sslverify' => false
-		);
-		if( $grant_type == 'authorization_code' ) {
-			$body["code"] = $credentials['access_code'];
-		} else {
-			$body["refresh_token"] = $credentials['refresh_token'];
-		}
-		// Request to get access token 
-		$response = wp_remote_post( $url, array(
-			'method' => 'POST',
-			'timeout' => 45,
-			'redirection' => 5,
-			'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(),
-			'body' => $body,
-			'cookies' => array()
-			)
-		);
-		return $response;
 	}
 
 	/** 
@@ -396,8 +309,6 @@ final class BSFMauticAdminSettings {
 				if ( isset( $_POST['pm_condition'] ) ) {
 					$conditions = $_POST['pm_condition'];
 					$cp_keys = array_keys( $conditions, "CP");
-					$cf7_keys = array_keys( $conditions, "CF7");
-					$edd_keys = array_keys( $conditions, "EDD");
 					$condition_cnt = sizeof( $conditions );
 					for($i=0; $i < $condition_cnt; $i++) {
 						if($conditions[$i]=='UR') {
@@ -409,27 +320,6 @@ final class BSFMauticAdminSettings {
 								$conditions[$i],
 								$_POST['sub_cp_condition'][$sub_key], 
 								$_POST['ss_cp_condition'][$sub_key] );
-						}
-						if ($conditions[$i] == "CF7") {
-							$sub_key = array_search($i,$cf7_keys);
-							$update_maping = '';
-							$form_id = $_POST['sub_cf_condition'][$sub_key];
-							$update_maping['cf7_fields'] = $_POST['cf7_fields'][$form_id];
-							$update_maping['mautic_cfields'] = $_POST['mautic_cfields'][$form_id];
-							$update_conditions[$i] = array(
-								$conditions[$i],
-								$_POST['sub_cf_condition'][$sub_key],
-								$update_maping );
-						}
-						if ($conditions[$i] == "EDD") {
-							$sub_key = array_search($i,$edd_keys);
-							$update_maping = '';
-							$download_id = $_POST['sub_edd_condition'][$sub_key];
-							$update_conditions[$i] = array(
-								$conditions[$i],
-								$_POST['sub_edd_condition'][$sub_key],
-								$_POST['ss_edd_condition'][$sub_key],
-								$_POST['ss_edd_var_price'][$sub_key] );
 						}
 					}
 					$update_conditions = serialize($update_conditions);
@@ -558,7 +448,7 @@ final class BSFMauticAdminSettings {
 
 		if( ! isset( $credentials['expires_in'] ) && $curr_screen=='bsf-mautic' ) {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
-			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authorize Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
+			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
 		if( ! empty( $_POST ) && $curr_screen=='bsf-mautic' ) {
 			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
