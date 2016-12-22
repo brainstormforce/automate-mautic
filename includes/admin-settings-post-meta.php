@@ -3,7 +3,7 @@
 	<form id="bsfm-post-meta-form" action="#" method="post">
 		
 		<?php
-			if(isset($_GET['post'])) {
+			if( isset($_GET['post']) ) {
 				$post_id = $_GET['post'];
 				$rule_title = get_the_title( $post_id );
 			}

@@ -1,5 +1,4 @@
 <div id="automate-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
-
 	<?php 
 		$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'all_rules';
 		if( isset( $_GET['action'] ) ) {
@@ -74,7 +73,7 @@
 				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'automateplus-mautic-wp' ); ?>" />
 			</p>
 
-			<?php wp_nonce_field('automateplus-mautic-wp', 'bsf-mautic-nonce'); ?>
+			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
 			<?php } ?>
 				<?php
 				// If not authorized 

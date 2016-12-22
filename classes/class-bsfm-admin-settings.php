@@ -171,9 +171,6 @@ final class BSFMauticAdminSettings {
 				echo '<div class="error"><p>' . $message . '</p></div>';
 			}
 		}
-		else if( ! empty( $_POST ) && ! isset( $_POST['email'] ) ) {
-			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
-		}
 	}
 
 	/** 
@@ -563,7 +560,9 @@ final class BSFMauticAdminSettings {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
 			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authorize Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
-		
+		if( ! empty( $_POST ) && $curr_screen=='bsf-mautic' ) {
+			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
+		}
 	}
 }
 $BSFMauticAdminSettings = BSFMauticAdminSettings::instance();
