@@ -79,7 +79,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			set_transient( 'bsfm_all_segments', $segments , DAY_IN_SECONDS );
 		}
 		if( empty($segments) ) {
-			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 			return;
 		}
 		$all_segments = '<select class="root-seg-action" name="ss_seg_action[]">';

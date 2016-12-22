@@ -33,7 +33,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 		);
 	}
 	function load_plugin_textdomain() {
-		load_plugin_textdomain( 'automateplus-mautic');
+		load_plugin_textdomain( 'automateplus-mautic-wp');
 	}
 }
 endif;

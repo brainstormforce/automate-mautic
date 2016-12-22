@@ -39,7 +39,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				if ( is_wp_error( $response ) ) {
 					$errorMsg = $response->get_error_message();
 					$status = 'error';
-					echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+					echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 				} else {
 					$access_details = json_decode( $response['body'] );
 					$expiration = time() + $access_details->expires_in;
@@ -67,7 +67,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 								$ret = false;
 								$status = 'error';
 								$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-								echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+								echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 								return;
 							}
 						}
@@ -91,7 +91,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';
-				echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+				echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 
 			} else {
 
@@ -247,12 +247,55 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						$ret = false;
 						$status = 'error';
 						$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-						echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'bsfmautic' );
+						echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 						return;
 					}
 				}
 				return $contact_id;
 			}
+		}
+		
+		static public function bsfm_authenticate_update()
+		{
+			$bsfm 	=	BSFMauticAdminSettings::get_bsfm_mautic();
+			$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
+			$post = $_POST;
+			$cpts_err = false;
+			$lists = null;
+			$ref_list_id = null;
+
+			$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
+			$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
+			$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
+			$mautic_api_url = rtrim( $mautic_api_url ,"/");
+			if( $mautic_api_url == '' ) {	
+				$status = 'error';
+				$message = 'API URL is missing.';
+				$cpts_err = true;
+			}
+			if( $bsfm_secret_key == '' ) {
+				$status = 'error';
+				$message = 'Secret Key is missing.';
+				$cpts_err = true;
+			}
+			$settings = array(
+				'baseUrl'		=> $mautic_api_url,
+				'version'		=> 'OAuth2',
+				'clientKey'		=> $bsfm_public_key,
+				'clientSecret'	=> $bsfm_secret_key, 
+				'callback'		=> admin_url( 'options-general.php?page=bsf-mautic&tab=auth_mautic' ),
+				'response_type'	=> 'code'
+			);
+
+			update_option( 'bsfm_mautic_credentials', $settings );
+			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
+			//OAuth 2.0
+			$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
+			$state    = md5(time().mt_rand());
+			$authurl .= '&state='.$state;
+			$authurl .= '&response_type='.$settings['response_type'];
+			wp_redirect( $authurl );
+			exit;
 		}
 }
 $AP_Mautic_Api = AP_Mautic_Api::instance();

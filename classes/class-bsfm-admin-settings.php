@@ -34,6 +34,7 @@ final class BSFMauticAdminSettings {
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 		add_action( 'admin_footer', array( $this, 'bsfm_mb_templates' ) );
 		add_action( 'wp_loaded', array( $this, 'bsf_mautic_authenticate_update' ) );
+		add_action( 'admin_notices', array( $this, 'apm_notices' ), 100 );
 	}
 	/** 
 	 * Include template to render meta box html
@@ -43,9 +44,9 @@ final class BSFMauticAdminSettings {
 	 */
 	public function bsfm_mb_templates() {
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
-			if( 'bsf-mautic' == $curr_screen ) {
-				include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
-			}
+		if( 'bsf-mautic' == $curr_screen ) {
+			include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
+		}
 	}
 
 	/** 
@@ -61,13 +62,7 @@ final class BSFMauticAdminSettings {
 		if ( ! is_admin() ) {
 			return;
 		}
-		$post_type = '';
-		if( isset( $_REQUEST['post_type'] ) ) {
-			$post_type = $_REQUEST['post_type'];
-		}
-		elseif( isset( $_REQUEST['post'] ) ) {
-			$post_type = get_post_type( $_REQUEST['post'] );
-		}
+
 		if( ( isset( $_REQUEST['page']) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			self::save();
 			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
@@ -86,7 +81,7 @@ final class BSFMauticAdminSettings {
 			$cap	= 'delete_users';
 			$slug	= 'bsf-mautic-settings';
 			$func	= __CLASS__ . '::render';
-			add_options_page( 'AutomatePlus Mautic',  __( 'AutomatePlus Mautic', 'bsfmautic' ), 'administrator', 'bsf-mautic', $func );
+			add_options_page( 'AutomatePlus Mautic',  __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ), 'administrator', 'bsf-mautic', $func );
 		}
 	}
 	
@@ -101,10 +96,10 @@ final class BSFMauticAdminSettings {
 		if ( ( isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
-			wp_enqueue_script( 'bsfm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/bsfm-admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
-			wp_enqueue_style( 'bsfm-admin-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/bsfm-admin.css' );
-			wp_enqueue_script( 'bsfm-select2-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/select2.min.js' , array( 'jquery' ) );
-			wp_enqueue_style( 'bsfm-select2-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/select2.min.css' );
+			wp_enqueue_script( 'apm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
+			wp_enqueue_style( 'apm-admin-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/admin.css' );
+			wp_enqueue_script( 'apm-select2-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/select2.min.js' , array( 'jquery' ) );
+			wp_enqueue_style( 'apm-select2-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/select2.min.css' );
 		}
 	}
 	
@@ -125,7 +120,7 @@ final class BSFMauticAdminSettings {
 		?>
 		<div class="wrap">
 		<h1>
-			<?php _e( 'Mautic Rules', 'bsfmautic' ); ?> <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'bsfmautic' ); ?> </a>
+			<?php _e( 'Mautic Rules', 'automateplus-mautic-wp' ); ?> <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'automateplus-mautic-wp' ); ?> </a>
 		</h1>
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
@@ -162,7 +157,7 @@ final class BSFMauticAdminSettings {
 		if ( ! empty( $icon ) ) {
 			echo '<img class="bsfm-heading-icon" src="' . $icon . '" />';
 		}
-		echo '<div class="bsfm-heading-config">' . __( 'AutomatePlus Mautic', 'bsfmautic' ) . '</div>';
+		echo '<div class="bsfm-heading-config">' . __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ) . '</div>';
 	}
 	/** 
 	 * Renders the update message.
@@ -177,7 +172,7 @@ final class BSFMauticAdminSettings {
 			}
 		}
 		else if( ! empty( $_POST ) && ! isset( $_POST['email'] ) ) {
-			echo '<div class="updated"><p>' . __( 'Settings updated!', 'bsfmautic' ) . '</p></div>';
+			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 		}
 	}
 
@@ -468,30 +463,6 @@ final class BSFMauticAdminSettings {
 				wp_redirect( $redirect );
 		}
 
-		// EDD Config
-		if ( isset( $_POST['bsf-mautic-nonce-edd'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-edd'], 'bsfmauticedd' ) ) {
-			$bsfm = get_option('_bsf_mautic_config');
-			$bsfm['bsfm_edd_prod_slug'] = $bsfm['bsfm_edd_prod_cat'] = $bsfm['bsfm_edd_prod_tag'] = $bsfm['bsfm_proactive_tracking'] = false ;
-			
-			if( isset( $_POST['bsfm_edd_prod_slug'] ) ) {	$bsfm['bsfm_edd_prod_slug'] = true;	}
-			if( isset( $_POST['bsfm_edd_prod_cat'] ) ) {	$bsfm['bsfm_edd_prod_cat'] = true;	}
-			if( isset( $_POST['bsfm_edd_prod_tag'] ) ) {	$bsfm['bsfm_edd_prod_tag'] = true;	}
-			if( isset( $_POST['bsfm_proactive_tracking'] ) ) {	$bsfm['bsfm_proactive_tracking'] = true;	}
-
-			if( isset( $_POST['ss_seg_action'][0] ) ) {	$bsfm['config_edd_segment'] = $_POST['ss_seg_action'][0]; }
-			if( isset( $_POST['ss_seg_action'][1] ) ) {	$bsfm['config_edd_segment_ab'] = $_POST['ss_seg_action'][1]; }
-
-			// Update the site-wide option since we're in the network admin.
-			if ( is_network_admin() ) {
-				update_site_option( '_bsf_mautic_config', $bsfm );
-			}
-			else {
-				update_option( '_bsf_mautic_config', $bsfm );
-			}
-			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=edd_mautic' );
-			wp_redirect( $redirect );
-		}
-
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {
 			$bsfm = get_option('_bsf_mautic_config');
 			if( isset( $_POST['bsfm-base-url'] ) ) {	$bsfm['bsfm-base-url'] = esc_url( $_POST['bsfm-base-url'] ); }
@@ -539,7 +510,7 @@ final class BSFMauticAdminSettings {
 	static public function bsf_mautic_authenticate_update() 
 	{
 		if ( isset( $_POST['bsfm-save-authenticate'] ) && $_POST['bsfm-save-authenticate']=='Save and Authenticate' ) {
-			self::bsfm_authenticate_update();
+			AP_Mautic_Api::bsfm_authenticate_update();
 		}
 	}
 	
@@ -583,47 +554,16 @@ final class BSFMauticAdminSettings {
 		return apply_filters( 'bsfm_get_mautic', $bsfm );
 	}
 
-	static public function bsfm_authenticate_update()
+	static public function apm_notices() 
 	{
-		$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
-		$post = $_POST;
-		$cpts_err = false;
-		$lists = null;
-		$ref_list_id = null;
+		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+		$credentials = get_option( 'bsfm_mautic_credentials' );
 
-		$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
-		$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
-		$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
-		$mautic_api_url = rtrim( $mautic_api_url ,"/");
-		if( $mautic_api_url == '' ) {	
-			$status = 'error';
-			$message = 'API URL is missing.';
-			$cpts_err = true;
+		if( ! isset( $credentials['expires_in'] ) && $curr_screen=='bsf-mautic' ) {
+			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
+			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authorize Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
-		if( $bsfm_secret_key == '' ) {
-			$status = 'error';
-			$message = 'Secret Key is missing.';
-			$cpts_err = true;
-		}
-		$settings = array(
-			'baseUrl'		=> $mautic_api_url,
-			'version'		=> 'OAuth2',
-			'clientKey'		=> $bsfm_public_key,
-			'clientSecret'	=> $bsfm_secret_key, 
-			'callback'		=> admin_url( 'options-general.php?page=bsf-mautic&tab=auth_mautic' ),
-			'response_type'	=> 'code'
-		);
-
-		update_option( 'bsfm_mautic_credentials', $settings );
-		$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
-		//OAuth 2.0
-		$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
-		$state    = md5(time().mt_rand());
-		$authurl .= '&state='.$state;
-		$authurl .= '&response_type='.$settings['response_type'];
-		wp_redirect( $authurl );
-		exit;
+		
 	}
 }
 $BSFMauticAdminSettings = BSFMauticAdminSettings::instance();
