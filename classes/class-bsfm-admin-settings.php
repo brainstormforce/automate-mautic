@@ -42,13 +42,10 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	public function bsfm_mb_templates() {
-		$post_type = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
-		//if( isset($_REQUEST['post']) || $post_type_req =='bsf-mautic-rule' ) {
-			//$post_type = isset( $_REQUEST['page'] ) ? get_post_type( $_REQUEST['page'] ) : '';
-			if( 'bsf-mautic' == $post_type) {
-				include BSF_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
+		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+			if( 'bsf-mautic' == $curr_screen) {
+				include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
 			}
-		//}
 	}
 
 	/** 
@@ -60,7 +57,6 @@ final class BSFMauticAdminSettings {
 	 */
 	static public function init_hooks()
 	{
-		//add_action( 'network_admin_menu', __CLASS__ . '::menu' );
 		add_action( 'admin_menu', __CLASS__ . '::menu' );
 		if ( ! is_admin() ) {
 			return;
@@ -110,10 +106,10 @@ final class BSFMauticAdminSettings {
 		if ( (isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
-			wp_enqueue_script( 'bsfm-admin-script', BSF_MAUTIC_PLUGIN_URL . '/assets/js/bsfm-admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
-			wp_enqueue_style( 'bsfm-admin-style', BSF_MAUTIC_PLUGIN_URL . '/assets/css/bsfm-admin.css' );
-			wp_enqueue_script( 'bsfm-select2-script', BSF_MAUTIC_PLUGIN_URL . '/assets/js/select2.min.js' , array( 'jquery' ) );
-			wp_enqueue_style( 'bsfm-select2-style', BSF_MAUTIC_PLUGIN_URL . '/assets/css/select2.min.css' );
+			wp_enqueue_script( 'bsfm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/bsfm-admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
+			wp_enqueue_style( 'bsfm-admin-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/bsfm-admin.css' );
+			wp_enqueue_script( 'bsfm-select2-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/select2.min.js' , array( 'jquery' ) );
+			wp_enqueue_style( 'bsfm-select2-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/select2.min.css' );
 		}
 	}
 	
@@ -124,8 +120,8 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */
 	static public function render() {
-		include BSF_MAUTIC_PLUGIN_DIR . 'classes/class-rules-table.php';
-		include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
+		include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-rules-table.php';
+		include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
 	}
 
 	static public function bsfm_rules_list() {
@@ -167,7 +163,7 @@ final class BSFMauticAdminSettings {
 	 */
 	static public function render_page_heading()
 	{
-		$icon = BSF_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
+		$icon = AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
 		if ( ! empty( $icon ) ) {
 			echo '<img class="bsfm-heading-icon" src="' . $icon . '" />';
 		}
@@ -200,7 +196,7 @@ final class BSFMauticAdminSettings {
 	static public function render_form( $type )
 	{
 		if ( self::has_support( $type ) ) {
-			include BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php';
+			include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php';
 		}
 	}
 	
@@ -259,7 +255,7 @@ final class BSFMauticAdminSettings {
 	 */ 
 	static public function has_support( $type )
 	{
-		return file_exists( BSF_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php' );
+		return file_exists( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php' );
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-<div id="fl-bsfm-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
+<div id="automate-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
 
 	<?php 
 		$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'all_rules';

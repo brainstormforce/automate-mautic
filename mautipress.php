@@ -12,11 +12,11 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
-define( 'BSF_MAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'BSF_MAUTIC_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
+define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_URL', plugins_url( '/', __FILE__ ) );
 
 /**
  * Initiate plugin
  */
-require_once( BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsf-mautic.php' );
+require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . '/classes/class-apm-automateplus.php' );
 $AutomatePlus_Mautic = AutomatePlus_Mautic::instance();
