@@ -84,7 +84,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 			$url = "/api/segments";
 			$method = "GET";
 			$body = '';
-			$segments = BSF_Mautic::bsfm_mautic_api_call($url, $method, $body);
+			$segments = AutomatePlus_Mautic::bsfm_mautic_api_call($url, $method, $body);
 			set_transient( 'bsfm_all_segments', $segments , DAY_IN_SECONDS );
 		}
 		if( empty($segments) ) {

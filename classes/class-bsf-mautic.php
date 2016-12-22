@@ -1,44 +1,36 @@
 <?php
 /**
- * BSF Mautic initial setup
+ * Mautic for WordPress initiate
  *
  * @since 1.0.0
  */
-if ( ! class_exists( 'BSF_Mautic' ) ) :
+if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
-	class BSF_Mautic {
+	class AutomatePlus_Mautic {
 
 		private static $instance;
-		/**
-		 * Initiator
-		 */
+
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new BSF_Mautic();
+				self::$instance = new AutomatePlus_Mautic();
 				self::$instance->includes();
 				self::$instance->hooks();
 			}
 			return self::$instance;
 		}
+
 		public function includes() {
-			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-init.php';
+			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-apm-init.php';
 			require_once BSF_MAUTIC_PLUGIN_DIR . '/classes/class-bsfm-postmeta.php';
 		}
 		public function hooks() {
-			add_action( 'init', array( $this, 'bsf_mautic_register_posttype' ) );
+			add_action( 'init', array( $this, 'mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'bsf_mautic_tracking_script' ) );
 			add_action( 'user_register', array( $this, 'bsfm_add_registered_user' ), 10, 1 );
 			add_action( 'comment_post', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
-			
-			// add approved comment to mautic
-			// add_action( 'transition_comment_status', array( $this, 'bsfm_add_comment_author' ), 10, 3 );
-
-			add_filter( 'wpcf7_before_send_mail', array( $this, 'bsfm_filter_cf7_submit_fields' ) );
-			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_purchase_to_mautic' ), 10, 3 );
-			add_action( 'edd_update_payment_status', array( $this, 'bsfm_edd_to_mautic_config' ), 11, 3 );
 
 			// add refresh links to footer
-			add_filter('update_footer', array($this, 'bsfm_refresh_edit_text'),999);
+			add_filter( 'update_footer', array($this, 'bsfm_refresh_edit_text'),999);
 			add_action( 'edd_purchase_form_user_info_fields', array( $this, 'mautic_edd_display_checkout_fields' ) );
 		}
 
@@ -54,33 +46,12 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			}
 		}
 
-		public function mautic_edd_display_checkout_fields() {
-			$bsfm_options = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
-			$enable_proactive_tracking	= false;
-			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm_proactive_tracking', $bsfm_options ) ) {
-				if( $bsfm_options['bsfm_proactive_tracking'] == 1 ) {
-					$enable_proactive_tracking = true;
-				} else {
-					$enable_proactive_tracking = false;
-				}
-			}
-
-			if ( $enable_proactive_tracking ) {
-
-				$adminajax =  admin_url( 'admin-ajax.php' );
-				$bsfm_select_params = array(
-					'bsf_ajax_url'	=> $adminajax
-				);
-				wp_enqueue_script( 'bsfm-proactive-ab' , BSF_MAUTIC_PLUGIN_URL . 'assets/js/bsfm-proactive-ab.js', __FILE__ , array( 'jquery' ), '1.0.0', false );
-				wp_localize_script( 'bsfm-proactive-ab', 'bsf_widget_notices', $bsfm_select_params );
-			}
-		}
 		/**
 		 * Register a bsf-mautic-rule post type.
 		 * @since 1.0.0
 		 * @link http://codex.wordpress.org/Function_Reference/register_post_type
 		 */
-		public function bsf_mautic_register_posttype() {
+		public function mautic_register_posttype() {
 			$labels = array(
 				'name'               => _x( 'Rules', 'post type general name', 'bsfmautic' ),
 				'singular_name'      => _x( 'Rule', 'post type singular name', 'bsfmautic' ),
@@ -259,285 +230,6 @@ if ( ! class_exists( 'BSF_Mautic' ) ) :
 			if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
 				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions );
 			}
-		}
-
-		/** 
-		 * Add edd purchasers to Mautic
-		 *
-		 * @since 1.0.0
-		 * @return void
-		 */
-		public static function bsfm_edd_purchase_to_mautic( $payment_id, $new_status, $old_status ) {
-			// Basic payment meta			
-			$payment_meta = edd_get_payment_meta( $payment_id );
-
-			$email = $payment_meta['user_info']['email'];
-			$credentials = get_option( 'bsfm_mautic_credentials' );
-
-			$status = Bsfm_Postmeta::bsfm_get_edd_condition( $payment_meta, $new_status );
-			if( is_array($status) && sizeof($status)>0 ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
-			}
-			else {
-				return;
-			}
-
-			if( isset( $_COOKIE['mtc_id'] ) ) {
-				
-				$contact_id = $_COOKIE['mtc_id'];
-				$contact_id = (int)$contact_id;
-
-				$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-				if( isset( $email_cid ) ) {
-					$contact_id = (int)$email_cid;
-				}
-			}
-			else {
-				$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-			}
-
-
-			if( isset($contact_id) ) {
-				$method = 'PATCH';
-				$url = '/api/contacts/'.$contact_id.'/edit';
-			}
-			else {
-				$method = 'POST';
-				$url = '/api/contacts/new';
-			}
-
-			$body = array(
-				'firstname'	=>	$payment_meta['user_info']['first_name'],
-				'lastname'	=>	$payment_meta['user_info']['last_name'],
-				'email'		=>	$payment_meta['user_info']['email']
-			);
-
-			$add_segment = $set_actions['add_segment'];
-			$remove_segment = $set_actions['remove_segment'];
-			if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
-				self::bsfm_mautic_api_call( $url, $method, $body, $set_actions );
-			}
-		}
-		/** 
-		 * Add edd purchasers to Mautic set in config
-		 *
-		 * @since 1.0.0
-		 * @return void
-		 */
-		public static function bsfm_edd_to_mautic_config( $payment_id, $new_status, $old_status ) {
-
-			if( $new_status == 'publish' || $new_status == 'abandoned' ) {
-				// Basic payment meta			
-				$payment_meta = edd_get_payment_meta( $payment_id );
-				// get all downloads
-				$all_downloads = $payment_meta['downloads'];
-				$all_products = array();
-				foreach ( $all_downloads as $download ) {
-			 		array_push( $all_products, $download['id'] );
-				}
-
-				$set_rules = $download_id = $price_id = $m_tags = array();
-				$bsfm_opt = get_option('_bsf_mautic_config');
-				$bsfm_edd_prod_slug	= array_key_exists( 'bsfm_edd_prod_slug', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_slug'] : '';
-				$bsfm_edd_prod_cat = array_key_exists( 'bsfm_edd_prod_cat', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_cat'] : '';
-				$bsfm_edd_prod_tag	= array_key_exists( 'bsfm_edd_prod_tag', $bsfm_opt ) ? $bsfm_opt['bsfm_edd_prod_tag'] : '';
-				$seg_action_id = array_key_exists( 'config_edd_segment', $bsfm_opt ) ? $bsfm_opt['config_edd_segment'] : '';
-				$seg_action_ab = array_key_exists( 'config_edd_segment_ab', $bsfm_opt ) ? $bsfm_opt['config_edd_segment_ab'] : '';
-
-				$args = array( 'post_type'	=>	'download', 'posts_per_page' => -1, 'post_status' => 'publish', 'post__in' => $all_products );
-				$downloads = get_posts( $args );
-
-				foreach ( $downloads as $download ) : setup_postdata( $download );
-					$id = $download->ID;
-					$categories = get_the_terms( $id, 'download_category' );
-					$tags = get_the_terms( $id, 'download_tag' );
-
-					if( $bsfm_edd_prod_slug ) {
-						$slug = $download->post_name;
-						array_push( $m_tags, $slug);
-					}
-
-					if( $bsfm_edd_prod_cat ) {
-						foreach ( $categories as $cat ) {
-							array_push( $m_tags, $cat->name);
-						}
-					}
-
-					if( $bsfm_edd_prod_tag ) {
-						foreach ( $tags as $tag ) {
-							array_push( $m_tags, $tag->name);
-						}
-					}
-				endforeach;
-
-				// General global config conditions
-				$all_customer = $all_customer_ab = array(
-					'add_segment' => array(),
-					'remove_segment' => array()
-				);
-				array_push( $all_customer['add_segment'], $seg_action_id );
-				array_push( $all_customer['remove_segment'], $seg_action_ab );
-				array_push( $all_customer_ab['add_segment'], $seg_action_ab );
-
-				$email = $payment_meta['user_info']['email'];
-				$credentials = get_option( 'bsfm_mautic_credentials' );
-
-				if( isset($_COOKIE['mtc_id']) ) {
-					$contact_id = $_COOKIE['mtc_id'];
-					$contact_id = (int)$contact_id;
-
-					$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-					if( isset( $email_cid ) ) {
-						$contact_id = (int)$email_cid;
-					}
-				}
-				else {
-					$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-				}
-
-				if( isset( $contact_id ) ) {
-					$method = 'PATCH';
-					$url = '/api/contacts/'.$contact_id.'/edit';
-				}
-				else {
-					$method = 'POST';
-					$url = '/api/contacts/new';
-				}
-
-				$body = array(
-					'firstname'	=>	$payment_meta['user_info']['first_name'],
-					'lastname'	=>	$payment_meta['user_info']['last_name'],
-					'email'		=>	$payment_meta['user_info']['email']
-				);
-
-				if( isset($bsfm_edd_prod_cat) || isset($bsfm_edd_prod_slug) || isset($bsfm_edd_prod_tag) ) {
-					if( is_array( $m_tags ) && ( sizeof( $m_tags )>0 ) ) {
-						$m_tags = implode(",", $m_tags);
-						$body['tags'] = $m_tags;
-					}
-				}
-
-				// Add all customers
-				$ac_segment = $all_customer['add_segment'];
-				if( $new_status == 'publish' ) {
-					if( is_array( $ac_segment ) && sizeof( $ac_segment )>0 ) {
-						self::bsfm_mautic_api_call($url, $method, $body, $all_customer);
-					}
-				}
-
-				// Abandoned Customers
-				$ab_segment = $all_customer_ab['add_segment'];
-				if( $new_status == 'abandoned' ) {
-					if( is_array( $ab_segment ) && sizeof( $ab_segment )>0 ) {
-						self::bsfm_mautic_api_call( $url, $method, $body, $all_customer_ab);
-					}
-				}
-			}
-		}
-
-		public static function bsfm_filter_cf7_submit_fields($cf7) {
-			$query = self::bsfm_create_query();
-			if ( $query ) {
-				self::bsfm_add_cf7_mautic( $query );
-			}
-			return $cf7;
-		}
-
-		public static function bsfm_create_query() {
-			$query = array();
-			if ( $submission = WPCF7_Submission::get_instance() ) {
-				$query = $submission->get_posted_data();
-			}
-			return apply_filters( 'Bsfm_CF7_query_mapping', $query );
-		}
-
-		/** 
-		 * Add cf7 submissions to Mautic contacts
-		 *
-		 * @since 1.0.0
-		 * @return void
-		 */
-		public static function bsfm_add_cf7_mautic( $query ) {
-			if ( !is_array($query) ) return;
-
-			$cf7_id = $query['_wpcf7'];
-			$status = Bsfm_Postmeta::bsfm_get_cf7_condition( $cf7_id );
-
-			if( is_array($status) && sizeof($status)>0 ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
-			}
-			else {
-				return;
-			}
-
-			foreach ( $status as $rule ) {
-				$body_fields = self::bsf_get_cf7_mautic_fields_maping( $cf7_id, $rule, $query );
-				$contact_id = '';
-
-				$email = $query['your-email'];
-				$credentials = get_option( 'bsfm_mautic_credentials' ); 
-				
-				if( isset($_COOKIE['mtc_id']) ) {
-
-					$contact_id = $_COOKIE['mtc_id'];
-					$contact_id = (int)$contact_id;
-					$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-					if( isset( $email_cid ) ) {
-						$contact_id = (int)$email_cid;
-					}
-				}
-				else {
-					$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-				}
-
-				if( isset( $contact_id ) ) {
-					$method = 'PATCH';
-					$url = '/api/contacts/'.$contact_id.'/edit';
-				}
-				else {
-					$method = 'POST';
-					$url = '/api/contacts/new';
-				}
-
-				if( !is_array($body_fields) ) {
-					$body = array(
-						'firstname'	=> $query['your-name'],
-						'email'		=> $query['your-email']
-					);
-				}
-				else {
-					$body = $body_fields;
-				}
-
-				$add_segment = $set_actions['add_segment'];
-				$remove_segment = $set_actions['remove_segment'];
-				if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
-					self::bsfm_mautic_api_call( $url, $method, $body, $set_actions );
-				}
-			}
-		}
-
-		/** 
-		 * Map cf7 and Mautic contact fields
-		 * 
-		 * @since 1.0.0
-		 * @return array 
-		 */
-		public static function bsf_get_cf7_mautic_fields_maping( $form_id, $rule_id, $query) {
-			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
-			if (isset($meta_conditions[0])) {
-				$meta_conditions = unserialize($meta_conditions[0]);	
-			}
-			foreach ($meta_conditions as $meta_condition) {
-				if( $meta_condition[0]=='CF7' && $meta_condition[1]==$form_id ) {
-					$cf7_fields = $meta_condition[2]['cf7_fields'];
-					$mautic_fields = $meta_condition[2]['mautic_cfields'];
-				}
-			}
-			foreach ( $cf7_fields as $key => $field ) {
-				$mapping[$mautic_fields[$key]] = $query[$field];
-			}
-			return $mapping;
 		}
 
 		/** 
