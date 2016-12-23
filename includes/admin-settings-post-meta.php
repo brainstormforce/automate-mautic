@@ -17,7 +17,7 @@
 		<?php
 		if( isset($_GET['action']) && $_GET['action']=='edit') {
 			if(isset($_GET['post'])) {
-				$post_id = $_GET['post'];
+				$post_id = esc_attr( $_GET['post'] );
 			}
 			$meta_conditions = get_post_meta( $post_id, 'bsfm_rule_condition' );
 			if (isset($meta_conditions[0])) {
@@ -46,9 +46,6 @@
 							</select>
 							<?php
 
-							//"new_condition_CP"
-							//do_action( "new_condition_$meta_condition[0]" )
-
 							if( $meta_condition[0]=='CP' ) :	?>
 								<div class="first-condition" style="display:inline;">
 									<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
@@ -70,7 +67,14 @@
 									echo '<div class="first-condition" style="display:inline;"></div>';
 									echo '<div class="second-condition" style="display:inline;"></div>';
 								endif;
-						echo '</fieldset>';
+
+								// render extension conditions temp >>>>
+								if ( array_key_exists(1, $meta_condition) && $meta_condition[0] == 'EDD' ) {
+									$action = 'new_condition_' . $meta_condition[0];
+									do_action( $action, $meta_condition[1], $meta_condition[2], $meta_condition[3] );	
+								}
+
+							echo '</fieldset>';
 						endforeach;
 						}
 						?>

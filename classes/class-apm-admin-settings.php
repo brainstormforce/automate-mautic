@@ -243,7 +243,7 @@ final class APM_AdminSettings {
 		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticpmeta' ) ) {
 			
 			if( isset($_POST['bsfm_rule_title']) ) {
-				$rule_name = $_POST['bsfm_rule_title'];
+				$rule_name = esc_attr( $_POST['bsfm_rule_title'] );
 			}
 	
 			// Gather post data.
@@ -255,7 +255,7 @@ final class APM_AdminSettings {
 			);
 
 			if( isset($_GET['action']) && $_GET['action']=='edit') {
-				$rule_id = $_GET['post'];
+				$rule_id = esc_attr( $_GET['post'] );
 			}
 
 			if( $rule_id !== '' && $rule_id != null ) {
@@ -269,18 +269,38 @@ final class APM_AdminSettings {
 				if ( isset( $_POST['pm_condition'] ) ) {
 					$conditions = $_POST['pm_condition'];
 					$cp_keys = array_keys( $conditions, "CP");
+
+					// temp >>>>>>>>>>
+					$edd_keys = array_keys( $conditions, "EDD");
+
+
 					$condition_cnt = sizeof( $conditions );
 					for($i=0; $i < $condition_cnt; $i++) {
-						if($conditions[$i]=='UR') {
+						if( $conditions[$i]=='UR' ) {
 							$update_conditions[$i] = array( $conditions[$i] );
 						}
-						if ($conditions[$i]=='CP') {
+						if ( $conditions[$i]=='CP' ) {
 							$sub_key = array_search($i,$cp_keys);
 							$update_conditions[$i] = array(
 								$conditions[$i],
 								$_POST['sub_cp_condition'][$sub_key], 
 								$_POST['ss_cp_condition'][$sub_key] );
 						}
+
+						// temp >>>>>>>>>>>
+						if ($conditions[$i] == "EDD") {
+							$sub_key = array_search($i,$edd_keys);
+							$update_maping = '';
+							$download_id = $_POST['sub_edd_condition'][$sub_key];
+							$update_conditions[$i] = array(
+								$conditions[$i],
+								$_POST['sub_edd_condition'][$sub_key],
+								$_POST['ss_edd_condition'][$sub_key],
+								$_POST['ss_edd_var_price'][$sub_key] );
+						}
+						// >>>>>>>>>>>
+
+
 					}
 					$update_conditions = serialize($update_conditions);
 					update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
@@ -345,7 +365,7 @@ final class APM_AdminSettings {
 
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule'.$_GET['rule_id'] ) ) {
 			if ( isset($_GET['rule_id']) ) {
-				$rule_id = $_GET['rule_id'];
+				$rule_id = esc_attr( $_GET['rule_id'] );
 				wp_delete_post( $rule_id );
 				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' );
 				wp_redirect( $redirect );

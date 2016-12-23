@@ -186,7 +186,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 			<option value="UR" '.selected( $select, 'UR' ).'>' . __( 'User Register on WordPress', 'automateplus-mautic-wp' ) . '</option>
 			<option value="CP" '.selected( $select, 'CP' ).'>' . __( 'User Post a Comment', 'automateplus-mautic-wp' ) . '</option>';
 
-		$all_conditions = apply_filters('amp_mautic_conditions_list', $conditions);
+		$all_conditions = apply_filters('amp_mautic_conditions_list', $conditions, $select);
 		echo $all_conditions;
 	}
 
