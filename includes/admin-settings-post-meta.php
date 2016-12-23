@@ -4,7 +4,7 @@
 		
 		<?php
 			if( isset($_GET['post']) ) {
-				$post_id = $_GET['post'];
+				$post_id = esc_attr( $_GET['post'] );
 				$rule_title = get_the_title( $post_id );
 			}
 			else {
@@ -34,7 +34,7 @@
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
 						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
-					<?php	
+					<?php
 					if( ! empty($meta_conditions) ) {
 						foreach ($meta_conditions as $order => $meta_condition) :
 					?>
@@ -44,12 +44,17 @@
 							<select class="select-condition form-control" name="pm_condition[]">
 								<?php APM_RulePanel::get_all_conditions_list( $meta_condition[0] ); ?>
 							</select>
-							<?php	if( $meta_condition[0]=='CP' ) :	?>
-									<div class="first-condition" style="display:inline;">
-										<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-											<?php APM_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
-										</select>
-									</div>
+							<?php
+
+							//"new_condition_CP"
+							//do_action( "new_condition_$meta_condition[0]" )
+
+							if( $meta_condition[0]=='CP' ) :	?>
+								<div class="first-condition" style="display:inline;">
+									<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
+										<?php APM_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
+									</select>
+								</div>
 									<div class="second-condition" style="display:inline;">
 										<?php
 											if($meta_condition[1]=='os_page') {

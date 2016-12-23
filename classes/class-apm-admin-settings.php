@@ -88,10 +88,10 @@ final class APM_AdminSettings {
 		if ( ( isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
-			wp_enqueue_script( 'apm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
-			wp_enqueue_style( 'apm-admin-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/admin.css' );
-			wp_enqueue_script( 'apm-select2-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/js/select2.min.js' , array( 'jquery' ) );
-			wp_enqueue_style( 'apm-select2-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/css/select2.min.css' );
+			wp_enqueue_script( 'apm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . 'assets/js/admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
+			wp_enqueue_style( 'apm-admin-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . 'assets/css/admin.css' );
+			wp_enqueue_script( 'apm-select2-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js' , array( 'jquery' ) );
+			wp_enqueue_style( 'apm-select2-style', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . 'assets/css/select2.min.css' );
 		}
 	}
 	
