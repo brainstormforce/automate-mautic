@@ -22,6 +22,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		public function includes() {
 			
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-init.php' );
+			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-mautic-api.php' );
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 		}
 
