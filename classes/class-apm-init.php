@@ -21,7 +21,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 
 	public function includes() 
 	{
-		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
+		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
 		$this->load_plugin_textdomain();
 	}
 	/**
