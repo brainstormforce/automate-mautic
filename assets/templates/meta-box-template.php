@@ -3,9 +3,7 @@
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
 		<select class="select-condition form-control" name="pm_condition[]">
-			<option> Select Condition </option>
-			<option value="UR">User Register on WordPress</option>
-			<option value="CP">User Post a Comment</option>
+			<?php Bsfm_Postmeta::get_all_conditions_list(); ?>
 		</select>
 		<div class="first-condition" style="display:inline;"></div>
 		<div class="second-condition" style="display:inline;"></div>
@@ -16,8 +14,7 @@
 		<input type="hidden" name="pm_action[]" value="segment">
 		<div class="first-action" style="display:inline;">
 			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-				<option value="add_segment">Add to segment</option>
-				<option value="remove_segment">Remove from segment</option>
+				<?php Bsfm_Postmeta::get_all_actions_list(); ?>
 			</select>
 		</div>
 		<div class="second-action" style="display:inline;">

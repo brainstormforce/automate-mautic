@@ -378,7 +378,6 @@ final class BSFMauticAdminSettings {
 			}
 			else {
 				update_option( '_bsf_mautic_config', $bsfm );
-
 			}
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=enable_tracking' );
 			wp_redirect( $redirect );

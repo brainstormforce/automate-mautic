@@ -147,10 +147,10 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	}
 
 	/**
-	* Get all rules and manipulate actions
-	* @param rule_id array
-	* @return actions array
-	*/
+	 * Get all rules and manipulate actions
+	 * @param rule_id array
+	 * @return actions array
+	 */
 	public static function bsfm_get_all_actions( $rules = array() ) {
 		$all_actions = array(
 			'add_segment' => array(),
@@ -176,6 +176,29 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 				endforeach;
 		endforeach;
 		return $all_actions;
+	}
+
+	/**
+	 * list all conditions
+	 */
+	public static function get_all_conditions_list() {
+		$conditions = '<option>' . __( 'Select Condition', 'automateplus-mautic-wp' ) . '</option>
+			<option value="UR">' . __( 'User Register on WordPress', 'automateplus-mautic-wp' ) . '</option>
+			<option value="CP">' . __( 'User Post a Comment', 'automateplus-mautic-wp' ) . '</option>';
+
+		$all_conditions = apply_filters('amp_mautic_conditions_list', $conditions);
+		echo $all_conditions;
+	}
+
+	/**
+	 * list all actions
+	 */
+	public static function get_all_actions_list() {
+		$actions = '<option value="add_segment">' . __( 'Add to segment', 'automateplus-mautic-wp' ) . '</option>
+			<option value="remove_segment">' . __( 'Remove from segment', 'automateplus-mautic-wp' ) . '</option>';
+
+		$all_actions = apply_filters('amp_mautic_actions_list', $actions);
+		echo $all_actions;
 	}
 }
 $Bsfm_Postmeta = Bsfm_Postmeta::instance();
