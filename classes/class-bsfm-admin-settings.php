@@ -9,15 +9,7 @@ if ( ! class_exists( 'BSFMauticAdminSettings' ) ) :
 final class BSFMauticAdminSettings {
 	
 	private static $instance;
-	/**
-	 * Holds any errors that may arise from
-	 * saving admin settings.
-	 *
-	 * @since 1.0.0
-	 * @var array $errors
-	 */
 
-	static public $errors = array();
 	/**
 	 * Initiator
 	 */
@@ -166,8 +158,10 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */	 
 	static public function render_update_message() {
-		foreach ( self::$errors as $message ) {
-			echo '<div class="error"><p>' . $message . '</p></div>';
+ 	
+ 		// redirect
+		if( ! empty( $_POST ) ) {
+			echo '<div class="updated"><p>' . __( 'Settings updated!', 'bsfmautic' ) . '</p></div>';
 		}
 	}
 
@@ -231,18 +225,6 @@ final class BSFMauticAdminSettings {
 	static public function has_support( $type )
 	{
 		return file_exists( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php' );
-	}
-	
-	/**
-	 * Adds an error message to be rendered.
-	 *
-	 * @since 1.0.0
-	 * @param string $message The error message to add.
-	 * @return void
-	 */	 
-	static public function add_error( $message )
-	{
-		self::$errors[] = $message;
 	}
 
 	/** 
@@ -396,13 +378,7 @@ final class BSFMauticAdminSettings {
 			'bsfm-base-url'			=> '',
 			'bsfm-public-key'		=> '',
 			'bsfm-secret-key'		=> '',
-			'bsfm-callback-uri'		=> '',
-			'bsfm_edd_prod_slug'	=> '',
-			'bsfm_edd_prod_cat'		=> '',
-			'bsfm_edd_prod_tag'		=> '',
-			'config_edd_segment'	=> '',
-			'config_edd_segment_ab'	=> '',
-			'bsfm_proactive_tracking' => true
+			'bsfm-callback-uri'		=> ''
 		);
 
 		//	if empty add all defaults
@@ -437,9 +413,9 @@ final class BSFMauticAdminSettings {
 			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
 
-		if( ! empty( $_POST ) && $curr_screen=='bsf-mautic' ) {
-			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
-		}
+		// if( ! empty( $_POST ) && $curr_screen=='bsf-mautic' ) {
+		// 	echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
+		// }
 	}
 
 	static public function render_messages( $message )

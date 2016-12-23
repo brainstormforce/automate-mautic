@@ -51,20 +51,6 @@ jQuery(document).ready(function( $ ) {
 				parent.find('div.first-condition').html('');
 				parent.find('div.second-condition').html('');
 			break;
-
-			case 'CF7' :
-				var cfSelect = mbTemplate( { clas: "select-cf" } );
-				parent.find('div.second-condition').html('');
-				parent.find('div.first-condition').html(cfSelect);
-				jq( ".sub-cf-condition" ).select2();
-			break;
-
-			case 'EDD' :
-				var cfSelect = mbTemplate( { clas: "select-edd-products" } );
-				parent.find('div.second-condition').html('');
-				parent.find('div.first-condition').html(cfSelect);
-				jq( ".sub-edd-condition" ).select2();
-			break;
 		}
 	});
 	jq(document).on( "change", ".sub-cp-condition", function() {
@@ -110,8 +96,6 @@ jQuery(document).ready(function( $ ) {
 			action:'clean_mautic_transient'
 		};
 		jq.post(ajaxurl, data, function(){
-			jq( '.bsfm-wp-spinner' ).css( "visibility", "hidden" );
-			jq( '.bsfm-wp-spinner-msg' ).css( "display", "inline-block" ).fadeOut(3000);
 			location.reload();
 		});
 	});
