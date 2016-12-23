@@ -280,7 +280,7 @@ final class BSFMauticAdminSettings {
 			return;
 		}
 
-		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticpmeta' ) ) {
+		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticmeta' ) ) {
 			
 			if( isset($_POST['bsfm_rule_title']) ) {
 				$rule_name = $_POST['bsfm_rule_title'];
