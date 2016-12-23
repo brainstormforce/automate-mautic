@@ -124,7 +124,7 @@
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
 				<a href="<?php echo admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' ); ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
 			</p>
-			<?php wp_nonce_field('bsfmauticmeta', 'bsf-mautic-post-meta-nonce'); ?>
+			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 				<?php
 			} // end edit
 			else {

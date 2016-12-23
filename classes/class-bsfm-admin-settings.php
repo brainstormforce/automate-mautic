@@ -280,7 +280,7 @@ final class BSFMauticAdminSettings {
 			return;
 		}
 
-		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticmeta' ) ) {
+		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticpmeta' ) ) {
 			
 			if( isset($_POST['bsfm_rule_title']) ) {
 				$rule_name = $_POST['bsfm_rule_title'];
@@ -437,11 +437,10 @@ final class BSFMauticAdminSettings {
 				}
 			}
 		}
-
 		return apply_filters( 'bsfm_get_mautic', $bsfm );
 	}
 
-	static public function apm_notices() 
+	static public function apm_notices()
 	{
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
 		$credentials = get_option( 'bsfm_mautic_credentials' );

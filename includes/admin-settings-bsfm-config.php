@@ -25,8 +25,7 @@
 		<?php
 			Bsfm_Postmeta::bsf_mautic_metabox_view();
 		?>
-	<?php }
-	?>
+	<?php } ?>
 	<form id="bsfm-config-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
 		<div class="bsfm-settings-form-content">
 			<?php
