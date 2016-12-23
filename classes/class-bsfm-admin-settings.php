@@ -166,10 +166,8 @@ final class BSFMauticAdminSettings {
 	 * @return void
 	 */	 
 	static public function render_update_message() {
-		if ( ! empty( self::$errors ) ) {
-			foreach ( self::$errors as $message ) {
-				echo '<div class="error"><p>' . $message . '</p></div>';
-			}
+		foreach ( self::$errors as $message ) {
+			echo '<div class="error"><p>' . $message . '</p></div>';
 		}
 	}
 
@@ -196,12 +194,7 @@ final class BSFMauticAdminSettings {
 	 */	  
 	static public function render_form_action( $type = '' )
 	{
-		if ( is_network_admin() ) {
-			echo network_admin_url( '/edit.php?post_type=bsf-mautic-rule&page=bsf-mautic#' . $type );
-		}
-		else {
-			echo admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' . $type );
-		}
+		echo admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' . $type );
 	}
 
 	/** 
@@ -213,12 +206,7 @@ final class BSFMauticAdminSettings {
 	 */	  
 	static public function render_tab_action( $type = '' )
 	{
-		if ( is_network_admin() ) {
-			echo network_admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
-		}
-		else {
-			echo admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
-		}
+		echo admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
 	}
 	
 	/** 
@@ -448,7 +436,17 @@ final class BSFMauticAdminSettings {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
 			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
+
 		if( ! empty( $_POST ) && $curr_screen=='bsf-mautic' ) {
+			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
+		}
+	}
+
+	static public function render_messages( $message )
+	{
+		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+
+		if( $message = 'update' && $curr_screen=='bsf-mautic' ) {
 			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 		}
 	}

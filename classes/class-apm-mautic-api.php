@@ -13,7 +13,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	/**
 	* Initiator
 	*/
-	public static function instance() 
+	public static function instance()
 	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new AP_Mautic_Api();

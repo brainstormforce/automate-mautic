@@ -79,7 +79,6 @@
 				if( isset( $credentials['access_token'] ) ) { ?>
 				<p class="submit">
 					<input type="button" name="bsfm-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
-					<!-- input type="submit" name="bsfm-disconnect-mautic" class="button" value="<?php esc_attr_e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?>" / -->
 					<a class="bsfm-disconnect-mautic"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 
 				</p>
 				<?php } ?>

@@ -16,7 +16,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	public function __construct() 
 	{
 		self::includes();
-		add_action( 'wp_loaded', array( $this, 'get_bsfm_options') );
+		add_action( 'wp_loaded', array( $this, 'get_amp_options') );
 	}
 
 	public function includes() 
@@ -28,7 +28,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	 *	For Performance
 	 *  Set static object to store data from database.
 	 */
-	public static function get_bsfm_options() 
+	public static function get_amp_options() 
 	{
 		self::$bsfm_options = array(
 			'bsf_mautic_settings'     => get_option('_bsf_mautic_config')

@@ -139,9 +139,7 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 							<select class="select-condition form-control" name="pm_condition[]">
-								<option><?php _e( 'Select Condition', 'automateplus-mautic-wp' ) ?></option>
-								<option value="UR"><?php _e( 'User Register on WordPress', 'automateplus-mautic-wp' ) ?></option>
-								<option value="CP"><?php _e( 'User Post a Comment', 'automateplus-mautic-wp' ) ?></option>
+								<?php APM_RulePanel::get_all_conditions_list(); ?>
 							</select>
 							<div class="first-condition" style="display:inline;"></div>
 							<div class="second-condition" style="display:inline;"></div>
@@ -162,8 +160,7 @@
 							<input type="hidden" name="pm_action[]" value="segment">
 							<div class="first-action" style="display:inline;">
 								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-									<option value="add_segment"><?php _e( 'Add to segment', 'automateplus-mautic-wp' ) ?></option>
-									<option value="remove_segment"><?php _e( 'Remove from segment', 'automateplus-mautic-wp' ) ?></option>
+									<?php APM_RulePanel::get_all_actions_list(); ?>
 								</select>
 							</div>
 							<div class="second-action" style="display:inline;">
