@@ -31,7 +31,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	}
 
 	public static function bsf_mautic_metabox_view() {
-		BSFMauticAdminSettings::render_form( 'post-meta' );
+		APM_AdminSettings::render_form( 'post-meta' );
 	}
 
 	public static function make_option( $id, $value, $selected = null ) {
@@ -181,10 +181,10 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	/**
 	 * list all conditions
 	 */
-	public static function get_all_conditions_list() {
+	public static function get_all_conditions_list( $select = '' ) {
 		$conditions = '<option>' . __( 'Select Condition', 'automateplus-mautic-wp' ) . '</option>
-			<option value="UR">' . __( 'User Register on WordPress', 'automateplus-mautic-wp' ) . '</option>
-			<option value="CP">' . __( 'User Post a Comment', 'automateplus-mautic-wp' ) . '</option>';
+			<option value="UR" '.selected( $select, 'UR' ).'>' . __( 'User Register on WordPress', 'automateplus-mautic-wp' ) . '</option>
+			<option value="CP" '.selected( $select, 'CP' ).'>' . __( 'User Post a Comment', 'automateplus-mautic-wp' ) . '</option>';
 
 		$all_conditions = apply_filters('amp_mautic_conditions_list', $conditions);
 		echo $all_conditions;
@@ -193,10 +193,9 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	/**
 	 * list all actions
 	 */
-	public static function get_all_actions_list() {
-		$actions = '<option value="add_segment">' . __( 'Add to segment', 'automateplus-mautic-wp' ) . '</option>
-			<option value="remove_segment">' . __( 'Remove from segment', 'automateplus-mautic-wp' ) . '</option>';
-
+	public static function get_all_actions_list( $select = '' ) {
+		$actions = '<option value="add_segment" '.selected( $select, 'add_segment' ).'>' . __( 'Add to segment', 'automateplus-mautic-wp' ) . '</option>
+			<option value="remove_segment" '.selected( $select, 'remove_segment' ).'>' . __( 'Remove from segment', 'automateplus-mautic-wp' ) . '</option>';
 		$all_actions = apply_filters('amp_mautic_actions_list', $actions);
 		echo $all_actions;
 	}
@@ -204,11 +203,10 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	/**
 	 * list all actions
 	 */
-	public static function get_comment_condition_sublist() {
-		$comment_sublist = '<option value="ao_website">' . __( 'Anywhere On Website', 'automateplus-mautic-wp' ) . '</option>
-			<option value="os_page">' . __( 'On Specific Page', 'automateplus-mautic-wp' ) . '</option>
-			<option value="os_post">' . __( 'On Specific Post', 'automateplus-mautic-wp' ) . '</option>';
-
+	public static function get_comment_condition_sublist( $select = '' ) {
+		$comment_sublist = '<option value="ao_website" '.selected( $select, 'ao_website' ).'>' . __( 'Anywhere On Website', 'automateplus-mautic-wp' ) . '</option>
+			<option value="os_page" '.selected( $select, 'os_page' ).'>' . __( 'On Specific Page', 'automateplus-mautic-wp' ) . '</option>
+			<option value="os_post" '.selected( $select, 'os_post' ).'>' . __( 'On Specific Post', 'automateplus-mautic-wp' ) . '</option>';
 		$comment_sublist = apply_filters('amp_mautic_comment_condition_sublist', $comment_sublist);
 		echo $comment_sublist;
 	}

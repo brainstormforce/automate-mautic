@@ -4,9 +4,9 @@
  *
  * @since 1.0.0
  */
-if ( ! class_exists( 'BSFMauticAdminSettings' ) ) :
+if ( ! class_exists( 'APM_AdminSettings' ) ) :
 
-final class BSFMauticAdminSettings {
+final class APM_AdminSettings {
 	
 	private static $instance;
 
@@ -15,7 +15,7 @@ final class BSFMauticAdminSettings {
 	 */
 	public static function instance(){
 		if ( ! isset( self::$instance ) ) {
-			self::$instance = new BSFMauticAdminSettings();
+			self::$instance = new APM_AdminSettings();
 			self::$instance->hooks();
 		}
 		return self::$instance;
@@ -228,16 +228,6 @@ final class BSFMauticAdminSettings {
 	}
 
 	/** 
-	* Checks to see if multisite is supported.
-	*
-	* @since 1.0.0
-	* @return void
-	*/
-	static public function multisite_support() {
-		return is_multisite();
-	}
-
-	/** 
 	 * Saves the admin settings.
 	 *
 	 * @since 1.0.0
@@ -427,5 +417,5 @@ final class BSFMauticAdminSettings {
 		}
 	}
 }
-$BSFMauticAdminSettings = BSFMauticAdminSettings::instance();
+$APM_AdminSettings = APM_AdminSettings::instance();
 endif;

@@ -355,7 +355,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	
 	public static function bsfm_authenticate_update()
 	{
-		$bsfm 	=	BSFMauticAdminSettings::get_bsfm_mautic();
+		$bsfm 	=	APM_AdminSettings::get_bsfm_mautic();
 		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
 		$post = $_POST;
 		$cpts_err = false;

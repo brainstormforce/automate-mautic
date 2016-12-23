@@ -42,25 +42,21 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span>
 							<select class="select-condition form-control" name="pm_condition[]">
-								<option><?php _e( 'Select Condition', 'automateplus-mautic-wp' ) ?></option>
-								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> ><?php _e( 'User Register on WordPress', 'automateplus-mautic-wp' ) ?></option>
-								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> ><?php  _e( 'User Post a Comment', 'automateplus-mautic-wp' ) ?></option>
+								<?php APM_RulePanel::get_all_conditions_list( $meta_condition[0] ); ?>
 							</select>
 							<?php	if( $meta_condition[0]=='CP' ) :	?>
 									<div class="first-condition" style="display:inline;">
 										<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> ><?php _e( 'Anywhere On Website', 'automateplus-mautic-wp' ) ?></option>
-											<option value="os_page" <?php selected( $meta_condition[1],'os_page' ); ?> ><?php _e( 'On Specific Page', 'automateplus-mautic-wp' ) ?></option>
-											<option value="os_post" <?php selected( $meta_condition[1],'os_post' ); ?> ><?php _e( 'On Specific Post', 'automateplus-mautic-wp' ) ?></option>
+											<?php APM_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
 										</select>
 									</div>
 									<div class="second-condition" style="display:inline;">
 										<?php
 											if($meta_condition[1]=='os_page') {
-												APM_RulePanel::select_all_pages($meta_condition[2]);
+												APM_RulePanel::select_all_pages( $meta_condition[2] );
 											}
 											elseif($meta_condition[1]=='os_post') {
-												APM_RulePanel::select_all_posts($meta_condition[2]);
+												APM_RulePanel::select_all_posts( $meta_condition[2] );
 											}
 								echo '</div>';
 								endif;
@@ -90,12 +86,11 @@
 								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
-										<input type="hidden" name="pm_action[]" value="segment">
+									<input type="hidden" name="pm_action[]" value="segment">
 							<?php if($meta_action[0]=='segment') :	?>
 									<div class="first-action" style="display:inline;">
 										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-											<option value="add_segment" <?php selected( $meta_action[1],'add_segment' ); ?> ><?php _e( 'Add to segment', 'automateplus-mautic-wp' ) ?></option>
-											<option value="remove_segment" <?php selected( $meta_action[1],'remove_segment' ); ?> ><?php _e( 'Remove from segment', 'automateplus-mautic-wp' ) ?></option>
+											<?php APM_RulePanel::get_all_actions_list( $meta_action[1] ); ?>
 										</select>
 									</div>
 							<?php
@@ -103,7 +98,7 @@
 								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment') :
 							?>
 									<div class="second-action" style="display:inline;">
-										<?php APM_RulePanel::select_all_segments($meta_action[2]); ?>
+										<?php APM_RulePanel::select_all_segments( $meta_action[2] ); ?>
 									</div>
 							<?php	endif;	?>
 								</fieldset>

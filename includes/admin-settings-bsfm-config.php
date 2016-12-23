@@ -16,19 +16,19 @@
 	</h2>
 	<?php
 	if( $active_tab == 'all_rules' ) {
-			BSFMauticAdminSettings::bsfm_rules_list();
+			APM_AdminSettings::bsfm_rules_list();
 	}
 	if( $active_tab == 'add_new_rule' || $current_action == 'edit' ) { ?>
 		<?php
 			APM_RulePanel::bsf_mautic_metabox_view();
 		?>
 	<?php } ?>
-	<form id="bsfm-config-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
+	<form id="bsfm-config-form" action="<?php APM_AdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
 		<div class="bsfm-settings-form-content">
 			<?php
 				$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 				if( empty($bsfm) ) {
-					$bsfm 	=	BSFMauticAdminSettings::get_bsfm_mautic();	
+					$bsfm 	=	APM_AdminSettings::get_bsfm_mautic();	
 				}
 				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = '';
 				if( is_array($bsfm) ) {
