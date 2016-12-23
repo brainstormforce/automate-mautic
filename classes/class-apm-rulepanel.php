@@ -4,9 +4,9 @@
  *
  * @since 1.0.0
  */
-if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
+if ( ! class_exists( 'APM_RulePanel' ) ) :
 	
-	class Bsfm_Postmeta {
+	class APM_RulePanel {
 
 	private static $instance;
 
@@ -15,7 +15,7 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 	*/
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
-			self::$instance = new Bsfm_Postmeta();
+			self::$instance = new APM_RulePanel();
 			self::$instance->hooks();
 			self::$instance->includes();
 		}
@@ -200,6 +200,18 @@ if ( ! class_exists( 'Bsfm_Postmeta' ) ) :
 		$all_actions = apply_filters('amp_mautic_actions_list', $actions);
 		echo $all_actions;
 	}
+
+	/**
+	 * list all actions
+	 */
+	public static function get_comment_condition_sublist() {
+		$comment_sublist = '<option value="ao_website">' . __( 'Anywhere On Website', 'automateplus-mautic-wp' ) . '</option>
+			<option value="os_page">' . __( 'On Specific Page', 'automateplus-mautic-wp' ) . '</option>
+			<option value="os_post">' . __( 'On Specific Post', 'automateplus-mautic-wp' ) . '</option>';
+
+		$comment_sublist = apply_filters('amp_mautic_comment_condition_sublist', $comment_sublist);
+		echo $comment_sublist;
+	}
 }
-$Bsfm_Postmeta = Bsfm_Postmeta::instance();
+$APM_RulePanel = APM_RulePanel::instance();
 endif;

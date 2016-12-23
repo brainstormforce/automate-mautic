@@ -57,10 +57,10 @@
 									<div class="second-condition" style="display:inline;">
 										<?php
 											if($meta_condition[1]=='os_page') {
-												Bsfm_Postmeta::select_all_pages($meta_condition[2]);
+												APM_RulePanel::select_all_pages($meta_condition[2]);
 											}
 											elseif($meta_condition[1]=='os_post') {
-												Bsfm_Postmeta::select_all_posts($meta_condition[2]);
+												APM_RulePanel::select_all_posts($meta_condition[2]);
 											}
 								echo '</div>';
 								endif;
@@ -103,7 +103,7 @@
 								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment') :
 							?>
 									<div class="second-action" style="display:inline;">
-										<?php Bsfm_Postmeta::select_all_segments($meta_action[2]); ?>
+										<?php APM_RulePanel::select_all_segments($meta_action[2]); ?>
 									</div>
 							<?php	endif;	?>
 								</fieldset>
@@ -167,7 +167,7 @@
 								</select>
 							</div>
 							<div class="second-action" style="display:inline;">
-								<?php Bsfm_Postmeta::select_all_segments(); ?>
+								<?php APM_RulePanel::select_all_segments(); ?>
 							</div>
 						</fieldset>
 					</div>				 

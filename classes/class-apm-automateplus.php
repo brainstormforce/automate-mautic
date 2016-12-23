@@ -20,9 +20,9 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		}
 
 		public function includes() {
-			require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . '/classes/class-apm-init.php';
-			require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . '/classes/class-apm-postmeta.php';
-			require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . '/classes/class-apm-mautic-api.php';
+			
+			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-init.php' );
+			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 		}
 
 		public function hooks() {
@@ -124,9 +124,9 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		public function add_registered_user( $user_id ) {
 			if( !$user_id ) return;
 			//get user registerd condition rules
-			$status = Bsfm_Postmeta::bsfm_get_wpur_condition();
+			$status = APM_RulePanel::bsfm_get_wpur_condition();
 			if( is_array($status) && sizeof($status)>0 ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
+				$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
 			}
 			else {
 				return;
@@ -180,9 +180,9 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 */
 		public function add_comment_author( $id, $approved, $commentdata ) {
 			//get comment post condition rules
-			$status = Bsfm_Postmeta::bsfm_get_comment_condition( $commentdata );
+			$status = APM_RulePanel::bsfm_get_comment_condition( $commentdata );
 			if( is_array($status) && sizeof($status)>0 ) {
-				$set_actions = Bsfm_Postmeta::bsfm_get_all_actions($status);
+				$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
 			}
 			else {
 				return;

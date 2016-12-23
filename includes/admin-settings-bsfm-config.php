@@ -23,7 +23,7 @@
 	}
 	if( $active_tab == 'add_new_rule' || $current_action == 'edit' ) { ?>
 		<?php
-			Bsfm_Postmeta::bsf_mautic_metabox_view();
+			APM_RulePanel::bsf_mautic_metabox_view();
 		?>
 	<?php } ?>
 	<form id="bsfm-config-form" action="<?php BSFMauticAdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
