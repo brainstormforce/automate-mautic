@@ -82,11 +82,6 @@ jQuery(document).ready(function( $ ) {
 				jq( ".sub-cp-action" ).select2();
 				parent.find('div.second-action').html('');
 			break;
-
-			case 'tag' :
-				parent.find('div.first-action').html('');
-				parent.find('div.second-action').html('');
-			break;
 		}
 	});
 	// clean transients

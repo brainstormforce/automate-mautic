@@ -270,10 +270,6 @@ final class APM_AdminSettings {
 					$conditions = $_POST['pm_condition'];
 					$cp_keys = array_keys( $conditions, "CP");
 
-					// temp >>>>>>>>>>
-					$edd_keys = array_keys( $conditions, "EDD");
-
-
 					$condition_cnt = sizeof( $conditions );
 					for($i=0; $i < $condition_cnt; $i++) {
 						if( $conditions[$i]=='UR' ) {
@@ -286,23 +282,10 @@ final class APM_AdminSettings {
 								$_POST['sub_cp_condition'][$sub_key], 
 								$_POST['ss_cp_condition'][$sub_key] );
 						}
-
-						// temp >>>>>>>>>>>
-						if ($conditions[$i] == "EDD") {
-							$sub_key = array_search($i,$edd_keys);
-							$update_maping = '';
-							$download_id = $_POST['sub_edd_condition'][$sub_key];
-							$update_conditions[$i] = array(
-								$conditions[$i],
-								$_POST['sub_edd_condition'][$sub_key],
-								$_POST['ss_edd_condition'][$sub_key],
-								$_POST['ss_edd_var_price'][$sub_key] );
-						}
-						// >>>>>>>>>>>
-
-
+						$action = 'update_condition_' . $conditions[$i];
+						$update_conditions = apply_filters( $action, $update_conditions, $conditions, $i, $_POST );
 					}
-					$update_conditions = serialize($update_conditions);
+					$update_conditions = serialize( $update_conditions );
 					update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
 				}
 				//update actions

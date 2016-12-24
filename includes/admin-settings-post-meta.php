@@ -3,7 +3,7 @@
 	<form id="bsfm-post-meta-form" action="#" method="post">
 		
 		<?php
-			if( isset($_GET['post']) ) {
+			if( isset( $_GET['post'] ) ) {
 				$post_id = esc_attr( $_GET['post'] );
 				$rule_title = get_the_title( $post_id );
 			}
@@ -73,7 +73,6 @@
 									$action = 'new_condition_' . $meta_condition[0];
 									do_action( $action, $meta_condition[1], $meta_condition[2], $meta_condition[3] );	
 								}
-
 							echo '</fieldset>';
 						endforeach;
 						}
@@ -104,12 +103,12 @@
 									</div>
 							<?php
 								endif;
-								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment') :
+								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment' ) :
 							?>
 									<div class="second-action" style="display:inline;">
 										<?php APM_RulePanel::select_all_segments( $meta_action[2] ); ?>
 									</div>
-							<?php	endif;	?>
+							<?php endif; ?>
 								</fieldset>
 							<?php
 								endforeach;
