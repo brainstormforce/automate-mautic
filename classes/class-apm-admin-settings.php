@@ -346,6 +346,8 @@ final class APM_AdminSettings {
 			wp_redirect( $redirect );
 		}
 
+		do_action('amp_update_tab_content');
+
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule'.$_GET['rule_id'] ) ) {
 			if ( isset($_GET['rule_id']) ) {
 				$rule_id = esc_attr( $_GET['rule_id'] );

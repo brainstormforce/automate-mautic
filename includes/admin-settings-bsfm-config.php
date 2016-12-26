@@ -13,6 +13,9 @@
 		<a href="?page=bsf-mautic&tab=all_rules" class="nav-tab <?php echo $active_tab == 'all_rules' ? 'nav-tab-active' : ''; ?>"> <?php _e('All Rules', 'automateplus-mautic-wp'); ?> </a>
 		<a href="?page=bsf-mautic&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'automateplus-mautic-wp'); ?> </a>
 		<a href="?page=bsf-mautic&tab=enable_tracking" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e('Tracking', 'automateplus-mautic-wp'); ?> </a>
+		<?php
+			do_action('amp_new_options_tab');
+		?>
 	</h2>
 	<?php
 	if( $active_tab == 'all_rules' ) {
@@ -97,7 +100,9 @@
 				<input type="submit" name="save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'automateplus-mautic-wp' ); ?>" />
 			</p>
 			<?php wp_nonce_field('bsfmautictrack', 'bsf-mautic-nonce-tracking'); ?>
-		<?php } ?>
+		<?php }
+			do_action('amp_options_tab_content', $active_tab);
+		?>
 		</div>
 	</form>
 </div>
