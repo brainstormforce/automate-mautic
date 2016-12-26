@@ -329,12 +329,13 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	public static function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) 
 	{
 		$errorMsg = $contact_id = '';
-		$status = 'error';
 		$access_token = $mautic_credentials['access_token'];
+		//$access_token = esc_attr($access_token);
 		$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
+
 		$response = wp_remote_get( $url );
 
-		if( !is_wp_error( $response ) && is_array($response) ) {
+		if( ! is_wp_error( $response ) && is_array( $response ) ) {
 			$response_body = $response['body'];
 			$body_data = json_decode($response_body);
 
@@ -346,7 +347,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					$ret = false;
 					$status = 'error';
 					$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+					__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 					return;
 				}
 			}

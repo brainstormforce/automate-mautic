@@ -16,7 +16,7 @@
 		</div>
 		<?php
 		if( isset($_GET['action']) && $_GET['action']=='edit') {
-			if(isset($_GET['post'])) {
+			if( isset($_GET['post']) ) {
 				$post_id = esc_attr( $_GET['post'] );
 			}
 			$meta_conditions = get_post_meta( $post_id, 'bsfm_rule_condition' );
