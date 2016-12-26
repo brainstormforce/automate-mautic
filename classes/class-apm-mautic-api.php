@@ -338,11 +338,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$response_body = $response['body'];
 			$body_data = json_decode($response_body);
 			
-
-			if( ! empty( $contact ) ) {
-				$contact = $body_data->contacts;
-				$contact_id = $contact[0]->id;
-			}
+			$contact = $body_data->contacts;
+			$contact_id = $contact[0]->id;
 			$response_code = $response['response']['code'];
 			if( $response_code != 201 ) {
 				if( $response_code != 200 ) {

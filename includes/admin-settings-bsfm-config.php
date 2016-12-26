@@ -14,7 +14,7 @@
 		<a href="?page=bsf-mautic&tab=auth_mautic" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e('Authenticate', 'automateplus-mautic-wp'); ?> </a>
 		<a href="?page=bsf-mautic&tab=enable_tracking" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e('Tracking', 'automateplus-mautic-wp'); ?> </a>
 		<?php
-			do_action('amp_new_options_tab');
+			do_action('amp_new_options_tab', $active_tab);
 		?>
 	</h2>
 	<?php
