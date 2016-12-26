@@ -328,42 +328,56 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) 
 	{
-		// $errorMsg = $contact_id = '';
-		// $access_token = $mautic_credentials['access_token'];
-		// //$access_token = esc_attr($access_token);
-		// $url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
 
-		// $response = wp_remote_get( $url );
+		if( $mautic_credentials['expires_in'] < time() ) { 
+			$grant_type = 'refresh_token';
+			$response = self::bsf_mautic_get_access_token( $grant_type );
+			if ( is_wp_error( $response ) ) {
+				$errorMsg = $response->get_error_message();
+				$status = 'error';
+				echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+			} else {
+				$access_details = json_decode( $response['body'] );
+				$expiration = time() + $access_details->expires_in;
+				$mautic_credentials['access_token'] = $access_details->access_token;
+				$mautic_credentials['expires_in'] = $expiration;
+				$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+				update_option( 'bsfm_mautic_credentials', $mautic_credentials );
+			}
+		}
 
-		// if( ! is_wp_error( $response ) && is_array( $response ) ) {
-		// 	$response_body = $response['body'];
-		// 	$body_data = json_decode($response_body);
+		$errorMsg = $contact_id = '';
+		$access_token = $mautic_credentials['access_token'];
+		$access_token = esc_attr($access_token);
+		$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
+
+		$response = wp_remote_get( $url );
 
 
-		// 	echo "<pre>";
-		// 	print_r($body_data);
-		// 	echo "</pre>";
 
+		if( ! is_wp_error( $response ) && is_array( $response ) ) {
+			$response_body = $response['body'];
+			$body_data = json_decode($response_body);
 
-		// 	$contact = $body_data->contacts;
+			$contact = $body_data->contacts;
 
-		// 	echo "<pre>";
-		// 	print_r($contact);
-		// 	echo "</pre>";
-
-		// 	$contact_id = $contact[0]->id;
-		// 	$response_code = $response['response']['code'];
-		// 	if( $response_code != 201 ) {
-		// 		if( $response_code != 200 ) {
-		// 			$ret = false;
-		// 			$status = 'error';
-		// 			$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-		// 			__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
-		// 			return;
-		// 		}
-		// 	}
-		// 	return $contact_id;
-		// }
+			if( is_array($contact) && sizeof($contact)>0 ) {
+				$contact_id = $contact[0]->id;
+			}
+			$response_code = $response['response']['code'];
+			if( $response_code != 201 ) {
+				if( $response_code != 200 ) {
+					$ret = false;
+					$status = 'error';
+					$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+					__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+					return;
+				}
+			}
+			if ( $contact_id != 0) {
+				return $contact_id;
+			}
+		}
 	}
 	
 	public static function bsfm_authenticate_update()
