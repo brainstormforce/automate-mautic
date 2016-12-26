@@ -203,6 +203,10 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			else {
 				$contact_id = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
+
+			echo $contact_id;
+			die();
+
 			$body = array(
 				'firstname'	=>	$commentdata['comment_author'],
 				'email'		=>	$commentdata['comment_author_email'],

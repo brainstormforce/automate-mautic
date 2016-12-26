@@ -328,31 +328,42 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function bsfm_mautic_get_contact_by_email( $email, $mautic_credentials ) 
 	{
-		$errorMsg = $contact_id = '';
-		$access_token = $mautic_credentials['access_token'];
-		//$access_token = esc_attr($access_token);
-		$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
+		// $errorMsg = $contact_id = '';
+		// $access_token = $mautic_credentials['access_token'];
+		// //$access_token = esc_attr($access_token);
+		// $url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
 
-		$response = wp_remote_get( $url );
+		// $response = wp_remote_get( $url );
 
-		if( ! is_wp_error( $response ) && is_array( $response ) ) {
-			$response_body = $response['body'];
-			$body_data = json_decode($response_body);
+		// if( ! is_wp_error( $response ) && is_array( $response ) ) {
+		// 	$response_body = $response['body'];
+		// 	$body_data = json_decode($response_body);
 
-			$contact = $body_data->contacts;
-			$contact_id = $contact[0]->id;
-			$response_code = $response['response']['code'];
-			if( $response_code != 201 ) {
-				if( $response_code != 200 ) {
-					$ret = false;
-					$status = 'error';
-					$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-					__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
-					return;
-				}
-			}
-			return $contact_id;
-		}
+
+		// 	echo "<pre>";
+		// 	print_r($body_data);
+		// 	echo "</pre>";
+
+
+		// 	$contact = $body_data->contacts;
+
+		// 	echo "<pre>";
+		// 	print_r($contact);
+		// 	echo "</pre>";
+
+		// 	$contact_id = $contact[0]->id;
+		// 	$response_code = $response['response']['code'];
+		// 	if( $response_code != 201 ) {
+		// 		if( $response_code != 200 ) {
+		// 			$ret = false;
+		// 			$status = 'error';
+		// 			$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+		// 			__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+		// 			return;
+		// 		}
+		// 	}
+		// 	return $contact_id;
+		// }
 	}
 	
 	public static function bsfm_authenticate_update()
