@@ -405,7 +405,6 @@ final class APM_AdminSettings {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
 			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
-
 		// if( ! empty( $_POST ) && $curr_screen=='bsf-mautic' ) {
 		// 	echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 		// }

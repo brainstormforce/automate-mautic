@@ -68,11 +68,9 @@
 									echo '<div class="second-condition" style="display:inline;"></div>';
 								endif;
 
-								// render extension conditions temp >>>>
-								if ( array_key_exists(1, $meta_condition) && $meta_condition[0] == 'EDD' ) {
+									// >>>> temp condition -- Pass $metacondition array
 									$action = 'new_condition_' . $meta_condition[0];
-									do_action( $action, $meta_condition[1], $meta_condition[2], $meta_condition[3] );	
-								}
+									do_action( $action, $meta_condition );		
 							echo '</fieldset>';
 						endforeach;
 						}
