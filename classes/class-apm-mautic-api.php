@@ -337,7 +337,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		if( !is_wp_error( $response ) && is_array($response) ) {
 			$response_body = $response['body'];
 			$body_data = json_decode($response_body);
-			
+
 			$contact = $body_data->contacts;
 			$contact_id = $contact[0]->id;
 			$response_code = $response['response']['code'];
