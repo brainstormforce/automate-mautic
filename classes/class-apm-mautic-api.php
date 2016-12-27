@@ -202,9 +202,9 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					/**
 					 * if contact is created add to segment here
 					 */
-					if( isset($contact->id) ) {
+					if( isset( $contact->id ) ) {
 						$contact_id =  (int)$contact->id;
-						// fetch segment_id from rule and add contact to segment
+						// add contact to segment
 						$add_segment = $segments['add_segment'];
 						if( is_array( $add_segment ) ) {
 							foreach ( $add_segment as $segment_id) {
@@ -214,6 +214,17 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 							}
 						}
 
+						// add points to contacts
+/*						$add_points = $segments['add_segment'];
+						if( is_array( $add_segment ) ) {
+							foreach ( $add_segment as $segment_id) {
+								$segment_id = (int)$segment_id;
+								$action = "add";
+								$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+							}
+						}*/
+
+						// remove contact from segment
 						$remove_segment = $segments['remove_segment'];
 						if( is_array( $remove_segment ) ) {
 							foreach ( $remove_segment as $segment_id) {
