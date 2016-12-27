@@ -67,13 +67,13 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		public function refresh_edit_text( $footer_text ) {
 
 			$bsfm_screen = get_current_screen();
+
 			if ( $bsfm_screen->id == 'settings_page_bsf-mautic' ) {
 				$refresh_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>');
-				$text = $refresh_text.' | '.$footer_text;
-				return $text;
-			} else {
-				return $footer_text;
+				$footer_text  = $refresh_text . ' | ' . $footer_text;
 			}
+
+			return $footer_text;
 		}
 
 		/**
