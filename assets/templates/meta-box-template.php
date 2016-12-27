@@ -11,21 +11,33 @@
 	<# if ( 'action-field' === data.clas ) { #>
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
-		<input type="hidden" name="pm_action[]" value="segment">
 		<div class="first-action" style="display:inline;">
-			<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
+			<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
 				<?php APM_RulePanel::get_all_actions_list(); ?>
 			</select>
 		</div>
 		<div class="second-action" style="display:inline;">
+			<input type="hidden" name="pm_action[]" value="segment">
 			<?php APM_RulePanel::select_all_segments(); ?>
 		</div>
 	<# } #>
+
+	<# if( 'get-all-segments' === data.clas ) { #>
+			<input type="hidden" name="pm_action[]" value="segment">
+			<?php APM_RulePanel::select_all_segments(); ?>
+	<# } #>
+
 	<# if( 'sub-cp-condition' === data.clas ) { #>
 		<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
 			<?php APM_RulePanel::get_comment_condition_sublist(); ?>
 		</select>
 	<# } #>
+
+	<# if( 'sub-tag-action' === data.clas ) { #>
+		<input type="hidden" name="pm_action[]" value="tag">
+		<input id="sub-tag-action" class="sub-tag-action form-control" name="ss_seg_action[]">
+	<# } #>
+
 	<# if( 'os_page' === data.clas ) { #>
 		<?php APM_RulePanel::select_all_pages(); ?>
 	<# } #>

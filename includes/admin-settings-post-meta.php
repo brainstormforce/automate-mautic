@@ -67,8 +67,6 @@
 									echo '<div class="first-condition" style="display:inline;"></div>';
 									echo '<div class="second-condition" style="display:inline;"></div>';
 								endif;
-
-									// >>>> temp condition -- Pass $metacondition array
 									$action = 'new_condition_' . $meta_condition[0];
 									do_action( $action, $meta_condition );		
 							echo '</fieldset>';
@@ -85,28 +83,36 @@
 						<div class="actions">
 							<h4> <?php _e( 'Action', 'automateplus-mautic-wp' ) ?> </h4>
 							<div id="bsfm-sortable-action" class="bsfm-item-wrap">
-							<?php	
+							<?php
 								if( ! empty( $meta_actions ) ) {
+
 								foreach ($meta_actions as $order => $meta_action) :	
 							?>
 								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
-									<input type="hidden" name="pm_action[]" value="segment">
-							<?php if($meta_action[0]=='segment') :	?>
+						
 									<div class="first-action" style="display:inline;">
-										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-											<?php APM_RulePanel::get_all_actions_list( $meta_action[1] ); ?>
+										<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
+											<?php APM_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
 										</select>
 									</div>
 							<?php
-								endif;
-								if( $meta_action[1]=='add_segment' || $meta_action[1]=='remove_segment' ) :
+								if( $meta_action[0]=='add_segment' || $meta_action[0]=='remove_segment' ) {
 							?>
 									<div class="second-action" style="display:inline;">
-										<?php APM_RulePanel::select_all_segments( $meta_action[2] ); ?>
+										<input type="hidden" name="pm_action[]" value="segment">
+										<?php APM_RulePanel::select_all_segments( $meta_action[1] ); ?>
 									</div>
-							<?php endif; ?>
+							<?php }
+								elseif($meta_action[0]=='add_tag') { ?>
+									<div class="second-action" style="display:inline;">
+										<input type="hidden" name="pm_action[]" value="tag">
+										<input type="text" name="ss_seg_action[]" value="<?php echo $meta_action[1]; ?>">
+									</div>
+							<?php	
+								}
+							?>
 								</fieldset>
 							<?php
 								endforeach;
@@ -158,13 +164,13 @@
 						<fieldset class="ui-state-default">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
-							<input type="hidden" name="pm_action[]" value="segment">
 							<div class="first-action" style="display:inline;">
-								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
+								<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
 									<?php APM_RulePanel::get_all_actions_list(); ?>
 								</select>
 							</div>
 							<div class="second-action" style="display:inline;">
+								<input type="hidden" name="pm_action[]" value="segment">
 								<?php APM_RulePanel::select_all_segments(); ?>
 							</div>
 						</fieldset>

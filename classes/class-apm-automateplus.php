@@ -125,7 +125,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 */
 		public function add_registered_user( $user_id ) {
 			if( !$user_id ) return;
-
+			$all_tags = '';
 			//get user registerd condition rules
 			$status = APM_RulePanel::bsfm_get_wpur_condition();
 			if( is_array($status) && sizeof($status)>0 ) {
@@ -134,6 +134,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			else {
 				return;
 			}
+
 			$user_info = get_userdata( $user_id );
 			$user_bio = get_the_author_meta( 'user_description', $user_id );
 			$twitter = get_the_author_meta( 'twitter', $user_id );
@@ -167,6 +168,15 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'googleplus'=> $googleplus
 			);
 
+			// add tags set in actions
+			if ( isset( $set_actions['add_tag'] ) ) {
+				foreach ( $set_actions['add_tag'] as $tags) {
+					$all_tags.= $tags . ',';
+				}
+				$all_tags = rtrim( $all_tags ,",");
+				$body['tags'] = $all_tags;
+			}
+
 			if( isset($contact_id) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
@@ -190,6 +200,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @return void
 		 */
 		public function add_comment_author( $id, $approved, $commentdata ) {
+			$all_tags = '';
 			//get comment post condition rules
 			$status = APM_RulePanel::bsfm_get_comment_condition( $commentdata );
 			if( is_array($status) && sizeof($status)>0 ) {
@@ -219,6 +230,17 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'email'		=>	$commentdata['comment_author_email'],
 				'website'	=>	$commentdata['comment_author_url']
 			);
+
+			// add tags set in actions
+			if ( isset( $set_actions['add_tag'] ) ) {
+				
+				foreach ( $set_actions['add_tag'] as $tags) {
+					$all_tags.= $tags . ',';
+				}
+				
+				$all_tags = rtrim( $all_tags ,",");
+				$body['tags'] = $all_tags;
+			}
 
 			if( isset($contact_id) ) {
 				$method = 'PATCH';

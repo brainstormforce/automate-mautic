@@ -6,7 +6,7 @@ jQuery(document).ready(function( $ ) {
 	jq( "#bsfm-sortable-action" ).disableSelection();
 	jq( ".select-condition" ).select2();
 	jq( ".select-action" ).select2();
-	jq( ".sub-cp-action" ).select2();
+	jq( ".sub-seg-action" ).select2();
 	jq( ".root-seg-action" ).select2();
 	jq( ".ss-cp-condition" ).select2();
 	jq( ".sub-cp-condition" ).select2();
@@ -35,7 +35,7 @@ jQuery(document).ready(function( $ ) {
 		jq( ".select-action" ).select2();
 		jq( ".select-action" ).select2();
 		jq( ".root-seg-action" ).select2();
-		jq( ".sub-cp-action" ).select2();
+		jq( ".sub-seg-action" ).select2();
 	});
 	jq(document).on( "change", ".select-condition", function() {
 		parent = jq(this).parent();
@@ -79,11 +79,30 @@ jQuery(document).ready(function( $ ) {
 			case 'segment' :
 				var SelAction = mbTemplate( { clas: "sub-seg-action" } );
 				parent.find('div.first-action').html(SelAction);
-				jq( ".sub-cp-action" ).select2();
+				jq( ".sub-seg-action" ).select2();
 				parent.find('div.second-action').html('');
 			break;
 		}
 	});
+
+	jq(document).on( "change", ".sub-seg-action", function() {
+		parent = jq(this).parent();
+		gParent = jq(this).parent().parent();
+
+		switch(this.value) {
+			case 'add_tag' :
+				gParent.find('div.second-action').html('');
+				var SelAction = mbTemplate( { clas: "sub-tag-action" } );
+				gParent.find('div.second-action').html(SelAction);
+			break;
+			default:
+				var SelAction = mbTemplate( { clas: "get-all-segments" } );
+				gParent.find('div.second-action').html(SelAction);
+				jq( ".root-seg-action" ).select2();
+			break;
+		}
+	});
+
 	// clean transients
 	jq(document).on( "click", "#refresh-mautic", function() {
 		jq( '.bsfm-wp-spinner' ).css( "visibility", "visible" );
@@ -95,7 +114,7 @@ jQuery(document).ready(function( $ ) {
 		});
 	});
 
-	jq('.bsfm-disconnect-mautic').click(function(){
+	jq('.bsfm-disconnect-mautic').click(function() {
 		if( confirm('Are you sure you wish to disconnect from Mautic?') ) {
 			var data= {
 				action:'config_disconnect_mautic'

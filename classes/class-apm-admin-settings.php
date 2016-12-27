@@ -241,7 +241,7 @@ final class APM_AdminSettings {
 		}
 
 		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticpmeta' ) ) {
-			
+			$rule_id = $update_conditions = '';
 			if( isset($_POST['bsfm_rule_title']) ) {
 				$rule_name = esc_attr( $_POST['bsfm_rule_title'] );
 			}
@@ -271,6 +271,7 @@ final class APM_AdminSettings {
 					$cp_keys = array_keys( $conditions, "CP");
 
 					$condition_cnt = sizeof( $conditions );
+
 					for($i=0; $i < $condition_cnt; $i++) {
 						if( $conditions[$i]=='UR' ) {
 							$update_conditions[$i] = array( $conditions[$i] );
@@ -289,23 +290,26 @@ final class APM_AdminSettings {
 					update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
 				}
 				//update actions
-				if ( isset( $_POST['pm_action'] ) ) {
-					$actions = $_POST['pm_action'];
-					$seg_keys = array_keys( $actions, "segment");
+				if ( isset( $_POST['sub_seg_action'] ) ) {
+
+					$actions = $_POST['sub_seg_action'];
+
 					$action_cnt = sizeof($actions);
-					for($i=0; $i < $action_cnt; $i++) {
-						if($actions[$i]=='tag') {
-							$update_actions[$i] = $actions[$i];
-						}
-						if($actions[$i]=='segment') {
-							$sub_key = array_search($i,$seg_keys);
+
+					for( $i=0; $i < $action_cnt; $i++ ) {
+						// if($actions[$i]=='tag') {
 							$update_actions[$i] = array(
-								$actions[$i],
-								$_POST['sub_seg_action'][$sub_key],
-								$_POST['ss_seg_action'][$sub_key]
+								$_POST['sub_seg_action'][$i],
+								$_POST['ss_seg_action'][$i]
 							);
-						}
+						$action = 'update_action_' . $actions[$i];
+						$update_action = apply_filters( $action, $update_actions, $actions, $i, $_POST );
 					}
+
+					// echo "<pre>";
+					// print_r($update_actions);
+					// echo "</pre>";
+
 					$update_actions = serialize($update_actions);
 					update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
 				}
