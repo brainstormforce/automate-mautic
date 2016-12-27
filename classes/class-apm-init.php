@@ -13,28 +13,29 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	/**
 	 *  Constructor
 	 */
-	public function __construct() {
+	public function __construct() 
+	{
 		self::includes();
-		add_action( 'wp_loaded', array( $this, 'get_bsfm_options') );
+		add_action( 'wp_loaded', array( $this, 'get_amp_options') );
 	}
 
-	function includes() {
-		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-admin-settings.php';
-		require_once BSF_MAUTIC_PLUGIN_DIR . 'classes/class-bsfm-helper.php';
-		//Load the appropriate text-domain
+	public function includes() 
+	{
+		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
 		$this->load_plugin_textdomain();
 	}
 	/**
 	 *	For Performance
 	 *  Set static object to store data from database.
 	 */
-	static function get_bsfm_options() {
+	public static function get_amp_options() 
+	{
 		self::$bsfm_options = array(
 			'bsf_mautic_settings'     => get_option('_bsf_mautic_config')
 		);
 	}
 	function load_plugin_textdomain() {
-		load_plugin_textdomain( 'bsfmautic');
+		load_plugin_textdomain( 'automateplus-mautic-wp');
 	}
 }
 endif;

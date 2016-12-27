@@ -8,9 +8,9 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
+if( ! class_exists( "APM_Rules_Table" ) ){
 
-if(!class_exists("Bsfm_Rules_Table")){
-	class Bsfm_Rules_Table extends WP_List_Table {
+	class APM_Rules_Table extends WP_List_Table {
 		
 		/**
 		 * Number of items of the initial data set (before sort, search, and pagination).
@@ -47,7 +47,7 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 		/** Text displayed when no rule data is available */
 		public function no_items() {
-		  _e( 'No rules avaliable.', 'bsfmautic' );
+		  _e( 'No rules avaliable.', 'automateplus-mautic-wp' );
 		}
 
 		/**
@@ -65,7 +65,7 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 		function column_post_author( array $item ) {
 			if ( '' === trim( $item['post_author'] ) ) {
-				$item['post_author'] = __( '(no post_author)', 'bsfmautic' );
+				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
 			}
 
 			$author = get_the_author_meta( 'display_name', $item['post_author'] );
@@ -75,10 +75,8 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 		function column_post_title( array $item ) {
 			if ( '' === trim( $item['post_title'] ) ) {
-				$item['post_title'] = __( '(no post_title)', 'bsfmautic' );
+				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
 			}
-
-			// $post_link = get_edit_post_link( $item['ID'] );
 
 			$post_link = admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $item['ID'] );
 
@@ -86,13 +84,13 @@ if(!class_exists("Bsfm_Rules_Table")){
 
 			$row_actions = array();
 			
-			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'bsfmautic' ), $item['post_title'] ) ), __( 'Edit', 'bsfmautic' ) );
+			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Edit', 'automateplus-mautic-wp' ) );
 
 			$wpnonce = wp_create_nonce( 'delete-rule'.$item['ID'] );	
 			
 			$delete_url = admin_url( "options-general.php?page=bsf-mautic&tab=all_rules&action=delete_rule&rule_id=".$item['ID'] . "&_wpnonce=" .$wpnonce );
 
-			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'bsfmautic' ), $item['post_title'] ) ), __( 'Delete', 'bsfmautic' ) );
+			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Delete', 'automateplus-mautic-wp' ) );
 
 			return $post_title . $this->row_actions( $row_actions );
 		}
@@ -125,7 +123,6 @@ if(!class_exists("Bsfm_Rules_Table")){
 		 * @return array List of sortable columns in this List Table.
 		 */
 		protected function get_sortable_columns() {
-			
 
 			$sortable_columns = array(
 				'post_title' => array( 'post_title', true ),
@@ -165,14 +162,14 @@ if(!class_exists("Bsfm_Rules_Table")){
 			}
 
 			$name_id = "bulk-action-{$which}";
-			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'bsfmautic' ) . "</label>\n";
+			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'automateplus-mautic-wp' ) . "</label>\n";
 			echo "<select name='{$name_id}' id='{$name_id}'>\n";
-			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'bsfmautic' ) . "</option>\n";
+			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'automateplus-mautic-wp' ) . "</option>\n";
 			foreach ( $this->_actions as $name => $title ) {
 				echo "\t<option value='{$name}'>{$title}</option>\n";
 			}
 			echo "</select>\n";
-			submit_button( __( 'Apply', 'bsfmautic' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
+			submit_button( __( 'Apply', 'automateplus-mautic-wp' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
 			echo "\n";
 		}
 

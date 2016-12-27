@@ -9,14 +9,7 @@ jQuery(document).ready(function( $ ) {
 	jq( ".sub-cp-action" ).select2();
 	jq( ".root-seg-action" ).select2();
 	jq( ".ss-cp-condition" ).select2();
-	jq( ".sub-edd-condition" ).select2();
-	jq( ".root-edd-condition" ).select2();
 	jq( ".sub-cp-condition" ).select2();
-	jq( ".edd_var_price" ).select2();
-	jq( ".select-edd-condition" ).select2();
-	jq( ".cf7_form" ).select2();
-	jq( ".mautic_forms" ).select2();
-	jq( ".sub-cf-condition" ).select2();
 	jq( ".root-cp-condition" ).select2();
 
 	//get markups from template
@@ -58,20 +51,6 @@ jQuery(document).ready(function( $ ) {
 				parent.find('div.first-condition').html('');
 				parent.find('div.second-condition').html('');
 			break;
-
-			case 'CF7' :
-				var cfSelect = mbTemplate( { clas: "select-cf" } );
-				parent.find('div.second-condition').html('');
-				parent.find('div.first-condition').html(cfSelect);
-				jq( ".sub-cf-condition" ).select2();
-			break;
-
-			case 'EDD' :
-				var cfSelect = mbTemplate( { clas: "select-edd-products" } );
-				parent.find('div.second-condition').html('');
-				parent.find('div.first-condition').html(cfSelect);
-				jq( ".sub-edd-condition" ).select2();
-			break;
 		}
 	});
 	jq(document).on( "change", ".sub-cp-condition", function() {
@@ -103,30 +82,7 @@ jQuery(document).ready(function( $ ) {
 				jq( ".sub-cp-action" ).select2();
 				parent.find('div.second-action').html('');
 			break;
-
-			case 'tag' :
-				parent.find('div.first-action').html('');
-				parent.find('div.second-action').html('');
-			break;
 		}
-	});
-	// append form field mapping
-	jq(document).on( "change", ".sub-cf-condition", function() {
-		gParent = jq(this).parent().parent();
-		cf7Id = parseInt(this.value);
-		var data= {
-			action:'get_cf7_fields',
-			dataType: 'JSON',
-			cf7Id: cf7Id
-		};
-		jq.post(ajaxurl, data, function(cf7) {
-			cf7 = JSON.parse(cf7);
-			var Mauticfields = mbTemplate( { clas: 'mautic_fields', fieldCnt: cf7.fieldCount, formId: cf7Id } );
-			gParent.find('div.second-condition').html(Mauticfields);
-			gParent.find('div.second-condition').append(cf7.selHtml);
-			jq( ".cf7_form" ).select2();
-			jq( ".mautic_forms" ).select2();
-		});
 	});
 	// clean transients
 	jq(document).on( "click", "#refresh-mautic", function() {
@@ -135,24 +91,7 @@ jQuery(document).ready(function( $ ) {
 			action:'clean_mautic_transient'
 		};
 		jq.post(ajaxurl, data, function(){
-			jq( '.bsfm-wp-spinner' ).css( "visibility", "hidden" );
-			jq( '.bsfm-wp-spinner-msg' ).css( "display", "inline-block" ).fadeOut(3000);
 			location.reload();
-		});
-	});
-	jq(document).on( "change", ".sub-edd-condition", function() {
-		gParent = jq(this).parent().parent();
-		download_id = parseInt(this.value);
-		var data= {
-			action:'get_edd_var_price',
-			download_id: download_id
-		};
-		jq.post(ajaxurl, data, function(selHtml) {
-			var varPrices = mbTemplate( { clas: 'edd_payment_status' } );
-			gParent.find('div.second-condition').html(varPrices);
-			gParent.find('div.second-condition').append(selHtml);
-			jq( ".root-edd-condition" ).select2();
-			jq( ".edd_var_price" ).select2();
 		});
 	});
 
