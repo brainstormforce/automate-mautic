@@ -156,15 +156,14 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		$all_actions = array(
 			'add_segment' => array(),
 			'remove_segment' => array(),
-			'add_tag' => array()
+			'add_tag' => array(),
+			'add_point' => array()
 		);
 
 		foreach ( $rules as $rule ) :
 			$rule_id = $rule;
 			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
 			$meta_actions = unserialize($meta_actions[0]);
-
-
 
 				foreach( $meta_actions as $order => $meta_action ) :
 					if( $meta_action[0]=='add_segment' ){
@@ -180,6 +179,10 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 					if( $meta_action[0]=='add_tag' ){
 						array_push( $all_actions['add_tag'], $meta_action[1]);
 					}
+					if( $meta_action[0]=='add_point' ){
+						array_push( $all_actions['add_point'], $meta_action[1]);
+					}
+
 				endforeach;
 		endforeach;
 
@@ -204,7 +207,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	public static function get_all_actions_list( $select = '' ) {
 		$actions = '<option value="add_segment" '.selected( $select, 'add_segment' ).'>' . __( 'Add to segment', 'automateplus-mautic-wp' ) . '</option>
 			<option value="remove_segment" '.selected( $select, 'remove_segment' ).'>' . __( 'Remove from segment', 'automateplus-mautic-wp' ) . '</option>
-			<option value="add_tag" '.selected( $select, 'add_tag' ).'>' . __( 'Add Tag', 'automateplus-mautic-wp' ) . '</option>';
+			<option value="add_tag" '.selected( $select, 'add_tag' ).'>' . __( 'Add Tag', 'automateplus-mautic-wp' ) . '</option>
+			<option value="add_point" '.selected( $select, 'add_point' ).'>' . __( 'Add Point', 'automateplus-mautic-wp' ) . '</option>';
 		$all_actions = apply_filters('amp_mautic_actions_list', $actions);
 		echo $all_actions;
 	}

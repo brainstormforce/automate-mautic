@@ -34,8 +34,11 @@
 	<# } #>
 
 	<# if( 'sub-tag-action' === data.clas ) { #>
-		<input type="hidden" name="pm_action[]" value="tag">
-		<input id="sub-tag-action" class="sub-tag-action form-control" name="ss_seg_action[]">
+		<input id="sub-tag-action" type="text" class="sub-tag-action form-control" name="ss_seg_action[]">
+	<# } #>
+
+	<# if( 'sub-point-action' === data.clas ) { #>
+		<input id="sub-point-action" type="number" class="sub-point-action form-control" name="ss_seg_action[]">
 	<# } #>
 
 	<# if( 'os_page' === data.clas ) { #>

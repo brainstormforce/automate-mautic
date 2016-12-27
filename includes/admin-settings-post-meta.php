@@ -105,7 +105,7 @@
 										<?php APM_RulePanel::select_all_segments( $meta_action[1] ); ?>
 									</div>
 							<?php }
-								elseif($meta_action[0]=='add_tag') { ?>
+								elseif($meta_action[0]=='add_tag' || $meta_action[0]=='add_point') { ?>
 									<div class="second-action" style="display:inline;">
 										<input type="hidden" name="pm_action[]" value="tag">
 										<input type="text" name="ss_seg_action[]" value="<?php echo $meta_action[1]; ?>">

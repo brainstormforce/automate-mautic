@@ -129,14 +129,13 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			if( ! $user_id ) {
 				return;
 			}
-
 			$all_tags = '';
 
 			// get user registerd condition rules
 			$status = APM_RulePanel::bsfm_get_wpur_condition();
 
 			// return if the $status is not as expected
-			if ( ! is_array( $status ) && sizeof( $status ) < 0 ) {
+			if ( ! is_array( $status ) && sizeof( $status ) == 0 ) {
 				return;
 			}
 
