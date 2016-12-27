@@ -30,6 +30,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			add_action( 'init', array( $this, 'mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'mautic_tracking_script' ) );
 			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 );
+			add_action( 'profile_update', array( $this, 'add_registered_user' ), 10, 1 );
 			add_action( 'comment_post', array( $this, 'add_comment_author' ), 10, 3 );
 			add_filter( 'update_footer', array( $this, 'refresh_edit_text'), 99);
 		}
@@ -124,6 +125,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 */
 		public function add_registered_user( $user_id ) {
 			if( !$user_id ) return;
+
 			//get user registerd condition rules
 			$status = APM_RulePanel::bsfm_get_wpur_condition();
 			if( is_array($status) && sizeof($status)>0 ) {
@@ -132,8 +134,12 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			else {
 				return;
 			}
-
 			$user_info = get_userdata( $user_id );
+			$user_bio = get_the_author_meta( 'user_description', $user_id );
+			$twitter = get_the_author_meta( 'twitter', $user_id );
+			$facebook = get_the_author_meta( 'facebook', $user_id );
+			$googleplus = get_the_author_meta( 'googleplus', $user_id );
+
 			$email = $user_info->user_email;
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 
@@ -149,12 +155,16 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			else {
 				$contact_id = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
 			}
-			
+
 			$body = array(
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
 				'email'		=> $user_info->user_email,
-				'website'	=> $user_info->user_url
+				'website'	=> $user_info->user_url,
+				'position'	=> $user_bio,
+			 	'twitter'	=> $twitter,
+				'facebook'	=> $facebook,
+				'googleplus'=> $googleplus
 			);
 
 			if( isset($contact_id) ) {
