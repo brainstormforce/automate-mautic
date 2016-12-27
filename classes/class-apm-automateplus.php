@@ -124,16 +124,22 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @return void
 		 */
 		public function add_registered_user( $user_id ) {
-			if( !$user_id ) return;
 
-			//get user registerd condition rules
-			$status = APM_RulePanel::bsfm_get_wpur_condition();
-			if( is_array($status) && sizeof($status)>0 ) {
-				$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
-			}
-			else {
+			// return if $user_id is not available
+			if( ! $user_id ) {
 				return;
 			}
+
+			// get user registerd condition rules
+			$status = APM_RulePanel::bsfm_get_wpur_condition();
+
+			// return if the $status is not as expected
+			if ( ! is_array( $status ) && sizeof( $status ) < 0 ) {
+				return;
+			}
+
+			$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
+
 			$user_info = get_userdata( $user_id );
 			$user_bio = get_the_author_meta( 'user_description', $user_id );
 			$twitter = get_the_author_meta( 'twitter', $user_id );
