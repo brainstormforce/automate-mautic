@@ -390,9 +390,10 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		$lists = null;
 		$ref_list_id = null;
 
-		$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_attr( $post['bsfm-base-url'] ) : '';
-		$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? esc_attr( $post['bsfm-public-key'] ) : '';
-		$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? esc_attr( $post['bsfm-secret-key'] ) : '';
+		$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_url( $post['bsfm-base-url'] ) : '';
+		$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? sanitize_key( $post['bsfm-public-key'] ) : '';
+		$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? sanitize_key( $post['bsfm-secret-key'] ) : '';
+
 		$mautic_api_url = rtrim( $mautic_api_url ,"/");
 		if( $mautic_api_url == '' ) {	
 			$status = 'error';

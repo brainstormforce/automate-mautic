@@ -62,6 +62,7 @@ class AutomatePlusAdminAjax {
 			$rules_ids = $_POST['bulk-delete'];
 			
 			foreach ( $rules_ids as $id ) {
+				$id = esc_attr( $id );
 				if( current_user_can( 'delete_post', $id ) ) {
 					wp_delete_post( $id );
 				}
