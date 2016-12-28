@@ -46,11 +46,7 @@
 							</select>
 							<?php
 
-							if( $meta_condition[0]=='CP' ) :
-
-								print_r($meta_condition);
-
-								?>
+							if( $meta_condition[0]=='CP' ) : ?>
 
 								
 								<div class="first-condition" style="display:inline;">
