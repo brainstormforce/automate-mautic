@@ -156,7 +156,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			if( is_array($response) ) {
 				$response_body = $response['body'];
 				$body_data = json_decode($response_body);
-				return $body_data;
 					$response_code = $response['response']['code'];
 					if( $response_code != 201 ) {
 						if( $response_code != 200 ) {
@@ -167,6 +166,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 							return;
 						}
 					}
+				return $body_data;
 			}
 		}
 		else if( $method=="POST" || $method=="PATCH" ) {	// add new contact to mautic request
@@ -424,6 +424,45 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		wp_redirect( $authurl );
 		exit;
 	}
+
+	public static function get_api_method_url( $email )
+	{
+		$credentials = get_option( 'bsfm_mautic_credentials' );
+		$data = array();	
+		if( isset($_COOKIE['mtc_id']) ) {
+			$contact_id = $_COOKIE['mtc_id'];
+			$contact_id = (int)$contact_id;
+
+			$email_cid = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+			if( isset( $email_cid ) ) {
+				$contact_id = (int)$email_cid;
+			}
+		}
+		else {
+			$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
+		}
+
+		if( isset($contact_id) ) {
+			$data['method'] = 'PATCH';
+			$data['url'] = '/api/contacts/'.$contact_id.'/edit';
+		}
+		else {
+			// add tags set in actions
+			if ( isset( $set_actions['add_tag'] ) ) {
+				
+				foreach ( $set_actions['add_tag'] as $tags) {
+					$all_tags.= $tags . ',';
+				}
+				
+				$all_tags = rtrim( $all_tags ,",");
+				$body['tags'] = $all_tags;
+			}
+			$data['method'] = 'POST';
+			$data['url'] = '/api/contacts/new';
+		}
+		return $data;
+	}
+
 }
 $AP_Mautic_Api = AP_Mautic_Api::instance();
 endif;

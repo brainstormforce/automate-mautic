@@ -145,19 +145,6 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$email = $user_info->user_email;
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 
-			if( isset($_COOKIE['mtc_id']) ) {
-				$contact_id = $_COOKIE['mtc_id'];
-				$contact_id = (int)$contact_id;
-				
-				$email_cid = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
-				if( isset( $email_cid ) ) {
-					$contact_id = (int)$email_cid;
-				}
-			}
-			else {
-				$contact_id = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
-			}
-
 			$body = array(
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
@@ -165,24 +152,9 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=> $user_info->user_url
 			);
 
-			if( isset( $contact_id ) ) {
-				$method = 'PATCH';
-				$url = '/api/contacts/'.$contact_id.'/edit';
-			}
-			else {
-
-				// add tags set in actions - only for new contact
-				if ( isset( $set_actions['add_tag'] ) ) {
-					foreach ( $set_actions['add_tag'] as $tags) {
-						$all_tags.= $tags . ',';
-					}
-					$all_tags = rtrim( $all_tags ,",");
-					$body['tags'] = $all_tags;
-				}
-
-				$method = 'POST';
-				$url = '/api/contacts/new';
-			}
+			$api_data = AP_Mautic_Api::get_api_method_url( $email );
+			$url = $api_data['url'];
+			$method = $api_data['method'];
 
 			$add_segment = $set_actions['add_segment'];
 			$remove_segment = $set_actions['remove_segment'];
@@ -199,29 +171,18 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 */
 		public function add_comment_author( $id, $approved, $commentdata ) {
 			$all_tags = '';
+
 			//get comment post condition rules
 			$status = APM_RulePanel::bsfm_get_comment_condition( $commentdata );
-			if( is_array($status) && sizeof($status)>0 ) {
-				$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
-			}
-			else {
+
+			// return if the $status is not as expected
+			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {
 				return;
 			}
 
-			$email = $commentdata['comment_author_email'];
-			$credentials = get_option( 'bsfm_mautic_credentials' );
-			if( isset($_COOKIE['mtc_id']) ) {
-				$contact_id = $_COOKIE['mtc_id'];
-				$contact_id = (int)$contact_id;
+			$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
 
-				$email_cid = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
-				if( isset( $email_cid ) ) {
-					$contact_id = (int)$email_cid;
-				}
-			}
-			else {
-				$contact_id = AP_Mautic_Api::bsfm_mautic_get_contact_by_email( $email, $credentials );
-			}
+			$email = $commentdata['comment_author_email'];
 
 			$body = array(
 				'firstname'	=>	$commentdata['comment_author'],
@@ -229,26 +190,9 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=>	$commentdata['comment_author_url']
 			);
 
-			if( isset($contact_id) ) {
-				$method = 'PATCH';
-				$url = '/api/contacts/'.$contact_id.'/edit';
-			}
-			else {
-
-				// add tags set in actions
-				if ( isset( $set_actions['add_tag'] ) ) {
-					
-					foreach ( $set_actions['add_tag'] as $tags) {
-						$all_tags.= $tags . ',';
-					}
-					
-					$all_tags = rtrim( $all_tags ,",");
-					$body['tags'] = $all_tags;
-				}
-				
-				$method = 'POST';
-				$url = '/api/contacts/new';
-			}
+			$api_data = AP_Mautic_Api::get_api_method_url( $email );
+			$url = $api_data['url'];
+			$method = $api_data['method'];
 
 			$add_segment = $set_actions['add_segment'];
 			$remove_segment = $set_actions['remove_segment'];

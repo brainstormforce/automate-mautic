@@ -13,7 +13,7 @@ class AutomatePlusAdminAjax {
 	/**
 	 * Initiator
 	 */
-	public static function instance(){
+	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new AutomatePlusAdminAjax();
 			self::$instance->hooks();
