@@ -95,11 +95,6 @@ jQuery(document).ready(function( $ ) {
 				var SelAction = mbTemplate( { clas: "sub-tag-action" } );
 				gParent.find('div.second-action').html(SelAction);
 			break;
-			case 'add_point' :
-				gParent.find('div.second-action').html('');
-				var SelAction = mbTemplate( { clas: "sub-point-action" } );
-				gParent.find('div.second-action').html(SelAction);
-			break;
 			default:
 				var SelAction = mbTemplate( { clas: "get-all-segments" } );
 				gParent.find('div.second-action').html(SelAction);

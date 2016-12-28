@@ -182,6 +182,9 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				'body' => $param,
 				'cookies' => array()
 			));
+
+			// echo $response_code = $response['response']['code'];
+			// die();
 		}
 
 		if ( is_wp_error( $response ) ) {
@@ -224,14 +227,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 							}
 						}
 
-						// add points to contacts
-						$add_points = $segments['add_point'];
-						if( is_array( $add_point ) ) {
-							foreach ( $add_point as $point ) {
-								$res = self::add_lead_points( $point, $contact_id, $credentials);
-							}
-						}
-
 						$status = $res['status'];
 						$errorMsg  = $res['error_message'];
 					}
@@ -243,55 +238,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 			}
 		}
-	}
-
-
-	/** 
-	 * Remove contacts from segment
-	 * 
-	 * @since 1.0.0
-	 */
-	public static function add_lead_points( $point, $contact_id, $mautic_credentials ) 
-	{
-
-		echo $point;
-		echo $contact_id;
-		print_r($mautic_credentials);
-		die();
-
-		if( is_int($point) && is_int($contact_id) ) {
-			$url = $mautic_credentials['baseUrl'] . "/api/contacts/".$contact_id."/points/plus/".$point;
-			$access_token = $mautic_credentials['access_token'];
-			$body = array(
-				"access_token" => $access_token
-			);
-			$response = wp_remote_post( $url, array(
-				'method' => 'PATCH',
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking' => true,
-				'headers' => array(),
-				'body' => $body,
-				'cookies' => array()
-			)
-			);
-			if ( is_wp_error( $response ) ) {
-				$errorMsg = $response->get_error_message();
-				$status = 'error';
-			} else {
-				if( is_array($response) ) { 							
-					$response_code = $response['response']['code'];
-					if( $response_code != 200 ) {
-						$status = 'error';
-						$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-					} else {
-						$status = 'success';
-					}
-				}
-			}
-		}
-		return;
 	}
 
 	/** 

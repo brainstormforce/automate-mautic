@@ -72,9 +72,8 @@
 				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'automateplus-mautic-wp' ); ?>" />
 			</p>
 
-			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce'); ?>
-			<?php } ?>
-				<?php
+			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce');
+			}
 				// If not authorized 
 				if( isset( $credentials['access_token'] ) ) { ?>
 				<p class="submit">

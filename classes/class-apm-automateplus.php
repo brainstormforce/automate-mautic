@@ -135,7 +135,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$status = APM_RulePanel::bsfm_get_wpur_condition();
 
 			// return if the $status is not as expected
-			if ( ! is_array( $status ) && sizeof( $status ) == 0 ) {
+			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {
 				return;
 			}
 
@@ -174,7 +174,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				$body['tags'] = $all_tags;
 			}
 
-			if( isset($contact_id) ) {
+			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
 			}
@@ -183,9 +183,12 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				$url = '/api/contacts/new';
 			}
 
+			echo $method;
+			echo $url;
+
 			$add_segment = $set_actions['add_segment'];
 			$remove_segment = $set_actions['remove_segment'];
-			if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
+			if( is_array( $set_actions ) ) {
 				AP_Mautic_Api::bsfm_mautic_api_call($url, $method, $body, $set_actions);
 			}
 		}
