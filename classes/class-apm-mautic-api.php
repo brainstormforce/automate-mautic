@@ -55,7 +55,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		if( !isset( $credentials['access_token'] ) ) {
 			if( isset( $credentials['access_code']  ) ) {
 				$grant_type = 'authorization_code';
-				$response = self::bsf_mautic_get_access_token( $grant_type );
+				$response = self::mautic_get_access_token( $grant_type );
 
 				if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
 					$access_details               = json_decode( $response['body'] );
@@ -81,7 +81,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 * @since 1.0.0
 	 * @return response
 	 */
-	public static function bsf_mautic_get_access_token($grant_type) {
+	public static function mautic_get_access_token($grant_type) {
 		$credentials = get_option('ampw_mautic_credentials');
 
 		if ( ! isset( $credentials['baseUrl'] ) ) {
@@ -131,7 +131,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		// if token expired, get new access token
 		if( $credentials['expires_in'] < time() ) {
 			$grant_type = 'refresh_token';
-			$response = self::bsf_mautic_get_access_token( $grant_type );
+			$response = self::mautic_get_access_token( $grant_type );
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';
@@ -294,7 +294,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 		if( $mautic_credentials['expires_in'] < time() ) { 
 			$grant_type = 'refresh_token';
-			$response = self::bsf_mautic_get_access_token( $grant_type );
+			$response = self::mautic_get_access_token( $grant_type );
 			if ( is_wp_error( $response ) ) {
 				$errorMsg = $response->get_error_message();
 				$status = 'error';
