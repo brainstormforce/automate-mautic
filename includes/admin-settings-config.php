@@ -29,10 +29,8 @@
 	<form id="bsfm-config-form" action="<?php APM_AdminSettings::render_form_action( 'config' ); ?>" method="post">
 		<div class="ampw-settings-form-content">
 			<?php
-				$bsfm = AMPW_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
-				if( empty($bsfm) ) {
-					$bsfm 	=	APM_AdminSettings::get_ampw_mautic();	
-				}
+				$bsfm = APM_AdminSettings::get_ampw_mautic();
+
 				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = '';
 				if( is_array($bsfm) ) {
 					$bsfm_enabled_track	= ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? ' checked' : '';
@@ -51,8 +49,8 @@
 				<input type="text" class="regular-text" name="bsfm-base-url" value="<?php echo $bsfm_base_url; ?>" class="bsfm-wp-text bsfm-google-map-api" />
 			</div>
 
-			<?php 
-			$credentials = get_option( 'ampw_mautic_credentials' );
+			<?php
+			$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
 			if( ! isset( $credentials['access_token'] ) ) { ?>
 			<!-- Client Public Key -->
 			<div class="bsfm-config-fields">

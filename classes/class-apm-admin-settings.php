@@ -314,7 +314,9 @@ final class APM_AdminSettings {
 		}
 
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {
-			$bsfm = get_option('ampw_mautic_config');
+
+			$bsfm = AMPW_Mautic_Init::get_amp_options( 'mautic_settings' );
+
 			if( isset( $_POST['bsfm-base-url'] ) ) {	$bsfm['bsfm-base-url'] = esc_url( $_POST['bsfm-base-url'] ); }
 			if( isset( $_POST['bsfm-public-key'] ) ) {	$bsfm['bsfm-public-key'] = sanitize_key( $_POST['bsfm-public-key'] ); }
 			if( isset( $_POST['bsfm-secret-key'] ) ) {	$bsfm['bsfm-secret-key'] = sanitize_key( $_POST['bsfm-secret-key'] ); }
@@ -331,7 +333,9 @@ final class APM_AdminSettings {
 			}
 		}
 		if ( isset( $_POST['bsf-mautic-nonce-tracking'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-tracking'], 'bsfmautictrack' ) ) {
-			$bsfm = get_option('ampw_mautic_config');
+
+			$bsfm = AMPW_Mautic_Init::get_amp_options( 'mautic_settings' );
+			
 			$bsfm['bsfm-enabled-tracking'] = false;
 			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
 
@@ -367,7 +371,7 @@ final class APM_AdminSettings {
 	
 	static public function get_ampw_mautic() {
 
-		$bsfm = get_option('ampw_mautic_config');
+		$bsfm = AMPW_Mautic_Init::get_amp_options( 'mautic_settings' );
 		$defaults = array(
 			'bsfm-enabled-tracking'	=> true,
 			'bsfm-base-url'			=> '',
@@ -401,7 +405,7 @@ final class APM_AdminSettings {
 	static public function apm_notices()
 	{
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
-		$credentials = get_option( 'ampw_mautic_credentials' );
+		$credentials = AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
 
 		if( ! isset( $credentials['expires_in'] ) && $curr_screen=='bsf-mautic' ) {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );

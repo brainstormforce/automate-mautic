@@ -8,15 +8,12 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 	
 	class AMPW_Mautic_Init {
 
-	public static $bsfm_options;
-
 	/**
 	 *  Constructor
 	 */
 	public function __construct() 
 	{
 		self::includes();
-		add_action( 'wp_loaded', array( $this, 'get_amp_options') );
 	}
 
 	public function includes() 
@@ -28,14 +25,17 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 	 *	For Performance
 	 *  Set static object to store data from database.
 	 */
-	public static function get_amp_options() 
+	public static function get_amp_options( $option )
 	{
-		self::$bsfm_options = array(
-			'bsf_mautic_settings'     => get_option('ampw_mautic_config')
+		$bsfm_options = array(
+			'mautic_settings'     => get_option('ampw_mautic_config'),
+			'mautic_credentials'     => get_option( 'ampw_mautic_credentials' )
 		);
+		return $bsfm_options[$option];
 	}
+
 	function load_plugin_textdomain() {
-		load_plugin_textdomain( 'automateplus-mautic-wp');
+		load_plugin_textdomain( 'automateplus-mautic-wp' );
 	}
 }
 endif;
