@@ -385,11 +385,10 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		exit;
 	}
 
-	public static function get_api_method_url( $email , $set_actions )
+	public static function get_api_method_url( $email )
 	{
 		$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
-		$data = array();	
-		$all_tags = '';
+		$data = array();
 		if( isset($_COOKIE['mtc_id']) ) {
 			$contact_id = $_COOKIE['mtc_id'];
 			$contact_id = (int)$contact_id;
@@ -408,16 +407,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$data['url'] = '/api/contacts/'.$contact_id.'/edit';
 		}
 		else {
-			// add tags set in actions
-			if ( isset( $set_actions['add_tag'] ) ) {
-				
-				foreach ( $set_actions['add_tag'] as $tags) {
-					$all_tags.= $tags . ',';
-				}
-				
-				$all_tags = rtrim( $all_tags ,",");
-				$body['tags'] = $all_tags;
-			}
 			$data['method'] = 'POST';
 			$data['url'] = '/api/contacts/new';
 		}

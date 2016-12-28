@@ -153,9 +153,22 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=> $user_info->user_url
 			);
 
-			$api_data = AP_Mautic_Api::get_api_method_url( $email , $set_actions );
+			$api_data = AP_Mautic_Api::get_api_method_url( $email );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
+
+			if ( $method == "POST" ) {
+				// add tags set in actions
+				if ( isset( $set_actions['add_tag'] ) ) {
+					
+					foreach ( $set_actions['add_tag'] as $tags) {
+						$all_tags.= $tags . ',';
+					}
+					
+					$all_tags = rtrim( $all_tags ,",");
+					$body['tags'] = $all_tags;
+				}
+			}
 
 			AP_Mautic_Api::ampw_mautic_api_call($url, $method, $body, $set_actions);
 		}
@@ -168,7 +181,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 */
 		public function add_comment_author( $id, $approved, $commentdata ) {
 
-
+			$all_tags = '';
 			//get comment post condition rules
 			$status = APM_RulePanel::get_comment_condition( $commentdata );
 
@@ -187,9 +200,22 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=>	$commentdata['comment_author_url']
 			);
 
-			$api_data = AP_Mautic_Api::get_api_method_url( $email , $set_actions );
+			$api_data = AP_Mautic_Api::get_api_method_url( $email );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
+
+			if ( $method == "POST" ) {
+				// add tags set in actions
+				if ( isset( $set_actions['add_tag'] ) ) {
+					
+					foreach ( $set_actions['add_tag'] as $tags) {
+						$all_tags.= $tags . ',';
+					}
+					
+					$all_tags = rtrim( $all_tags ,",");
+					$body['tags'] = $all_tags;
+				}
+			}
 
 			AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body, $set_actions );
 		}
