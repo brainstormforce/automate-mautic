@@ -142,11 +142,6 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
 
 			$user_info = get_userdata( $user_id );
-			$user_bio = get_the_author_meta( 'user_description', $user_id );
-			$twitter = get_the_author_meta( 'twitter', $user_id );
-			$facebook = get_the_author_meta( 'facebook', $user_id );
-			$googleplus = get_the_author_meta( 'googleplus', $user_id );
-
 			$email = $user_info->user_email;
 			$credentials = get_option( 'bsfm_mautic_credentials' );
 
@@ -167,11 +162,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
 				'email'		=> $user_info->user_email,
-				'website'	=> $user_info->user_url,
-				'position'	=> $user_bio,
-			 	'twitter'	=> $twitter,
-				'facebook'	=> $facebook,
-				'googleplus'=> $googleplus
+				'website'	=> $user_info->user_url
 			);
 
 			// add tags set in actions
