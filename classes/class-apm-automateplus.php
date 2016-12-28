@@ -196,7 +196,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 			$add_segment = $set_actions['add_segment'];
 			$remove_segment = $set_actions['remove_segment'];
-			if( is_array( $set_actions ) && ( sizeof( $add_segment )>0 || sizeof( $remove_segment )>0 ) ) {
+			if( is_array( $set_actions ) ) {
 				AP_Mautic_Api::bsfm_mautic_api_call( $url, $method, $body, $set_actions );
 			}
 		}
