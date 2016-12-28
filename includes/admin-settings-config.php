@@ -26,7 +26,7 @@
 			APM_RulePanel::bsf_mautic_metabox_view();
 		?>
 	<?php } ?>
-	<form id="bsfm-config-form" action="<?php APM_AdminSettings::render_form_action( 'bsfm-config' ); ?>" method="post">
+	<form id="bsfm-config-form" action="<?php APM_AdminSettings::render_form_action( 'config' ); ?>" method="post">
 		<div class="bsfm-settings-form-content">
 			<?php
 				$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];

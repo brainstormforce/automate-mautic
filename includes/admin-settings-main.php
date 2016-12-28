@@ -8,7 +8,7 @@
 	
 	<div class="bsfm-settings-nav">
 		<ul>
-			<?php APM_AdminSettings::render_form( 'bsfm-config' ); ?>
+			<?php APM_AdminSettings::render_form( 'config' ); ?>
 		</ul>
 	</div>
 </div>
