@@ -183,11 +183,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				'cookies' => array()
 			));
 		}
-
-		print_r($param);
-		print_r($method);
-		echo $response_code = $response['response']['code'];
-		die();
 		if ( is_wp_error( $response ) ) {
 			$errorMsg = $response->get_error_message();
 			$status = 'error';
