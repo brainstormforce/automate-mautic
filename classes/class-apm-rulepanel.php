@@ -43,7 +43,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		//get all pages
 		$all_pages= '<select id="sub-sub-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
 		$pages = get_pages();
-		$all_pages .= '<option> Select Page </option>';
+		$all_pages .= '<option>' . __( 'Select Page', 'automateplus-mautic-wp' ) . '</option>';		
+
 		foreach ( $pages as $page ) {
 			$all_pages .= self::make_option($page->ID, $page->post_title, $select);
 		}
@@ -56,7 +57,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		$all_posts = '<select id="ss-cp-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
 		$args = array( 'posts_per_page' => -1 );
 		$posts = get_posts( $args );
-		$all_posts .= '<option> Select Post </option>';
+		$all_posts .= '<option>' . __( 'Select Post', 'automateplus-mautic-wp' ) . '</option>';
 		foreach ( $posts as $post ) : setup_postdata( $post );
 			$all_posts .= self::make_option($post->ID, $post->post_title, $select);	
 		endforeach; 
@@ -82,8 +83,9 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 			return;
 		}
+
 		$all_segments = '<select class="root-seg-action" name="ss_seg_action[]">';
-			$all_segments .= '<option> Select Segment </option>';
+			$all_segments .= '<option>' . __( 'Select Segment', 'automateplus-mautic-wp' ) . '</option>';
 
 			foreach( $segments->lists as $offset => $list ) {
 				$all_segments .= self::make_option( $list->id, $list->name, $select);
