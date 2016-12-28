@@ -1,9 +1,9 @@
 jQuery(document).ready(function( $ ) {
 	var jq = jQuery.noConflict();
-	jq( "#bsfm-sortable-condition" ).sortable();
-	jq( "#bsfm-sortable-condition" ).disableSelection();
-	jq( "#bsfm-sortable-action" ).sortable();
-	jq( "#bsfm-sortable-action" ).disableSelection();
+	jq( "#ampw-sortable-condition" ).sortable();
+	jq( "#ampw-sortable-condition" ).disableSelection();
+	jq( "#ampw-sortable-action" ).sortable();
+	jq( "#ampw-sortable-action" ).disableSelection();
 	jq( ".select-condition" ).select2();
 	jq( ".select-action" ).select2();
 	jq( ".sub-seg-action" ).select2();
@@ -13,25 +13,25 @@ jQuery(document).ready(function( $ ) {
 	jq( ".root-cp-condition" ).select2();
 
 	//get markups from template
-	var mbTemplate = wp.template( "bsfm-template" );
+	var mbTemplate = wp.template( "apm-template" );
 	jq(document).on( "click", ".remove-item", function() {
 		var LastChild = jq(this).parent().hasClass('ui-state-default');
 		if(!LastChild) {
 			jq(this).parent().remove();
 		}
 	});
-	jq(document).on( "click", ".bsfm-add-condition", function() {
+	jq(document).on( "click", ".ampw-add-condition", function() {
 		var conditionField = mbTemplate( { clas: "condition-field" } );
-		var n = jq( "#bsfm-sortable-condition fieldset" ).length;
+		var n = jq( "#ampw-sortable-condition fieldset" ).length;
 		n++;
-		jq( "#bsfm-sortable-condition" ).append('<fieldset class="ui-state-new" id="item-'+ n +'">'+ conditionField +'</fieldset>');
+		jq( "#ampw-sortable-condition" ).append('<fieldset class="ui-state-new" id="item-'+ n +'">'+ conditionField +'</fieldset>');
 		jq( ".select-condition" ).select2();
 	});
-	jq(document).on( "click", ".bsfm-add-action", function() {
+	jq(document).on( "click", ".ampw-add-action", function() {
 		var actionField = mbTemplate( { clas: "action-field" } );
-		var m = jq( "#bsfm-sortable-action fieldset" ).length;
+		var m = jq( "#ampw-sortable-action fieldset" ).length;
 		m++;
-		jq( "#bsfm-sortable-action" ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
+		jq( "#ampw-sortable-action" ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
 		jq( ".select-action" ).select2();
 		jq( ".select-action" ).select2();
 		jq( ".root-seg-action" ).select2();
@@ -105,7 +105,6 @@ jQuery(document).ready(function( $ ) {
 
 	// clean transients
 	jq(document).on( "click", "#refresh-mautic", function() {
-		jq( '.bsfm-wp-spinner' ).css( "visibility", "visible" );
 		var data= {
 			action:'clean_mautic_transient'
 		};
@@ -114,7 +113,7 @@ jQuery(document).ready(function( $ ) {
 		});
 	});
 
-	jq('.bsfm-disconnect-mautic').click(function() {
+	jq('.ampw-disconnect-mautic').click(function() {
 		if( confirm('Are you sure you wish to disconnect from Mautic?') ) {
 			var data= {
 				action:'config_disconnect_mautic'
@@ -127,7 +126,7 @@ jQuery(document).ready(function( $ ) {
 			return false;		
 		}
 	});
-	jq( '.bsfm-config-bsfm-settings-form' ).on( 'click', '.rule-delete-link', function() {
+	jq( '.ampw-config-settings-form' ).on( 'click', '.rule-delete-link', function() {
 		if ( ! confirm( "Are you sure you want to delete rule?" ) ) {
 			return false;
 		}

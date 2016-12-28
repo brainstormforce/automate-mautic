@@ -23,7 +23,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	}
 
 	public function hooks() {
-		add_action( 'admin_init', array( $this,'bsfm_set_mautic_code' ) );
+		add_action( 'admin_init', array( $this,'set_mautic_code' ) );
 	}
 
 	/**
@@ -32,12 +32,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function bsfm_set_mautic_code() 
+	public static function set_mautic_code() 
 	{
 		if( isset( $_GET['code'] ) && 'bsf-mautic' == $_REQUEST['page'] ) {
-			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$credentials = get_option( 'ampw_mautic_credentials' );
 			$credentials['access_code'] =  esc_attr( $_GET['code'] );
-			update_option( 'bsfm_mautic_credentials', $credentials );
+			update_option( 'ampw_mautic_credentials', $credentials );
 			self::get_mautic_data();
 		}
 	}
@@ -50,7 +50,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function get_mautic_data() 
 	{
-		$credentials = get_option( 'bsfm_mautic_credentials' );
+		$credentials = get_option( 'ampw_mautic_credentials' );
 		// If not authorized 
 		if( !isset( $credentials['access_token'] ) ) {
 			if( isset( $credentials['access_code']  ) ) {
@@ -69,7 +69,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					$credentials['access_token']  = $access_details->access_token;
 					$credentials['expires_in']    = $expiration;
 					$credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( 'bsfm_mautic_credentials', $credentials );
+					update_option( 'ampw_mautic_credentials', $credentials );
 				}
 			}
 		}
@@ -82,7 +82,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 * @return response
 	 */
 	public static function bsf_mautic_get_access_token($grant_type) {
-		$credentials = get_option('bsfm_mautic_credentials');
+		$credentials = get_option('ampw_mautic_credentials');
 
 		if ( ! isset( $credentials['baseUrl'] ) ) {
 
@@ -124,7 +124,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) 
 	{
 		$status = 'success';
-		$credentials = get_option( 'bsfm_mautic_credentials' );
+		$credentials = get_option( 'ampw_mautic_credentials' );
 		if(!isset($credentials['expires_in'])) {
 			return;
 		}
@@ -142,11 +142,11 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				$credentials['access_token'] = $access_details->access_token;
 				$credentials['expires_in'] = $expiration;
 				$credentials['refresh_token'] = $access_details->refresh_token;
-				update_option( 'bsfm_mautic_credentials', $credentials );
+				update_option( 'ampw_mautic_credentials', $credentials );
 			}
 		} // refresh code token ends
 		// add contacts
-		$credentials = get_option( 'bsfm_mautic_credentials' );
+		$credentials = get_option( 'ampw_mautic_credentials' );
 		$access_token = $credentials['access_token'];
 		$param['access_token'] = $access_token;
 		$url = $credentials['baseUrl'] . $url;
@@ -247,7 +247,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		$email = $param['email'];
 		$remove_segment = $set_actions['remove_segment'];
 		$add_segment = $set_actions['add_segment'];
-		$credentials = get_option( 'bsfm_mautic_credentials' );
+		$credentials = get_option( 'ampw_mautic_credentials' );
 
 		$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
 
@@ -343,7 +343,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				$mautic_credentials['access_token'] = $access_details->access_token;
 				$mautic_credentials['expires_in'] = $expiration;
 				$mautic_credentials['refresh_token'] = $access_details->refresh_token;
-				update_option( 'bsfm_mautic_credentials', $mautic_credentials );
+				update_option( 'ampw_mautic_credentials', $mautic_credentials );
 			}
 		}
 
@@ -381,9 +381,9 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		}
 	}
 	
-	public static function bsfm_authenticate_update()
+	public static function authenticate_update()
 	{
-		$bsfm 	=	APM_AdminSettings::get_bsfm_mautic();
+		$bsfm 	=	APM_AdminSettings::get_ampw_mautic();
 		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
 		$post = $_POST;
 		$cpts_err = false;
@@ -413,7 +413,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			'response_type'	=> 'code'
 		);
 
-		update_option( 'bsfm_mautic_credentials', $settings );
+		update_option( 'ampw_mautic_credentials', $settings );
 		$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
 		//OAuth 2.0
 		$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
@@ -426,7 +426,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 	public static function get_api_method_url( $email )
 	{
-		$credentials = get_option( 'bsfm_mautic_credentials' );
+		$credentials = get_option( 'ampw_mautic_credentials' );
 		$data = array();	
 		if( isset($_COOKIE['mtc_id']) ) {
 			$contact_id = $_COOKIE['mtc_id'];

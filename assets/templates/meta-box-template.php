@@ -1,4 +1,4 @@
-<script type="text/html" id="tmpl-bsfm-template">
+<script type="text/html" id="tmpl-apm-template">
 	<# if ( 'condition-field' === data.clas ) { #>
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>

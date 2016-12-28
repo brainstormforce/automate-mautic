@@ -1,10 +1,10 @@
-.bsf-mautic-metabox fieldset {
+.ampw-mautic-metabox fieldset {
     border: 1px solid rgb(221, 221, 221);
     border-width: 1px 1px 0px 1px;
     background: #f5f5f5;
     padding: 8px 0px 8px 4px;
 }
-.bsf-mautic-metabox .remove-item {
+.ampw-mautic-metabox .remove-item {
     background: #990000;
     border-radius: 50%;
     color: #fff;
@@ -12,56 +12,49 @@
     width: 18px;
     height: 18px;
 }
-.bsf-mautic-metabox span.remove-item, span.sort-items {
+.ampw-mautic-metabox span.remove-item, span.sort-items {
     margin: 5px 0px 5px 7px;
 }
-.bsf-mautic-metabox select {
+.ampw-mautic-metabox select {
     border-radius: 4px;
 }
-.bsf-mautic-metabox span.bsfm-new-item-icon {
+.ampw-mautic-metabox span.ampw-new-item-icon {
     color: #008000;
     margin-left: 5px; 
 }
-.bsf-mautic-metabox fieldset.add-new-item {
+.ampw-mautic-metabox fieldset.add-new-item {
     background: #fff;
     border-width: 1px;
     border-radius: 0 0 5px 5px;
 }
-.bsf-mautic-metabox fieldset.add-new-item:hover {
+.ampw-mautic-metabox fieldset.add-new-item:hover {
     background: #f5f5f5;
 }
-.bsf-mautic-metabox fieldset.bsfm-add-condition:hover, span.bsfm-add-action:hover, a.bsfm-disconnect-mautic, a.refresh-mautic-data {
+.ampw-mautic-metabox fieldset.ampw-add-condition:hover, span.ampw-add-action:hover, a.ampw-disconnect-mautic, a.refresh-mautic-data {
     cursor: pointer;
 }
-.bsf-mautic-metabox .refresh-mautic-data {
+.ampw-mautic-metabox .refresh-mautic-data {
     float: left;
 }
-.bsf-mautic-metabox .bsfm-refresh-mautic-wrap {
-    margin-top: 1em;
-    display: inline-block;
-}
-.bsfm-settings-nav .bsfm-wp-spinner {
-    margin: 0 8px;
-}
-#bsfm-post-meta .bsfm-settings-form-content {
+#ampw-post-meta .ampw-settings-form-content {
     background: white;
     padding: 1em 2em;
 }
-#bsfm-post-meta .bsfm_rule_title {
+#ampw-post-meta .ampw_rule_title {
     padding: 10px;
     margin: 1em 0;
     font-size: 20px;
     width: 50%;
 }
-.bsfm-settings-heading {
+.ampw-settings-heading {
     display: inline-block;
 }
-.bsfm-settings-heading .bsfm-heading-icon {
+.ampw-settings-heading .ampw-heading-icon {
     height: 40px;
     width: 40px;
     float:left;
 }
-.bsfm-settings-heading .bsfm-heading-config {
+.ampw-settings-heading .ampw-heading-config {
     float:left;
     margin: 5px;
 }

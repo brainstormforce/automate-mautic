@@ -67,7 +67,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 
 	public static function select_all_segments( $select = null ) {
 		//get all segments
-		$segments_trans = get_transient( 'bsfm_all_segments' );
+		$segments_trans = get_transient( 'apm_all_segments' );
 		if( $segments_trans ) {
 			$segments = $segments_trans;
 		}
@@ -76,7 +76,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 			$method = "GET";
 			$body = '';
 			$segments = AP_Mautic_Api::bsfm_mautic_api_call($url, $method, $body);
-			set_transient( 'bsfm_all_segments', $segments , DAY_IN_SECONDS );
+			set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
 		}
 		if( empty($segments) ) {
 			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );

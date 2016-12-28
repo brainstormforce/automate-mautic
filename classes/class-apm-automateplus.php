@@ -143,7 +143,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 			$user_info = get_userdata( $user_id );
 			$email = $user_info->user_email;
-			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$credentials = get_option( 'ampw_mautic_credentials' );
 
 			$body = array(
 				'firstname'	=> $user_info->first_name,

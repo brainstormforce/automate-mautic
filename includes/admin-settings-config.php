@@ -1,4 +1,4 @@
-<div id="automate-config-form" class="bsfm-settings-form bsfm-config-bsfm-settings-form">
+<div id="automate-config-form" class="bsfm-settings-form ampw-config-settings-form">
 	<?php 
 		$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'all_rules';
 		if( isset( $_GET['action'] ) ) {
@@ -19,7 +19,7 @@
 	</h2>
 	<?php
 	if( $active_tab == 'all_rules' ) {
-			APM_AdminSettings::bsfm_rules_list();
+			APM_AdminSettings::ampw_rules_list();
 	}
 	if( $active_tab == 'add_new_rule' || $current_action == 'edit' ) { ?>
 		<?php
@@ -27,11 +27,11 @@
 		?>
 	<?php } ?>
 	<form id="bsfm-config-form" action="<?php APM_AdminSettings::render_form_action( 'config' ); ?>" method="post">
-		<div class="bsfm-settings-form-content">
+		<div class="ampw-settings-form-content">
 			<?php
 				$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 				if( empty($bsfm) ) {
-					$bsfm 	=	APM_AdminSettings::get_bsfm_mautic();	
+					$bsfm 	=	APM_AdminSettings::get_ampw_mautic();	
 				}
 				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = '';
 				if( is_array($bsfm) ) {
@@ -52,7 +52,7 @@
 			</div>
 
 			<?php 
-			$credentials = get_option( 'bsfm_mautic_credentials' );
+			$credentials = get_option( 'ampw_mautic_credentials' );
 			if( ! isset( $credentials['access_token'] ) ) { ?>
 			<!-- Client Public Key -->
 			<div class="bsfm-config-fields">
@@ -69,7 +69,7 @@
 				</p>
 			</div>
 			<p class="submit">
-				<input type="submit" name="bsfm-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'automateplus-mautic-wp' ); ?>" />
+				<input type="submit" name="ampw-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'automateplus-mautic-wp' ); ?>" />
 			</p>
 
 			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce');
@@ -77,8 +77,8 @@
 				// If not authorized 
 				if( isset( $credentials['access_token'] ) ) { ?>
 				<p class="submit">
-					<input type="button" name="bsfm-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
-					<a class="bsfm-disconnect-mautic"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 
+					<input type="button" name="ampw-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
+					<a class="ampw-disconnect-mautic"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 
 				</p>
 				<?php } ?>
 			<!-- Enable pixel tracking -->

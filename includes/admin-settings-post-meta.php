@@ -1,6 +1,6 @@
-<div id="bsfm-post-meta" class="bsfm-settings-form wp-core-ui">
+<div id="ampw-post-meta" class="bsfm-settings-form wp-core-ui">
 
-	<form id="bsfm-post-meta-form" action="#" method="post">
+	<form id="ampw-post-meta-form" action="#" method="post">
 		
 		<?php
 			if( isset( $_GET['post'] ) ) {
@@ -12,7 +12,7 @@
 			}
 		?>
 		<div class="wrap">
-			<input type="text" name="bsfm_rule_title" class="bsfm_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title">
+			<input type="text" name="ampw_rule_title" class="ampw_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title">
 		</div>
 		<?php
 		if( isset($_GET['action']) && $_GET['action']=='edit') {
@@ -28,12 +28,12 @@
 				$meta_actions = unserialize($meta_actions[0]);
 			}
 		?>
-		<div class="bsfm-settings-form-content">
+		<div class="ampw-settings-form-content">
 		
-				<div class="bsf-mautic-metabox">
+				<div class="ampw-mautic-metabox">
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
-						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
+						<div id="ampw-sortable-condition" class="bsfm-item-wrap">
 					<?php
 					if( ! empty($meta_conditions) ) {
 						foreach ($meta_conditions as $order => $meta_condition) :
@@ -74,15 +74,15 @@
 						}
 						?>
 					</div>
-					<fieldset class="bsfm-add-condition add-new-item">
+					<fieldset class="ampw-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt bsfm-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
+							<span class="dashicons dashicons-plus-alt ampw-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
 						</div>
 					</fieldset>
 					</div>
 						<div class="actions">
 							<h4> <?php _e( 'Action', 'automateplus-mautic-wp' ) ?> </h4>
-							<div id="bsfm-sortable-action" class="bsfm-item-wrap">
+							<div id="ampw-sortable-action" class="bsfm-item-wrap">
 							<?php
 								if( ! empty( $meta_actions ) ) {
 
@@ -121,7 +121,7 @@
 							</div>
 							<fieldset class="add-new-item">
 								<div>
-									<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
+									<span class="dashicons dashicons-plus-alt ampw-add-action ampw-new-item-icon"></span><span class="ampw-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
 								</div>
 							</fieldset>
 						</div>
@@ -137,11 +137,11 @@
 			else {
 		?>
 			<!-- default fields -->
-			<div class="bsfm-settings-form-content">
-			<div class="bsf-mautic-metabox">
+			<div class="ampw-settings-form-content">
+			<div class="ampw-mautic-metabox">
 				<div class="conditions">
 					<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
-					<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
+					<div id="ampw-sortable-condition" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default" id="item-1">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
@@ -152,15 +152,15 @@
 							<div class="second-condition" style="display:inline;"></div>
 						</fieldset>
 					</div>				 
-					<fieldset class="bsfm-add-condition add-new-item">
+					<fieldset class="ampw-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt bsfm-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
+							<span class="dashicons dashicons-plus-alt ampw-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
 						</div>
 					</fieldset>
 				</div>
 				<div class="actions">
 					<h4> <?php _e( 'Action', 'automateplus-mautic-wp' ) ?> </h4>
-					<div id="bsfm-sortable-action" class="bsfm-item-wrap">
+					<div id="ampw-sortable-action" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
@@ -177,7 +177,7 @@
 					</div>				 
 						<fieldset class="add-new-item">
 							<div>
-								<span class="dashicons dashicons-plus-alt bsfm-add-action bsfm-new-item-icon"></span><span class="bsfm-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
+								<span class="dashicons dashicons-plus-alt ampw-add-action ampw-new-item-icon"></span><span class="ampw-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
 							</div>
 						</fieldset>
 				</div>

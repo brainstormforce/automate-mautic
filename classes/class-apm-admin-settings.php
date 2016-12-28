@@ -24,8 +24,8 @@ final class APM_AdminSettings {
 	public function hooks() {
 
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
-		add_action( 'admin_footer', array( $this, 'bsfm_mb_templates' ) );
-		add_action( 'wp_loaded', array( $this, 'bsf_mautic_authenticate_update' ) );
+		add_action( 'admin_footer', array( $this, 'mb_templates' ) );
+		add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
 		add_action( 'admin_notices', array( $this, 'apm_notices' ), 100 );
 	}
 	/** 
@@ -34,7 +34,7 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function bsfm_mb_templates() {
+	public function mb_templates() {
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
 		if( 'bsf-mautic' == $curr_screen ) {
 			include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
@@ -106,7 +106,7 @@ final class APM_AdminSettings {
 		include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
 	}
 
-	static public function bsfm_rules_list() {
+	static public function ampw_rules_list() {
 
 		$new_post_url = 'options-general.php?page=bsf-mautic&tab=add_new_rule';	
 		?>
@@ -131,7 +131,7 @@ final class APM_AdminSettings {
 			?>
 		</form>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-			<input type="hidden" name="action" value="bsfm_rule_list" />
+			<input type="hidden" name="action" value="apm_rule_list" />
 			<?php $list_table->display(); ?>
 		</form>
 		</div>
@@ -147,9 +147,9 @@ final class APM_AdminSettings {
 	{
 		$icon = AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
 		if ( ! empty( $icon ) ) {
-			echo '<img class="bsfm-heading-icon" src="' . $icon . '" />';
+			echo '<img class="ampw-heading-icon" src="' . $icon . '" />';
 		}
-		echo '<div class="bsfm-heading-config">' . __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ) . '</div>';
+		echo '<div class="ampw-heading-config">' . __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ) . '</div>';
 	}
 	/** 
 	 * Renders the update message.
@@ -161,7 +161,7 @@ final class APM_AdminSettings {
  	
  		// redirect
 		if( ! empty( $_POST ) ) {
-			echo '<div class="updated"><p>' . __( 'Settings updated!', 'bsfmautic' ) . '</p></div>';
+			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 		}
 	}
 
@@ -242,8 +242,8 @@ final class APM_AdminSettings {
 
 		if ( isset( $_POST['bsf-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-post-meta-nonce'], 'bsfmauticpmeta' ) ) {
 			$rule_id = $update_conditions = '';
-			if( isset($_POST['bsfm_rule_title']) ) {
-				$rule_name = esc_attr( $_POST['bsfm_rule_title'] );
+			if( isset($_POST['ampw_rule_title']) ) {
+				$rule_name = esc_attr( $_POST['ampw_rule_title'] );
 			}
 	
 			// Gather post data.
@@ -362,14 +362,14 @@ final class APM_AdminSettings {
 		}
 	}
 
-	static public function bsf_mautic_authenticate_update() 
+	static public function mautic_authenticate_update() 
 	{
-		if ( isset( $_POST['bsfm-save-authenticate'] ) && $_POST['bsfm-save-authenticate']=='Save and Authenticate' ) {
-			AP_Mautic_Api::bsfm_authenticate_update();
+		if ( isset( $_POST['ampw-save-authenticate'] ) && $_POST['ampw-save-authenticate']=='Save and Authenticate' ) {
+			AP_Mautic_Api::authenticate_update();
 		}
 	}
 	
-	static public function get_bsfm_mautic() {
+	static public function get_ampw_mautic() {
 
 		$bsfm = get_option('_bsf_mautic_config');
 		$defaults = array(
@@ -399,13 +399,13 @@ final class APM_AdminSettings {
 				}
 			}
 		}
-		return apply_filters( 'bsfm_get_mautic', $bsfm );
+		return apply_filters( 'ampw_get_mautic', $bsfm );
 	}
 
 	static public function apm_notices()
 	{
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
-		$credentials = get_option( 'bsfm_mautic_credentials' );
+		$credentials = get_option( 'ampw_mautic_credentials' );
 
 		if( ! isset( $credentials['expires_in'] ) && $curr_screen=='bsf-mautic' ) {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
