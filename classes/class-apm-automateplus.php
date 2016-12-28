@@ -42,7 +42,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 */
 		public function mautic_tracking_script() {
 
-			$bsfm_options = AMPW_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
+			$bsfm_options =  AMPW_Mautic_Init::get_amp_options( 'mautic_settings' );
 			$enable_mautic_tracking	= false;
 			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking', $bsfm_options ) ) {
 				if( $bsfm_options['bsfm-enabled-tracking'] == 1 ) {
