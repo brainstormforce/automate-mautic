@@ -153,7 +153,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=> $user_info->user_url
 			);
 
-			$api_data = AP_Mautic_Api::get_api_method_url( $email );
+			$api_data = AP_Mautic_Api::get_api_method_url( $email , $set_actions );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
@@ -167,7 +167,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @return void
 		 */
 		public function add_comment_author( $id, $approved, $commentdata ) {
-			$all_tags = '';
+
 
 			//get comment post condition rules
 			$status = APM_RulePanel::get_comment_condition( $commentdata );
@@ -187,7 +187,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=>	$commentdata['comment_author_url']
 			);
 
-			$api_data = AP_Mautic_Api::get_api_method_url( $email );
+			$api_data = AP_Mautic_Api::get_api_method_url( $email , $set_actions );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
