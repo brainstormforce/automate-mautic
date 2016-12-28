@@ -182,9 +182,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				'body' => $param,
 				'cookies' => array()
 			));
-
-			// echo $response_code = $response['response']['code'];
-			// die();
 		}
 
 		if ( is_wp_error( $response ) ) {

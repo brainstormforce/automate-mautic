@@ -84,6 +84,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		}
 		$all_segments = '<select class="root-seg-action" name="ss_seg_action[]">';
 			$all_segments .= '<option> Select Segment </option>';
+
 			foreach( $segments->lists as $offset => $list ) {
 				$all_segments .= self::make_option( $list->id, $list->name, $select);
 			}

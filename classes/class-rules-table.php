@@ -173,7 +173,6 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 			echo "\n";
 		}
 
-
 		/**
 		 * Prepares the list of items for displaying, by maybe searching and sorting, and by doing pagination.
 		 *

@@ -165,26 +165,24 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=> $user_info->user_url
 			);
 
-			// add tags set in actions
-			if ( isset( $set_actions['add_tag'] ) ) {
-				foreach ( $set_actions['add_tag'] as $tags) {
-					$all_tags.= $tags . ',';
-				}
-				$all_tags = rtrim( $all_tags ,",");
-				$body['tags'] = $all_tags;
-			}
-
 			if( isset( $contact_id ) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
 			}
 			else {
+
+				// add tags set in actions - only for new contact
+				if ( isset( $set_actions['add_tag'] ) ) {
+					foreach ( $set_actions['add_tag'] as $tags) {
+						$all_tags.= $tags . ',';
+					}
+					$all_tags = rtrim( $all_tags ,",");
+					$body['tags'] = $all_tags;
+				}
+
 				$method = 'POST';
 				$url = '/api/contacts/new';
 			}
-
-			echo $method;
-			echo $url;
 
 			$add_segment = $set_actions['add_segment'];
 			$remove_segment = $set_actions['remove_segment'];
@@ -231,22 +229,23 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=>	$commentdata['comment_author_url']
 			);
 
-			// add tags set in actions
-			if ( isset( $set_actions['add_tag'] ) ) {
-				
-				foreach ( $set_actions['add_tag'] as $tags) {
-					$all_tags.= $tags . ',';
-				}
-				
-				$all_tags = rtrim( $all_tags ,",");
-				$body['tags'] = $all_tags;
-			}
-
 			if( isset($contact_id) ) {
 				$method = 'PATCH';
 				$url = '/api/contacts/'.$contact_id.'/edit';
 			}
 			else {
+
+				// add tags set in actions
+				if ( isset( $set_actions['add_tag'] ) ) {
+					
+					foreach ( $set_actions['add_tag'] as $tags) {
+						$all_tags.= $tags . ',';
+					}
+					
+					$all_tags = rtrim( $all_tags ,",");
+					$body['tags'] = $all_tags;
+				}
+				
 				$method = 'POST';
 				$url = '/api/contacts/new';
 			}
