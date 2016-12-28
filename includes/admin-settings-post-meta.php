@@ -19,11 +19,11 @@
 			if( isset($_GET['post']) ) {
 				$post_id = esc_attr( $_GET['post'] );
 			}
-			$meta_conditions = get_post_meta( $post_id, 'bsfm_rule_condition' );
+			$meta_conditions = get_post_meta( $post_id, 'ampw_rule_condition' );
 			if (isset($meta_conditions[0])) {
 				$meta_conditions = unserialize($meta_conditions[0]);	
 			}
-			$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
+			$meta_actions = get_post_meta( $post_id, 'ampw_rule_action' );
 			if (isset($meta_actions[0])) {
 				$meta_actions = unserialize($meta_actions[0]);
 			}

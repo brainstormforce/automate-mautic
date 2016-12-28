@@ -53,22 +53,22 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			}
 			if ( $enable_mautic_tracking && ! empty( $bsfm_options['bsfm-base-url'] ) ) {
 				$base_url = trim($bsfm_options['bsfm-base-url'], " \t\n\r\0\x0B/");
-				$bsfm_trackingJS = "<script>
+				$trackingJS = "<script>
 				(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 				w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 				m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 				})(window,document,'script','{$base_url}/mtc.js','mt');
 				mt('send', 'pageview');
 				</script>";
-				echo $bsfm_trackingJS;
+				echo $trackingJS;
 			}
 		}
 
 		public function refresh_edit_text( $footer_text ) {
 
-			$bsfm_screen = get_current_screen();
+			$screen = get_current_screen();
 
-			if ( $bsfm_screen->id == 'settings_page_bsf-mautic' ) {
+			if ( $screen->id == 'settings_page_bsf-mautic' ) {
 				$refresh_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>');
 				$footer_text  = $refresh_text . ' | ' . $footer_text;
 			}
@@ -132,14 +132,14 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$all_tags = '';
 
 			// get user registerd condition rules
-			$status = APM_RulePanel::bsfm_get_wpur_condition();
+			$status = APM_RulePanel::get_wpur_condition();
 
 			// return if the $status is not as expected
 			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {
 				return;
 			}
 
-			$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
+			$set_actions = APM_RulePanel::get_all_actions($status);
 
 			$user_info = get_userdata( $user_id );
 			$email = $user_info->user_email;
@@ -156,11 +156,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
-			$add_segment = $set_actions['add_segment'];
-			$remove_segment = $set_actions['remove_segment'];
-			if( is_array( $set_actions ) ) {
-				AP_Mautic_Api::bsfm_mautic_api_call($url, $method, $body, $set_actions);
-			}
+			AP_Mautic_Api::ampw_mautic_api_call($url, $method, $body, $set_actions);
 		}
 
 		/** 
@@ -173,14 +169,14 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$all_tags = '';
 
 			//get comment post condition rules
-			$status = APM_RulePanel::bsfm_get_comment_condition( $commentdata );
+			$status = APM_RulePanel::get_comment_condition( $commentdata );
 
 			// return if the $status is not as expected
 			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {
 				return;
 			}
 
-			$set_actions = APM_RulePanel::bsfm_get_all_actions($status);
+			$set_actions = APM_RulePanel::get_all_actions($status);
 
 			$email = $commentdata['comment_author_email'];
 
@@ -194,11 +190,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
-			$add_segment = $set_actions['add_segment'];
-			$remove_segment = $set_actions['remove_segment'];
-			if( is_array( $set_actions ) ) {
-				AP_Mautic_Api::bsfm_mautic_api_call( $url, $method, $body, $set_actions );
-			}
+			AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body, $set_actions );
 		}
 	}
 endif;

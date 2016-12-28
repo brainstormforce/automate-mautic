@@ -75,7 +75,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 			$url = "/api/segments";
 			$method = "GET";
 			$body = '';
-			$segments = AP_Mautic_Api::bsfm_mautic_api_call($url, $method, $body);
+			$segments = AP_Mautic_Api::ampw_mautic_api_call($url, $method, $body);
 			set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
 		}
 		if( empty($segments) ) {
@@ -95,8 +95,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	public static function bsfm_clean_condition_action( $post_id ) {
 		$post_type = get_post_type($post_id);
 		if ( "bsf-mautic-rule" != $post_type ) return;
-		delete_post_meta( $post_id, 'bsfm_rule_condition');
-		delete_post_meta( $post_id, 'bsfm_rule_action');
+		delete_post_meta( $post_id, 'ampw_rule_condition');
+		delete_post_meta( $post_id, 'ampw_rule_action');
 	}
 
 	/**
@@ -104,13 +104,13 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	* @param comment data
 	* @return rule id array
 	*/ 
-	public static function bsfm_get_comment_condition( $comment_data = array() ) {
+	public static function get_comment_condition( $comment_data = array() ) {
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
 		$set_rules = array();
 		foreach ( $posts as $post ) : setup_postdata( $post );
 			$rule_id = $post->ID;
-			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
+			$meta_conditions = get_post_meta( $rule_id, 'ampw_rule_condition' );
 			$meta_conditions = unserialize($meta_conditions[0]);
 				foreach ($meta_conditions as $order => $meta_condition) :	
 					if( $meta_condition[0]=='CP' ) {
@@ -129,13 +129,13 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		return $set_rules;
 	}
 
-	public static function bsfm_get_wpur_condition() {
+	public static function get_wpur_condition() {
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
 		$ur_rules = array();
 		foreach ( $posts as $post ) : setup_postdata( $post );
 			$rule_id = $post->ID;
-			$meta_conditions = get_post_meta( $rule_id, 'bsfm_rule_condition' );
+			$meta_conditions = get_post_meta( $rule_id, 'ampw_rule_condition' );
 			$all_conditions = unserialize($meta_conditions[0]);
 			foreach ($all_conditions as $meta_condition) :
 				if( $meta_condition[0]=='UR' ) {
@@ -152,7 +152,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	 * @param rule_id array
 	 * @return actions array
 	 */
-	public static function bsfm_get_all_actions( $rules = array() ) {
+	public static function get_all_actions( $rules = array() ) {
 
 		$all_actions = array(
 			'add_segment' => array(),
@@ -162,7 +162,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 
 		foreach ( $rules as $rule ) :
 			$rule_id = $rule;
-			$meta_actions = get_post_meta( $rule_id, 'bsfm_rule_action' );
+			$meta_actions = get_post_meta( $rule_id, 'ampw_rule_action' );
 			$meta_actions = unserialize($meta_actions[0]);
 
 				foreach( $meta_actions as $order => $meta_action ) :

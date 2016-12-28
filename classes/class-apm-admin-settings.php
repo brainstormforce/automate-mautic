@@ -287,7 +287,7 @@ final class APM_AdminSettings {
 						$update_conditions = apply_filters( $action, $update_conditions, $conditions, $i, $_POST );
 					}
 					$update_conditions = serialize( $update_conditions );
-					update_post_meta( $post_id, 'bsfm_rule_condition', $update_conditions );
+					update_post_meta( $post_id, 'ampw_rule_condition', $update_conditions );
 				}
 				//update actions
 				if ( isset( $_POST['sub_seg_action'] ) ) {
@@ -306,19 +306,15 @@ final class APM_AdminSettings {
 						$update_action = apply_filters( $action, $update_actions, $actions, $i, $_POST );
 					}
 
-					// echo "<pre>";
-					// print_r($update_actions);
-					// echo "</pre>";
-
 					$update_actions = serialize($update_actions);
-					update_post_meta( $post_id, 'bsfm_rule_action', $update_actions );
+					update_post_meta( $post_id, 'ampw_rule_action', $update_actions );
 				}
 				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
 				wp_redirect( $redirect );
 		}
 
 		if ( isset( $_POST['bsf-mautic-nonce'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce'], 'bsfmautic' ) ) {
-			$bsfm = get_option('_bsf_mautic_config');
+			$bsfm = get_option('ampw_mautic_config');
 			if( isset( $_POST['bsfm-base-url'] ) ) {	$bsfm['bsfm-base-url'] = esc_url( $_POST['bsfm-base-url'] ); }
 			if( isset( $_POST['bsfm-public-key'] ) ) {	$bsfm['bsfm-public-key'] = sanitize_key( $_POST['bsfm-public-key'] ); }
 			if( isset( $_POST['bsfm-secret-key'] ) ) {	$bsfm['bsfm-secret-key'] = sanitize_key( $_POST['bsfm-secret-key'] ); }
@@ -328,23 +324,23 @@ final class APM_AdminSettings {
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {
-				update_site_option( '_bsf_mautic_config', $bsfm );
+				update_site_option( 'ampw_mautic_config', $bsfm );
 			}
 			else {
-				update_option( '_bsf_mautic_config', $bsfm );
+				update_option( 'ampw_mautic_config', $bsfm );
 			}
 		}
 		if ( isset( $_POST['bsf-mautic-nonce-tracking'] ) && wp_verify_nonce( $_POST['bsf-mautic-nonce-tracking'], 'bsfmautictrack' ) ) {
-			$bsfm = get_option('_bsf_mautic_config');
+			$bsfm = get_option('ampw_mautic_config');
 			$bsfm['bsfm-enabled-tracking'] = false;
 			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
 
 			// Update the site-wide option since we're in the network admin.
 			if ( is_network_admin() ) {
-				update_site_option( '_bsf_mautic_config', $bsfm );
+				update_site_option( 'ampw_mautic_config', $bsfm );
 			}
 			else {
-				update_option( '_bsf_mautic_config', $bsfm );
+				update_option( 'ampw_mautic_config', $bsfm );
 			}
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=enable_tracking' );
 			wp_redirect( $redirect );
@@ -371,7 +367,7 @@ final class APM_AdminSettings {
 	
 	static public function get_ampw_mautic() {
 
-		$bsfm = get_option('_bsf_mautic_config');
+		$bsfm = get_option('ampw_mautic_config');
 		$defaults = array(
 			'bsfm-enabled-tracking'	=> true,
 			'bsfm-base-url'			=> '',
@@ -384,10 +380,10 @@ final class APM_AdminSettings {
 		if( empty( $bsfm ) ) {
 			$bsfm = $defaults;
 			if ( is_network_admin() ) {
-				update_site_option( '_bsf_mautic_config', $bsfm );
+				update_site_option( 'ampw_mautic_config', $bsfm );
 			}
 			else {
-				update_option( '_bsf_mautic_config', $bsfm );
+				update_option( 'ampw_mautic_config', $bsfm );
 			}
 		} else {
 			//	add new key
@@ -411,9 +407,6 @@ final class APM_AdminSettings {
 			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
 			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
-		// if( ! empty( $_POST ) && $curr_screen=='bsf-mautic' ) {
-		// 	echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
-		// }
 	}
 
 	static public function render_messages( $message )

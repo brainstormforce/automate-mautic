@@ -121,7 +121,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 * 
 	 * @since 1.0.0
 	 */
-	public static function bsfm_mautic_api_call( $url, $method, $param = array(), $segments = array() ) 
+	public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) 
 	{
 		$status = 'success';
 		$credentials = get_option( 'ampw_mautic_credentials' );
@@ -209,7 +209,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 							foreach ( $add_segment as $segment_id) {
 								$segment_id = (int)$segment_id;
 								$action = "add";
-								$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 							}
 						}
 
@@ -219,7 +219,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 							foreach ( $remove_segment as $segment_id) {
 								$segment_id = (int)$segment_id;
 								$action = "remove";
-								$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
 							}
 						}
 
@@ -237,49 +237,11 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	}
 
 	/** 
-	 * Remove contacts from segment
-	 * 
-	 * @since 1.0.0
-	 */
-	public static function bsfm_remove_contact_from_segment( $param = array(), $set_actions = array() ) 
-	{
-		//Remove contacts from segments
-		$email = $param['email'];
-		$remove_segment = $set_actions['remove_segment'];
-		$add_segment = $set_actions['add_segment'];
-		$credentials = get_option( 'ampw_mautic_credentials' );
-
-		$contact_id = self::bsfm_mautic_get_contact_by_email( $email, $credentials );
-
-		if( is_array( $remove_segment ) ) {
-			$action = "remove";
-			foreach ( $remove_segment as $segment_id ) {
-				$segment_id = (int)$segment_id;
-				if( isset( $contact_id ) ) {
-					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-					$status = $res['status'];
-					$errorMsg  = $res['error_message'];
-				}
-			}
-		}
-		if( is_array( $add_segment ) ) {
-			$action = "add";
-			foreach ( $add_segment as $segment_id) {
-				$segment_id = (int)$segment_id;
-				if( isset( $contact_id ) ) {
-					$res = self::bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-				}
-			}
-		}
-		return;
-	}
-
-	/** 
 	 * Add contacts to segment
 	 * 
 	 * @since 1.0.0
 	 */
-	public static function bsfm_mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) 
+	public static function mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act) 
 	{
 		$errorMsg = '';
 		$status = 'error';
@@ -353,8 +315,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
 
 		$response = wp_remote_get( $url );
-
-
 
 		if( ! is_wp_error( $response ) && is_array( $response ) ) {
 			$response_body = $response['body'];

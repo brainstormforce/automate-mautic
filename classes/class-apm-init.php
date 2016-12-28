@@ -31,7 +31,7 @@ if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
 	public static function get_amp_options() 
 	{
 		self::$bsfm_options = array(
-			'bsf_mautic_settings'     => get_option('_bsf_mautic_config')
+			'bsf_mautic_settings'     => get_option('ampw_mautic_config')
 		);
 	}
 	function load_plugin_textdomain() {
