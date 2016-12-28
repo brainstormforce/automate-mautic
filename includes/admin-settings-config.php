@@ -29,7 +29,7 @@
 	<form id="bsfm-config-form" action="<?php APM_AdminSettings::render_form_action( 'config' ); ?>" method="post">
 		<div class="ampw-settings-form-content">
 			<?php
-				$bsfm = BSF_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
+				$bsfm = AMPW_Mautic_Init::$bsfm_options['bsf_mautic_settings'];
 				if( empty($bsfm) ) {
 					$bsfm 	=	APM_AdminSettings::get_ampw_mautic();	
 				}

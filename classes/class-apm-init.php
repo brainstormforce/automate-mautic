@@ -4,9 +4,9 @@
  *
  * @since 1.0.0
  */
-if ( ! class_exists( 'BSF_Mautic_Init' ) ) :
+if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 	
-	class BSF_Mautic_Init {
+	class AMPW_Mautic_Init {
 
 	public static $bsfm_options;
 
@@ -42,7 +42,7 @@ endif;
 /**
  * Initialize the class only after all the plugins are loaded.
  */
-function bsf_mautic_init() {
-	$BSF_Mautic_Init = new BSF_Mautic_Init();
+function ampw_mautic_init() {
+	$AMPW_Mautic_Init = new AMPW_Mautic_Init();
 }
-add_action( 'plugins_loaded', 'bsf_mautic_init' );
+add_action( 'plugins_loaded', 'ampw_mautic_init' );
