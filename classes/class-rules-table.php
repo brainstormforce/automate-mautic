@@ -198,6 +198,7 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 
 			if( isset($_GET['s']) && !empty($_GET['s']) ) {
 				$seachkey  = trim( $_GET['s'] );
+				$seachkey = esc_attr( $seachkey );
 				$query .= " && post_title LIKE '%".$seachkey."%'";
 			}
 

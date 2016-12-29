@@ -1,6 +1,6 @@
 <div id="automate-config-form" class="bsfm-settings-form ampw-config-settings-form">
 	<?php 
-		$active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'all_rules';
+		$active_tab = isset( $_GET[ 'tab' ] ) ?  esc_attr( $_GET[ 'tab' ] ) : 'all_rules';
 		if( isset( $_GET['action'] ) ) {
 			$current_action = esc_attr( $_GET['action'] );
 			$active_tab = '';
