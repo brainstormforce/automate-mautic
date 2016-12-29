@@ -52,7 +52,9 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				}
 			}
 			if ( $enable_mautic_tracking && ! empty( $bsfm_options['bsfm-base-url'] ) ) {
-				$base_url = trim($bsfm_options['bsfm-base-url'], " \t\n\r\0\x0B/");
+				
+				$base_url = esc_url( trim($bsfm_options['bsfm-base-url'], " \t\n\r\0\x0B/") );
+
 				$trackingJS = "<script>
 				(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 				w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),

@@ -35,7 +35,7 @@ final class APM_AdminSettings {
 	 * @return void
 	 */
 	public function mb_templates() {
-		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+		$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 		if( 'bsf-mautic' == $curr_screen ) {
 			include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
 		}
@@ -54,8 +54,8 @@ final class APM_AdminSettings {
 		if ( ! is_admin() ) {
 			return;
 		}
-
-		if( ( isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
+		$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
+		if( 'bsf-mautic' == $curr_screen ) {
 			self::save();
 			add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
 		}
@@ -85,7 +85,8 @@ final class APM_AdminSettings {
 	 */
 	public static function styles_scripts( $hook ) {
 
-		if ( ( isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
+		$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
+		if( 'bsf-mautic' == $curr_screen ) {
 			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script( 'apm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . 'assets/js/admin.js' , array( 'jquery','jquery-ui-sortable','wp-util' ) );
@@ -130,7 +131,7 @@ final class APM_AdminSettings {
 			$list_table->search_box( 'search', 'apm_rule_search' );
 			?>
 		</form>
-		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+		<form action="<?php echo admin_url( 'admin-post.php' ); ?>" method="post">
 			<input type="hidden" name="action" value="apm_rule_list" />
 			<?php $list_table->display(); ?>
 		</form>
@@ -200,7 +201,7 @@ final class APM_AdminSettings {
 	 */	  
 	public static function render_tab_action( $type = '' )
 	{
-		echo esc_url( admin_url( '/options-general.php?page=bsf-mautic&action=' . $type ) );
+		echo admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
 	}
 	
 	/** 
@@ -212,7 +213,7 @@ final class APM_AdminSettings {
 	 */	 
 	public static function get_form_action( $type = '' )
 	{
-		return esc_url( admin_url( '/options-general.php?page=bsf-mautic#' . $type ) );
+		return admin_url( '/options-general.php?page=bsf-mautic#' . $type );
 	}
 	
 	/** 
@@ -313,10 +314,10 @@ final class APM_AdminSettings {
 						$update_action = apply_filters( $action, $update_actions, $actions, $i, $_POST );
 					}
 
-					$update_actions = serialize($update_actions);
+					$update_actions = serialize( $update_actions );
 					update_post_meta( $post_id, 'ampw_rule_action', $update_actions );
 				}
-				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
+				$redirect = admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
 				wp_redirect( $redirect );
 		}
 
@@ -338,18 +339,22 @@ final class APM_AdminSettings {
 			$bsfm = AMPW_Mautic_Init::get_amp_options();
 			
 			$bsfm['bsfm-enabled-tracking'] = false;
-			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	$bsfm['bsfm-enabled-tracking'] = true;	}
+			if( isset( $_POST['bsfm-enabled-tracking'] ) ) {	
+			
+				$bsfm['bsfm-enabled-tracking'] = true;	
+			
+			}
 
 			update_option( 'ampw_mautic_config', $bsfm );
 			
-			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=enable_tracking' );
+			$redirect = admin_url( '/options-general.php?page=bsf-mautic&tab=enable_tracking' );
 			wp_redirect( $redirect );
 		}
 
 		do_action('amp_update_tab_content');
 
 		if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule'.$_GET['rule_id'] ) ) {
-			if ( isset($_GET['rule_id']) ) {
+			if ( isset( $_GET['rule_id'] ) ) {
 				$rule_id = esc_attr( $_GET['rule_id'] );
 				wp_delete_post( $rule_id );
 				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' );
@@ -367,18 +372,18 @@ final class APM_AdminSettings {
 
 	public static function apm_notices()
 	{
-		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+		$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 		$credentials = AMPW_Mautic_Init::get_mautic_credentials();
 
 		if( ! isset( $credentials['expires_in'] ) && $curr_screen=='bsf-mautic' ) {
-			$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
+			$redirect = admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
 			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
 	}
 
 	public static function render_messages( $message )
 	{
-		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+		$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 
 		if( $message = 'update' && $curr_screen=='bsf-mautic' ) {
 			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';

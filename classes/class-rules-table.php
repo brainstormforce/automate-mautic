@@ -78,7 +78,7 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
 			}
 
-			$post_link = admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $item['ID'] );
+			$post_link = esc_url( admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $item['ID'] ) );
 
 			$post_title = "<a href='". $post_link ."'>".$item['post_title']."</a>";
 
@@ -88,7 +88,7 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 
 			$wpnonce = wp_create_nonce( 'delete-rule'.$item['ID'] );	
 			
-			$delete_url = admin_url( "options-general.php?page=bsf-mautic&tab=all_rules&action=delete_rule&rule_id=".$item['ID'] . "&_wpnonce=" .$wpnonce );
+			$delete_url = esc_url( admin_url( "options-general.php?page=bsf-mautic&tab=all_rules&action=delete_rule&rule_id=".$item['ID'] . "&_wpnonce=" .$wpnonce ) );
 
 			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Delete', 'automateplus-mautic-wp' ) );
 

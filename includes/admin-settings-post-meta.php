@@ -21,11 +21,11 @@
 			}
 			$meta_conditions = get_post_meta( $post_id, 'ampw_rule_condition' );
 			if ( isset( $meta_conditions[0] ) ) {
-				$meta_conditions = unserialize($meta_conditions[0]);	
+				$meta_conditions = unserialize( $meta_conditions[0] );	
 			}
 			$meta_actions = get_post_meta( $post_id, 'ampw_rule_action' );
 			if ( isset( $meta_actions[0] ) ) {
-				$meta_actions = unserialize($meta_actions[0]);
+				$meta_actions = unserialize( $meta_actions[0] );
 			}
 		?>
 		<div class="ampw-settings-form-content">
@@ -55,10 +55,10 @@
 								</div>
 									<div class="second-condition" style="display:inline;">
 										<?php
-											if($meta_condition[1]=='os_page') {
+											if( $meta_condition[1]=='os_page' ) {
 												APM_RulePanel::select_all_pages( $meta_condition[2] );
 											}
-											elseif($meta_condition[1]=='os_post') {
+											elseif( $meta_condition[1]=='os_post' ) {
 												APM_RulePanel::select_all_posts( $meta_condition[2] );
 											}
 								echo '</div>';

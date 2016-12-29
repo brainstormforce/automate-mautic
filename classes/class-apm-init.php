@@ -38,9 +38,9 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 			$setting_options = $defaults;
 			update_option( 'ampw_mautic_config', $setting_options );
 		} else {
-			//	add new key
+
 			foreach( $defaults as $key => $value ) {
-				if( is_array( $setting_options ) && !array_key_exists( $key, $setting_options ) ) {
+				if( is_array( $setting_options ) && ! array_key_exists( $key, $setting_options ) ) {
 					$setting_options[ $key ] = $value;
 				} else {
 					$setting_options = wp_parse_args( $setting_options, $defaults );
@@ -53,10 +53,30 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 	public static function get_mautic_credentials()
 	{
 		$mautic_credentials = get_option( 'ampw_mautic_credentials' );
+		$defaults = array(
+			'access_token'	=> '',
+			'expires_in'			=> '',
+			'refresh_token'		=> ''
+		);
+
+		// if empty add all defaults
+		if( empty( $mautic_credentials ) ) {
+			$mautic_credentials = $defaults;
+			update_option( 'ampw_mautic_credentials', $mautic_credentials );
+		} else {
+
+			foreach( $defaults as $key => $value ) {
+				if( is_array( $mautic_credentials ) && ! array_key_exists( $key, $mautic_credentials ) ) {
+					$mautic_credentials[ $key ] = $value;
+				} else {
+					$mautic_credentials = wp_parse_args( $mautic_credentials, $defaults );
+				}
+			}
+		}
 		return $mautic_credentials;
 	}
 
-	function load_plugin_textdomain() {
+	public function load_plugin_textdomain() {
 		load_plugin_textdomain( 'automateplus-mautic-wp' );
 	}
 }
