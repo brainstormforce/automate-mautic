@@ -364,34 +364,6 @@ final class APM_AdminSettings {
 			AP_Mautic_Api::authenticate_update();
 		}
 	}
-	
-	public static function get_ampw_mautic() {
-
-		$bsfm = AMPW_Mautic_Init::get_amp_options();
-		$defaults = array(
-			'bsfm-enabled-tracking'	=> true,
-			'bsfm-base-url'			=> '',
-			'bsfm-public-key'		=> '',
-			'bsfm-secret-key'		=> '',
-			'bsfm-callback-uri'		=> ''
-		);
-
-		//	if empty add all defaults
-		if( empty( $bsfm ) ) {
-			$bsfm = $defaults;
-			update_option( 'ampw_mautic_config', $bsfm );
-		} else {
-			//	add new key
-			foreach( $defaults as $key => $value ) {
-				if( is_array( $bsfm ) && !array_key_exists( $key, $bsfm ) ) {
-					$bsfm[$key] = $value;
-				} else {
-					$bsfm = wp_parse_args( $bsfm, $defaults );
-				}
-			}
-		}
-		return apply_filters( 'ampw_get_mautic', $bsfm );
-	}
 
 	public static function apm_notices()
 	{

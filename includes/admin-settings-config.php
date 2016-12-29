@@ -29,7 +29,7 @@
 	<form id="bsfm-config-form" action="<?php APM_AdminSettings::render_form_action( 'config' ); ?>" method="post">
 		<div class="ampw-settings-form-content">
 			<?php
-				$bsfm = APM_AdminSettings::get_ampw_mautic();
+				$bsfm = AMPW_Mautic_Init::get_amp_options();
 
 				$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = '';
 				if( is_array($bsfm) ) {

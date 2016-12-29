@@ -25,6 +25,28 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 	public static function get_amp_options()
 	{
 		$setting_options = get_option( 'ampw_mautic_config' );
+		$defaults = array(
+			'bsfm-enabled-tracking'	=> true,
+			'bsfm-base-url'			=> '',
+			'bsfm-public-key'		=> '',
+			'bsfm-secret-key'		=> '',
+			'bsfm-callback-uri'		=> ''
+		);
+
+		// if empty add all defaults
+		if( empty( $setting_options ) ) {
+			$setting_options = $defaults;
+			update_option( 'ampw_mautic_config', $setting_options );
+		} else {
+			//	add new key
+			foreach( $defaults as $key => $value ) {
+				if( is_array( $setting_options ) && !array_key_exists( $key, $setting_options ) ) {
+					$setting_options[ $key ] = $value;
+				} else {
+					$setting_options = wp_parse_args( $setting_options, $defaults );
+				}
+			}
+		}
 		return $setting_options;
 	}
 

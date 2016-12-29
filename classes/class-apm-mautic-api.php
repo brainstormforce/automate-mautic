@@ -343,7 +343,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	
 	public static function authenticate_update()
 	{
-		$bsfm 	=	APM_AdminSettings::get_ampw_mautic();
+		$bsfm = AMPW_Mautic_Init::get_amp_options();
 		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
 		$post = $_POST;
 		$cpts_err = false;
