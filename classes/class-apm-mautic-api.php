@@ -34,7 +34,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function set_mautic_code() 
 	{
-		if( isset( $_GET['code'] ) && 'bsf-mautic' == $_REQUEST['page'] ) {
+		if( isset( $_GET['code'] ) && 'automate-mautic' == $_REQUEST['page'] ) {
 			$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 			$credentials['access_code'] = sanitize_key( $_GET['code'] );
 			update_option( 'ampw_mautic_credentials', $credentials );
@@ -126,6 +126,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	{
 		$status = 'success';
 		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
+		
 		if( isset( $credentials['access_code'] ) && ! empty ( $credentials['access_code'] )  ) {
 			// if token expired, get new access token
 			if( $credentials['expires_in'] < time() ) {
@@ -293,7 +294,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function mautic_get_contact_by_email( $email, $mautic_credentials ) 
 	{
-		if( $mautic_credentials['expires_in'] < time() ) { 
+		if( $mautic_credentials['expires_in'] < time() ) {
 			$grant_type = 'refresh_token';
 			$response = self::mautic_get_access_token( $grant_type );
 			if ( is_wp_error( $response ) ) {
@@ -419,12 +420,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	{
 	 	$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 
-	 	if ( isset( $credentials['access_token'] ) && $credentials['expires_in'] > time() ) {
-			return true;
-		}
-		return false;
-	}
+	 	if ( ! isset( $credentials['access_token'] ) ) {
+			return false;
+	 	}
 
+		return true;
+	}
 }
 $AP_Mautic_Api = AP_Mautic_Api::instance();
 endif;

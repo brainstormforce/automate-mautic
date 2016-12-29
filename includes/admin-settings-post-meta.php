@@ -133,7 +133,7 @@
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
 				<a href="<?php APM_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
 			</p>
-			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
+			<?php wp_nonce_field('apmauticpmeta', 'apmw-mautic-post-meta-nonce'); ?>
 				<?php
 			} // end edit
 			else {
@@ -189,7 +189,7 @@
 			<p class="submit">
 				<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
 			</p>
-			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
+			<?php wp_nonce_field('apmauticpmeta', 'apmw-mautic-post-meta-nonce'); ?>
 		<?php }	?>
 	</form>
 </div>

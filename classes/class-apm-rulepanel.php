@@ -105,7 +105,9 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	public static function bsfm_clean_condition_action( $post_id ) 
 	{
 		$post_type = get_post_type($post_id);
-		if ( "bsf-mautic-rule" != $post_type ) return;
+		if ( "automate-mautic" != $post_type ) {
+			return;
+		} 
 		delete_post_meta( $post_id, 'ampw_rule_condition');
 		delete_post_meta( $post_id, 'ampw_rule_action');
 	}
@@ -117,7 +119,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	 */ 
 	public static function get_comment_condition( $comment_data = array() ) 
 	{
-		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
+		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'automate-mautic');
 		$posts = get_posts( $args );
 		$set_rules = array();
 		foreach ( $posts as $post ) : setup_postdata( $post );
@@ -143,7 +145,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 
 	public static function get_wpur_condition() 
 	{
-		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
+		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'automate-mautic');
 		$posts = get_posts( $args );
 		$ur_rules = array();
 		foreach ( $posts as $post ) : setup_postdata( $post );

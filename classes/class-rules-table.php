@@ -28,9 +28,9 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 		public function __construct() 
 		{	
 			parent::__construct( array(
-				'singular'	=> 'rule',		// Singular name of the listed records.
-				'plural'	=> 'rules', // Plural name of the listed records.
-				'ajax'		=> false,					// Does this list table support AJAX?
+				'singular'	=> 'rule',
+				'plural'	=> 'rules',
+				'ajax'		=> false,
 			) );
 		}
 	
@@ -200,7 +200,6 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 			$sortable = $this->get_sortable_columns();
 			$this->_column_headers = array($columns, $hidden, $sortable);
 			$this->items = $this->get_rules();
-			
 		}
 
 		public function get_rules()
@@ -209,7 +208,7 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 			global $wpdb;
 			$page_number = $this->get_pagenum();
 
-			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='bsf-mautic-rule' && post_status = 'publish'";
+			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='automate-mautic' && post_status = 'publish'";
 
 			if( isset($_GET['s']) && !empty($_GET['s']) ) {
 				$seachkey  = trim( $_GET['s'] );

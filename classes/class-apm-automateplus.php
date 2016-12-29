@@ -75,7 +75,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 			$screen = get_current_screen();
 
-			if ( $screen->id == 'settings_page_bsf-mautic' ) {
+			if ( $screen->id == 'settings_page_automate-mautic' ) {
 				$refresh_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>');
 				$footer_text  = $refresh_text . ' | ' . $footer_text;
 			}
@@ -84,7 +84,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		}
 
 		/**
-		 * Register a bsf-mautic-rule post type.
+		 * Register a automate-mautic post type.
 		 * @since 1.0.0
 		 * @link http://codex.wordpress.org/Function_Reference/register_post_type
 		 */
@@ -114,7 +114,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'show_ui'            => false,
 				'show_in_menu'       => 'options-general.php',
 				'query_var'          => true,
-				'rewrite'            => array( 'slug' => 'bsf-mautic-rule' ),
+				'rewrite'            => array( 'slug' => 'automate-mautic' ),
 				'capability_type'    => 'post',
 				'has_archive'        => true,
 				'hierarchical'       => false,
@@ -122,7 +122,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'menu_icon'			 => 'dashicons-chart-line',
 				'supports'           => array( 'title' )
 			);
-			register_post_type( 'bsf-mautic-rule', $args );
+			register_post_type( 'automate-mautic', $args );
 		}
 		
 		/** 

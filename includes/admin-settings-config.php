@@ -71,7 +71,7 @@
 				<input type="submit" name="ampw-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'automateplus-mautic-wp' ); ?>" />
 			</p>
 
-			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce');
+			<?php wp_nonce_field('bsfmautic', 'apmw-mautic-nonce');
 			}
 
 			if( AP_Mautic_Api::is_connected() ) { ?>
@@ -97,7 +97,7 @@
 			<p class="submit">
 				<input type="submit" name="save-bsfm" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'automateplus-mautic-wp' ); ?>" />
 			</p>
-			<?php wp_nonce_field('bsfmautictrack', 'bsf-mautic-nonce-tracking'); ?>
+			<?php wp_nonce_field( 'apmautictrack', 'apmw-mautic-nonce-tracking' ); ?>
 		<?php }
 			do_action('amp_options_tab_content', $active_tab);
 		?>
