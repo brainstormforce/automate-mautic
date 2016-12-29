@@ -27,11 +27,11 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 	{
 		$setting_options = get_option( 'ampw_mautic_config' );
 		$defaults = array(
-			'bsfm-enabled-tracking'	=> true,
-			'bsfm-base-url'			=> '',
-			'bsfm-public-key'		=> '',
-			'bsfm-secret-key'		=> '',
-			'bsfm-callback-uri'		=> ''
+			'enable-tracking'	=> true,
+			'base-url'			=> '',
+			'public-key'		=> '',
+			'secret-key'		=> '',
+			'callback-uri'		=> ''
 		);
 
 		// if empty add all defaults

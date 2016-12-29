@@ -8,7 +8,7 @@ Tested up to: 4.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Add registered WP users and commentors to mautic contacts.
+Add registered WP users and commentors to Mautic contacts.
 
 == Description ==
 

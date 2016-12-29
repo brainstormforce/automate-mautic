@@ -126,7 +126,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	{
 		$status = 'success';
 		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-		
+
 		if( isset( $credentials['access_code'] ) && ! empty ( $credentials['access_code'] )  ) {
 			// if token expired, get new access token
 			if( $credentials['expires_in'] < time() ) {
@@ -346,16 +346,15 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	
 	public static function authenticate_update()
 	{
-		$bsfm = AMPW_Mautic_Init::get_amp_options();
-		$mautic_api_url = $bsfm_public_key = $bsfm_secret_key = "";
+		$mautic_api_url = $apm_public_key = $apm_secret_key = "";
 		$post = $_POST;
 		$cpts_err = false;
 		$lists = null;
 		$ref_list_id = null;
 
-		$mautic_api_url = isset( $post['bsfm-base-url'] ) ? esc_url( $post['bsfm-base-url'] ) : '';
-		$bsfm_public_key = isset( $post['bsfm-public-key'] ) ? sanitize_key( $post['bsfm-public-key'] ) : '';
-		$bsfm_secret_key = isset( $post['bsfm-secret-key'] ) ? sanitize_key( $post['bsfm-secret-key'] ) : '';
+		$mautic_api_url = isset( $post['base-url'] ) ? esc_url( $post['base-url'] ) : '';
+		$apm_public_key = isset( $post['public-key'] ) ? sanitize_key( $post['public-key'] ) : '';
+		$apm_secret_key = isset( $post['secret-key'] ) ? sanitize_key( $post['secret-key'] ) : '';
 
 		$mautic_api_url = rtrim( $mautic_api_url ,"/");
 		if( $mautic_api_url == '' ) {	
@@ -363,7 +362,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$message = 'API URL is missing.';
 			$cpts_err = true;
 		}
-		if( $bsfm_secret_key == '' ) {
+		if( $apm_secret_key == '' ) {
 			$status = 'error';
 			$message = 'Secret Key is missing.';
 			$cpts_err = true;
@@ -371,8 +370,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		$settings = array(
 			'baseUrl'		=> $mautic_api_url,
 			'version'		=> 'OAuth2',
-			'clientKey'		=> $bsfm_public_key,
-			'clientSecret'	=> $bsfm_secret_key, 
+			'clientKey'		=> $apm_public_key,
+			'clientSecret'	=> $apm_secret_key, 
 			'callback'		=> APM_AdminSettings::get_render_page_url( "&tab=auth_mautic" ),
 			'response_type'	=> 'code'
 		);
@@ -392,7 +391,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	{
 		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 		$data = array();
-		if( isset($_COOKIE['mtc_id']) ) {
+		if( isset( $_COOKIE['mtc_id'] ) ) {
 			$contact_id = $_COOKIE['mtc_id'];
 			$contact_id = (int)$contact_id;
 
@@ -405,7 +404,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$contact_id = self::mautic_get_contact_by_email( $email, $credentials );
 		}
 
-		if( isset($contact_id) ) {
+		if( isset( $contact_id ) ) {
 			$data['method'] = 'PATCH';
 			$data['url'] = '/api/contacts/'.$contact_id.'/edit';
 		}

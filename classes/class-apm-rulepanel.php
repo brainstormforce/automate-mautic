@@ -30,10 +30,10 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 
 	public function hooks() 
 	{
-		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
+		add_action( 'wp_trash_post', array( $this, 'clean_condition_actions' ) );
 	}
 
-	public static function bsf_mautic_metabox_view() 
+	public static function apmw_metabox_view() 
 	{
 		APM_AdminSettings::render_form( 'post-meta' );
 	}
@@ -102,7 +102,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		echo $all_segments;
 	}
 
-	public static function bsfm_clean_condition_action( $post_id ) 
+	public static function clean_condition_actions( $post_id ) 
 	{
 		$post_type = get_post_type($post_id);
 		if ( "automate-mautic" != $post_type ) {

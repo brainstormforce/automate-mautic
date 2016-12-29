@@ -1,4 +1,4 @@
-<div id="ampw-post-meta" class="bsfm-settings-form wp-core-ui">
+<div id="ampw-post-meta" class="apmw-settings-form wp-core-ui">
 
 	<form id="ampw-post-meta-form" action="#" method="post">
 		
@@ -33,7 +33,7 @@
 				<div class="ampw-mautic-metabox">
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
-						<div id="ampw-sortable-condition" class="bsfm-item-wrap">
+						<div id="ampw-sortable-condition" class="apmw-item-wrap">
 					<?php
 					if( ! empty( $meta_conditions ) ) {
 						foreach ( $meta_conditions as $order => $meta_condition ) :
@@ -83,7 +83,7 @@
 					</div>
 						<div class="actions">
 							<h4> <?php _e( 'Action', 'automateplus-mautic-wp' ) ?> </h4>
-							<div id="ampw-sortable-action" class="bsfm-item-wrap">
+							<div id="ampw-sortable-action" class="apmw-item-wrap">
 							<?php
 								if( ! empty( $meta_actions ) ) {
 
@@ -143,7 +143,7 @@
 			<div class="ampw-mautic-metabox">
 				<div class="conditions">
 					<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
-					<div id="ampw-sortable-condition" class="bsfm-item-wrap">
+					<div id="ampw-sortable-condition" class="apmw-item-wrap">
 						<fieldset class="ui-state-default" id="item-1">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
@@ -162,7 +162,7 @@
 				</div>
 				<div class="actions">
 					<h4> <?php _e( 'Action', 'automateplus-mautic-wp' ) ?> </h4>
-					<div id="ampw-sortable-action" class="bsfm-item-wrap">
+					<div id="ampw-sortable-action" class="apmw-item-wrap">
 						<fieldset class="ui-state-default">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
