@@ -34,7 +34,7 @@
 	<# } #>
 
 	<# if( 'sub-tag-action' === data.clas ) { #>
-		<input id="sub-tag-action" type="text" class="sub-tag-action form-control" name="ss_seg_action[]">
+		<input id="sub-tag-action" type="text" class="sub-tag-action form-control" placeholder="comma separated tags" name="ss_seg_action[]">
 	<# } #>
 
 	<# if( 'sub-point-action' === data.clas ) { #>
