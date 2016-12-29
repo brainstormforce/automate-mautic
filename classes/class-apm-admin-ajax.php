@@ -60,7 +60,7 @@ class AutomatePlusAdminAjax {
 		wp_verify_nonce( "_wpnonce" );
 		if( isset( $_POST['bulk-delete'] ) ) {
 			$rules_ids = $_POST['bulk-delete'];
-			
+
 			foreach ( $rules_ids as $id ) {
 				$id = esc_attr( $id );
 				if( current_user_can( 'delete_post', $id ) ) {

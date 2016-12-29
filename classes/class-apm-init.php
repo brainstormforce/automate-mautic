@@ -21,17 +21,17 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
 		$this->load_plugin_textdomain();
 	}
-	/**
-	 *	For Performance
-	 *  Set static object to store data from database.
-	 */
-	public static function get_amp_options( $option )
+
+	public static function get_amp_options()
 	{
-		$bsfm_options = array(
-			'mautic_settings'     => get_option('ampw_mautic_config'),
-			'mautic_credentials'     => get_option( 'ampw_mautic_credentials' )
-		);
-		return $bsfm_options[$option];
+		$setting_options = get_option( 'ampw_mautic_config' );
+		return $setting_options;
+	}
+
+	public static function get_mautic_credentials()
+	{
+		$mautic_credentials = get_option( 'ampw_mautic_credentials' );
+		return $mautic_credentials;
 	}
 
 	function load_plugin_textdomain() {

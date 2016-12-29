@@ -50,7 +50,7 @@
 			</div>
 
 			<?php
-			$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+			$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 			if( ! isset( $credentials['access_token'] ) ) { ?>
 			<!-- Client Public Key -->
 			<div class="bsfm-config-fields">

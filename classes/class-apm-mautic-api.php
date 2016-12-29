@@ -35,7 +35,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	public static function set_mautic_code() 
 	{
 		if( isset( $_GET['code'] ) && 'bsf-mautic' == $_REQUEST['page'] ) {
-			$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+			$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 			$credentials['access_code'] =  esc_attr( $_GET['code'] );
 			update_option( 'ampw_mautic_credentials', $credentials );
 			self::get_mautic_data();
@@ -50,7 +50,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 */
 	public static function get_mautic_data() 
 	{
-		$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 		// If not authorized 
 		if( !isset( $credentials['access_token'] ) ) {
 			if( isset( $credentials['access_code']  ) ) {
@@ -82,7 +82,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 * @return response
 	 */
 	public static function mautic_get_access_token($grant_type) {
-		$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 
 		if ( ! isset( $credentials['baseUrl'] ) ) {
 
@@ -124,7 +124,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) 
 	{
 		$status = 'success';
-		$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 		if( ! isset( $credentials['expires_in'] ) ) {
 			return;
 		}
@@ -146,7 +146,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			}
 		} // refresh code token ends
 		// add contacts
-		$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 		$access_token = $credentials['access_token'];
 		$param['access_token'] = $access_token;
 		$url = $credentials['baseUrl'] . $url;
@@ -387,7 +387,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 	public static function get_api_method_url( $email )
 	{
-		$credentials =  AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 		$data = array();
 		if( isset($_COOKIE['mtc_id']) ) {
 			$contact_id = $_COOKIE['mtc_id'];
