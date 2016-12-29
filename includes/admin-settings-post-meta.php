@@ -1,222 +1,194 @@
-<div id="bsfm-bsfm-post-meta" class="bsfm-settings-form bsfm-config-fl-post-meta">
-	<form id="bsfm-post-meta-form" action="#" method="post">
-		<div class="bsfm-settings-form-content">
-			<?php
-			if( isset($_GET['action']) && $_GET['action']=='edit') {
-				if(isset($_GET['post'])) {
-					$post_id = $_GET['post'];
-				}
-				$meta_conditions = get_post_meta( $post_id, 'bsfm_rule_condition' );
-				if (isset($meta_conditions[0])) {
-					$meta_conditions = unserialize($meta_conditions[0]);	
-				}
-				$meta_actions = get_post_meta( $post_id, 'bsfm_rule_action' );
-				if (isset($meta_actions[0])) {
-					$meta_actions = unserialize($meta_actions[0]);
-				}
-			?>
-				<div class="bsf-mautic-metabox">
+<div id="ampw-post-meta" class="bsfm-settings-form wp-core-ui">
+
+	<form id="ampw-post-meta-form" action="#" method="post">
+		
+		<?php
+			if( isset( $_GET['post'] ) ) {
+				$post_id = esc_attr( $_GET['post'] );
+				$rule_title = get_the_title( $post_id );
+			}
+			else {
+				$rule_title = '';
+			}
+		?>
+		<div class="wrap">
+			<input type="text" name="ampw_rule_title" class="ampw_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title">
+		</div>
+		<?php
+		if( isset($_GET['action']) && $_GET['action']=='edit') {
+			if( isset($_GET['post']) ) {
+				$post_id = esc_attr( $_GET['post'] );
+			}
+			$meta_conditions = get_post_meta( $post_id, 'ampw_rule_condition' );
+			if (isset($meta_conditions[0])) {
+				$meta_conditions = unserialize($meta_conditions[0]);	
+			}
+			$meta_actions = get_post_meta( $post_id, 'ampw_rule_action' );
+			if (isset($meta_actions[0])) {
+				$meta_actions = unserialize($meta_actions[0]);
+			}
+		?>
+		<div class="ampw-settings-form-content">
+		
+				<div class="ampw-mautic-metabox">
 					<div class="conditions">
-						<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
-					<?php	
-						foreach ($meta_conditions as $order => $meta_condition) :	
+						<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
+						<div id="ampw-sortable-condition" class="bsfm-item-wrap">
+					<?php
+					if( ! empty($meta_conditions) ) {
+						foreach ($meta_conditions as $order => $meta_condition) :
 					?>
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
 							<span class="dashicons dashicons-minus remove-item"></span>
-							<span class="dashicons dashicons-editor-justify sort-items"></span> 
+							<span class="dashicons dashicons-editor-justify sort-items"></span>
 							<select class="select-condition form-control" name="pm_condition[]">
-								<option value="UR" <?php selected( $meta_condition[0],'UR' ); ?> >User Register on WordPress</option>
-								<option value="CP" <?php selected( $meta_condition[0],'CP' ); ?> >User Post a Comment</option>
-								<option value="CF7" <?php selected( $meta_condition[0],'CF7' ); ?> >User Submit Contact Form 7</option>
+								<?php APM_RulePanel::get_all_conditions_list( $meta_condition[0] ); ?>
 							</select>
-							<?php	if( $meta_condition[0]=='CP' ) :	?>
-									<div class="first-condition" style="display:inline;">
-										<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-											<option value="ao_website" <?php selected( $meta_condition[1],'ao_website' ); ?> >Anywhere on website</option>
-											<option value="os_page" <?php selected( $meta_condition[1],'os_page' ); ?> >On Specific Page</option>
-											<option value="os_post" <?php selected( $meta_condition[1],'os_post' ); ?> >On Specific Post</option>
-										</select>
-									</div>
+							<?php
+
+							if( $meta_condition[0]=='CP' ) : ?>
+
+								<div class="first-condition" style="display:inline;">
+									<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
+										<?php APM_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
+									</select>
+								</div>
 									<div class="second-condition" style="display:inline;">
 										<?php
 											if($meta_condition[1]=='os_page') {
-												Bsfm_Postmeta::select_all_pages($meta_condition[2]);
+												APM_RulePanel::select_all_pages( $meta_condition[2] );
 											}
 											elseif($meta_condition[1]=='os_post') {
-												Bsfm_Postmeta::select_all_posts($meta_condition[2]);
-											}									
+												APM_RulePanel::select_all_posts( $meta_condition[2] );
+											}
 								echo '</div>';
 								endif;
-								if( $meta_condition[0]=='CF7' ) : 
-									$cf7_id = $meta_condition[1];
-									//get cf7 data
-									$cf7_field_data = get_post_meta( $cf7_id, '_form' );
-									$reg = '/(?<=\[)([^\]]+)/';
-									$str = $cf7_field_data[0];
-									preg_match_all($reg, $str, $matches);
-									array_pop($matches[0]);
-									$map_cf7fields = sizeof( $matches[0] );
-									?>
-									<div class="first-condition" style="display:inline;">
-										<?php Bsfm_Postmeta::select_all_cf7forms($cf7_id); ?>
-									</div>
-									<div class="second-condition" style="display:inline;">
-										<table style="float: right;">
-											<tbody>
-												<?php
-												foreach( $meta_condition[2]['mautic_cfields'] as $mform_field ) {
-														echo '<tr><td>';
-														echo '<select class="mautic_forms" name="mautic_cfields['.$cf7_id.'][]">';
-															Bsfm_Postmeta::mautic_get_all_cfields( $mform_field );
-														echo '</select></td></tr>';
-												}
-												?>
-											</tbody>
-										</table>
-										<!-- Fetch cf7 fields -->
-										<table style="float: right;">
-											<tbody>
-											<?php
-											foreach( $meta_condition[2]['cf7_fields'] as $form_field ) {
-										 		$cf7_fields = '<tr><td><select name="cf7_fields['.$cf7_id.'][]">';
-												foreach ($matches[0] as $value) {
-													$field = explode(' ',$value);
-													$cf7_fields.= Bsfm_Postmeta::make_option($field[1], $field[1], $form_field);
-												}
-												$cf7_fields.= "</select></td></tr>";
-												echo $cf7_fields;	
-											}	
-										echo '</tbody></table>';						
-									echo '</div>';
-								endif;
+
 								if( $meta_condition[0]=='UR' ) :
 									echo '<div class="first-condition" style="display:inline;"></div>';
 									echo '<div class="second-condition" style="display:inline;"></div>';
 								endif;
-						echo '</fieldset>';
+									$action = 'new_condition_' . $meta_condition[0];
+									do_action( $action, $meta_condition );		
+							echo '</fieldset>';
 						endforeach;
+						}
 						?>
 					</div>
-					<fieldset class="bsfm-add-condition add-new-item">
-						<div class="ui-state-disabled">
-							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
+					<fieldset class="ampw-add-condition add-new-item">
+						<div>
+							<span class="dashicons dashicons-plus-alt ampw-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
 						</div>
 					</fieldset>
 					</div>
 						<div class="actions">
-							<h4> Action </h4>
-							<div id="bsfm-sortable-action" class="bsfm-item-wrap">
-							<?php	
+							<h4> <?php _e( 'Action', 'automateplus-mautic-wp' ) ?> </h4>
+							<div id="ampw-sortable-action" class="bsfm-item-wrap">
+							<?php
+								if( ! empty( $meta_actions ) ) {
+
 								foreach ($meta_actions as $order => $meta_action) :	
 							?>
-								<fieldset class="ui-state-default">
+								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
-										<select class="select-action form-control" name="pm_action[]">
-											<option value="segment" <?php selected( $meta_action[0],'segment' ); ?> >Segment</option>
-										</select>
-							<?php if($meta_action[0]=='segment') :	?>
+						
 									<div class="first-action" style="display:inline;">
-										<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-											<option value="pre_segments" <?php selected( $meta_action[1],'pre_segments' ); ?> >Select predefined segment</option>
+										<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
+											<?php APM_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
 										</select>
 									</div>
-							<?php 
-								endif;
-								if($meta_action[1]=='pre_segments') :
+							<?php
+								if( $meta_action[0]=='add_segment' || $meta_action[0]=='remove_segment' ) {
 							?>
 									<div class="second-action" style="display:inline;">
-										<?php Bsfm_Postmeta::select_all_segments($meta_action[2]); ?>
+										<input type="hidden" name="pm_action[]" value="segment">
+										<?php APM_RulePanel::select_all_segments( $meta_action[1] ); ?>
 									</div>
-							<?php	endif;	?>
+							<?php }
+								elseif( $meta_action[0]=='add_tag' ) { ?>
+									<div class="second-action" style="display:inline;">
+										<input type="hidden" name="pm_action[]" value="tag">
+										<input type="text" name="ss_seg_action[]" value="<?php echo $meta_action[1]; ?>">
+									</div>
+							<?php	
+								}
+							?>
 								</fieldset>
 							<?php
 								endforeach;
+								}
 							?>
-							</div>				 
-							<fieldset class="bsfm-add-action add-new-item">
-								<div class="ui-state-disabled">
-									<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new action', 'bsfmautic' ); ?>
+							</div>
+							<fieldset class="add-new-item">
+								<div>
+									<span class="dashicons dashicons-plus-alt ampw-add-action ampw-new-item-icon"></span><span class="ampw-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
 								</div>
 							</fieldset>
 						</div>
-						<div class="actions">
-							<h4> Select Method </h4>
-							<fieldset class="select-method">
-								<input type="radio" name="method" value="m_api" checked><span>Api</span> 
-								<input type="radio" name="method" value="m_form"><span>Form</span>
-							</fieldset>
-						</div>
 				</div>
+			</div>
+			<p class="submit">
+				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
+				<a href="<?php echo admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' ); ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
+			</p>
+			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 				<?php
-			}
+			} // end edit
 			else {
-			$bsfm 	=	BSF_Mautic_Helper::get_bsfm_mautic();
-			$bsfm_enabled_track = $bsfm_base_url = $bsfm_public_key = $bsfm_secret_key = $bsfm_callback_uri = $bsfm_enabled_track_img = '';
-			if( is_array($bsfm) ) {
-				$bsfm_enabled_track	= ( array_key_exists( 'bsfm-enabled-tracking', $bsfm ) && $bsfm['bsfm-enabled-tracking'] == 1 )  ? ' checked' : '';
-				$bsfm_enabled_track_img	= ( array_key_exists( 'bsfm-enabled-tracking-img', $bsfm ) && $bsfm['bsfm-enabled-tracking-img'] == 1 )  ? ' checked' : '';				
-				$bsfm_base_url = ( array_key_exists( 'bsfm-base-url', $bsfm ) ) ? $bsfm['bsfm-base-url'] : '';
-				$bsfm_public_key = ( array_key_exists( 'bsfm-public-key', $bsfm ) ) ? $bsfm['bsfm-public-key'] : '';
-				$bsfm_secret_key = ( array_key_exists( 'bsfm-secret-key', $bsfm ) ) ? $bsfm['bsfm-secret-key'] : '';
-				$bsfm_callback_uri = ( array_key_exists( 'bsfm-callback-uri', $bsfm ) ) ? $bsfm['bsfm-callback-uri'] : '';
-			}
 		?>
 			<!-- default fields -->
-			<div class="bsf-mautic-metabox">
+			<div class="ampw-settings-form-content">
+			<div class="ampw-mautic-metabox">
 				<div class="conditions">
-					<h4> Conditions </h4>
-					<div id="bsfm-sortable-condition" class="bsfm-item-wrap">
+					<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
+					<div id="ampw-sortable-condition" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default" id="item-1">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
 							<select class="select-condition form-control" name="pm_condition[]">
-								<option value="UR">User Register on WordPress</option>
-								<option value="CP">User Post a Comment</option>
-								<option value="CF7">User Submit Contact Form 7</option>
+								<?php APM_RulePanel::get_all_conditions_list(); ?>
 							</select>
 							<div class="first-condition" style="display:inline;"></div>
 							<div class="second-condition" style="display:inline;"></div>
 						</fieldset>
 					</div>				 
-					<fieldset class="bsfm-add-condition add-new-item">
-						<div class="ui-state-disabled">
-							<span class="dashicons dashicons-plus-alt"></span><?php _e( 'Add new condition', 'bsfmautic' ); ?>
+					<fieldset class="ampw-add-condition add-new-item">
+						<div>
+							<span class="dashicons dashicons-plus-alt ampw-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
 						</div>
 					</fieldset>
 				</div>
 				<div class="actions">
-					<h4> Action </h4>
-					<div id="bsfm-sortable-action" class="bsfm-item-wrap">
+					<h4> <?php _e( 'Action', 'automateplus-mautic-wp' ) ?> </h4>
+					<div id="ampw-sortable-action" class="bsfm-item-wrap">
 						<fieldset class="ui-state-default">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span> 
-								<select class="select-action form-control" name="pm_action[]">
-									<option value="segment">Segment</option>
-								</select>
 							<div class="first-action" style="display:inline;">
-								<select id="sub-cp-action" class="sub-cp-action form-control" name="sub_seg_action[]">
-									<option value="pre_segments">Select predefined segment</option>
+								<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
+									<?php APM_RulePanel::get_all_actions_list(); ?>
 								</select>
 							</div>
 							<div class="second-action" style="display:inline;">
-								<?php Bsfm_Postmeta::select_all_segments(); ?>
+								<input type="hidden" name="pm_action[]" value="segment">
+								<?php APM_RulePanel::select_all_segments(); ?>
 							</div>
 						</fieldset>
 					</div>				 
-					<fieldset class="bsfm-add-action add-new-item"><div class="ui-state-disabled"><span class="dashicons dashicons-plus-alt"></span> Add new action</div></fieldset>
-				</div>
-				<div class="actions">
-					<h4> Select Method </h4>
-					<fieldset class="select-method">
-						<input type="radio" name="method" value="m_api" checked><span>Api</span> 
-						<input type="radio" name="method" value="m_form"><span>Form</span>
-					</fieldset>
+						<fieldset class="add-new-item">
+							<div>
+								<span class="dashicons dashicons-plus-alt ampw-add-action ampw-new-item-icon"></span><span class="ampw-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
+							</div>
+						</fieldset>
 				</div>
 			</div>
 			<!-- default fields end -->
-		<?php	}	?>
-		</div>
-		<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta'); ?>
+			</div>
+			<p class="submit">
+				<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
+			</p>
+			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
+		<?php }	?>
 	</form>
 </div>
