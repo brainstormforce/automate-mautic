@@ -10,7 +10,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 		private static $instance;
 
-		public static function instance() {
+		public static function instance() 
+		{
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new AutomatePlus_Mautic();
 				self::$instance->includes();
@@ -19,14 +20,16 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			return self::$instance;
 		}
 
-		public function includes() {
+		public function includes() 
+		{
 
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-init.php' );
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-mautic-api.php' );
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 		}
 
-		public function hooks() {
+		public function hooks() 
+		{
 			add_action( 'init', array( $this, 'mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'mautic_tracking_script' ) );
 			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 );
@@ -40,7 +43,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function mautic_tracking_script() {
+		public function mautic_tracking_script() 
+		{
 
 			$bsfm_options =  AMPW_Mautic_Init::get_amp_options();
 			$enable_mautic_tracking	= false;
@@ -66,7 +70,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			}
 		}
 
-		public function refresh_edit_text( $footer_text ) {
+		public function refresh_edit_text( $footer_text ) 
+		{
 
 			$screen = get_current_screen();
 
@@ -83,7 +88,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @link http://codex.wordpress.org/Function_Reference/register_post_type
 		 */
-		public function mautic_register_posttype() {
+		public function mautic_register_posttype() 
+		{
 			$labels = array(
 				'name'               => _x( 'Rules', 'post type general name', 'automateplus-mautic-wp' ),
 				'singular_name'      => _x( 'Rule', 'post type singular name', 'automateplus-mautic-wp' ),
@@ -125,7 +131,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function add_registered_user( $user_id ) {
+		public function add_registered_user( $user_id ) 
+		{
 
 			// return if $user_id is not available
 			if( ! $user_id ) {
@@ -181,7 +188,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function add_comment_author( $id, $approved, $commentdata ) {
+		public function add_comment_author( $id, $approved, $commentdata ) 
+		{
 
 			$all_tags = '';
 			//get comment post condition rules

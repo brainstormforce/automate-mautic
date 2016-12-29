@@ -8,7 +8,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if( ! class_exists( "APM_Rules_Table" ) ){
+if( ! class_exists( "APM_Rules_Table" ) ) {
 
 	class APM_Rules_Table extends WP_List_Table {
 		
@@ -25,8 +25,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() {
-			
+		public function __construct() 
+		{	
 			parent::__construct( array(
 				'singular'	=> 'rule',		// Singular name of the listed records.
 				'plural'	=> 'rules', // Plural name of the listed records.
@@ -35,7 +35,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		}
 	
 
-		public function column_default( $item, $column_name ) {
+		public function column_default( $item, $column_name )
+		{
 		  switch( $column_name ) { 
 		    case 'post_title':
 		    case 'post_author':
@@ -46,7 +47,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		}
 
 		/** Text displayed when no rule data is available */
-		public function no_items() {
+		public function no_items()
+		{
 		  _e( 'No rules avaliable.', 'automateplus-mautic-wp' );
 		}
 
@@ -57,13 +59,15 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return string
 		 */
-		public function column_cb( $item ) {
+		public function column_cb( $item )
+		{
 		  return sprintf(
 		    '<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
 		  );
 		}
 
-		public function column_post_author( array $item ) {
+		public function column_post_author( array $item )
+		{
 			if ( '' === trim( $item['post_author'] ) ) {
 				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
 			}
@@ -73,7 +77,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 			return esc_html( $author );
 		}
 
-		public function column_post_title( array $item ) {
+		public function column_post_title( array $item )
+		{
 			if ( '' === trim( $item['post_title'] ) ) {
 				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
 			}
@@ -108,7 +113,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return array List of columns in this List Table.
 		 */
-		public function get_columns() {
+		public function get_columns()
+		{
 			 $columns = array(
 			 	'cb'          => '<input type="checkbox" />',
 			    'post_title'  => 'Title',
@@ -126,7 +132,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return array List of sortable columns in this List Table.
 		 */
-		protected function get_sortable_columns() {
+		protected function get_sortable_columns()
+		{
 
 			$sortable_columns = array(
 				'post_title' => array( 'post_title', true ),
@@ -142,7 +149,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return array Bulk actions for this table.
 		 */
-		protected function get_bulk_actions() {
+		protected function get_bulk_actions()
+		{
 			$actions = [
 			    'bulk-delete' => 'Delete'
 			];
@@ -150,7 +158,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
   			return $actions;
 		}
 
-		protected function bulk_actions( $which = '' ) {
+		protected function bulk_actions( $which = '' )
+		{
 			if ( is_null( $this->_actions ) ) {
 				$no_new_actions = $this->_actions = $this->get_bulk_actions();
 				/** This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php */
@@ -182,7 +191,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @since 1.0.0
 		 */
-		public function prepare_items() {
+		public function prepare_items()
+		{
 			$columns = $this->get_columns();
 
 			$this->process_bulk_action();
@@ -193,7 +203,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 			
 		}
 
-		public function get_rules() {
+		public function get_rules()
+		{
 
 			global $wpdb;
 			$page_number = $this->get_pagenum();

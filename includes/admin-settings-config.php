@@ -20,7 +20,7 @@
 	<?php
 
 	if( $active_tab == 'all_rules' ) {
-			APM_AdminSettings::ampw_rules_list();
+		APM_AdminSettings::ampw_rules_list();
 	}
 	if( $active_tab == 'add_new_rule' || $current_action == 'edit' ) { ?>
 		<?php
@@ -73,7 +73,6 @@
 
 			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce');
 			}
-				// If not authorized 
 				if( isset( $credentials['access_token'] ) ) { ?>
 				<p class="submit">
 					<input type="button" name="ampw-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />

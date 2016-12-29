@@ -81,7 +81,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	 * @since 1.0.0
 	 * @return response
 	 */
-	public static function mautic_get_access_token($grant_type) {
+	public static function mautic_get_access_token($grant_type) 
+	{
 		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 
 		if ( ! isset( $credentials['baseUrl'] ) ) {

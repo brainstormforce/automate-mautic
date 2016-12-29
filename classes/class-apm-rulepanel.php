@@ -13,7 +13,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	/**
 	* Initiator
 	*/
-	public static function instance() {
+	public static function instance() 
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new APM_RulePanel();
 			self::$instance->hooks();
@@ -22,24 +23,29 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		return self::$instance;
 	}
 
-	public function includes() {
+	public function includes() 
+	{
 		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-ajax.php';
 	}
 
-	public function hooks() {
+	public function hooks() 
+	{
 		add_action( 'wp_trash_post', array( $this, 'bsfm_clean_condition_action' ) );
 	}
 
-	public static function bsf_mautic_metabox_view() {
+	public static function bsf_mautic_metabox_view() 
+	{
 		APM_AdminSettings::render_form( 'post-meta' );
 	}
 
-	public static function make_option( $id, $value, $selected = null ) {
+	public static function make_option( $id, $value, $selected = null )
+	{
 		$selected = selected( $id, $selected, false );
 		return '<option value="' . $id . '"' . $selected . '>' . $value . '</option>';
 	}
 
-	public static function select_all_pages( $select = null ) {
+	public static function select_all_pages( $select = null ) 
+	{
 		//get all pages
 		$all_pages= '<select id="sub-sub-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
 		$pages = get_pages();
@@ -52,7 +58,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		echo $all_pages;
 	}
 
-	public static function select_all_posts( $select = null ) {
+	public static function select_all_posts( $select = null ) 
+	{
 		//get all posts
 		$all_posts = '<select id="ss-cp-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
 		$args = array( 'posts_per_page' => -1 );
@@ -66,7 +73,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		echo $all_posts;
 	}
 
-	public static function select_all_segments( $select = null ) {
+	public static function select_all_segments( $select = null ) 
+	{
 		//get all segments
 		$segments_trans = get_transient( 'apm_all_segments' );
 		if( $segments_trans ) {
@@ -94,7 +102,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		echo $all_segments;
 	}
 
-	public static function bsfm_clean_condition_action( $post_id ) {
+	public static function bsfm_clean_condition_action( $post_id ) 
+	{
 		$post_type = get_post_type($post_id);
 		if ( "bsf-mautic-rule" != $post_type ) return;
 		delete_post_meta( $post_id, 'ampw_rule_condition');
@@ -106,7 +115,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	 * @param comment data
 	 * @return rule id array
 	 */ 
-	public static function get_comment_condition( $comment_data = array() ) {
+	public static function get_comment_condition( $comment_data = array() ) 
+	{
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
 		$set_rules = array();
@@ -131,7 +141,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		return $set_rules;
 	}
 
-	public static function get_wpur_condition() {
+	public static function get_wpur_condition() 
+	{
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
 		$ur_rules = array();
@@ -154,7 +165,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	 * @param rule_id array
 	 * @return actions array
 	 */
-	public static function get_all_actions( $rules = array() ) {
+	public static function get_all_actions( $rules = array() )
+	{
 
 		$all_actions = array(
 			'add_segment' => array(),
@@ -191,7 +203,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	/**
 	 * list all conditions
 	 */
-	public static function get_all_conditions_list( $select = '' ) {
+	public static function get_all_conditions_list( $select = '' )
+	{
 		$conditions = '<option>' . __( 'Select Condition', 'automateplus-mautic-wp' ) . '</option>
 			<option value="UR" '.selected( $select, 'UR' ).'>' . __( 'User Register on WordPress', 'automateplus-mautic-wp' ) . '</option>
 			<option value="CP" '.selected( $select, 'CP' ).'>' . __( 'User Post a Comment', 'automateplus-mautic-wp' ) . '</option>';
@@ -203,7 +216,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	/**
 	 * list all actions
 	 */
-	public static function get_all_actions_list( $select = '' ) {
+	public static function get_all_actions_list( $select = '' )
+	{
 		$actions = '<option value="add_segment" '.selected( $select, 'add_segment' ).'>' . __( 'Add to segment', 'automateplus-mautic-wp' ) . '</option>
 			<option value="remove_segment" '.selected( $select, 'remove_segment' ).'>' . __( 'Remove from segment', 'automateplus-mautic-wp' ) . '</option>
 			<option value="add_tag" '.selected( $select, 'add_tag' ).'>' . __( 'Add Tags', 'automateplus-mautic-wp' ) . '</option>';
@@ -214,7 +228,8 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	/**
 	 * list all actions
 	 */
-	public static function get_comment_condition_sublist( $select = '' ) {
+	public static function get_comment_condition_sublist( $select = '' )
+	{
 		$comment_sublist = '<option value="ao_website" '.selected( $select, 'ao_website' ).'>' . __( 'Anywhere On Website', 'automateplus-mautic-wp' ) . '</option>
 			<option value="os_page" '.selected( $select, 'os_page' ).'>' . __( 'On Specific Page', 'automateplus-mautic-wp' ) . '</option>
 			<option value="os_post" '.selected( $select, 'os_post' ).'>' . __( 'On Specific Post', 'automateplus-mautic-wp' ) . '</option>';

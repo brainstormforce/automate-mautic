@@ -13,7 +13,8 @@ final class APM_AdminSettings {
 	/**
 	 * Initiator
 	 */
-	public static function instance() {
+	public static function instance() 
+	{
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new APM_AdminSettings();
 			self::$instance->hooks();
@@ -34,7 +35,8 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function mb_templates() {
+	public function mb_templates() 
+	{
 		$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 		if( 'bsf-mautic' == $curr_screen ) {
 			include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR .'/assets/templates/meta-box-template.php';
@@ -83,7 +85,8 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function styles_scripts( $hook ) {
+	public static function styles_scripts( $hook ) 
+	{
 
 		$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 		if( 'bsf-mautic' == $curr_screen ) {
@@ -102,12 +105,14 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public static function render() {
+	public static function render() 
+	{
 		include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-rules-table.php';
 		include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
 	}
 
-	public static function ampw_rules_list() {
+	public static function ampw_rules_list() 
+	{
 
 		$new_post_url = APM_AdminSettings::get_render_page_url( "&tab=add_new_rule" );
 		?>
@@ -158,8 +163,8 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */	 
-	public static function render_update_message() {
- 	
+	public static function render_update_message() 
+	{
  		// redirect
 		if( ! empty( $_POST ) ) {
 			echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';

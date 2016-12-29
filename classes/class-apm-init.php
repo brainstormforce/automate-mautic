@@ -57,7 +57,8 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 		return $mautic_credentials;
 	}
 
-	public function load_plugin_textdomain() {
+	public function load_plugin_textdomain()
+	{
 		load_plugin_textdomain( 'automateplus-mautic-wp' );
 	}
 }
