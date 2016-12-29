@@ -125,7 +125,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 	{
 		$status = 'success';
 		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-		if( isset( $credentials['access_code'] ) ) {
+		if( isset( $credentials['access_code'] ) && ! empty ( $credentials['access_code'] )  ) {
 			// if token expired, get new access token
 			if( $credentials['expires_in'] < time() ) {
 				$grant_type = 'refresh_token';
@@ -371,7 +371,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			'version'		=> 'OAuth2',
 			'clientKey'		=> $bsfm_public_key,
 			'clientSecret'	=> $bsfm_secret_key, 
-			'callback'		=> esc_url( admin_url( 'options-general.php?page=bsf-mautic&tab=auth_mautic' ) ),
+			'callback'		=> APM_AdminSettings::get_render_page_url( "&tab=auth_mautic" ),
 			'response_type'	=> 'code'
 		);
 

@@ -128,9 +128,10 @@
 						</div>
 				</div>
 			</div>
+
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
-				<a href="<?php echo admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' ); ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
+				<a href="<?php APM_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
 			</p>
 			<?php wp_nonce_field('bsfmauticpmeta', 'bsf-mautic-post-meta-nonce'); ?>
 				<?php

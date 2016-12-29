@@ -109,7 +109,7 @@ final class APM_AdminSettings {
 
 	public static function ampw_rules_list() {
 
-		$new_post_url = 'options-general.php?page=bsf-mautic&tab=add_new_rule';	
+		$new_post_url = APM_AdminSettings::get_render_page_url( "&tab=add_new_rule" );
 		?>
 		<div class="wrap">
 		<h1>
@@ -117,7 +117,7 @@ final class APM_AdminSettings {
 		</h1>
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
-			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'convertplug-v2' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
+			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automateplus-mautic-wp' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
 		}
 		?>
 		<form method="get" action="" >
@@ -181,39 +181,23 @@ final class APM_AdminSettings {
 	}
 	
 	/** 
-	 * Renders the action for a form.
+	 * Return page url.
 	 *
 	 * @since 1.0.0
-	 * @param string $type The type of form being rendered.
-	 * @return void
 	 */	  
-	public static function render_form_action( $type = '' )
+	public static function render_page_url( $type = '' )
 	{
-		echo esc_url( admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' . $type ) );
+		echo admin_url( '/options-general.php?page=bsf-mautic' . $type );
 	}
 
 	/** 
-	 * Renders tabs.
+	 * Return page url.
 	 *
 	 * @since 1.0.0
-	 * @param string $type The type of tab being rendered.
-	 * @return void
 	 */	  
-	public static function render_tab_action( $type = '' )
+	public static function get_render_page_url( $type = '' )
 	{
-		echo admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
-	}
-	
-	/** 
-	 * Returns the action for a form.
-	 *
-	 * @since 1.0.0
-	 * @param string $type The type of form being rendered.
-	 * @return string The URL for the form action.
-	 */	 
-	public static function get_form_action( $type = '' )
-	{
-		return admin_url( '/options-general.php?page=bsf-mautic#' . $type );
+		return admin_url( '/options-general.php?page=bsf-mautic' . $type );
 	}
 	
 	/** 
@@ -317,7 +301,7 @@ final class APM_AdminSettings {
 					$update_actions = serialize( $update_actions );
 					update_post_meta( $post_id, 'ampw_rule_action', $update_actions );
 				}
-				$redirect = admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $post_id );
+				$redirect = APM_AdminSettings::get_render_page_url( "&action=edit&post=$post_id" );
 				wp_redirect( $redirect );
 		}
 
@@ -347,7 +331,7 @@ final class APM_AdminSettings {
 
 			update_option( 'ampw_mautic_config', $bsfm );
 			
-			$redirect = admin_url( '/options-general.php?page=bsf-mautic&tab=enable_tracking' );
+			$redirect = APM_AdminSettings::get_render_page_url( "&tab=enable_tracking" );
 			wp_redirect( $redirect );
 		}
 
@@ -357,7 +341,7 @@ final class APM_AdminSettings {
 			if ( isset( $_GET['rule_id'] ) ) {
 				$rule_id = esc_attr( $_GET['rule_id'] );
 				wp_delete_post( $rule_id );
-				$redirect =	admin_url( '/options-general.php?page=bsf-mautic&tab=all_rules' );
+				$redirect = APM_AdminSettings::get_render_page_url( "&tab=all_rules" );
 				wp_redirect( $redirect );
 			}
 		}
@@ -376,7 +360,8 @@ final class APM_AdminSettings {
 		$credentials = AMPW_Mautic_Init::get_mautic_credentials();
 
 		if( ! isset( $credentials['expires_in'] ) && $curr_screen=='bsf-mautic' ) {
-			$redirect = admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' );
+
+			$redirect = APM_AdminSettings::get_render_page_url( "&tab=auth_mautic" );
 			printf( '<div class="update-nag bsf-update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="'.$redirect.'">'.__('click here','bsf').'</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
 		}
 	}
