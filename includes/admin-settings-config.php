@@ -51,8 +51,8 @@
 			</div>
 
 			<?php
-			$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-			if( ! isset( $credentials['access_token'] ) ) { ?>
+			
+			if( ! AP_Mautic_Api::is_connected() ) { ?>
 			<!-- Client Public Key -->
 			<div class="bsfm-config-fields">
 				<h4><?php _e( 'Public Key', 'automateplus-mautic-wp' ); ?></h4>
@@ -73,7 +73,8 @@
 
 			<?php wp_nonce_field('bsfmautic', 'bsf-mautic-nonce');
 			}
-				if( isset( $credentials['access_token'] ) ) { ?>
+
+			if( AP_Mautic_Api::is_connected() ) { ?>
 				<p class="submit">
 					<input type="button" name="ampw-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
 					<a class="ampw-disconnect-mautic"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 

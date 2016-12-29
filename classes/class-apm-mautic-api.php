@@ -415,6 +415,16 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		return $data;
 	}
 
+	public static function is_connected()
+	{
+	 	$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
+
+	 	if ( isset( $credentials['access_token'] ) && $credentials['expires_in'] > time() ) {
+			return true;
+		}
+		return false;
+	}
+
 }
 $AP_Mautic_Api = AP_Mautic_Api::instance();
 endif;
