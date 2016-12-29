@@ -13,7 +13,7 @@ final class APM_AdminSettings {
 	/**
 	 * Initiator
 	 */
-	public static function instance(){
+	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new APM_AdminSettings();
 			self::$instance->hooks();
@@ -21,8 +21,8 @@ final class APM_AdminSettings {
 		return self::$instance;
 	}
 
-	public function hooks() {
-
+	public function hooks() 
+	{
 		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 		add_action( 'admin_footer', array( $this, 'mb_templates' ) );
 		add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
@@ -48,7 +48,7 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	static public function init_hooks()
+	public static function init_hooks()
 	{
 		add_action( 'admin_menu', __CLASS__ . '::menu' );
 		if ( ! is_admin() ) {
@@ -67,7 +67,7 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	static public function menu() 
+	public static function menu() 
 	{
 		if ( current_user_can( 'delete_users' ) ) {
 			$cap	= 'delete_users';
@@ -83,7 +83,7 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	static public function styles_scripts( $hook ) {
+	public static function styles_scripts( $hook ) {
 
 		if ( ( isset( $_REQUEST['page'] ) && 'bsf-mautic' == $_REQUEST['page'] ) ) {
 			wp_enqueue_script( 'jquery' );
@@ -101,12 +101,12 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	static public function render() {
+	public static function render() {
 		include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-rules-table.php';
 		include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
 	}
 
-	static public function ampw_rules_list() {
+	public static function ampw_rules_list() {
 
 		$new_post_url = 'options-general.php?page=bsf-mautic&tab=add_new_rule';	
 		?>
@@ -143,7 +143,7 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	static public function render_page_heading()
+	public static function render_page_heading()
 	{
 		$icon = AUTOMATEPLUS_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
 		if ( ! empty( $icon ) ) {
@@ -157,7 +157,7 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */	 
-	static public function render_update_message() {
+	public static function render_update_message() {
  	
  		// redirect
 		if( ! empty( $_POST ) ) {
@@ -172,7 +172,7 @@ final class APM_AdminSettings {
 	 * @param string $type The type of form to render.
 	 * @return void
 	 */
-	static public function render_form( $type )
+	public static function render_form( $type )
 	{
 		if ( self::has_support( $type ) ) {
 			include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php';
@@ -186,7 +186,7 @@ final class APM_AdminSettings {
 	 * @param string $type The type of form being rendered.
 	 * @return void
 	 */	  
-	static public function render_form_action( $type = '' )
+	public static function render_form_action( $type = '' )
 	{
 		echo admin_url( '/options-general.php?page=bsf-mautic&tab=auth_mautic' . $type );
 	}
@@ -198,7 +198,7 @@ final class APM_AdminSettings {
 	 * @param string $type The type of tab being rendered.
 	 * @return void
 	 */	  
-	static public function render_tab_action( $type = '' )
+	public static function render_tab_action( $type = '' )
 	{
 		echo admin_url( '/options-general.php?page=bsf-mautic&action=' . $type );
 	}
@@ -210,7 +210,7 @@ final class APM_AdminSettings {
 	 * @param string $type The type of form being rendered.
 	 * @return string The URL for the form action.
 	 */	 
-	static public function get_form_action( $type = '' )
+	public static function get_form_action( $type = '' )
 	{
 		return admin_url( '/options-general.php?page=bsf-mautic#' . $type );
 	}
@@ -222,7 +222,7 @@ final class APM_AdminSettings {
 	 * @param string $type The type of form to check.
 	 * @return bool
 	 */ 
-	static public function has_support( $type )
+	public static function has_support( $type )
 	{
 		return file_exists( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-' . $type . '.php' );
 	}
@@ -233,7 +233,7 @@ final class APM_AdminSettings {
 	 * @since 1.0.0
 	 * @return void
 	 */	 
-	static public function save()
+	public static function save()
 	{
 		// Only admins can save settings.
 		if(!current_user_can('delete_users')) {
@@ -254,7 +254,7 @@ final class APM_AdminSettings {
 				'post_type'     => 'bsf-mautic-rule'
 			);
 
-			if( isset($_GET['action']) && $_GET['action']=='edit') {
+			if( isset( $_GET['action'] ) && $_GET['action']=='edit' ) {
 				$rule_id = esc_attr( $_GET['post'] );
 			}
 
@@ -294,7 +294,7 @@ final class APM_AdminSettings {
 
 					$actions = $_POST['sub_seg_action'];
 
-					$action_cnt = sizeof($actions);
+					$action_cnt = sizeof( $actions );
 
 					for( $i=0; $i < $action_cnt; $i++ ) {
 						// if($actions[$i]=='tag') {
@@ -362,14 +362,14 @@ final class APM_AdminSettings {
 		}
 	}
 
-	static public function mautic_authenticate_update() 
+	public static function mautic_authenticate_update() 
 	{
 		if ( isset( $_POST['ampw-save-authenticate'] ) && $_POST['ampw-save-authenticate']=='Save and Authenticate' ) {
 			AP_Mautic_Api::authenticate_update();
 		}
 	}
 	
-	static public function get_ampw_mautic() {
+	public static function get_ampw_mautic() {
 
 		$bsfm = AMPW_Mautic_Init::get_amp_options( 'mautic_settings' );
 		$defaults = array(
@@ -402,7 +402,7 @@ final class APM_AdminSettings {
 		return apply_filters( 'ampw_get_mautic', $bsfm );
 	}
 
-	static public function apm_notices()
+	public static function apm_notices()
 	{
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
 		$credentials = AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
@@ -413,7 +413,7 @@ final class APM_AdminSettings {
 		}
 	}
 
-	static public function render_messages( $message )
+	public static function render_messages( $message )
 	{
 		$curr_screen = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
 

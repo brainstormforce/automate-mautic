@@ -15,16 +15,16 @@
 			<input type="text" name="ampw_rule_title" class="ampw_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title">
 		</div>
 		<?php
-		if( isset($_GET['action']) && $_GET['action']=='edit') {
-			if( isset($_GET['post']) ) {
+		if( isset( $_GET['action'] ) && $_GET['action']=='edit') {
+			if( isset( $_GET['post'] ) ) {
 				$post_id = esc_attr( $_GET['post'] );
 			}
 			$meta_conditions = get_post_meta( $post_id, 'ampw_rule_condition' );
-			if (isset($meta_conditions[0])) {
+			if ( isset( $meta_conditions[0] ) ) {
 				$meta_conditions = unserialize($meta_conditions[0]);	
 			}
 			$meta_actions = get_post_meta( $post_id, 'ampw_rule_action' );
-			if (isset($meta_actions[0])) {
+			if ( isset( $meta_actions[0] ) ) {
 				$meta_actions = unserialize($meta_actions[0]);
 			}
 		?>
@@ -35,8 +35,8 @@
 						<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
 						<div id="ampw-sortable-condition" class="bsfm-item-wrap">
 					<?php
-					if( ! empty($meta_conditions) ) {
-						foreach ($meta_conditions as $order => $meta_condition) :
+					if( ! empty( $meta_conditions ) ) {
+						foreach ( $meta_conditions as $order => $meta_condition ) :
 					?>
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
 							<span class="dashicons dashicons-minus remove-item"></span>
@@ -87,7 +87,7 @@
 							<?php
 								if( ! empty( $meta_actions ) ) {
 
-								foreach ($meta_actions as $order => $meta_action) :	
+								foreach ( $meta_actions as $order => $meta_action ) :	
 							?>
 								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>

@@ -35,7 +35,7 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		}
 	
 
-		function column_default( $item, $column_name ) {
+		public function column_default( $item, $column_name ) {
 		  switch( $column_name ) { 
 		    case 'post_title':
 		    case 'post_author':
@@ -57,13 +57,13 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return string
 		 */
-		function column_cb( $item ) {
+		public function column_cb( $item ) {
 		  return sprintf(
 		    '<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
 		  );
 		}
 
-		function column_post_author( array $item ) {
+		public function column_post_author( array $item ) {
 			if ( '' === trim( $item['post_author'] ) ) {
 				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
 			}
@@ -73,7 +73,7 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 			return esc_html( $author );
 		}
 
-		function column_post_title( array $item ) {
+		public function column_post_title( array $item ) {
 			if ( '' === trim( $item['post_title'] ) ) {
 				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
 			}
@@ -178,7 +178,7 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @since 1.0.0
 		 */
-		function prepare_items() {
+		public function prepare_items() {
 			$columns = $this->get_columns();
 
 			$this->process_bulk_action();

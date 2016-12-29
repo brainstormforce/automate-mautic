@@ -102,10 +102,10 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 	}
 
 	/**
-	* check if rule is set
-	* @param comment data
-	* @return rule id array
-	*/ 
+	 * check if rule is set
+	 * @param comment data
+	 * @return rule id array
+	 */ 
 	public static function get_comment_condition( $comment_data = array() ) {
 		$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'bsf-mautic-rule');
 		$posts = get_posts( $args );
