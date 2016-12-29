@@ -2,7 +2,7 @@
 /**
  * Plugin Name: AutomatePlus - Mautic for WordPress
  * Plugin URI: http://www.brainstormforce.com/
- * Description: Sync your new registered WP users, contact form user with mautic contacts.
+ * Description: Add registered WP users and commentors to mautic contacts.
  * Version: 1.0.0
  * Author: Brainstorm Force
  * Author URI: http://www.brainstormforce.com/
