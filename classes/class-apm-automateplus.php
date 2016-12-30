@@ -10,7 +10,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 		private static $instance;
 
-		public static function instance() {
+		public static function instance() 
+		{
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new AutomatePlus_Mautic();
 				self::$instance->includes();
@@ -19,14 +20,16 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			return self::$instance;
 		}
 
-		public function includes() {
+		public function includes() 
+		{
 
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-init.php' );
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-mautic-api.php' );
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 		}
 
-		public function hooks() {
+		public function hooks() 
+		{
 			add_action( 'init', array( $this, 'mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'mautic_tracking_script' ) );
 			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 );
@@ -40,19 +43,22 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function mautic_tracking_script() {
+		public function mautic_tracking_script() 
+		{
 
-			$bsfm_options =  AMPW_Mautic_Init::get_amp_options( 'mautic_settings' );
+			$amp_options =  AMPW_Mautic_Init::get_amp_options();
 			$enable_mautic_tracking	= false;
-			if ( !empty( $bsfm_options ) && array_key_exists( 'bsfm-enabled-tracking', $bsfm_options ) ) {
-				if( $bsfm_options['bsfm-enabled-tracking'] == 1 ) {
+			if ( !empty( $amp_options ) && array_key_exists( 'enable-tracking', $amp_options ) ) {
+				if( $amp_options['enable-tracking'] == 1 ) {
 					$enable_mautic_tracking = true;
 				} else {
 					$enable_mautic_tracking = false;
 				}
 			}
-			if ( $enable_mautic_tracking && ! empty( $bsfm_options['bsfm-base-url'] ) ) {
-				$base_url = trim($bsfm_options['bsfm-base-url'], " \t\n\r\0\x0B/");
+			if ( $enable_mautic_tracking && ! empty( $amp_options['base-url'] ) ) {
+				
+				$base_url = esc_url( trim($amp_options['base-url'], " \t\n\r\0\x0B/") );
+
 				$trackingJS = "<script>
 				(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 				w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
@@ -64,11 +70,12 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			}
 		}
 
-		public function refresh_edit_text( $footer_text ) {
+		public function refresh_edit_text( $footer_text ) 
+		{
 
 			$screen = get_current_screen();
 
-			if ( $screen->id == 'settings_page_bsf-mautic' ) {
+			if ( $screen->id == 'settings_page_automate-mautic' ) {
 				$refresh_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>');
 				$footer_text  = $refresh_text . ' | ' . $footer_text;
 			}
@@ -77,11 +84,12 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		}
 
 		/**
-		 * Register a bsf-mautic-rule post type.
+		 * Register a automate-mautic post type.
 		 * @since 1.0.0
 		 * @link http://codex.wordpress.org/Function_Reference/register_post_type
 		 */
-		public function mautic_register_posttype() {
+		public function mautic_register_posttype() 
+		{
 			$labels = array(
 				'name'               => _x( 'Rules', 'post type general name', 'automateplus-mautic-wp' ),
 				'singular_name'      => _x( 'Rule', 'post type singular name', 'automateplus-mautic-wp' ),
@@ -106,7 +114,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'show_ui'            => false,
 				'show_in_menu'       => 'options-general.php',
 				'query_var'          => true,
-				'rewrite'            => array( 'slug' => 'bsf-mautic-rule' ),
+				'rewrite'            => array( 'slug' => 'automate-mautic' ),
 				'capability_type'    => 'post',
 				'has_archive'        => true,
 				'hierarchical'       => false,
@@ -114,7 +122,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'menu_icon'			 => 'dashicons-chart-line',
 				'supports'           => array( 'title' )
 			);
-			register_post_type( 'bsf-mautic-rule', $args );
+			register_post_type( 'automate-mautic', $args );
 		}
 		
 		/** 
@@ -123,7 +131,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function add_registered_user( $user_id ) {
+		public function add_registered_user( $user_id ) 
+		{
 
 			// return if $user_id is not available
 			if( ! $user_id ) {
@@ -144,7 +153,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$user_info = get_userdata( $user_id );
 			$email = $user_info->user_email;
 
-			$credentials = AMPW_Mautic_Init::get_amp_options( 'mautic_credentials' );
+			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
 
 			$body = array(
 				'firstname'	=> $user_info->first_name,
@@ -179,7 +188,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function add_comment_author( $id, $approved, $commentdata ) {
+		public function add_comment_author( $id, $approved, $commentdata ) 
+		{
 
 			$all_tags = '';
 			//get comment post condition rules

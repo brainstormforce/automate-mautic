@@ -8,7 +8,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if( ! class_exists( "APM_Rules_Table" ) ){
+if( ! class_exists( "APM_Rules_Table" ) ) {
 
 	class APM_Rules_Table extends WP_List_Table {
 		
@@ -25,17 +25,18 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() {
-			
+		public function __construct() 
+		{	
 			parent::__construct( array(
-				'singular'	=> 'rule',		// Singular name of the listed records.
-				'plural'	=> 'rules', // Plural name of the listed records.
-				'ajax'		=> false,					// Does this list table support AJAX?
+				'singular'	=> 'rule',
+				'plural'	=> 'rules',
+				'ajax'		=> false,
 			) );
 		}
 	
 
-		function column_default( $item, $column_name ) {
+		public function column_default( $item, $column_name )
+		{
 		  switch( $column_name ) { 
 		    case 'post_title':
 		    case 'post_author':
@@ -46,7 +47,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		}
 
 		/** Text displayed when no rule data is available */
-		public function no_items() {
+		public function no_items()
+		{
 		  _e( 'No rules avaliable.', 'automateplus-mautic-wp' );
 		}
 
@@ -57,13 +59,15 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return string
 		 */
-		function column_cb( $item ) {
+		public function column_cb( $item )
+		{
 		  return sprintf(
 		    '<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
 		  );
 		}
 
-		function column_post_author( array $item ) {
+		public function column_post_author( array $item )
+		{
 			if ( '' === trim( $item['post_author'] ) ) {
 				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
 			}
@@ -73,12 +77,15 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 			return esc_html( $author );
 		}
 
-		function column_post_title( array $item ) {
+		public function column_post_title( array $item )
+		{
 			if ( '' === trim( $item['post_title'] ) ) {
 				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
 			}
 
-			$post_link = admin_url( '/options-general.php?page=bsf-mautic&action=edit&post=' . $item['ID'] );
+			$url = '&action=edit&post=' . $item['ID'];
+
+			$post_link = APM_AdminSettings::get_render_page_url( $url );
 
 			$post_title = "<a href='". $post_link ."'>".$item['post_title']."</a>";
 
@@ -88,7 +95,9 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 
 			$wpnonce = wp_create_nonce( 'delete-rule'.$item['ID'] );	
 			
-			$delete_url = admin_url( "options-general.php?page=bsf-mautic&tab=all_rules&action=delete_rule&rule_id=".$item['ID'] . "&_wpnonce=" .$wpnonce );
+			$url_base = APM_AdminSettings::get_render_page_url( "&tab=all_rules&action=delete_rule" );
+
+			$delete_url = $url_base. "&rule_id=" . $item['ID'] . "&_wpnonce=" .$wpnonce;
 
 			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Delete', 'automateplus-mautic-wp' ) );
 
@@ -104,7 +113,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return array List of columns in this List Table.
 		 */
-		public function get_columns() {
+		public function get_columns()
+		{
 			 $columns = array(
 			 	'cb'          => '<input type="checkbox" />',
 			    'post_title'  => 'Title',
@@ -122,7 +132,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return array List of sortable columns in this List Table.
 		 */
-		protected function get_sortable_columns() {
+		protected function get_sortable_columns()
+		{
 
 			$sortable_columns = array(
 				'post_title' => array( 'post_title', true ),
@@ -138,7 +149,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @return array Bulk actions for this table.
 		 */
-		protected function get_bulk_actions() {
+		protected function get_bulk_actions()
+		{
 			$actions = [
 			    'bulk-delete' => 'Delete'
 			];
@@ -146,7 +158,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
   			return $actions;
 		}
 
-		protected function bulk_actions( $which = '' ) {
+		protected function bulk_actions( $which = '' )
+		{
 			if ( is_null( $this->_actions ) ) {
 				$no_new_actions = $this->_actions = $this->get_bulk_actions();
 				/** This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php */
@@ -178,7 +191,8 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 		 *
 		 * @since 1.0.0
 		 */
-		function prepare_items() {
+		public function prepare_items()
+		{
 			$columns = $this->get_columns();
 
 			$this->process_bulk_action();
@@ -186,18 +200,19 @@ if( ! class_exists( "APM_Rules_Table" ) ){
 			$sortable = $this->get_sortable_columns();
 			$this->_column_headers = array($columns, $hidden, $sortable);
 			$this->items = $this->get_rules();
-			
 		}
 
-		public function get_rules() {
+		public function get_rules()
+		{
 
 			global $wpdb;
 			$page_number = $this->get_pagenum();
 
-			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='bsf-mautic-rule' && post_status = 'publish'";
+			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='automate-mautic' && post_status = 'publish'";
 
 			if( isset($_GET['s']) && !empty($_GET['s']) ) {
 				$seachkey  = trim( $_GET['s'] );
+				$seachkey = esc_attr( $seachkey );
 				$query .= " && post_title LIKE '%".$seachkey."%'";
 			}
 

@@ -14,6 +14,7 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 	public function __construct() 
 	{
 		self::includes();
+
 	}
 
 	public function includes() 
@@ -21,20 +22,43 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
 		$this->load_plugin_textdomain();
 	}
-	/**
-	 *	For Performance
-	 *  Set static object to store data from database.
-	 */
-	public static function get_amp_options( $option )
+
+	public static function get_amp_options()
 	{
-		$bsfm_options = array(
-			'mautic_settings'     => get_option('ampw_mautic_config'),
-			'mautic_credentials'     => get_option( 'ampw_mautic_credentials' )
+		$setting_options = get_option( 'ampw_mautic_config' );
+		$defaults = array(
+			'enable-tracking'	=> true,
+			'base-url'			=> '',
+			'public-key'		=> '',
+			'secret-key'		=> '',
+			'callback-uri'		=> ''
 		);
-		return $bsfm_options[$option];
+
+		// if empty add all defaults
+		if( empty( $setting_options ) ) {
+			$setting_options = $defaults;
+			update_option( 'ampw_mautic_config', $setting_options );
+		} else {
+
+			foreach( $defaults as $key => $value ) {
+				if( is_array( $setting_options ) && ! array_key_exists( $key, $setting_options ) ) {
+					$setting_options[ $key ] = $value;
+				} else {
+					$setting_options = wp_parse_args( $setting_options, $defaults );
+				}
+			}
+		}
+		return $setting_options;
 	}
 
-	function load_plugin_textdomain() {
+	public static function get_mautic_credentials()
+	{
+		$mautic_credentials = get_option( 'ampw_mautic_credentials' );
+		return $mautic_credentials;
+	}
+
+	public function load_plugin_textdomain()
+	{
 		load_plugin_textdomain( 'automateplus-mautic-wp' );
 	}
 }
