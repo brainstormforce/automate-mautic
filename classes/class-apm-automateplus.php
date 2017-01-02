@@ -153,8 +153,6 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$user_info = get_userdata( $user_id );
 			$email = $user_info->user_email;
 
-			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
-
 			$body = array(
 				'firstname'	=> $user_info->first_name,
 				'lastname'	=> $user_info->last_name,
@@ -165,6 +163,10 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$api_data = AP_Mautic_Api::get_api_method_url( $email );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
+
+
+			$url = 'POST';
+			$method = '/api/contacts/new';
 
 			if ( $method == "POST" ) {
 				// add tags set in actions
