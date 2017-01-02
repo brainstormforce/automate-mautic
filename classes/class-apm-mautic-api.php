@@ -412,7 +412,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		}
 		else {
 			$contact_id = self::mautic_get_contact_by_email( $email, $credentials );
-			
 			if( isset( $contact_id ) ) {
 
 				$data['method'] = 'POST';
@@ -423,9 +422,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		if( ! isset( $contact_id ) ) {
 			$data['method'] = 'POST';
 			$data['url'] = '/api/contacts/new';
-		}
-		else {
-			
 		}
 		return $data;
 	}

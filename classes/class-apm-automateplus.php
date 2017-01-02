@@ -164,10 +164,6 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
-
-			$url = 'POST';
-			$method = '/api/contacts/new';
-
 			if ( $method == "POST" ) {
 				// add tags set in actions
 				if ( isset( $set_actions['add_tag'] ) ) {
