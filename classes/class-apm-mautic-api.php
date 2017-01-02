@@ -389,26 +389,37 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 	public static function get_api_method_url( $email )
 	{
+
 		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
 		$data = array();
+
 		if( isset( $_COOKIE['mtc_id'] ) ) {
+			
+			// for anonymous contacts
 			$contact_id = $_COOKIE['mtc_id'];
 			$contact_id = (int)$contact_id;
+			$data['method'] = 'PATCH';
+			$data['url'] = '/api/contacts/'.$contact_id.'/edit';
 
+			// known contacts with existing email
 			$email_cid = self::mautic_get_contact_by_email( $email, $credentials );
 			if( isset( $email_cid ) ) {
+
 				$contact_id = (int)$email_cid;
+				$data['method'] = 'POST';
+				$data['url'] = '/api/contacts/new';
 			}
 		}
 		else {
 			$contact_id = self::mautic_get_contact_by_email( $email, $credentials );
+			if( isset( $contact_id ) ) {
+
+				$data['method'] = 'POST';
+				$data['url'] = '/api/contacts/new';
+			}
 		}
 
-		if( isset( $contact_id ) ) {
-			$data['method'] = 'PATCH';
-			$data['url'] = '/api/contacts/'.$contact_id.'/edit';
-		}
-		else {
+		if( ! isset( $contact_id ) ) {
 			$data['method'] = 'POST';
 			$data['url'] = '/api/contacts/new';
 		}
