@@ -153,7 +153,14 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		$param['access_token'] = $access_token;
 		$url = $credentials['baseUrl'] . $url;
 		if( $method == "GET" ) {
+
 			$url = $url .'?access_token='. $access_token;
+
+			if ( isset( $param['limit'] ) ) {
+				// make sure segments are not limited to 10
+				$url .= '&limit=' . $param['limit'];
+			}
+
 			$response = wp_remote_get( $url );
 			if( is_array($response) ) {
 				$response_body = $response['body'];
@@ -184,6 +191,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				'body' => $param,
 				'cookies' => array()
 			));
+
 		}
 		if ( is_wp_error( $response ) ) {
 			$errorMsg = $response->get_error_message();
