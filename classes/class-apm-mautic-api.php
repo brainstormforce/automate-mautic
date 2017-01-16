@@ -153,7 +153,14 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		$param['access_token'] = $access_token;
 		$url = $credentials['baseUrl'] . $url;
 		if( $method == "GET" ) {
+
 			$url = $url .'?access_token='. $access_token;
+
+			if ( isset( $param['limit'] ) ) {
+				// make sure segments are not limited to 10
+				$url .= '&limit=' . $param['limit'];
+			}
+
 			$response = wp_remote_get( $url );
 			if( is_array($response) ) {
 				$response_body = $response['body'];
@@ -209,7 +216,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						// add contact to segment
 						$add_segment = $segments['add_segment'];
 						if( is_array( $add_segment ) ) {
-							foreach ( $add_segment as $segment_id) {
+							foreach ( $add_segment as $segment_id ) {
 								$segment_id = (int)$segment_id;
 								$action = "add";
 								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
@@ -219,10 +226,10 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						// remove contact from segment
 						$remove_segment = $segments['remove_segment'];
 						if( is_array( $remove_segment ) ) {
-							foreach ( $remove_segment as $segment_id) {
+							foreach ( $remove_segment as $segment_id ) {
 								$segment_id = (int)$segment_id;
 								$action = "remove";
-								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
+								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
 							}
 						}
 

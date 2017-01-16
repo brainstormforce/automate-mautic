@@ -81,9 +81,9 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 			$segments = $segments_trans;
 		}
 		else {
-			$url = "/api/segments";
+			$url = "/api/segments/";
 			$method = "GET";
-			$body = '';
+			$body['limit'] = 100000;
 			$segments = AP_Mautic_Api::ampw_mautic_api_call($url, $method, $body);
 			set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
 		}

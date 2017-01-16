@@ -136,6 +136,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 			// return if $user_id is not available
 			if( ! $user_id ) {
+				
 				return;
 			}
 			$all_tags = '';
@@ -151,6 +152,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$set_actions = APM_RulePanel::get_all_actions($status);
 
 			$user_info = get_userdata( $user_id );
+
 			$email = $user_info->user_email;
 
 			$body = array(
