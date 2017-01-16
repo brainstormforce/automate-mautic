@@ -3,7 +3,7 @@ Contributors: brainstormforce, rahulwalunje-1
 Donate link: https://www.brainstormforce.com/payment/
 Requires at least: 3.0
 Tags: mautic, email, contacts, marketing, tags
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Tested up to: 4.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -35,3 +35,6 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 
 = 1.0.0 =
 * Initial Release.
+
+= 1.0.1 =
+* Fix : Extend Segment display limit.
