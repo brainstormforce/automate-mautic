@@ -131,4 +131,10 @@ jQuery(document).ready(function( $ ) {
 			return false;
 		}
 	});
+
+	jq('#save-amp-settings').click(function() {
+		
+		 jq( '.apm-wp-spinner' ).css( "visibility", "visible" );
+	});
+
 });

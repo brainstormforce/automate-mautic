@@ -95,7 +95,8 @@
 				</label><br>
 			</div>
 			<p class="submit">
-				<input type="submit" name="save-apmw" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'automateplus-mautic-wp' ); ?>" />
+				<input type="submit" name="save-apmw" id="save-amp-settings" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'automateplus-mautic-wp' ); ?>" />
+				<span class="spinner apm-wp-spinner" style="float: none;margin-bottom: 0.5em;"></span>
 			</p>
 			<?php wp_nonce_field( 'apmautictrack', 'apmw-mautic-nonce-tracking' ); ?>
 		<?php }
