@@ -1,3 +1,12 @@
+<?php
+/**
+ * Handle config page
+ *
+ * @package automateplus-mautic
+ * @since 1.0.0
+ */
+
+?>
 <div class="wrap">
 
 	<h2 class="ampw-settings-heading">

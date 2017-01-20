@@ -1,3 +1,12 @@
+<?php
+/**
+ * Config page view
+ *
+ * @package automateplus-mautic
+ * @since 1.0.0
+ */
+
+?>
 <div id="automate-config-form" class="apmw-settings-form ampw-config-settings-form">
 	<?php
 		$active_tab = isset( $_GET['tab'] ) ?  esc_attr( $_GET['tab'] ) : 'all_rules';
@@ -7,21 +16,22 @@
 	} else {
 		$current_action = '';
 	}
+
 	?>
 	<h2 class="nav-tab-wrapper">
-		<a href="<?php APM_AdminSettings::render_page_url( '&tab=all_rules' ); ?>" class="nav-tab <?php echo $active_tab == 'all_rules' ? 'nav-tab-active' : ''; ?>"> <?php _e( 'All Rules', 'automateplus-mautic-wp' ); ?> </a>
-		<a href="<?php APM_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" class="nav-tab <?php echo $active_tab == 'auth_mautic' ? 'nav-tab-active' : ''; ?>"> <?php _e( 'Authenticate', 'automateplus-mautic-wp' ); ?> </a>
-		<a href="<?php APM_AdminSettings::render_page_url( '&tab=enable_tracking' ); ?>" class="nav-tab <?php echo $active_tab == 'enable_tracking' ? 'nav-tab-active' : ''; ?>"> <?php _e( 'Tracking', 'automateplus-mautic-wp' ); ?> </a>
+		<a href="<?php APM_AdminSettings::render_page_url( '&tab=all_rules' ); ?>" class="nav-tab <?php echo 'all_rules' == $active_tab ? 'nav-tab-active' : ''; ?>"> <?php _e( 'All Rules', 'automateplus-mautic-wp' ); ?> </a>
+		<a href="<?php APM_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" class="nav-tab <?php echo 'auth_mautic' == $active_tab ? 'nav-tab-active' : ''; ?>"> <?php _e( 'Authenticate', 'automateplus-mautic-wp' ); ?> </a>
+		<a href="<?php APM_AdminSettings::render_page_url( '&tab=enable_tracking' ); ?>" class="nav-tab <?php echo 'enable_tracking' == $active_tab ? 'nav-tab-active' : ''; ?>"> <?php _e( 'Tracking', 'automateplus-mautic-wp' ); ?> </a>
 		<?php
 			do_action( 'amp_new_options_tab', $active_tab );
 		?>
 	</h2>
 	<?php
 
-	if ( $active_tab == 'all_rules' ) {
+	if ( 'all_rules' == $active_tab  ) {
 		APM_AdminSettings::ampw_rules_list();
 	}
-	if ( $active_tab == 'add_new_rule' || $current_action == 'edit' ) { ?>
+	if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) { ?>
 		<?php
 			APM_RulePanel::apmw_metabox_view();
 		?>
@@ -33,13 +43,13 @@
 
 				$apmw_enabled_track = $apmw_base_url = $apmw_public_key = $apmw_secret_key = '';
 			if ( is_array( $apmw ) ) {
-				$apmw_enabled_track	= ( array_key_exists( 'enable-tracking', $apmw ) && $apmw['enable-tracking'] == 1 )  ? ' checked' : '';
+				$apmw_enabled_track	= ( array_key_exists( 'enable-tracking', $apmw ) && 1 == $apmw['enable-tracking'])  ? ' checked' : '';
 				$apmw_base_url = ( array_key_exists( 'base-url', $apmw ) ) ? $apmw['base-url'] : '';
 				$apmw_public_key = ( array_key_exists( 'public-key', $apmw ) ) ? $apmw['public-key'] : '';
 				$apmw_secret_key = ( array_key_exists( 'secret-key', $apmw ) ) ? $apmw['secret-key'] : '';
 			}
 
-			if ( $active_tab == 'auth_mautic' ) { ?>
+			if ( 'auth_mautic' == $active_tab ) { ?>
 			<!-- Base Url -->
 			<div class="apmw-config-fields">
 				<h4><?php _e( 'Base URL', 'automateplus-mautic-wp' ); ?></h4>
@@ -83,7 +93,7 @@
 			<?php
 			}
 
-			if ( $active_tab == 'enable_tracking' ) { ?>
+			if ( 'enable_tracking' == $active_tab ) { ?>
 				<div class="apmw-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'automateplus-mautic-wp' ); ?></h4>
 				<p class="admin-help">

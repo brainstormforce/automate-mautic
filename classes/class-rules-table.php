@@ -1,8 +1,10 @@
 <?php
-/*
-* ConvertPlug Popup Table list
-* @Version: 0.0.1
-*/
+/**
+ * AutomatePlus Table List
+ *
+ * @package automateplus-mautic
+ * @since 1.0.0
+ */
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
@@ -10,6 +12,10 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 if ( ! class_exists( 'APM_Rules_Table' ) ) {
 
+	/**
+	 * Initiator
+	 * Create class APM_Rules_Table
+	 */
 	class APM_Rules_Table extends WP_List_Table {
 
 		/**
@@ -33,18 +39,28 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 			) );
 		}
 
-
+		/**
+		 * Modify table columns
+		 *
+		 * @param array  $item all data.
+		 * @param string $column_name column name.
+		 * @since 1.0.0
+		 */
 		public function column_default( $item, $column_name ) {
 			switch ( $column_name ) {
 				case 'post_title':
 				case 'post_author':
 				  return $item[ $column_name ];
 				default:
-				  return print_r( $item, true ); // Show the whole array for troubleshooting purposes
+				  return print_r( $item, true ); // Show the whole array for troubleshooting purposes.
 			}
 		}
 
-		/** Text displayed when no rule data is available */
+		/**
+		 * Display table empty message
+		 *
+		 * @since 1.0.0
+		 */
 		public function no_items() {
 			_e( 'No rules avaliable.', 'automateplus-mautic-wp' );
 		}
@@ -52,7 +68,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 		/**
 		 * Render the bulk edit checkbox
 		 *
-		 * @param array $item
+		 * @param array $item Item ID.
 		 *
 		 * @return string
 		 */
@@ -62,6 +78,13 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 			);
 		}
 
+		/**
+		 * Get post author
+		 *
+		 * @param array $item table data.
+		 *
+		 * @return string
+		 */
 		public function column_post_author( array $item ) {
 			if ( '' === trim( $item['post_author'] ) ) {
 				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
@@ -72,6 +95,13 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 			return esc_html( $author );
 		}
 
+		/**
+		 * Get post title
+		 *
+		 * @param array $item table data.
+		 *
+		 * @return string
+		 */
 		public function column_post_title( array $item ) {
 			if ( '' === trim( $item['post_title'] ) ) {
 				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
@@ -149,10 +179,17 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 				return $actions;
 		}
 
+		/**
+		 * Handle bulk actions
+		 *
+		 * @since 1.0.0
+		 * @param string $which item action.
+		 * @return void
+		 */
 		protected function bulk_actions( $which = '' ) {
 			if ( is_null( $this->_actions ) ) {
 				$no_new_actions = $this->_actions = $this->get_bulk_actions();
-				/** This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php */
+				// This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php.
 				$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->id, $this->_actions );
 				$this->_actions = array_intersect_assoc( $this->_actions, $no_new_actions );
 				$two = '';
@@ -180,6 +217,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 		 * Prepares the list of items for displaying, by maybe searching and sorting, and by doing pagination.
 		 *
 		 * @since 1.0.0
+		 * @return void
 		 */
 		public function prepare_items() {
 			$columns = $this->get_columns();
@@ -191,6 +229,12 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 			$this->items = $this->get_rules();
 		}
 
+		/**
+		 * Prepares the list of items for displaying, by maybe searching and sorting, and by doing pagination.
+		 *
+		 * @since 1.0.0
+		 * @return array results
+		 */
 		public function get_rules() {
 
 			global $wpdb;
@@ -208,10 +252,9 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 
 			$perpage = 10;
 
-			// How many pages do we have in total?
+			// How many pages do we have in total ?
 			$totalpages = ceil( $total_items / $perpage );
 
-			/* -- Register the pagination -- */
 			$this->set_pagination_args( array(
 				'total_items' => $total_items,
 				'total_pages' => $totalpages,
@@ -225,15 +268,14 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 				$query .= ' ORDER BY ' . $orderby . ' ' . $order;
 			}
 
-			// Which page is this?
+			// Which page is this ?
 			$paged = ! empty( $_GET['paged'] ) ? esc_attr( $_GET['paged'] ) : '';
 
-			// Page Number
 			if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
 				$paged = 1;
 			}
 
-			// adjust the query to take pagination into account
+			// adjust the query to take pagination into account.
 			if ( ! empty( $paged ) && ! empty( $perpage ) ) {
 				$offset = ( $paged -1 ) * $perpage;
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;

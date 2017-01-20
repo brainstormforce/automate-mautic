@@ -1,5 +1,13 @@
-<div id="ampw-post-meta" class="apmw-settings-form wp-core-ui">
+<?php
+/**
+ * Handle rules panel
+ *
+ * @package automateplus-mautic
+ * @since 1.0.0
+ */
 
+?>
+<div id="ampw-post-meta" class="apmw-settings-form wp-core-ui">
 	<form id="ampw-post-meta-form" action="#" method="post">
 		
 		<?php
@@ -14,7 +22,7 @@
 			<input type="text" name="ampw_rule_title" class="ampw_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title">
 		</div>
 		<?php
-		if ( isset( $_GET['action'] ) && $_GET['action'] == 'edit' ) {
+		if ( isset( $_GET['action'] ) &&  'edit' == $_GET['action'] ) {
 			if ( isset( $_GET['post'] ) ) {
 				$post_id = esc_attr( $_GET['post'] );
 			}
@@ -45,7 +53,7 @@
 							</select>
 							<?php
 
-							if ( $meta_condition[0] == 'CP' ) : ?>
+							if ( 'CP' == $meta_condition[0]  ) : ?>
 
 								<div class="first-condition" style="display:inline;">
 									<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
@@ -54,15 +62,15 @@
 								</div>
 									<div class="second-condition" style="display:inline;">
 										<?php
-										if ( $meta_condition[1] == 'os_page' ) {
+										if ( 'os_page' == $meta_condition[1] ) {
 											APM_RulePanel::select_all_pages( $meta_condition[2] );
-										} elseif ( $meta_condition[1] == 'os_post' ) {
+										} elseif ( 'os_post' == $meta_condition[1] ) {
 											APM_RulePanel::select_all_posts( $meta_condition[2] );
 										}
 										echo '</div>';
 								endif;
 
-							if ( $meta_condition[0] == 'UR' ) :
+							if ( 'UR' == $meta_condition[0] ) :
 								echo '<div class="first-condition" style="display:inline;"></div>';
 								echo '<div class="second-condition" style="display:inline;"></div>';
 								endif;
@@ -97,13 +105,13 @@
 										</select>
 									</div>
 							<?php
-							if ( $meta_action[0] == 'add_segment' || $meta_action[0] == 'remove_segment' ) {
+							if ( 'add_segment' == $meta_action[0] || 'remove_segment' == $meta_action[0] ) {
 							?>
 							<div class="second-action" style="display:inline;">
 								<input type="hidden" name="pm_action[]" value="segment">
 								<?php APM_RulePanel::select_all_segments( $meta_action[1] ); ?>
 							</div>
-							<?php } elseif ( $meta_action[0] == 'add_tag' ) { ?>
+							<?php } elseif ( 'add_tag' == $meta_action[0] ) { ?>
 									<div class="second-action" style="display:inline;">
 										<input type="hidden" name="pm_action[]" value="tag">
 										<input type="text" name="ss_seg_action[]" value="<?php echo $meta_action[1]; ?>">

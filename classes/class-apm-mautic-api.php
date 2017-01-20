@@ -300,7 +300,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				} else {
 					if ( is_array( $response ) ) {
 						$response_code = $response['response']['code'];
-						if ( $response_code != 200 ) {
+						if ( 200 != $response_code ) {
 							$status = 'error';
 							$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
 						} else {
@@ -319,7 +319,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		/**
 		 * Get Mautic contact ID
 		 *
-		 * @return mautic contact id
 		 * @since 1.0.0
 		 * @param string $email contact email.
 		 * @param array  $mautic_credentials mautic credentials.
@@ -394,12 +393,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$apm_secret_key = isset( $post['secret-key'] ) ? sanitize_key( $post['secret-key'] ) : '';
 
 			$mautic_api_url = rtrim( $mautic_api_url ,'/' );
-			if ( $mautic_api_url == '' ) {
+			if ( empty( $mautic_api_url ) ) {
 				$status = 'error';
 				$message = 'API URL is missing.';
 				$cpts_err = true;
 			}
-			if ( $apm_secret_key == '' ) {
+			if ( empty( $apm_secret_key ) ) {
 				$status = 'error';
 				$message = 'Secret Key is missing.';
 				$cpts_err = true;
