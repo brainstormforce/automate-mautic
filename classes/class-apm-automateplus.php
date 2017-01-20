@@ -2,14 +2,31 @@
 /**
  * Mautic for WordPress initiate
  *
+ * @package automateplus-mautic
  * @since 1.0.0
  */
+
 if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
+	/**
+	 * Create class AutomatePlus_Mautic
+	 * Handles register post type, trigger actions
+	 */
 	class AutomatePlus_Mautic {
 
+		/**
+		 * Declare a static variable instance.
+		 *
+		 * @var instance
+		 */
 		private static $instance;
 
+		/**
+		 * Initiate class
+		 *
+		 * @since 1.0.0
+		 * @return object
+		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new AutomatePlus_Mautic();
@@ -19,6 +36,12 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			return self::$instance;
 		}
 
+		/**
+		 * Include files required to plugin
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public function includes() {
 
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-init.php' );
@@ -26,6 +49,12 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 		}
 
+		/**
+		 * Call hooks
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public function hooks() {
 			add_action( 'init', array( $this, 'mautic_register_posttype' ) );
 			add_action( 'wp_head', array( $this, 'mautic_tracking_script' ) );
@@ -45,7 +74,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$amp_options = AMPW_Mautic_Init::get_amp_options();
 			$enable_mautic_tracking	= false;
 			if ( ! empty( $amp_options ) && array_key_exists( 'enable-tracking', $amp_options ) ) {
-				if ( $amp_options['enable-tracking'] == 1 ) {
+				if ( 1 == $amp_options['enable-tracking'] ) {
 					$enable_mautic_tracking = true;
 				} else {
 					$enable_mautic_tracking = false;
@@ -55,22 +84,29 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 				$base_url = esc_url( trim( $amp_options['base-url'], " \t\n\r\0\x0B/" ) );
 
-				$trackingJS = "<script>
+				$js_tracking = "<script>
 				(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 				w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 				m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 				})(window,document,'script','{$base_url}/mtc.js','mt');
 				mt('send', 'pageview');
 				</script>";
-				echo $trackingJS;
+				echo $js_tracking;
 			}
 		}
 
+		/**
+		 * Add button to refresh Mautic data in footer
+		 *
+		 * @since 1.0.0
+		 * @param string $footer_text default footer text.
+		 * @return string
+		 */
 		public function refresh_edit_text( $footer_text ) {
 
 			$screen = get_current_screen();
 
-			if ( $screen->id == 'settings_page_automate-mautic' ) {
+			if ( 'settings_page_automate-mautic' == $screen->id ) {
 				$refresh_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>' );
 				$footer_text  = $refresh_text . ' | ' . $footer_text;
 			}
@@ -124,22 +160,23 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * Add registered WP users to Mautic contacts
 		 *
 		 * @since 1.0.0
+		 * @param int $user_id WP Users unique ID.
 		 * @return void
 		 */
 		public function add_registered_user( $user_id ) {
 
-			// return if $user_id is not available
+			// return if $user_id is not available.
 			if ( ! $user_id ) {
 
 				return;
 			}
 			$all_tags = '';
 
-			// get user registerd condition rules
+			// get user registerd condition rules.
 			$status = APM_RulePanel::get_wpur_condition();
 
-			// return if the $status is not as expected
-			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {
+			// return if the $status is not as expected.
+			if ( ! is_array( $status ) || 0 == sizeof( $status ) ) {
 				return;
 			}
 
@@ -160,8 +197,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
-			if ( $method == 'POST' ) {
-				// add tags set in actions
+			if ( 'POST' == $method ) {
+				// add tags set in actions.
 				if ( isset( $set_actions['add_tag'] ) ) {
 
 					foreach ( $set_actions['add_tag'] as $tags ) {
@@ -180,15 +217,18 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 * Add comments author to Mautic contacts
 		 *
 		 * @since 1.0.0
+		 * @param int    $id comment author ID.
+		 * @param string $approved Comment status.
+		 * @param array  $commentdata Comment author data.
 		 * @return void
 		 */
 		public function add_comment_author( $id, $approved, $commentdata ) {
 
 			$all_tags = '';
-			// get comment post condition rules
+			// get comment post condition rules.
 			$status = APM_RulePanel::get_comment_condition( $commentdata );
 
-			// return if the $status is not as expected
+			// return if the $status is not as expected.
 			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {
 				return;
 			}
@@ -207,8 +247,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
-			if ( $method == 'POST' ) {
-				// add tags set in actions
+			if ( 'POST' == $method ) {
+				// add tags set in actions.
 				if ( isset( $set_actions['add_tag'] ) ) {
 
 					foreach ( $set_actions['add_tag'] as $tags ) {

@@ -1,17 +1,32 @@
 <?php
 /**
- * admin ajax functions.
+ * AutomatePlus admin ajax.
  *
+ * @package automateplus-mautic
  * @since 1.0.0
  */
+
 if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 
+	/**
+	 * Initiator
+	 * Create class AutomatePlusAdminAjax
+	 * Handles Ajax operations
+	 */
 	class AutomatePlusAdminAjax {
 
+		/**
+		 * Declare a static variable instance.
+		 *
+		 * @var instance
+		 */
 		private static $instance;
 
 		/**
-		 * Initiator
+		 * Initiate class
+		 *
+		 * @since 1.0.0
+		 * @return object
 		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
@@ -21,6 +36,12 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 			return self::$instance;
 		}
 
+		/**
+		 * Call ajax hooks
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public function hooks() {
 			add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'clean_mautic_transient' ) );
 			add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'config_disconnect_mautic' ) );
@@ -28,7 +49,7 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 		}
 
 		/**
-		 * disconnect mautic
+		 * Disconnect mautic
 		 *
 		 * @since 1.0.0
 		 * @return void
@@ -73,5 +94,5 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 			exit;
 		}
 	}
-	$AutomatePlusAdminAjax = AutomatePlusAdminAjax::instance();
+	$automateplus_ajax = AutomatePlusAdminAjax::instance();
 endif;

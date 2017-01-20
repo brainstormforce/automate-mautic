@@ -1,3 +1,12 @@
+<?php
+/**
+ * Load html data.
+ *
+ * @package automateplus-mautic
+ * @since 1.0.0
+ */
+
+?>
 <script type="text/html" id="tmpl-apm-template">
 	<# if ( 'condition-field' === data.clas ) { #>
 		<span class="dashicons dashicons-minus remove-item"></span>

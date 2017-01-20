@@ -2,16 +2,30 @@
 /**
  * Handles logic for the admin settings page.
  *
+ * @package automateplus-mautic
  * @since 1.0.0
  */
+
 if ( ! class_exists( 'APM_AdminSettings' ) ) :
 
+	/**
+	 * Create class APM_AdminSettings
+	 * Handles settings page and post type table view
+	 */
 	final class APM_AdminSettings {
 
+		/**
+		 * Declare a static variable instance.
+		 *
+		 * @var instance
+		 */
 		private static $instance;
 
 		/**
-		 * Initiator
+		 * Initiate class
+		 *
+		 * @since 1.0.0
+		 * @return object
 		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
@@ -21,12 +35,19 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 			return self::$instance;
 		}
 
+		/**
+		 * Call hooks
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public function hooks() {
 			add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 			add_action( 'admin_footer', array( $this, 'mb_templates' ) );
 			add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
 			add_action( 'admin_notices', array( $this, 'apmw_notices' ), 100 );
 		}
+
 		/**
 		 * Include template to render meta box html
 		 *
@@ -80,7 +101,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public static function styles_scripts( $hook ) {
+		public static function styles_scripts() {
 
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 			if ( 'automate-mautic' == $curr_screen ) {
@@ -104,6 +125,12 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 			include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
 		}
 
+		/**
+		 * Display table.
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public static function ampw_rules_list() {
 
 			$new_post_url = APM_AdminSettings::get_render_page_url( '&tab=add_new_rule' );
@@ -149,6 +176,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 			}
 			echo '<div class="ampw-heading-config">' . __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ) . '</div>';
 		}
+
 		/**
 		 * Renders the update message.
 		 *
@@ -156,7 +184,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		 * @return void
 		 */
 		public static function render_update_message() {
-			// redirect
+
 			if ( ! empty( $_POST ) ) {
 				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 			}
@@ -179,6 +207,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		 * Return page url.
 		 *
 		 * @since 1.0.0
+		 * @param string $type tab type.
 		 */
 		public static function render_page_url( $type = '' ) {
 			echo admin_url( '/options-general.php?page=automate-mautic' . $type );
@@ -188,6 +217,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		 * Return page url.
 		 *
 		 * @since 1.0.0
+		 * @param string $type tab type.
 		 */
 		public static function get_render_page_url( $type = '' ) {
 			return admin_url( '/options-general.php?page=automate-mautic' . $type );
@@ -230,18 +260,18 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 				'post_type'     => 'automate-mautic',
 				);
 
-				if ( isset( $_GET['action'] ) && $_GET['action'] == 'edit' ) {
+				if ( isset( $_GET['action'] ) &&  'edit' == esc_attr( $_GET['post'] ) ) {
 						$rule_id = esc_attr( $_GET['post'] );
 				}
 
-				if ( $rule_id !== '' && $rule_id != null ) {
+				if ( ! empty( $rule_id ) && null != $rule_id ) {
 						$rule_post_type['ID'] = $rule_id;
 				}
 
 				$rule_id = wp_insert_post( $rule_post_type );
 				$post_id = $rule_id;
 
-					// update post meta
+					// update post meta.
 				if ( isset( $_POST['pm_condition'] ) ) {
 					$conditions = $_POST['pm_condition'];
 					$cp_keys = array_keys( $conditions, 'CP' );
@@ -249,11 +279,11 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 					$condition_cnt = sizeof( $conditions );
 
 					for ( $i = 0; $i < $condition_cnt; $i++ ) {
-						if ( $conditions[ $i ] == 'UR' ) {
+						if ( 'UR' == $conditions[ $i ] ) {
 							$base = sanitize_text_field( $conditions[ $i ] );
 							$update_conditions[ $i ] = array( $base );
 						}
-						if ( $conditions[ $i ] == 'CP' ) {
+						if ( 'CP' == $conditions[ $i ] ) {
 							$sub_key = array_search( $i, $cp_keys );
 							$base = sanitize_text_field( $conditions[ $i ] );
 							$sub_cp_condition = sanitize_text_field( $_POST['sub_cp_condition'][ $sub_key ] );
@@ -270,7 +300,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 					$update_conditions = serialize( $update_conditions );
 					update_post_meta( $post_id, 'ampw_rule_condition', $update_conditions );
 				}
-					// update actions
+					// update actions.
 				if ( isset( $_POST['sub_seg_action'] ) ) {
 
 					$actions = $_POST['sub_seg_action'];
@@ -338,27 +368,47 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 			}
 		}
 
+		/**
+		 * Call authenticate update.
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public static function mautic_authenticate_update() {
-			if ( isset( $_POST['ampw-save-authenticate'] ) && $_POST['ampw-save-authenticate'] == 'Save and Authenticate' ) {
+
+			if ( isset( $_POST['ampw-save-authenticate'] ) && 'Save and Authenticate' == esc_attr( $_POST['ampw-save-authenticate'] ) ) {
 				AP_Mautic_Api::authenticate_update();
 			}
 		}
 
+		/**
+		 * Call authenticate update.
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
 		public static function apmw_notices() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( ! AP_Mautic_Api::is_connected() && $curr_screen == 'automate-mautic' ) {
+			if ( ! AP_Mautic_Api::is_connected() && 'automate-mautic' == $curr_screen  ) {
 
 				$redirect = APM_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
-				printf( '<div class="update-nag">' . __( 'Seems there appears error with the Mautic configuration.', 'automateplus-mautic-wp' ) . ' <a href="' . $redirect . '">' . __( 'click here','automateplus-mautic-wp' ) . '</a>' . __( ' to authenticate Mautic.', 'automateplus-mautic-wp' ) . '</div>' );
+				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automateplus-mautic-wp' ), $redirect );
 			}
 		}
 
+		/**
+		 * Render Message
+		 *
+		 * @since 1.0.0
+		 * @param string $message message text.
+		 * @return void
+		 */
 		public static function render_messages( $message ) {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( $message = 'update' && $curr_screen == 'automate-mautic' ) {
+			if ( 'update' == $message && 'automate-mautic' == $curr_screen ) {
 				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 			}
 		}
 	}
-	$APM_AdminSettings = APM_AdminSettings::instance();
+	$apm_adminsettings = APM_AdminSettings::instance();
 endif;
