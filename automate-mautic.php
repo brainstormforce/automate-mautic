@@ -8,7 +8,7 @@
  * Author URI: http://www.brainstormforce.com/
  * Text Domain: automateplus-mautic-wp
  */
-//exit if accessed directly.
+// exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }

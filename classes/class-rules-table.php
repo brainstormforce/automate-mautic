@@ -1,17 +1,17 @@
 <?php
-/* 
+/*
 * ConvertPlug Popup Table list
 * @Version: 0.0.1
 */
 
-if( ! class_exists( 'WP_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+if ( ! class_exists( 'WP_List_Table' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if( ! class_exists( "APM_Rules_Table" ) ) {
+if ( ! class_exists( 'APM_Rules_Table' ) ) {
 
 	class APM_Rules_Table extends WP_List_Table {
-		
+
 		/**
 		 * Number of items of the initial data set (before sort, search, and pagination).
 		 *
@@ -25,31 +25,28 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function __construct() 
-		{	
+		public function __construct() {
 			parent::__construct( array(
 				'singular'	=> 'rule',
 				'plural'	=> 'rules',
 				'ajax'		=> false,
 			) );
 		}
-	
 
-		public function column_default( $item, $column_name )
-		{
-		  switch( $column_name ) { 
-		    case 'post_title':
-		    case 'post_author':
-		      return $item[ $column_name ];
-		    default:
-		      return print_r( $item, true ) ; //Show the whole array for troubleshooting purposes
-		  }
+
+		public function column_default( $item, $column_name ) {
+			switch ( $column_name ) {
+				case 'post_title':
+				case 'post_author':
+				  return $item[ $column_name ];
+				default:
+				  return print_r( $item, true ); // Show the whole array for troubleshooting purposes
+			}
 		}
 
 		/** Text displayed when no rule data is available */
-		public function no_items()
-		{
-		  _e( 'No rules avaliable.', 'automateplus-mautic-wp' );
+		public function no_items() {
+			_e( 'No rules avaliable.', 'automateplus-mautic-wp' );
 		}
 
 		/**
@@ -59,15 +56,13 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 		 *
 		 * @return string
 		 */
-		public function column_cb( $item )
-		{
-		  return sprintf(
-		    '<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
-		  );
+		public function column_cb( $item ) {
+			return sprintf(
+				'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
+			);
 		}
 
-		public function column_post_author( array $item )
-		{
+		public function column_post_author( array $item ) {
 			if ( '' === trim( $item['post_author'] ) ) {
 				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
 			}
@@ -77,8 +72,7 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 			return esc_html( $author );
 		}
 
-		public function column_post_title( array $item )
-		{
+		public function column_post_title( array $item ) {
 			if ( '' === trim( $item['post_title'] ) ) {
 				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
 			}
@@ -87,17 +81,17 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 
 			$post_link = APM_AdminSettings::get_render_page_url( $url );
 
-			$post_title = "<a href='". $post_link ."'>".$item['post_title']."</a>";
+			$post_title = "<a href='" . $post_link . "'>" . $item['post_title'] . '</a>';
 
 			$row_actions = array();
-			
+
 			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Edit', 'automateplus-mautic-wp' ) );
 
-			$wpnonce = wp_create_nonce( 'delete-rule'.$item['ID'] );	
-			
-			$url_base = APM_AdminSettings::get_render_page_url( "&tab=all_rules&action=delete_rule" );
+			$wpnonce = wp_create_nonce( 'delete-rule' . $item['ID'] );
 
-			$delete_url = $url_base. "&rule_id=" . $item['ID'] . "&_wpnonce=" .$wpnonce;
+			$url_base = APM_AdminSettings::get_render_page_url( '&tab=all_rules&action=delete_rule' );
+
+			$delete_url = $url_base . '&rule_id=' . $item['ID'] . '&_wpnonce=' . $wpnonce;
 
 			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Delete', 'automateplus-mautic-wp' ) );
 
@@ -113,12 +107,11 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 		 *
 		 * @return array List of columns in this List Table.
 		 */
-		public function get_columns()
-		{
+		public function get_columns() {
 			 $columns = array(
 			 	'cb'          => '<input type="checkbox" />',
 			    'post_title'  => 'Title',
-			    'post_author' => 'Author'
+			    'post_author' => 'Author',
 			  );
 			  return $columns;
 		}
@@ -132,8 +125,7 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 		 *
 		 * @return array List of sortable columns in this List Table.
 		 */
-		protected function get_sortable_columns()
-		{
+		protected function get_sortable_columns() {
 
 			$sortable_columns = array(
 				'post_title' => array( 'post_title', true ),
@@ -149,17 +141,15 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 		 *
 		 * @return array Bulk actions for this table.
 		 */
-		protected function get_bulk_actions()
-		{
+		protected function get_bulk_actions() {
 			$actions = [
-			    'bulk-delete' => 'Delete'
+			    'bulk-delete' => 'Delete',
 			];
 
-  			return $actions;
+				return $actions;
 		}
 
-		protected function bulk_actions( $which = '' )
-		{
+		protected function bulk_actions( $which = '' ) {
 			if ( is_null( $this->_actions ) ) {
 				$no_new_actions = $this->_actions = $this->get_bulk_actions();
 				/** This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php */
@@ -191,64 +181,62 @@ if( ! class_exists( "APM_Rules_Table" ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		public function prepare_items()
-		{
+		public function prepare_items() {
 			$columns = $this->get_columns();
 
 			$this->process_bulk_action();
 			$hidden = array();
 			$sortable = $this->get_sortable_columns();
-			$this->_column_headers = array($columns, $hidden, $sortable);
+			$this->_column_headers = array( $columns, $hidden, $sortable );
 			$this->items = $this->get_rules();
 		}
 
-		public function get_rules()
-		{
+		public function get_rules() {
 
 			global $wpdb;
 			$page_number = $this->get_pagenum();
 
 			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='automate-mautic' && post_status = 'publish'";
 
-			if( isset($_GET['s']) && !empty($_GET['s']) ) {
+			if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) {
 				$seachkey  = trim( $_GET['s'] );
 				$seachkey = esc_attr( $seachkey );
-				$query .= " && post_title LIKE '%".$seachkey."%'";
+				$query .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
 
-			$total_items = count ( $wpdb->get_results( $query, ARRAY_A ) );
+			$total_items = count( $wpdb->get_results( $query, ARRAY_A ) );
 
 			$perpage = 10;
 
-			//How many pages do we have in total?
+			// How many pages do we have in total?
 			$totalpages = ceil( $total_items / $perpage );
 
 			/* -- Register the pagination -- */
 			$this->set_pagination_args( array(
-				"total_items" => $total_items,
-				"total_pages" => $totalpages,
-				"per_page" => $perpage,
+				'total_items' => $total_items,
+				'total_pages' => $totalpages,
+				'per_page' => $perpage,
 			) );
-			
-			$orderby = !empty($_GET["orderby"]) ? esc_attr($_GET["orderby"]) : 'ASC';
 
-			$order = !empty($_GET["order"]) ? esc_attr($_GET["order"]) : '';
-			if( !empty($orderby) & !empty($order)){ 
-				$query .= ' ORDER BY '.$orderby.' '.$order; 
-			}
-			
-			//Which page is this?
-			$paged = !empty($_GET["paged"]) ? esc_attr($_GET["paged"]) : '';
+			$orderby = ! empty( $_GET['orderby'] ) ? esc_attr( $_GET['orderby'] ) : 'ASC';
 
-			//Page Number
-			if( empty($paged) || !is_numeric($paged) || $paged<=0 ) { 
-				$paged = 1; 
+			$order = ! empty( $_GET['order'] ) ? esc_attr( $_GET['order'] ) : '';
+			if ( ! empty( $orderby ) & ! empty( $order ) ) {
+				$query .= ' ORDER BY ' . $orderby . ' ' . $order;
 			}
-			
-			//adjust the query to take pagination into account
-			if( !empty($paged) && !empty($perpage) ) {
+
+			// Which page is this?
+			$paged = ! empty( $_GET['paged'] ) ? esc_attr( $_GET['paged'] ) : '';
+
+			// Page Number
+			if ( empty( $paged ) || ! is_numeric( $paged ) || $paged <= 0 ) {
+				$paged = 1;
+			}
+
+			// adjust the query to take pagination into account
+			if ( ! empty( $paged ) && ! empty( $perpage ) ) {
 				$offset = ( $paged -1 ) * $perpage;
-				$query .=' LIMIT '. (int)$offset . ',' . (int)$perpage;
+				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
 
 			$result = $wpdb->get_results( $query, ARRAY_A );
