@@ -247,8 +247,9 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 				$seachkey = esc_attr( $seachkey );
 				$query .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
-
+			// @codingStandardsIgnoreStart
 			$total_items = count( $wpdb->get_results( $query, ARRAY_A ) );
+			// @codingStandardsIgnoreEnd
 
 			$perpage = 10;
 
@@ -280,9 +281,9 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 				$offset = ( $paged -1 ) * $perpage;
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
-
+			// @codingStandardsIgnoreStart
 			$result = $wpdb->get_results( $query, ARRAY_A );
-
+			// @codingStandardsIgnoreEnd
 			return $result;
 		}
 	}
