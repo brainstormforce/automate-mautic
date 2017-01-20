@@ -330,10 +330,14 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 
 				$amp_options = AMPW_Mautic_Init::get_amp_options();
 
-				if ( isset( $_POST['base-url'] ) ) {	$amp_options['base-url'] = esc_url( $_POST['base-url'] ); }
-				if ( isset( $_POST['public-key'] ) ) {	$amp_options['public-key'] = sanitize_key( $_POST['public-key'] ); }
-				if ( isset( $_POST['secret-key'] ) ) {	$amp_options['secret-key'] = sanitize_key( $_POST['secret-key'] ); }
-				if ( isset( $_POST['callback-uri'] ) ) {	$amp_options['callback-uri'] = esc_url( $_POST['callback-uri'] ); }
+				$amp_options['base-url'] = isset( $_POST['base-url'] ) ? esc_url( $_POST['base-url'] ) : '';
+
+				$amp_options['public-key'] = isset( $_POST['public-key'] ) ? esc_url( $_POST['public-key'] ) : '';
+
+				$amp_options['secret-key'] = isset( $_POST['secret-key'] ) ? esc_url( $_POST['secret-key'] ) : '';
+
+				$amp_options['callback-uri'] = isset( $_POST['callback-uri'] ) ? esc_url( $_POST['callback-uri'] ) : '';
+
 				$mautic_api_url = $amp_options['base-url'];
 				$amp_options['base-url'] = rtrim( $mautic_api_url ,'/' );
 
@@ -344,6 +348,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 				$amp_options = AMPW_Mautic_Init::get_amp_options();
 
 				$amp_options['enable-tracking'] = false;
+
 				if ( isset( $_POST['enable-tracking'] ) ) {
 
 					$amp_options['enable-tracking'] = true;

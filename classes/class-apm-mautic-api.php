@@ -477,6 +477,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
 
 			if ( ! isset( $credentials['access_token'] ) ) {
+
 				return false;
 			}
 

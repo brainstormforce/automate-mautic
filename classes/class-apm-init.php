@@ -42,30 +42,9 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 		 * @return array
 		 */
 		public static function get_amp_options() {
+
 			$setting_options = get_option( 'ampw_mautic_config' );
-			$defaults = array(
-				'enable-tracking'	=> true,
-				'base-url'			=> '',
-				'public-key'		=> '',
-				'secret-key'		=> '',
-				'callback-uri'		=> '',
-			);
-
-			// if empty add all defaults.
-			if ( empty( $setting_options ) ) {
-				$setting_options = $defaults;
-				update_option( 'ampw_mautic_config', $setting_options );
-			} else {
-
-				foreach ( $defaults as $key => $value ) {
-					if ( is_array( $setting_options ) && ! array_key_exists( $key, $setting_options ) ) {
-						$setting_options[ $key ] = $value;
-					} else {
-						$setting_options = wp_parse_args( $setting_options, $defaults );
-					}
-				}
-			}
-				return $setting_options;
+			return $setting_options;
 		}
 
 		/**
@@ -91,6 +70,30 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 		}
 	}
 endif;
+
+/**
+ * Get options by key
+ *
+ * @since 1.0.2
+ * @param string $key Options array key.
+ * @param string $default The default option if the option isn't set.
+ *
+ * @return mixed Option value
+ */
+function apm_get_option( $key = '', $default = false ) {
+
+	$amp_options = get_option( 'ampw_mautic_config' );
+
+	if ( isset( $amp_options[ $key ] ) ) {
+
+		$value = $amp_options[ $key ];
+
+	} else {
+
+		$value = $default;
+	}
+	return apply_filters( "apm_get_option_{$key}", $value, $key, $default );
+}
 
 /**
  * Initialize the class after plugins loaded.

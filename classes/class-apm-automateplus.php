@@ -71,18 +71,19 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 		 */
 		public function mautic_tracking_script() {
 
-			$amp_options = AMPW_Mautic_Init::get_amp_options();
-			$enable_mautic_tracking	= false;
-			if ( ! empty( $amp_options ) && array_key_exists( 'enable-tracking', $amp_options ) ) {
-				if ( 1 == $amp_options['enable-tracking'] ) {
-					$enable_mautic_tracking = true;
-				} else {
-					$enable_mautic_tracking = false;
-				}
-			}
-			if ( $enable_mautic_tracking && ! empty( $amp_options['base-url'] ) ) {
+			if ( 1 == apm_get_option( 'enable-tracking', 1 ) ) {
 
-				$base_url = esc_url( trim( $amp_options['base-url'], " \t\n\r\0\x0B/" ) );
+				$enable_mautic_tracking = true;
+			} else {
+
+				$enable_mautic_tracking = false;
+			}
+
+			$base_url = apm_get_option( 'base-url' );
+
+			if ( $enable_mautic_tracking && ! empty( $base_url ) ) {
+
+				$base_url = esc_url( trim( $base_url, " \t\n\r\0\x0B/" ) );
 
 				$js_tracking = "<script>
 				(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;

@@ -39,15 +39,10 @@
 	<form id="apmw-config-form" action="<?php APM_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="ampw-settings-form-content">
 			<?php
-				$apmw = AMPW_Mautic_Init::get_amp_options();
-
-				$apmw_enabled_track = $apmw_base_url = $apmw_public_key = $apmw_secret_key = '';
-			if ( is_array( $apmw ) ) {
-				$apmw_enabled_track	= ( array_key_exists( 'enable-tracking', $apmw ) && 1 == $apmw['enable-tracking'])  ? ' checked' : '';
-				$apmw_base_url = ( array_key_exists( 'base-url', $apmw ) ) ? $apmw['base-url'] : '';
-				$apmw_public_key = ( array_key_exists( 'public-key', $apmw ) ) ? $apmw['public-key'] : '';
-				$apmw_secret_key = ( array_key_exists( 'secret-key', $apmw ) ) ? $apmw['secret-key'] : '';
-			}
+			$apmw_enabled_track = apm_get_option( 'enable-tracking', 1 );
+			$apmw_base_url = apm_get_option( 'base-url' );
+			$apmw_public_key = apm_get_option( 'public-key' );
+			$apmw_secret_key = apm_get_option( 'secret-key' );
 
 			if ( 'auth_mautic' == $active_tab ) { ?>
 			<!-- Base Url -->
@@ -100,7 +95,7 @@
 					<?php _e( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>.', 'automateplus-mautic-wp' ); ?>
 				</p>
 				<label>
-					<input type="checkbox" class="enabled-panels" name="enable-tracking" value="" <?php echo $apmw_enabled_track; ?> ><?php _e( 'Enable Tracking', 'automateplus-mautic-wp' ); ?>
+					<input type="checkbox" class="enabled-panels" name="enable-tracking" value="" <?php checked( 1, $apmw_enabled_track ); ?> ><?php _e( 'Enable Tracking', 'automateplus-mautic-wp' ); ?>
 				</label><br>
 			</div>
 			<p class="submit">
