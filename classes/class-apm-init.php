@@ -84,14 +84,8 @@ function apm_get_option( $key = '', $default = false ) {
 
 	$amp_options = get_option( 'ampw_mautic_config' );
 
-	if ( isset( $amp_options[ $key ] ) ) {
+	$value = isset( $amp_options[ $key ] ) ? $amp_options[ $key ] : $default;
 
-		$value = $amp_options[ $key ];
-
-	} else {
-
-		$value = $default;
-	}
 	return apply_filters( "apm_get_option_{$key}", $value, $key, $default );
 }
 
