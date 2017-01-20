@@ -260,18 +260,18 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 				'post_type'     => 'automate-mautic',
 				);
 
-				if ( isset( $_GET['action'] ) &&  'edit' == esc_attr( $_GET['post'] ) ) {
-						$rule_id = esc_attr( $_GET['post'] );
+				if ( isset( $_GET['action'] ) &&  'edit' == $_GET['action'] ) {
+					$rule_id = esc_attr( $_GET['post'] );
 				}
 
 				if ( ! empty( $rule_id ) && null != $rule_id ) {
-						$rule_post_type['ID'] = $rule_id;
+					$rule_post_type['ID'] = $rule_id;
 				}
 
 				$rule_id = wp_insert_post( $rule_post_type );
 				$post_id = $rule_id;
 
-					// update post meta.
+				// update post meta.
 				if ( isset( $_POST['pm_condition'] ) ) {
 					$conditions = $_POST['pm_condition'];
 					$cp_keys = array_keys( $conditions, 'CP' );
