@@ -240,16 +240,17 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 			global $wpdb;
 			$page_number = $this->get_pagenum();
 
-			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='automate-mautic' && post_status = 'publish'";
+			$post_type = 'automate-mautic';
+
+			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='%s' && post_status = 'publish'";
 
 			if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) {
 				$seachkey  = trim( $_GET['s'] );
 				$seachkey = esc_attr( $seachkey );
 				$query .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
-			// @codingStandardsIgnoreStart
-			$total_items = count( $wpdb->get_results( $query, ARRAY_A ) );
-			// @codingStandardsIgnoreEnd
+
+			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, $post_type ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
 
 			$perpage = 10;
 
@@ -281,9 +282,9 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 				$offset = ( $paged -1 ) * $perpage;
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
-			// @codingStandardsIgnoreStart
-			$result = $wpdb->get_results( $query, ARRAY_A );
-			// @codingStandardsIgnoreEnd
+
+			$result = $wpdb->get_results( $wpdb->prepare( $query, $post_type ), ARRAY_A ); // WPCS: unprepared SQL OK.
+
 			return $result;
 		}
 	}
