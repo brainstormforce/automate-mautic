@@ -55,8 +55,8 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 		 * @return void
 		 */
 		public static function config_disconnect_mautic() {
-			delete_option( 'ampw_mautic_credentials' );
-			die();
+			$result = delete_option( 'ampw_mautic_credentials' );
+			wp_send_json_success( $result );
 		}
 
 		/**
@@ -66,8 +66,8 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 		 * @return void
 		 */
 		public static function clean_mautic_transient() {
-			delete_transient( 'apm_all_segments' );
-			die();
+			$result = delete_transient( 'apm_all_segments' );
+			wp_send_json_success( $result );
 		}
 
 		/**
@@ -85,13 +85,13 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 				foreach ( $rules_ids as $id ) {
 					$id = esc_attr( $id );
 					if ( current_user_can( 'delete_post', $id ) ) {
-						wp_delete_post( $id );
+						$result = wp_delete_post( $id );
 					}
 				}
 			}
 			$sendback = wp_get_referer();
 			wp_redirect( $sendback );
-			exit;
+			wp_send_json_success( $result );
 		}
 	}
 	$automateplus_ajax = AutomatePlusAdminAjax::instance();
