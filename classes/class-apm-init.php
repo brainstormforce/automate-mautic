@@ -2,71 +2,100 @@
 /**
  * MautiPress initial setup
  *
+ * @package automateplus-mautic
  * @since 1.0.0
  */
+
 if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
-	
-	class AMPW_Mautic_Init {
 
 	/**
-	 *  Constructor
+	 * Create class AMPW_Mautic_Init
+	 * load text domain, get options
 	 */
-	public function __construct() 
-	{
-		self::includes();
+	class AMPW_Mautic_Init {
 
-	}
-
-	public function includes() 
-	{
-		require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
-		$this->load_plugin_textdomain();
-	}
-
-	public static function get_amp_options()
-	{
-		$setting_options = get_option( 'ampw_mautic_config' );
-		$defaults = array(
-			'enable-tracking'	=> true,
-			'base-url'			=> '',
-			'public-key'		=> '',
-			'secret-key'		=> '',
-			'callback-uri'		=> ''
-		);
-
-		// if empty add all defaults
-		if( empty( $setting_options ) ) {
-			$setting_options = $defaults;
-			update_option( 'ampw_mautic_config', $setting_options );
-		} else {
-
-			foreach( $defaults as $key => $value ) {
-				if( is_array( $setting_options ) && ! array_key_exists( $key, $setting_options ) ) {
-					$setting_options[ $key ] = $value;
-				} else {
-					$setting_options = wp_parse_args( $setting_options, $defaults );
-				}
-			}
+		/**
+		 * Constructor
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public function __construct() {
+			self::includes();
 		}
-		return $setting_options;
-	}
 
-	public static function get_mautic_credentials()
-	{
-		$mautic_credentials = get_option( 'ampw_mautic_credentials' );
-		return $mautic_credentials;
-	}
+		/**
+		 * Include files
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public function includes() {
+			require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
+			$this->load_plugin_textdomain();
+		}
 
-	public function load_plugin_textdomain()
-	{
-		load_plugin_textdomain( 'automateplus-mautic-wp' );
+		/**
+		 * Get config option
+		 *
+		 * @since 1.0.0
+		 * @return array
+		 */
+		public static function get_amp_options() {
+
+			$setting_options = get_option( 'ampw_mautic_config' );
+			return $setting_options;
+		}
+
+		/**
+		 * Get credentials
+		 *
+		 * @since 1.0.0
+		 * @return array
+		 */
+		public static function get_mautic_credentials() {
+
+			$mautic_credentials = get_option( 'ampw_mautic_credentials' );
+			return $mautic_credentials;
+		}
+
+		/**
+		 * Load text domain
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public function load_plugin_textdomain() {
+			load_plugin_textdomain( 'automateplus-mautic-wp' );
+		}
 	}
-}
 endif;
+
 /**
- * Initialize the class only after all the plugins are loaded.
+ * Get options by key
+ *
+ * @since 1.0.2
+ * @param string $key Options array key.
+ * @param string $default The default option if the option isn't set.
+ *
+ * @return mixed Option value
+ */
+function apm_get_option( $key = '', $default = false ) {
+
+	$amp_options = get_option( 'ampw_mautic_config' );
+
+	$value = isset( $amp_options[ $key ] ) ? $amp_options[ $key ] : $default;
+
+	return apply_filters( "apm_get_option_{$key}", $value, $key, $default );
+}
+
+/**
+ * Initialize the class after plugins loaded.
+ *
+ * @since 1.0.0
+ * @return void
  */
 function ampw_mautic_init() {
-	$AMPW_Mautic_Init = new AMPW_Mautic_Init();
+	$ampw_mautic_init = new AMPW_Mautic_Init();
 }
 add_action( 'plugins_loaded', 'ampw_mautic_init' );

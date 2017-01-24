@@ -1,448 +1,488 @@
 <?php
 /**
- * Rules Post Meta
+ * Handles API operations
  *
+ * @package automateplus-mautic
  * @since 1.0.0
  */
+
 if ( ! class_exists( 'AP_Mautic_Api' ) ) :
-	
+
+	/**
+	 * Create class AP_Mautic_Api
+	 * Handles API operations
+	 */
 	class AP_Mautic_Api {
 
-	private static $instance;
+		/**
+		 * Declare a static variable instance.
+		 *
+		 * @var instance
+		 */
+		private static $instance;
 
-	/**
-	* Initiator
-	*/
-	public static function instance()
-	{
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new AP_Mautic_Api();
-			self::$instance->hooks();
+		/**
+		 * Initiate class
+		 *
+		 * @since 1.0.0
+		 * @return object
+		 */
+		public static function instance() {
+			if ( ! isset( self::$instance ) ) {
+				self::$instance = new AP_Mautic_Api();
+				self::$instance->hooks();
+			}
+			return self::$instance;
 		}
-		return self::$instance;
-	}
 
-	public function hooks() {
-		add_action( 'admin_init', array( $this,'set_mautic_code' ) );
-	}
-
-	/**
-	 * Save the mautic code.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function set_mautic_code() 
-	{
-		if( isset( $_GET['code'] ) && 'automate-mautic' == $_REQUEST['page'] ) {
-			$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-			$credentials['access_code'] = sanitize_key( $_GET['code'] );
-			update_option( 'ampw_mautic_credentials', $credentials );
-			self::get_mautic_data();
+		/**
+		 * Call hooks
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public function hooks() {
+			add_action( 'admin_init', array( $this, 'set_mautic_code' ) );
 		}
-	}
 
-	/** 
-	 * Get Mautic Data.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function get_mautic_data() 
-	{
-		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-		// If not authorized 
-		if( ! isset( $credentials['access_token'] ) ) {
-			if( isset( $credentials['access_code']  ) ) {
-				$grant_type = 'authorization_code';
-				$response = self::mautic_get_access_token( $grant_type );
+		/**
+		 * Save mautic code.
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function set_mautic_code() {
+			if ( isset( $_GET['code'] ) && 'automate-mautic' == $_REQUEST['page'] ) {
+				$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+				$credentials['access_code'] = sanitize_key( $_GET['code'] );
+				update_option( 'ampw_mautic_credentials', $credentials );
+				self::get_mautic_data();
+			}
+		}
 
-				if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
-					$access_details               = json_decode( $response['body'] );
-					if( isset($access_details->error_description) ) {
-						$errorMsg = $access_details->error_description;
+		/**
+		 * Update Mautic credentials
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function get_mautic_data() {
+			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			// If not authorized.
+			if ( ! isset( $credentials['access_token'] ) ) {
+				if ( isset( $credentials['access_code'] ) ) {
+					$grant_type = 'authorization_code';
+					$response = self::mautic_get_access_token( $grant_type );
+
+					if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+						$access_details               = json_decode( $response['body'] );
+						if ( isset( $access_details->error_description ) ) {
+							$error_msg = $access_details->error_description;
+						}
+						$status   = 'error';
+					} else {
+						$access_details               = json_decode( $response['body'] );
+						$expiration                   = time() + $access_details->expires_in;
+						$credentials['access_token']  = $access_details->access_token;
+						$credentials['expires_in']    = $expiration;
+						$credentials['refresh_token'] = $access_details->refresh_token;
+						update_option( 'ampw_mautic_credentials', $credentials );
 					}
-					$status   = 'error';
-				} else {
-					$access_details               = json_decode( $response['body'] );
-					$expiration                   = time() + $access_details->expires_in;
-					$credentials['access_token']  = $access_details->access_token;
-					$credentials['expires_in']    = $expiration;
-					$credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( 'ampw_mautic_credentials', $credentials );
 				}
 			}
 		}
-	}
 
-	/** 
-	 * Retrieve access token.
-	 *
-	 * @since 1.0.0
-	 * @return response
-	 */
-	public static function mautic_get_access_token($grant_type) 
-	{
-		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
+		/**
+		 * Retrieve access token.
+		 *
+		 * @since 1.0.0
+		 * @param string $grant_type grant type for request.
+		 * @return array
+		 */
+		public static function mautic_get_access_token( $grant_type ) {
+			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
 
-		if ( ! isset( $credentials['baseUrl'] ) ) {
+			if ( ! isset( $credentials['baseUrl'] ) ) {
 
-			return;
+				return;
+			}
+			$url = $credentials['baseUrl'] . '/oauth/v2/token';
+			$body = array(
+			'client_id' => $credentials['clientKey'],
+			'client_secret' => $credentials['clientSecret'],
+			'grant_type' => $grant_type,
+			'redirect_uri' => $credentials['callback'],
+			'sslverify' => false,
+			);
+			if ( 'authorization_code' == $grant_type ) {
+				$body['code'] = $credentials['access_code'];
+			} else {
+				$body['refresh_token'] = $credentials['refresh_token'];
+			}
+				// Request to get access token.
+				$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => $body,
+					'cookies' => array(),
+					)
+				);
+			return $response;
 		}
-		$url = $credentials['baseUrl'] . "/oauth/v2/token";
-		$body = array(	
-			"client_id" => $credentials['clientKey'],
-			"client_secret" => $credentials['clientSecret'],
-			"grant_type" => $grant_type,
-			"redirect_uri" => $credentials['callback'],
-			'sslverify' => false
-		);
-		if( $grant_type == 'authorization_code' ) {
-			$body["code"] = $credentials['access_code'];
-		} else {
-			$body["refresh_token"] = $credentials['refresh_token'];
+
+		/**
+		 * Add contacts to Mautic, Add to segments, return GET request data
+		 *
+		 * @since 1.0.0
+		 * @param string $url api endpoint.
+		 * @param string $method API menthod.
+		 * @param array  $param parameters.
+		 * @param array  $segments mautic segments ID.
+		 * @return void
+		 */
+		public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
+			$status = 'success';
+			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+
+			if ( isset( $credentials['access_code'] ) && ! empty( $credentials['access_code'] )  ) {
+				// if token expired, get new access token.
+				if ( $credentials['expires_in'] < time() ) {
+					$grant_type = 'refresh_token';
+					$response = self::mautic_get_access_token( $grant_type );
+					if ( is_wp_error( $response ) ) {
+						$error_msg = $response->get_error_message();
+						$status = 'error';
+						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+					} else {
+						$access_details = json_decode( $response['body'] );
+						$expiration = time() + $access_details->expires_in;
+						$credentials['access_token'] = $access_details->access_token;
+						$credentials['expires_in'] = $expiration;
+						$credentials['refresh_token'] = $access_details->refresh_token;
+						update_option( 'ampw_mautic_credentials', $credentials );
+					}
+				} // refresh code token ends.
+			}
+
+			// add contacts.
+			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$access_token = $credentials['access_token'];
+			$param['access_token'] = $access_token;
+			$url = $credentials['baseUrl'] . $url;
+			if ( 'GET' == $method ) {
+
+				$url = $url . '?access_token=' . $access_token;
+
+				if ( isset( $param['limit'] ) ) {
+					// make sure segments are not limited to 10.
+					$url .= '&limit=' . $param['limit'];
+				}
+
+				$response = wp_remote_get( $url );
+				if ( is_array( $response ) ) {
+					$response_body = $response['body'];
+					$body_data = json_decode( $response_body );
+					$response_code = $response['response']['code'];
+					if ( 201 !== $response_code  ) {
+
+						if ( 200 !== $response_code ) {
+							$ret = false;
+							$status = 'error';
+							$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+							echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+							return;
+						}
+					}
+					return $body_data;
+				}
+			} elseif ( 'POST' == $method || 'PATCH' == $method ) {	// add new contact to mautic request.
+
+				$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+				$response = wp_remote_post( $url, array(
+					'method' => $method,
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => $param,
+					'cookies' => array(),
+				));
+			}
+			if ( is_wp_error( $response ) ) {
+				$error_msg = $response->get_error_message();
+				$status = 'error';
+				echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+
+			} else {
+
+				if ( is_array( $response ) ) {
+
+					$response_code = $response['response']['code'];
+
+					if ( 200 === $response_code || 201 === $response_code ) {
+
+						$response_body = $response['body'];
+						$contact_created = json_decode( $response_body );
+						$contact = $contact_created->contact;
+
+						if ( isset( $contact->id ) ) {
+							$contact_id = (int) $contact->id;
+							// add contact to segment.
+							$add_segment = $segments['add_segment'];
+							if ( is_array( $add_segment ) ) {
+								foreach ( $add_segment as $segment_id ) {
+									$segment_id = (int) $segment_id;
+									$action = 'add';
+									$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
+								}
+							}
+
+							// remove contact from segment.
+							$remove_segment = $segments['remove_segment'];
+							if ( is_array( $remove_segment ) ) {
+								foreach ( $remove_segment as $segment_id ) {
+									$segment_id = (int) $segment_id;
+									$action = 'remove';
+									$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
+								}
+							}
+
+							$status = $res['status'];
+							$error_msg = $res['error_message'];
+						}
+					} else {
+						$ret = false;
+						$status = 'error';
+						$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+					}
+				}
+			}
 		}
-		// Request to get access token 
-		$response = wp_remote_post( $url, array(
-			'method' => 'POST',
-			'timeout' => 45,
-			'redirection' => 5,
-			'httpversion' => '1.0',
-			'blocking' => true,
-			'headers' => array(),
-			'body' => $body,
-			'cookies' => array()
-			)
-		);
-		return $response;
-	}
 
-	/** 
-	 * Add contacts to Mautic, Add to segments, return GET request data
-	 * 
-	 * @since 1.0.0
-	 */
-	public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) 
-	{
-		$status = 'success';
-		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
+		/**
+		 * Add contacts to segment
+		 *
+		 * @since 1.0.0
+		 * @param int    $segment_id api mautic segment ID.
+		 * @param int    $contact_id mautic contact ID.
+		 * @param array  $mautic_credentials mautic credentials.
+		 * @param string $act operation to perform.
+		 * @return array
+		 */
+		public static function mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act ) {
+			$error_msg = '';
+			$status = 'error';
+			if ( is_int( $segment_id ) && is_int( $contact_id ) ) {
+				$url = $mautic_credentials['baseUrl'] . '/api/segments/' . $segment_id . '/contact/' . $act . '/' . $contact_id;
+				$access_token = $mautic_credentials['access_token'];
+				$body = array(
+				'access_token' => $access_token,
+				);
+				$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => $body,
+					'cookies' => array(),
+					)
+				);
+				if ( is_wp_error( $response ) ) {
+						$error_msg = $response->get_error_message();
+						$status = 'error';
+				} else {
+					if ( is_array( $response ) ) {
+						$response_code = $response['response']['code'];
+						if ( 200 != $response_code ) {
+							$status = 'error';
+							$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+						} else {
+							$status = 'success';
+						}
+					}
+				}
+			}
+			$response = array(
+			'status' => $status,
+			'error_message' => $error_msg,
+			);
+			return $response;
+		}
 
-		if( isset( $credentials['access_code'] ) && ! empty ( $credentials['access_code'] )  ) {
-			// if token expired, get new access token
-			if( $credentials['expires_in'] < time() ) {
+		/**
+		 * Get Mautic contact ID
+		 *
+		 * @since 1.0.0
+		 * @param string $email contact email.
+		 * @param array  $mautic_credentials mautic credentials.
+		 * @return void
+		 */
+		public static function mautic_get_contact_by_email( $email, $mautic_credentials ) {
+			if ( $mautic_credentials['expires_in'] < time() ) {
 				$grant_type = 'refresh_token';
 				$response = self::mautic_get_access_token( $grant_type );
 				if ( is_wp_error( $response ) ) {
-					$errorMsg = $response->get_error_message();
+					$error_msg = $response->get_error_message();
 					$status = 'error';
 					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 				} else {
 					$access_details = json_decode( $response['body'] );
 					$expiration = time() + $access_details->expires_in;
-					$credentials['access_token'] = $access_details->access_token;
-					$credentials['expires_in'] = $expiration;
-					$credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( 'ampw_mautic_credentials', $credentials );
+					$mautic_credentials['access_token'] = $access_details->access_token;
+					$mautic_credentials['expires_in'] = $expiration;
+					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+					update_option( 'ampw_mautic_credentials', $mautic_credentials );
 				}
-			} // refresh code token ends
-		}
-		
-		// add contacts
-		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-		$access_token = $credentials['access_token'];
-		$param['access_token'] = $access_token;
-		$url = $credentials['baseUrl'] . $url;
-		if( $method == "GET" ) {
-
-			$url = $url .'?access_token='. $access_token;
-
-			if ( isset( $param['limit'] ) ) {
-				// make sure segments are not limited to 10
-				$url .= '&limit=' . $param['limit'];
 			}
+
+			$error_msg = $contact_id = '';
+			$access_token = $mautic_credentials['access_token'];
+			$access_token = esc_attr( $access_token );
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=' . $email . '&access_token=' . $access_token;
 
 			$response = wp_remote_get( $url );
-			if( is_array($response) ) {
+
+			if ( ! is_wp_error( $response ) && is_array( $response ) ) {
 				$response_body = $response['body'];
 				$body_data = json_decode( $response_body );
-					$response_code = $response['response']['code'];
-					if( $response_code != 201 ) {
-						if( $response_code != 200 ) {
-							$ret = false;
-							$status = 'error';
-							$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-							echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
-							return;
-						}
-					}
-				return $body_data;
-			}
-		}
-		else if( $method == "POST" || $method == "PATCH" ) {	// add new contact to mautic request
 
-			$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-			$response = wp_remote_post( $url, array(
-				'method' => $method,
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking' => true,
-				'headers' => array(),
-				'body' => $param,
-				'cookies' => array()
-			));
-		}
-		if ( is_wp_error( $response ) ) {
-			$errorMsg = $response->get_error_message();
-			$status = 'error';
-			echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+				$contact = $body_data->contacts;
 
-		} else {
-
-			if( is_array( $response ) ) {
-				
+				if ( is_array( $contact ) && sizeof( $contact ) > 0 ) {
+					$contact_id = $contact[0]->id;
+				}
 				$response_code = $response['response']['code'];
-
-				if( $response_code == 200 || $response_code == 201 ) {
-
-					$response_body = $response['body'];
-					$contact_created = json_decode($response_body);
-					$contact = $contact_created->contact;
-					/**
-					 * if contact is created add to segment here
-					 */
-					if( isset( $contact->id ) ) {
-						$contact_id =  (int)$contact->id;
-						// add contact to segment
-						$add_segment = $segments['add_segment'];
-						if( is_array( $add_segment ) ) {
-							foreach ( $add_segment as $segment_id ) {
-								$segment_id = (int)$segment_id;
-								$action = "add";
-								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action);
-							}
-						}
-
-						// remove contact from segment
-						$remove_segment = $segments['remove_segment'];
-						if( is_array( $remove_segment ) ) {
-							foreach ( $remove_segment as $segment_id ) {
-								$segment_id = (int)$segment_id;
-								$action = "remove";
-								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
-							}
-						}
-
-						$status = $res['status'];
-						$errorMsg = $res['error_message'];
-					}
-					
-				} else {
+				if ( 201 !== $response_code ) {
+					if ( 200 !== $response_code ) {
 						$ret = false;
 						$status = 'error';
-						$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-				}
-			}
-		}
-	}
-
-	/** 
-	 * Add contacts to segment
-	 * 
-	 * @since 1.0.0
-	 */
-	public static function mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act ) 
-	{
-		$errorMsg = '';
-		$status = 'error';
-		if( is_int($segment_id) && is_int($contact_id) ) {
-			$url = $mautic_credentials['baseUrl'] . "/api/segments/".$segment_id."/contact/".$act."/".$contact_id;
-			$access_token = $mautic_credentials['access_token'];
-			$body = array(
-				"access_token" => $access_token
-			);
-			$response = wp_remote_post( $url, array(
-				'method' => 'POST',
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking' => true,
-				'headers' => array(),
-				'body' => $body,
-				'cookies' => array()
-			)
-			);
-			if ( is_wp_error( $response ) ) {
-				$errorMsg = $response->get_error_message();
-				$status = 'error';
-			} else {
-				if( is_array($response) ) { 							
-					$response_code = $response['response']['code'];
-					if( $response_code != 200 ) {
-						$status = 'error';
-						$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-					} else {
-						$status = 'success';
+						$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+						__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+						return;
 					}
 				}
-			}
-		}
-		$response = array(
-			'status' => $status,
-			'error_message' => $errorMsg            
-		);
-		return $response;
-	}
-
-	/** 
-	 * Get Mautic contact ID
-	 * @return mautic contact id 
-	 * @since 1.0.0
-	 */
-	public static function mautic_get_contact_by_email( $email, $mautic_credentials ) 
-	{
-		if( $mautic_credentials['expires_in'] < time() ) {
-			$grant_type = 'refresh_token';
-			$response = self::mautic_get_access_token( $grant_type );
-			if ( is_wp_error( $response ) ) {
-				$errorMsg = $response->get_error_message();
-				$status = 'error';
-				echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
-			} else {
-				$access_details = json_decode( $response['body'] );
-				$expiration = time() + $access_details->expires_in;
-				$mautic_credentials['access_token'] = $access_details->access_token;
-				$mautic_credentials['expires_in'] = $expiration;
-				$mautic_credentials['refresh_token'] = $access_details->refresh_token;
-				update_option( 'ampw_mautic_credentials', $mautic_credentials );
-			}
-		}
-
-		$errorMsg = $contact_id = '';
-		$access_token = $mautic_credentials['access_token'];
-		$access_token = esc_attr($access_token);
-		$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search='. $email .'&access_token='. $access_token;
-
-		$response = wp_remote_get( $url );
-
-		if( ! is_wp_error( $response ) && is_array( $response ) ) {
-			$response_body = $response['body'];
-			$body_data = json_decode($response_body);
-
-			$contact = $body_data->contacts;
-
-			if( is_array($contact) && sizeof($contact)>0 ) {
-				$contact_id = $contact[0]->id;
-			}
-			$response_code = $response['response']['code'];
-			if( $response_code != 201 ) {
-				if( $response_code != 200 ) {
-					$ret = false;
-					$status = 'error';
-					$errorMsg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-					__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+				if ( 0 === $contact_id ) {
 					return;
 				}
 			}
-			if ( $contact_id == 0) {
-				return;
+			return $contact_id;
+		}
+
+		/**
+		 * Authenticate credentials update
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function authenticate_update() {
+			$mautic_api_url = $apm_public_key = $apm_secret_key = '';
+			$post = $_POST;
+			$cpts_err = false;
+			$lists = null;
+			$ref_list_id = null;
+
+			$mautic_api_url = isset( $post['base-url'] ) ? esc_url( $post['base-url'] ) : '';
+			$apm_public_key = isset( $post['public-key'] ) ? sanitize_key( $post['public-key'] ) : '';
+			$apm_secret_key = isset( $post['secret-key'] ) ? sanitize_key( $post['secret-key'] ) : '';
+
+			$mautic_api_url = rtrim( $mautic_api_url ,'/' );
+			if ( empty( $mautic_api_url ) ) {
+				$status = 'error';
+				$message = 'API URL is missing.';
+				$cpts_err = true;
 			}
-		}
-		return $contact_id;
-	}
-	
-	public static function authenticate_update()
-	{
-		$mautic_api_url = $apm_public_key = $apm_secret_key = "";
-		$post = $_POST;
-		$cpts_err = false;
-		$lists = null;
-		$ref_list_id = null;
-
-		$mautic_api_url = isset( $post['base-url'] ) ? esc_url( $post['base-url'] ) : '';
-		$apm_public_key = isset( $post['public-key'] ) ? sanitize_key( $post['public-key'] ) : '';
-		$apm_secret_key = isset( $post['secret-key'] ) ? sanitize_key( $post['secret-key'] ) : '';
-
-		$mautic_api_url = rtrim( $mautic_api_url ,"/");
-		if( $mautic_api_url == '' ) {	
-			$status = 'error';
-			$message = 'API URL is missing.';
-			$cpts_err = true;
-		}
-		if( $apm_secret_key == '' ) {
-			$status = 'error';
-			$message = 'Secret Key is missing.';
-			$cpts_err = true;
-		}
-		$settings = array(
+			if ( empty( $apm_secret_key ) ) {
+				$status = 'error';
+				$message = 'Secret Key is missing.';
+				$cpts_err = true;
+			}
+			$settings = array(
 			'baseUrl'		=> $mautic_api_url,
 			'version'		=> 'OAuth2',
 			'clientKey'		=> $apm_public_key,
-			'clientSecret'	=> $apm_secret_key, 
-			'callback'		=> APM_AdminSettings::get_render_page_url( "&tab=auth_mautic" ),
-			'response_type'	=> 'code'
-		);
+			'clientSecret'	=> $apm_secret_key,
+			'callback'		=> APM_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
+			'response_type'	=> 'code',
+			);
 
-		update_option( 'ampw_mautic_credentials', $settings );
-		$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
-		//OAuth 2.0
-		$authurl .= '?client_id='.$settings['clientKey'].'&redirect_uri='.urlencode( $settings['callback'] );
-		$state    = md5(time().mt_rand());
-		$authurl .= '&state='.$state;
-		$authurl .= '&response_type='.$settings['response_type'];
-		wp_redirect( $authurl );
-		exit;
-	}
+			update_option( 'ampw_mautic_credentials', $settings );
+			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
+			// OAuth 2.0.
+			$authurl .= '?client_id=' . $settings['clientKey'] . '&redirect_uri=' . urlencode( $settings['callback'] );
+			$state    = md5( time() . mt_rand() );
+			$authurl .= '&state=' . $state;
+			$authurl .= '&response_type=' . $settings['response_type'];
+			wp_redirect( $authurl );
+			exit;
+		}
 
-	public static function get_api_method_url( $email )
-	{
+		/**
+		 * Get Method and URL according to user email
+		 *
+		 * @since 1.0.0
+		 * @param string $email user email.
+		 * @return array
+		 */
+		public static function get_api_method_url( $email ) {
 
-		$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-		$data = array();
+			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$data = array();
 
-		if( isset( $_COOKIE['mtc_id'] ) ) {
-			
-			// for anonymous contacts
-			$contact_id = $_COOKIE['mtc_id'];
-			$contact_id = (int)$contact_id;
-			$data['method'] = 'PATCH';
-			$data['url'] = '/api/contacts/'.$contact_id.'/edit';
+			if ( isset( $_COOKIE['mtc_id'] ) ) {
 
-			// known contacts with existing email
-			$email_cid = self::mautic_get_contact_by_email( $email, $credentials );
-			if( isset( $email_cid ) ) {
+				// for anonymous contacts.
+				$contact_id = $_COOKIE['mtc_id'];
+				$contact_id = (int) $contact_id;
+				$data['method'] = 'PATCH';
+				$data['url'] = '/api/contacts/' . $contact_id . '/edit';
 
-				$contact_id = (int)$email_cid;
+				// known contacts with existing email.
+				$email_cid = self::mautic_get_contact_by_email( $email, $credentials );
+				if ( isset( $email_cid ) ) {
+
+					$contact_id = (int) $email_cid;
+					$data['method'] = 'POST';
+					$data['url'] = '/api/contacts/new';
+				}
+			} else {
+				$contact_id = self::mautic_get_contact_by_email( $email, $credentials );
+				if ( isset( $contact_id ) ) {
+
+					$data['method'] = 'POST';
+					$data['url'] = '/api/contacts/new';
+				}
+			}
+
+			if ( ! isset( $contact_id ) ) {
 				$data['method'] = 'POST';
 				$data['url'] = '/api/contacts/new';
 			}
+			return $data;
 		}
-		else {
-			$contact_id = self::mautic_get_contact_by_email( $email, $credentials );
-			if( isset( $contact_id ) ) {
 
-				$data['method'] = 'POST';
-				$data['url'] = '/api/contacts/new';
+		/**
+		 * Check if Mautic is configured
+		 *
+		 * @since 1.0.0
+		 * @return boolean
+		 */
+		public static function is_connected() {
+			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+
+			if ( ! isset( $credentials['access_token'] ) ) {
+
+				return false;
 			}
+
+			return true;
 		}
-
-		if( ! isset( $contact_id ) ) {
-			$data['method'] = 'POST';
-			$data['url'] = '/api/contacts/new';
-		}
-		return $data;
 	}
-
-	public static function is_connected()
-	{
-	 	$credentials =  AMPW_Mautic_Init::get_mautic_credentials();
-
-	 	if ( ! isset( $credentials['access_token'] ) ) {
-			return false;
-	 	}
-
-		return true;
-	}
-}
-$AP_Mautic_Api = AP_Mautic_Api::instance();
+	$apm_mautic_api = AP_Mautic_Api::instance();
 endif;

@@ -1,82 +1,98 @@
 <?php
 /**
- * admin ajax functions. 
+ * AutomatePlus admin ajax.
  *
+ * @package automateplus-mautic
  * @since 1.0.0
  */
-if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 
-class AutomatePlusAdminAjax {
-	
-	private static $instance;
+if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 
 	/**
 	 * Initiator
+	 * Create class AutomatePlusAdminAjax
+	 * Handles Ajax operations
 	 */
-	public static function instance() 
-	{
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new AutomatePlusAdminAjax();
-			self::$instance->hooks();
+	class AutomatePlusAdminAjax {
+
+		/**
+		 * Declare a static variable instance.
+		 *
+		 * @var instance
+		 */
+		private static $instance;
+
+		/**
+		 * Initiate class
+		 *
+		 * @since 1.0.0
+		 * @return object
+		 */
+		public static function instance() {
+			if ( ! isset( self::$instance ) ) {
+				self::$instance = new AutomatePlusAdminAjax();
+				self::$instance->hooks();
+			}
+			return self::$instance;
 		}
-		return self::$instance;
-	}
 
-	public function hooks() 
-	{
-		add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'clean_mautic_transient' ) );
-		add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'config_disconnect_mautic' ) );
-		add_action( "admin_post_apm_rule_list", array( $this, "handle_rule_list_actions" ) );
-	}
+		/**
+		 * Call ajax hooks
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public function hooks() {
+			add_action( 'wp_ajax_clean_mautic_transient', array( $this, 'clean_mautic_transient' ) );
+			add_action( 'wp_ajax_config_disconnect_mautic', array( $this, 'config_disconnect_mautic' ) );
+			add_action( 'admin_post_apm_rule_list', array( $this, 'handle_rule_list_actions' ) );
+		}
 
-	/** 
-	 * disconnect mautic
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function config_disconnect_mautic() 
-	{
-		delete_option( 'ampw_mautic_credentials' );
-		die();
-	}
+		/**
+		 * Disconnect mautic
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function config_disconnect_mautic() {
+			$result = delete_option( 'ampw_mautic_credentials' );
+			wp_send_json_success( $result );
+		}
 
-	/** 
-	 * Refresh Mautic transients data
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function clean_mautic_transient() 
-	{
-		delete_transient( 'apm_all_segments' );
-		die();
-	}
+		/**
+		 * Refresh Mautic transients data
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function clean_mautic_transient() {
+			$result = delete_transient( 'apm_all_segments' );
+			wp_send_json_success( $result );
+		}
 
-	/** 
-	 * Handle multi rule delete
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public static function handle_rule_list_actions() 
-	{
+		/**
+		 * Handle multi rule delete
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function handle_rule_list_actions() {
 
-		wp_verify_nonce( "_wpnonce" );
-		if( isset( $_POST['bulk-delete'] ) ) {
-			$rules_ids = $_POST['bulk-delete'];
+			wp_verify_nonce( '_wpnonce' );
+			if ( isset( $_POST['bulk-delete'] ) ) {
+				$rules_ids = $_POST['bulk-delete'];
 
-			foreach ( $rules_ids as $id ) {
-				$id = esc_attr( $id );
-				if( current_user_can( 'delete_post', $id ) ) {
-					wp_delete_post( $id );
+				foreach ( $rules_ids as $id ) {
+					$id = esc_attr( $id );
+					if ( current_user_can( 'delete_post', $id ) ) {
+						$result = wp_delete_post( $id );
+					}
 				}
 			}
+			$sendback = wp_get_referer();
+			wp_redirect( $sendback );
+			wp_send_json_success( $result );
 		}
-		$sendback = wp_get_referer();
-		wp_redirect( $sendback );
-		exit;
 	}
-}
-$AutomatePlusAdminAjax = AutomatePlusAdminAjax::instance();
+	$automateplus_ajax = AutomatePlusAdminAjax::instance();
 endif;
