@@ -34,7 +34,8 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 == Changelog ==
 
 = 1.0.2 =
-* optimize code
+* Fix : PHPCS errors
+* optimize code to speed up the process
 * reduce get option calls
 
 = 1.0.1 =

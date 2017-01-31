@@ -332,11 +332,11 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 
 				$amp_options['base-url'] = isset( $_POST['base-url'] ) ? esc_url( $_POST['base-url'] ) : '';
 
-				$amp_options['public-key'] = isset( $_POST['public-key'] ) ? esc_url( $_POST['public-key'] ) : '';
+				$amp_options['public-key'] = isset( $_POST['public-key'] ) ? esc_attr( $_POST['public-key'] ) : '';
 
-				$amp_options['secret-key'] = isset( $_POST['secret-key'] ) ? esc_url( $_POST['secret-key'] ) : '';
+				$amp_options['secret-key'] = isset( $_POST['secret-key'] ) ? esc_attr( $_POST['secret-key'] ) : '';
 
-				$amp_options['callback-uri'] = isset( $_POST['callback-uri'] ) ? esc_url( $_POST['callback-uri'] ) : '';
+				$amp_options['callback-uri'] = isset( $_POST['callback-uri'] ) ? esc_attr( $_POST['callback-uri'] ) : '';
 
 				$mautic_api_url = $amp_options['base-url'];
 				$amp_options['base-url'] = rtrim( $mautic_api_url ,'/' );
