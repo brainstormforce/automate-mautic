@@ -108,7 +108,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$screen = get_current_screen();
 
 			if ( 'settings_page_automate-mautic' == $screen->id ) {
-				$refresh_text = '<span class="spinner amp_footer_spinner" style="float: none; margin-bottom: 0.5em;"></span>';
+				$refresh_text = '<span class="spinner amp_footer_spinner"></span>';
 				$refresh_text .= __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>' );
 				$footer_text  = $refresh_text . ' | ' . $footer_text;
 			}
