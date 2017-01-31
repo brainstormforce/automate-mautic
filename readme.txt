@@ -34,8 +34,10 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 == Changelog ==
 
 = 1.0.2 =
-* optimize code
-* reduce get option calls
+* Fix : PHPCS errors
+* Optimize code to speed up the process
+* Reduce get option calls
+* Add spinner on refresh mautic data
 
 = 1.0.1 =
 * Fix : Extend Segment display limit.

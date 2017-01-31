@@ -61,7 +61,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 );
 			add_action( 'profile_update', array( $this, 'add_registered_user' ), 10, 1 );
 			add_action( 'comment_post', array( $this, 'add_comment_author' ), 10, 3 );
-			add_filter( 'update_footer', array( $this, 'refresh_edit_text' ), 99 );
+			add_filter( 'update_footer', array( $this, 'refresh_edit_text' ), 999 );
 		}
 
 		/**
@@ -108,7 +108,8 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$screen = get_current_screen();
 
 			if ( 'settings_page_automate-mautic' == $screen->id ) {
-				$refresh_text = __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>' );
+				$refresh_text = '<span class="spinner amp_footer_spinner"></span>';
+				$refresh_text .= __( '<a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"> Refresh Mautic Data</a>' );
 				$footer_text  = $refresh_text . ' | ' . $footer_text;
 			}
 

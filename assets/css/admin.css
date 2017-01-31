@@ -58,3 +58,8 @@
     float:left;
     margin: 5px;
 }
+.amp_footer_spinner {
+    float: none; 
+    margin-bottom: 0.5em;
+    font-size: 22px;
+}
