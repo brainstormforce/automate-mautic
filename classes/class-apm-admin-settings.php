@@ -352,7 +352,6 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 				if ( isset( $_POST['enable-tracking'] ) ) {
 
 					$amp_options['enable-tracking'] = true;
-
 				}
 
 				update_option( 'ampw_mautic_config', $amp_options );

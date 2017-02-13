@@ -434,6 +434,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
 			$data = array();
+			$contact_id = $email_cid = '';
 
 			if ( isset( $_COOKIE['mtc_id'] ) ) {
 
@@ -445,7 +446,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 				// known contacts with existing email.
 				$email_cid = self::mautic_get_contact_by_email( $email, $credentials );
-				if ( isset( $email_cid ) ) {
+
+				if ( isset( $email_cid ) && ! empty( $email_cid ) ) {
 
 					$contact_id = (int) $email_cid;
 					$data['method'] = 'POST';
@@ -453,7 +455,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 			} else {
 				$contact_id = self::mautic_get_contact_by_email( $email, $credentials );
-				if ( isset( $contact_id ) ) {
+				if ( isset( $contact_id ) && ! empty( $contact_id ) ) {
 
 					$data['method'] = 'POST';
 					$data['url'] = '/api/contacts/new';
