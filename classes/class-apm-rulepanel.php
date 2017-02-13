@@ -137,10 +137,16 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 				$url = '/api/segments/';
 				$method = 'GET';
 				$body['limit'] = 100000;
+
 				$segments = AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body );
+				
+				if ( ! AP_Mautic_Api::is_connected() ) {
+					return;
+				}
 				set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
 			}
-			if ( empty( $segments ) ) {
+
+			if ( empty( $segments ) || ! AP_Mautic_Api::is_connected() ) {
 				echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 				return;
 			}
