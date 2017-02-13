@@ -131,6 +131,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		public static function select_all_segments( $select = null ) {
 			// get all segments.
 			$segments_trans = get_transient( 'apm_all_segments' );
+			
 			if ( $segments_trans ) {
 				$segments = $segments_trans;
 			} else {
