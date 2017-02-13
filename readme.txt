@@ -1,6 +1,6 @@
 === AutomatePlus - Mautic for WordPress ===
 Contributors: brainstormforce, rahulwalunje-1
-Donate link: https://www.brainstormforce.com/payment/
+Donate link: https://www.paypal.me/BrainstormForce
 Requires at least: 3.0
 Tags: mautic, email, contacts, marketing, tags
 Stable tag: 1.0.3
