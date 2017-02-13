@@ -199,17 +199,15 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
-			if ( 'POST' == $method ) {
 				// add tags set in actions.
-				if ( isset( $set_actions['add_tag'] ) ) {
+			if ( isset( $set_actions['add_tag'] ) ) {
 
-					foreach ( $set_actions['add_tag'] as $tags ) {
-						$all_tags .= $tags . ',';
-					}
-
-					$all_tags = rtrim( $all_tags ,',' );
-					$body['tags'] = $all_tags;
+				foreach ( $set_actions['add_tag'] as $tags ) {
+					$all_tags .= $tags . ',';
 				}
+
+				$all_tags = rtrim( $all_tags ,',' );
+				$body['tags'] = $all_tags;
 			}
 
 			AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body, $set_actions );
@@ -249,17 +247,15 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
-			if ( 'POST' == $method ) {
 				// add tags set in actions.
-				if ( isset( $set_actions['add_tag'] ) ) {
+			if ( isset( $set_actions['add_tag'] ) ) {
 
-					foreach ( $set_actions['add_tag'] as $tags ) {
-						$all_tags .= $tags . ',';
-					}
-
-					$all_tags = rtrim( $all_tags ,',' );
-					$body['tags'] = $all_tags;
+				foreach ( $set_actions['add_tag'] as $tags ) {
+					$all_tags .= $tags . ',';
 				}
+
+				$all_tags = rtrim( $all_tags ,',' );
+				$body['tags'] = $all_tags;
 			}
 
 			AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body, $set_actions );
