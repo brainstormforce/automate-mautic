@@ -35,8 +35,8 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 
 = 1.0.3 =
 * Fix: contact tracking history issue.
-* Fix: error handling in list segments when not authenticate.
-* Fix: update get contact by email call to avoid duplicate contacts.
+* Fix: error handling in list segments when not authenticated.
+* Fix: modify get contact by email call to avoid duplicate contacts.
 
 = 1.0.2 =
 * Optimize code to speed up the process.

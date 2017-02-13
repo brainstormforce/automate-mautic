@@ -353,11 +353,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				$response_body = $response['body'];
 				$body_data = json_decode( $response_body );
 
-				$contact = $body_data->contacts;
-
-				if ( is_array( $contact ) && sizeof( $contact ) > 0 ) {
-					$contact_id = $contact[0]->id;
-				}
 				$response_code = $response['response']['code'];
 				if ( 201 !== $response_code ) {
 					if ( 200 !== $response_code ) {
@@ -368,6 +363,16 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						return;
 					}
 				}
+
+				if ( isset( $body_data->contacts ) ) {
+					$contacts = $body_data->contacts;
+				}
+
+				foreach ( $contacts as $contact ) {
+
+					$contact_id = $contact->id;
+				}
+
 				if ( 0 === $contact_id ) {
 					return;
 				}

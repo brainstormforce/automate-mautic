@@ -131,7 +131,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		public static function select_all_segments( $select = null ) {
 			// get all segments.
 			$segments_trans = get_transient( 'apm_all_segments' );
-			
+
 			if ( $segments_trans ) {
 				$segments = $segments_trans;
 			} else {
@@ -140,7 +140,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 				$body['limit'] = 100000;
 
 				$segments = AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body );
-				
+
 				if ( ! AP_Mautic_Api::is_connected() ) {
 					return;
 				}
