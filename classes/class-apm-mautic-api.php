@@ -467,7 +467,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 			}
 
-			if ( ! isset( $contact_id ) ) {
+			if ( empty( $contact_id ) ) {
 				$data['method'] = 'POST';
 				$data['url'] = '/api/contacts/new';
 			}
