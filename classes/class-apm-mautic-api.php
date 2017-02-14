@@ -75,10 +75,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					$response = self::mautic_get_access_token( $grant_type );
 
 					if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-						$access_details               = json_decode( $response['body'] );
-						if ( isset( $access_details->error_description ) ) {
-							$error_msg = $access_details->error_description;
-						}
+						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 						$status   = 'error';
 					} else {
 						$access_details               = json_decode( $response['body'] );
@@ -170,6 +167,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 			// add contacts.
 			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+
 			$access_token = $credentials['access_token'];
 			$param['access_token'] = $access_token;
 			$url = $credentials['baseUrl'] . $url;
@@ -183,6 +181,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 
 				$response = wp_remote_get( $url );
+
 				if ( is_array( $response ) ) {
 					$response_body = $response['body'];
 					$body_data = json_decode( $response_body );
