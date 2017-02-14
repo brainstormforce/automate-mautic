@@ -190,7 +190,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 			if ( is_null( $this->_actions ) ) {
 				$no_new_actions = $this->_actions = $this->get_bulk_actions();
 				// This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php.
-				$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->id, $this->_actions );
+				$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->id, $this->_actions ); // @codingStandardsIgnoreLine
 				$this->_actions = array_intersect_assoc( $this->_actions, $no_new_actions );
 				$two = '';
 			} else {

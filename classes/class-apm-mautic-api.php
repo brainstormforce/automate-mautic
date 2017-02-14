@@ -42,7 +42,9 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		 * @return void
 		 */
 		public function hooks() {
+
 			add_action( 'admin_init', array( $this, 'set_mautic_code' ) );
+
 		}
 
 		/**
@@ -293,11 +295,13 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					'cookies' => array(),
 					)
 				);
+
 				if ( is_wp_error( $response ) ) {
 						$error_msg = $response->get_error_message();
 						$status = 'error';
 				} else {
 					if ( is_array( $response ) ) {
+
 						$response_code = $response['response']['code'];
 						if ( 200 != $response_code ) {
 							$status = 'error';
@@ -377,6 +381,65 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 			}
 			return $contact_id;
+		}
+
+		/**
+		 * Check if contact is exist in mautic
+		 *
+		 * @since 1.0.0
+		 * @param id $id contact ID.
+		 * @return void
+		 */
+		public static function is_contact_published( $id ) {
+
+			$mautic_credentials = AMPW_Mautic_Init::get_mautic_credentials();
+
+			if ( $mautic_credentials['expires_in'] < time() ) {
+				$grant_type = 'refresh_token';
+				$response = self::mautic_get_access_token( $grant_type );
+				if ( is_wp_error( $response ) ) {
+					$error_msg = $response->get_error_message();
+					$status = 'error';
+					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+				} else {
+					$access_details = json_decode( $response['body'] );
+					$expiration = time() + $access_details->expires_in;
+					$mautic_credentials['access_token'] = $access_details->access_token;
+					$mautic_credentials['expires_in'] = $expiration;
+					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+					update_option( 'ampw_mautic_credentials', $mautic_credentials );
+				}
+			}
+
+			$access_token = $mautic_credentials['access_token'];
+			$access_token = esc_attr( $access_token );
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous AND ids:' . $id . '&access_token=' . $access_token;
+
+			$response = wp_remote_get( $url );
+
+			if ( ! is_wp_error( $response ) && is_array( $response ) ) {
+				$response_body = $response['body'];
+				$body_data = json_decode( $response_body );
+
+				$response_code = $response['response']['code'];
+				if ( 201 !== $response_code ) {
+					if ( 200 !== $response_code ) {
+						$ret = false;
+						$status = 'error';
+						__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+						return;
+					}
+				}
+
+				if ( isset( $body_data->contacts ) ) {
+					$contact = $body_data->contacts->$id->isPublished; // @codingStandardsIgnoreLine
+
+					if ( $contact ) {
+						return true;
+					}
+				}
+			}
+			return;
 		}
 
 		/**
