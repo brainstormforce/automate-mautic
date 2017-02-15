@@ -213,6 +213,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					'body' => $param,
 					'cookies' => array(),
 				));
+
 			}
 			if ( is_wp_error( $response ) ) {
 				$error_msg = $response->get_error_message();
@@ -372,12 +373,13 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					}
 				}
 
-				if ( ! isset( $body_data->contacts ) ) {
+				if ( isset( $body_data->contacts ) ) {
+
+					$contacts = $body_data->contacts;
+				} else {
 
 					return;
 				}
-
-				$contacts = $body_data->contacts;
 
 				foreach ( $contacts as $contact ) {
 
