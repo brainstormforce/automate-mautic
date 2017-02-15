@@ -229,6 +229,11 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 						$response_body = $response['body'];
 						$contact_created = json_decode( $response_body );
+
+						if ( ! isset( $contact_created->contact ) ) {
+							return;
+						}
+
 						$contact = $contact_created->contact;
 
 						if ( isset( $contact->id ) ) {
@@ -367,9 +372,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					}
 				}
 
-				if ( isset( $body_data->contacts ) ) {
-					$contacts = $body_data->contacts;
+				if ( ! isset( $body_data->contacts ) ) {
+
+					return;
 				}
+
+				$contacts = $body_data->contacts;
 
 				foreach ( $contacts as $contact ) {
 
