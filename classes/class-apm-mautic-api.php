@@ -232,7 +232,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						$contact_created = json_decode( $response_body );
 
 						$contact = $contact_created->contact;
-						
+
 						if ( isset( $contact->id ) ) {
 							$contact_id = (int) $contact->id;
 							// add contact to segment.
@@ -434,12 +434,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 				// return if not found.
 				if ( isset( $body_data->errors ) ) {
-					
+
 					return false;
 				}
 
 				if ( isset( $body_data->total ) && $body_data->total > 0 ) {
-					
+
 					return true;
 				}
 			}
