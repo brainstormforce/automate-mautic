@@ -213,6 +213,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					'body' => $param,
 					'cookies' => array(),
 				));
+
 			}
 			if ( is_wp_error( $response ) ) {
 				$error_msg = $response->get_error_message();
@@ -230,13 +231,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						$response_body = $response['body'];
 						$contact_created = json_decode( $response_body );
 
-						if ( ! isset( $contact_created->contact ) ) {
-
-							return;
-						}
-
 						$contact = $contact_created->contact;
-
+						
 						if ( isset( $contact->id ) ) {
 							$contact_id = (int) $contact->id;
 							// add contact to segment.
@@ -260,7 +256,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 							}
 
 							$status = $res['status'];
-							$error_msg = $res['error_message'];
 						}
 					} else {
 						$ret = false;
@@ -421,7 +416,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 			$access_token = $mautic_credentials['access_token'];
 			$access_token = esc_attr( $access_token );
-			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous AND ids:' . $id . '&access_token=' . $access_token;
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id . '&access_token=' . $access_token;
 
 			$response = wp_remote_get( $url );
 
@@ -432,22 +427,23 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				$response_code = $response['response']['code'];
 				if ( 201 !== $response_code ) {
 					if ( 200 !== $response_code ) {
-						$ret = false;
 						$status = 'error';
 						__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 						return;
 					}
 				}
+				// return if not found.
+				if ( isset( $body_data->errors ) ) {
+					
+					return false;
+				}
 
-				if ( isset( $body_data->contacts ) ) {
-					$contact = $body_data->contacts->$id->isPublished; // @codingStandardsIgnoreLine
-
-					if ( $contact ) {
-						return true;
-					}
+				if ( isset( $body_data->total ) && $body_data->total > 0 ) {
+					
+					return true;
 				}
 			}
-			return;
+			return false;
 		}
 
 		/**
