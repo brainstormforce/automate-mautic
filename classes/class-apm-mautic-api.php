@@ -213,7 +213,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					'body' => $param,
 					'cookies' => array(),
 				));
-
 			}
 			if ( is_wp_error( $response ) ) {
 				$error_msg = $response->get_error_message();
@@ -232,6 +231,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						$contact_created = json_decode( $response_body );
 
 						if ( ! isset( $contact_created->contact ) ) {
+
 							return;
 						}
 
@@ -352,6 +352,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			}
 
 			$error_msg = $contact_id = '';
+			$contacts = array();
 			$access_token = $mautic_credentials['access_token'];
 			$access_token = esc_attr( $access_token );
 			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=' . $email . '&access_token=' . $access_token;
@@ -376,9 +377,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				if ( isset( $body_data->contacts ) ) {
 
 					$contacts = $body_data->contacts;
-				} else {
-
-					return;
 				}
 
 				foreach ( $contacts as $contact ) {
