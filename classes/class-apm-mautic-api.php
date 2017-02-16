@@ -80,7 +80,10 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 						$status   = 'error';
 					} else {
-						$access_details               = json_decode( $response['body'] );
+						
+						$response_body = wp_remote_retrieve_body( $response );
+
+						$access_details               = json_decode( $response_body );
 						$expiration                   = time() + $access_details->expires_in;
 						$credentials['access_token']  = $access_details->access_token;
 						$credentials['expires_in']    = $expiration;
@@ -157,7 +160,9 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						$status = 'error';
 						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 					} else {
-						$access_details = json_decode( $response['body'] );
+
+						$response_body = wp_remote_retrieve_body( $response );
+						$access_details = json_decode( $response_body );
 						$expiration = time() + $access_details->expires_in;
 						$credentials['access_token'] = $access_details->access_token;
 						$credentials['expires_in'] = $expiration;
@@ -185,9 +190,10 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				$response = wp_remote_get( $url );
 
 				if ( is_array( $response ) ) {
-					$response_body = $response['body'];
+					$response_body = wp_remote_retrieve_body( $response );
 					$body_data = json_decode( $response_body );
-					$response_code = $response['response']['code'];
+					$response_code = wp_remote_retrieve_response_code( $response );
+
 					if ( 201 !== $response_code  ) {
 
 						if ( 200 !== $response_code ) {
@@ -224,11 +230,11 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 				if ( is_array( $response ) ) {
 
-					$response_code = $response['response']['code'];
+					$response_code = wp_remote_retrieve_response_code( $response );
 
 					if ( 200 === $response_code || 201 === $response_code ) {
 
-						$response_body = $response['body'];
+						$response_body = wp_remote_retrieve_body( $response );
 						$contact_created = json_decode( $response_body );
 
 						$contact = $contact_created->contact;
@@ -303,7 +309,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				} else {
 					if ( is_array( $response ) ) {
 
-						$response_code = $response['response']['code'];
+						$response_code = wp_remote_retrieve_response_code( $response );
+
 						if ( 200 != $response_code ) {
 							$status = 'error';
 							$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
@@ -337,7 +344,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					$status = 'error';
 					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 				} else {
-					$access_details = json_decode( $response['body'] );
+					$response_body = wp_remote_retrieve_body( $response );
+					$access_details = json_decode( $response_body );
 					$expiration = time() + $access_details->expires_in;
 					$mautic_credentials['access_token'] = $access_details->access_token;
 					$mautic_credentials['expires_in'] = $expiration;
@@ -355,10 +363,11 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$response = wp_remote_get( $url );
 
 			if ( ! is_wp_error( $response ) && is_array( $response ) ) {
-				$response_body = $response['body'];
+				$response_body = wp_remote_retrieve_body( $response );
 				$body_data = json_decode( $response_body );
 
-				$response_code = $response['response']['code'];
+				$response_code = wp_remote_retrieve_response_code( $response );
+
 				if ( 201 !== $response_code ) {
 					if ( 200 !== $response_code ) {
 						$ret = false;
@@ -405,7 +414,10 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					$status = 'error';
 					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 				} else {
-					$access_details = json_decode( $response['body'] );
+
+					$response_body = wp_remote_retrieve_body( $response );
+					
+					$access_details = json_decode( $response_body );
 					$expiration = time() + $access_details->expires_in;
 					$mautic_credentials['access_token'] = $access_details->access_token;
 					$mautic_credentials['expires_in'] = $expiration;
@@ -421,10 +433,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$response = wp_remote_get( $url );
 
 			if ( ! is_wp_error( $response ) && is_array( $response ) ) {
-				$response_body = $response['body'];
+
+				$response_body = wp_remote_retrieve_body( $response );
+				
 				$body_data = json_decode( $response_body );
 
-				$response_code = $response['response']['code'];
+				$response_code = wp_remote_retrieve_response_code( $response );
 				if ( 201 !== $response_code ) {
 					if ( 200 !== $response_code ) {
 						$status = 'error';
