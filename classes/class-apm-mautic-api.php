@@ -80,7 +80,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 						$status   = 'error';
 					} else {
-						
+
 						$response_body = wp_remote_retrieve_body( $response );
 
 						$access_details               = json_decode( $response_body );
@@ -416,7 +416,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				} else {
 
 					$response_body = wp_remote_retrieve_body( $response );
-					
+
 					$access_details = json_decode( $response_body );
 					$expiration = time() + $access_details->expires_in;
 					$mautic_credentials['access_token'] = $access_details->access_token;
@@ -435,7 +435,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			if ( ! is_wp_error( $response ) && is_array( $response ) ) {
 
 				$response_body = wp_remote_retrieve_body( $response );
-				
+
 				$body_data = json_decode( $response_body );
 
 				$response_code = wp_remote_retrieve_response_code( $response );
