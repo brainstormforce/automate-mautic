@@ -42,7 +42,9 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		 * @return void
 		 */
 		public function hooks() {
+
 			add_action( 'admin_init', array( $this, 'set_mautic_code' ) );
+
 		}
 
 		/**
@@ -75,13 +77,13 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					$response = self::mautic_get_access_token( $grant_type );
 
 					if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-						$access_details               = json_decode( $response['body'] );
-						if ( isset( $access_details->error_description ) ) {
-							$error_msg = $access_details->error_description;
-						}
+						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 						$status   = 'error';
 					} else {
-						$access_details               = json_decode( $response['body'] );
+
+						$response_body = wp_remote_retrieve_body( $response );
+
+						$access_details               = json_decode( $response_body );
 						$expiration                   = time() + $access_details->expires_in;
 						$credentials['access_token']  = $access_details->access_token;
 						$credentials['expires_in']    = $expiration;
@@ -158,7 +160,9 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 						$status = 'error';
 						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 					} else {
-						$access_details = json_decode( $response['body'] );
+
+						$response_body = wp_remote_retrieve_body( $response );
+						$access_details = json_decode( $response_body );
 						$expiration = time() + $access_details->expires_in;
 						$credentials['access_token'] = $access_details->access_token;
 						$credentials['expires_in'] = $expiration;
@@ -170,6 +174,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 			// add contacts.
 			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+
 			$access_token = $credentials['access_token'];
 			$param['access_token'] = $access_token;
 			$url = $credentials['baseUrl'] . $url;
@@ -183,10 +188,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 
 				$response = wp_remote_get( $url );
+
 				if ( is_array( $response ) ) {
-					$response_body = $response['body'];
+					$response_body = wp_remote_retrieve_body( $response );
 					$body_data = json_decode( $response_body );
-					$response_code = $response['response']['code'];
+					$response_code = wp_remote_retrieve_response_code( $response );
+
 					if ( 201 !== $response_code  ) {
 
 						if ( 200 !== $response_code ) {
@@ -212,6 +219,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					'body' => $param,
 					'cookies' => array(),
 				));
+
 			}
 			if ( is_wp_error( $response ) ) {
 				$error_msg = $response->get_error_message();
@@ -222,12 +230,13 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 
 				if ( is_array( $response ) ) {
 
-					$response_code = $response['response']['code'];
+					$response_code = wp_remote_retrieve_response_code( $response );
 
 					if ( 200 === $response_code || 201 === $response_code ) {
 
-						$response_body = $response['body'];
+						$response_body = wp_remote_retrieve_body( $response );
 						$contact_created = json_decode( $response_body );
+
 						$contact = $contact_created->contact;
 
 						if ( isset( $contact->id ) ) {
@@ -253,7 +262,6 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 							}
 
 							$status = $res['status'];
-							$error_msg = $res['error_message'];
 						}
 					} else {
 						$ret = false;
@@ -294,12 +302,15 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					'cookies' => array(),
 					)
 				);
+
 				if ( is_wp_error( $response ) ) {
 						$error_msg = $response->get_error_message();
 						$status = 'error';
 				} else {
 					if ( is_array( $response ) ) {
-						$response_code = $response['response']['code'];
+
+						$response_code = wp_remote_retrieve_response_code( $response );
+
 						if ( 200 != $response_code ) {
 							$status = 'error';
 							$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
@@ -333,7 +344,8 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 					$status = 'error';
 					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
 				} else {
-					$access_details = json_decode( $response['body'] );
+					$response_body = wp_remote_retrieve_body( $response );
+					$access_details = json_decode( $response_body );
 					$expiration = time() + $access_details->expires_in;
 					$mautic_credentials['access_token'] = $access_details->access_token;
 					$mautic_credentials['expires_in'] = $expiration;
@@ -343,6 +355,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			}
 
 			$error_msg = $contact_id = '';
+			$contacts = array();
 			$access_token = $mautic_credentials['access_token'];
 			$access_token = esc_attr( $access_token );
 			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=' . $email . '&access_token=' . $access_token;
@@ -350,10 +363,11 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			$response = wp_remote_get( $url );
 
 			if ( ! is_wp_error( $response ) && is_array( $response ) ) {
-				$response_body = $response['body'];
+				$response_body = wp_remote_retrieve_body( $response );
 				$body_data = json_decode( $response_body );
 
-				$response_code = $response['response']['code'];
+				$response_code = wp_remote_retrieve_response_code( $response );
+
 				if ( 201 !== $response_code ) {
 					if ( 200 !== $response_code ) {
 						$ret = false;
@@ -365,6 +379,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 
 				if ( isset( $body_data->contacts ) ) {
+
 					$contacts = $body_data->contacts;
 				}
 
@@ -378,6 +393,71 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 			}
 			return $contact_id;
+		}
+
+		/**
+		 * Check if contact is exist in mautic
+		 *
+		 * @since 1.0.0
+		 * @param id $id contact ID.
+		 * @return void
+		 */
+		public static function is_contact_published( $id ) {
+
+			$mautic_credentials = AMPW_Mautic_Init::get_mautic_credentials();
+
+			if ( $mautic_credentials['expires_in'] < time() ) {
+				$grant_type = 'refresh_token';
+				$response = self::mautic_get_access_token( $grant_type );
+				if ( is_wp_error( $response ) ) {
+					$error_msg = $response->get_error_message();
+					$status = 'error';
+					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+				} else {
+
+					$response_body = wp_remote_retrieve_body( $response );
+
+					$access_details = json_decode( $response_body );
+					$expiration = time() + $access_details->expires_in;
+					$mautic_credentials['access_token'] = $access_details->access_token;
+					$mautic_credentials['expires_in'] = $expiration;
+					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+					update_option( 'ampw_mautic_credentials', $mautic_credentials );
+				}
+			}
+
+			$access_token = $mautic_credentials['access_token'];
+			$access_token = esc_attr( $access_token );
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id . '&access_token=' . $access_token;
+
+			$response = wp_remote_get( $url );
+
+			if ( ! is_wp_error( $response ) && is_array( $response ) ) {
+
+				$response_body = wp_remote_retrieve_body( $response );
+
+				$body_data = json_decode( $response_body );
+
+				$response_code = wp_remote_retrieve_response_code( $response );
+				if ( 201 !== $response_code ) {
+					if ( 200 !== $response_code ) {
+						$status = 'error';
+						__( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+						return;
+					}
+				}
+				// return if not found.
+				if ( isset( $body_data->errors ) ) {
+
+					return false;
+				}
+
+				if ( isset( $body_data->total ) && $body_data->total > 0 ) {
+
+					return true;
+				}
+			}
+			return false;
 		}
 
 		/**
@@ -467,7 +547,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 				}
 			}
 
-			if ( ! isset( $contact_id ) ) {
+			if ( empty( $contact_id ) ) {
 				$data['method'] = 'POST';
 				$data['url'] = '/api/contacts/new';
 			}
