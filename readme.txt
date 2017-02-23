@@ -1,4 +1,4 @@
-=== AutomatePlus - Mautic for WordPress ===
+=== AutomatePlug - Mautic for WordPress ===
 Contributors: brainstormforce, rahulwalunje-1
 Donate link: https://www.paypal.me/BrainstormForce
 Requires at least: 3.0
@@ -12,7 +12,7 @@ Add registered WP users and commentors to Mautic contacts.
 
 == Description ==
 
-AutomatePlus - Mautic for WordPress allows to add registered WP users and commentors to Mautic contacts using Mautic API. You just need to setup rules and authorize Mautic.
+AutomatePlug - Mautic for WordPress allows to add registered WP users and commentors to Mautic contacts using Mautic API. You just need to setup rules and authorize Mautic.
 
 There are triggers and actions for each rule. 
 
@@ -22,7 +22,7 @@ There are triggers and actions for each rule.
 
 # Configurations
 
-- Go to WordPress Dashboard -> Settings -> AutomatePlus Mautic -> Authenticate
+- Go to WordPress Dashboard -> Settings -> AutomatePlug Mautic -> Authenticate
 - Enter Mautic Base URL
 - Enter Public Key and Secret Key
 
