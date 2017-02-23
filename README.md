@@ -1,9 +1,9 @@
-# AutomatePlus - Mautic for WordPress
+# AutomatePlug - Mautic for WordPress
 Add new registered WP users and commenters to Mautic contacts.
 
 # Configurations
 
-- You need to basic configurations at WordPress Dashboard -> Settings -> AutomatePlus Mautic Page
+- You need to basic configurations at WordPress Dashboard -> Settings -> AutomatePlug Mautic Page
 - Enter Mautic Base URL
 - Enter Public Key and Secret Key
 
