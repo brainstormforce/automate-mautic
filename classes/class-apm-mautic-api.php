@@ -175,8 +175,12 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			// add contacts.
 			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
 
+			if( ! isset( $credentials['access_token'] ) ) {
+				return;
+			}
 			$access_token = $credentials['access_token'];
 			$param['access_token'] = $access_token;
+
 			$url = $credentials['baseUrl'] . $url;
 			if ( 'GET' == $method ) {
 
