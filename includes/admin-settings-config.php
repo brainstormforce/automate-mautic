@@ -31,8 +31,7 @@
 					'label' => 'Tracking'
 				)
 			);
-			// do_action( 'amp_new_options_tab', $active_tab );
-			apply_filters( 'amp_new_options_tab', $items );
+			$items = apply_filters( 'amp_new_options_tab', $items );
 			APM_AdminSettings::render_tab_items( $items, $active_tab );
 		?>
 	</h2>
