@@ -285,9 +285,10 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 						}
 						if ( 'CP' == $conditions[ $i ] ) {
 							$sub_key = array_search( $i, $cp_keys );
+							$ss_cp_condition = isset($_POST['ss_cp_condition'][ $sub_key ]) ? $_POST['ss_cp_condition'][ $sub_key ] : '';
 							$base = sanitize_text_field( $conditions[ $i ] );
 							$sub_cp_condition = sanitize_text_field( $_POST['sub_cp_condition'][ $sub_key ] );
-							$ss_cp_condition = sanitize_text_field( $_POST['ss_cp_condition'][ $sub_key ] );
+							$ss_cp_condition = sanitize_text_field( $ss_cp_condition );
 							$update_conditions[ $i ] = array(
 							$base,
 							$sub_cp_condition,
@@ -412,6 +413,24 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 			if ( 'update' == $message && 'automate-mautic' == $curr_screen ) {
 				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 			}
+		}
+
+		/**
+		 * Render tab items
+		 *
+		 * @since 1.1.0
+		 * @param string $active active tab.
+		 * @return void
+		 */
+		public static function render_tab_items( $items, $active ) {
+			$output = '';
+			foreach ( $items as $slug => $data) {
+				$page_slug = '&tab='.$slug;
+				$active_tab = ( $slug == $active ) ? 'nav-tab-active' : '';
+				$url = APM_AdminSettings::get_render_page_url( $page_slug );
+				$output .= "<a class='nav-tab " . esc_attr( $active_tab ) . "' href='" . esc_url( $url ) . "'>" . esc_attr( $data['label'] ) . '</a>';
+			}
+			echo $output;
 		}
 	}
 	$apm_adminsettings = APM_AdminSettings::instance();

@@ -19,11 +19,21 @@
 
 	?>
 	<h2 class="nav-tab-wrapper">
-		<a href="<?php APM_AdminSettings::render_page_url( '&tab=all_rules' ); ?>" class="nav-tab <?php echo 'all_rules' == $active_tab ? 'nav-tab-active' : ''; ?>"> <?php _e( 'All Rules', 'automateplus-mautic-wp' ); ?> </a>
-		<a href="<?php APM_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" class="nav-tab <?php echo 'auth_mautic' == $active_tab ? 'nav-tab-active' : ''; ?>"> <?php _e( 'Authenticate', 'automateplus-mautic-wp' ); ?> </a>
-		<a href="<?php APM_AdminSettings::render_page_url( '&tab=enable_tracking' ); ?>" class="nav-tab <?php echo 'enable_tracking' == $active_tab ? 'nav-tab-active' : ''; ?>"> <?php _e( 'Tracking', 'automateplus-mautic-wp' ); ?> </a>
 		<?php
-			do_action( 'amp_new_options_tab', $active_tab );
+			$items  = array(
+				'all_rules' => array(
+					'label' => 'All Rules'
+				),
+				'auth_mautic' => array(
+					'label' => 'Authenticate'
+				),
+				'enable_tracking' => array(
+					'label' => 'Tracking'
+				)
+			);
+			// do_action( 'amp_new_options_tab', $active_tab );
+			apply_filters( 'amp_new_options_tab', $items );
+			APM_AdminSettings::render_tab_items( $items, $active_tab );
 		?>
 	</h2>
 	<?php
