@@ -1,143 +1,170 @@
-jQuery(document).ready(function( $ ) {
-	var jq = jQuery.noConflict();
-	jq( '#ampw-sortable-condition' ).sortable();
-	jq( '#ampw-sortable-condition' ).disableSelection();
-	jq( '#ampw-sortable-action' ).sortable();
-	jq( '#ampw-sortable-action' ).disableSelection();
-	jq( '.select-condition' ).select2();
-	jq( '.select-action' ).select2();
-	jq( '.sub-seg-action' ).select2();
-	jq( '.root-seg-action' ).select2();
-	jq( '.ss-cp-condition' ).select2();
-	jq( '.sub-cp-condition' ).select2();
-	jq( '.root-cp-condition' ).select2();
+(function( $ ) {
+    
+    /**
+     * JavaScript class for AutomatePlug.
+     *
+     * @since 0.0.1
+     */
 
-	//get markups from template
-	var mbTemplate = wp.template( 'apm-template' );
-	jq(document).on( 'click', '.remove-item', function() {
-		var LastChild = jq(this).parent().hasClass('ui-state-default');
-		if(!LastChild) {
-			jq(this).parent().remove();
-		}
-	});
-	jq(document).on( 'click', '.ampw-add-condition', function() {
-		var conditionField = mbTemplate( { clas: 'condition-field' } );
-		var n = jq( '#ampw-sortable-condition fieldset' ).length;
-		n++;
-		jq( '#ampw-sortable-condition' ).append('<fieldset class="ui-state-new" id="item-'+ n +'">'+ conditionField +'</fieldset>');
-		jq( '.select-condition' ).select2();
-	});
-	jq(document).on( 'click', '.ampw-add-action', function() {
-		var actionField = mbTemplate( { clas: "action-field" } );
-		var m = jq( '#ampw-sortable-action fieldset' ).length;
-		m++;
-		jq( '#ampw-sortable-action' ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
-		jq( '.select-action' ).select2();
-		jq( '.select-action' ).select2();
-		jq( '.root-seg-action' ).select2();
-		jq( '.sub-seg-action' ).select2();
-	});
-	jq(document).on( 'change', '.select-condition', function() {
-		parent = jq(this).parent();
-		switch(this.value) {
-			case 'CP' :
-				var SelCondition = mbTemplate( { clas: "sub-cp-condition" } );
-				parent.find('div.second-condition').html('');
-				parent.find('div.first-condition').html(SelCondition);
-				jq( ".sub-cp-condition" ).select2();
-			break;
+  	var mbTemplate = wp.template( 'apm-template' );
 
-			case 'UR' :
-				parent.find('div.first-condition').html('');
-				parent.find('div.second-condition').html('');
-			break;
-		}
-	});
-	jq(document).on( 'change', '.sub-cp-condition', function() {
-		gParent = jq(this).parent().parent();
-		switch(this.value) {
-			case 'os_page' :
-				var osPage = mbTemplate( { clas: this.value } );
-				gParent.find('div.second-condition').html(osPage);
-				jq( '.root-cp-condition' ).select2();
-			break;
-			
-			case 'os_post' :
-				var osPost = mbTemplate( { clas: this.value } );
-				gParent.find('div.second-condition').html(osPost);
-				jq( '.root-cp-condition' ).select2();
-			break;
+    var AutomatePlugMauticWP = {
+        
+        /**
+         * Initializes the services logic.
+         *
+         * @return void
+         * @since 1.2.0
+         */
+		init: function() {
 
-			case 'ao_website' :
-				gParent.find('div.second-condition').html('');
-		}
-	});
-	jq(document).on( 'change', '.select-action', function() {
-		parent = jq(this).parent();
-		gParent = jq(this).parent().parent();
-		switch(this.value) {
-			case 'segment' :
-				var SelAction = mbTemplate( { clas: 'sub-seg-action' } );
-				parent.find('div.first-action').html(SelAction);
-				jq( '.sub-seg-action' ).select2();
-				parent.find('div.second-action').html('');
-			break;
-		}
-	});
+			//get markups from template
+			var $ = jQuery.noConflict();
+            $( document ).on( 'click', '.remove-item', this._removeItem );
+            $( document ).on( 'click', '.ampw-add-condition', this._ApendCondition );
+            $( document ).on( 'click', '.ampw-add-action', this._AddAction );
+            $( document ).on( 'change', '.select-condition', this._selectCondition );
+            $( document ).on( 'change', '.sub-cp-condition', this._subCondition );
+            $( document ).on( 'change', '.select-action', this._selectAction );
+            $( document ).on( 'change', '.sub-seg-action', this._subAction );
+            $( document ).on( 'click', '#refresh-mautic', this._refreshMautic );
+            $( document ).on( 'click', '.ampw-disconnect-mautic', this._disconnectMautic );
+            $( '.ampw-config-settings-form' ).on( 'click', '#save-amp-settings', this._saveSettings );
+            $( '.ampw-config-settings-form' ).on( 'click', '.rule-delete-link', this._deleteRule );
+        },
 
-	jq(document).on( 'change', '.sub-seg-action', function() {
-		parent = jq(this).parent();
-		gParent = jq(this).parent().parent();
+        _removeItem: function() {
+	           	var LastChild = $(this).parent().hasClass('ui-state-default');
+				if(!LastChild) {
+					$(this).parent().remove();
+				}
+        },
 
-		switch(this.value) {
-			case 'add_tag' :
-				gParent.find('div.second-action').html('');
-				var SelAction = mbTemplate( { clas: 'sub-tag-action' } );
-				gParent.find('div.second-action').html(SelAction);
-			break;
-			default:
-				var SelAction = mbTemplate( { clas: 'get-all-segments' } );
-				gParent.find('div.second-action').html(SelAction);
-				jq( ".root-seg-action" ).select2();
-			break;
-		}
-	});
+        _ApendCondition: function() {
+ 				var conditionField = mbTemplate( { clas: 'condition-field' } );
+				var n = $( '#ampw-sortable-condition fieldset' ).length;
+				n++;
+				$( '#ampw-sortable-condition' ).append('<fieldset class="ui-state-new" id="item-'+ n +'">'+ conditionField +'</fieldset>');
+				$( '.select-condition' ).select2();
+        },
 
-	// clean transients
-	jq(document).on( 'click', '#refresh-mautic', function() {
-		jq( '.amp_footer_spinner' ).css( 'visibility', 'visible' );
-		var data= {
-			action:'clean_mautic_transient'
-		};
-		jq.post(ajaxurl, data, function(){
+        _AddAction: function() {
+        		var actionField = mbTemplate( { clas: "action-field" } );
+				var m = $( '#ampw-sortable-action fieldset' ).length;
+				m++;
+				$( '#ampw-sortable-action' ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
+				$( '.select-action' ).select2();
+				$( '.select-action' ).select2();
+				$( '.root-seg-action' ).select2();
+				$( '.sub-seg-action' ).select2();
+        },
+ 
+        _selectCondition: function() {
+			parent = $(this).parent();
+			switch(this.value) {
+				case 'CP' :
+					var SelCondition = mbTemplate( { clas: "sub-cp-condition" } );
+					parent.find('div.second-condition').html('');
+					parent.find('div.first-condition').html(SelCondition);
+					$( ".sub-cp-condition" ).select2();
+				break;
 
-			jq( '.amp_footer_spinner' ).removeClass('spinner');
-			jq( '.amp_footer_spinner' ).addClass('dashicons dashicons-yes');
-			location.reload();
-		});
-	});
+				case 'UR' :
+					parent.find('div.first-condition').html('');
+					parent.find('div.second-condition').html('');
+				break;
+			}
+		},
 
-	jq('.ampw-disconnect-mautic').click(function() {
-		if( confirm('Are you sure you wish to disconnect from Mautic?') ) {
+		_subCondition: function() {
+				gParent = $(this).parent().parent();
+				switch(this.value) {
+					case 'os_page' :
+						var osPage = mbTemplate( { clas: this.value } );
+						gParent.find('div.second-condition').html(osPage);
+						$( '.root-cp-condition' ).select2();
+					break;
+					
+					case 'os_post' :
+						var osPost = mbTemplate( { clas: this.value } );
+						gParent.find('div.second-condition').html(osPost);
+						$( '.root-cp-condition' ).select2();
+					break;
+
+					case 'ao_website' :
+						gParent.find('div.second-condition').html('');
+				}
+		},
+
+		_selectAction: function() {
+			parent = $(this).parent();
+			gParent = $(this).parent().parent();
+			switch(this.value) {
+				case 'segment' :
+					var SelAction = mbTemplate( { clas: 'sub-seg-action' } );
+					parent.find('div.first-action').html(SelAction);
+					$( '.sub-seg-action' ).select2();
+					parent.find('div.second-action').html('');
+				break;
+			}
+		},
+
+		_subAction: function() {
+			parent = $(this).parent();
+			gParent = $(this).parent().parent();
+
+			switch(this.value) {
+				case 'add_tag' :
+					gParent.find('div.second-action').html('');
+					var SelAction = mbTemplate( { clas: 'sub-tag-action' } );
+					gParent.find('div.second-action').html(SelAction);
+				break;
+				default:
+					var SelAction = mbTemplate( { clas: 'get-all-segments' } );
+					gParent.find('div.second-action').html(SelAction);
+					$( ".root-seg-action" ).select2();
+				break;
+			}
+		},
+
+		_refreshMautic: function() {
+	 		$( '.amp_footer_spinner' ).css( 'visibility', 'visible' );
 			var data= {
-				action:'config_disconnect_mautic'
+				action:'clean_mautic_transient'
 			};
-			jq.post(ajaxurl, data, function(selHtml) {
+			$.post(ajaxurl, data, function(){
+
+				$( '.amp_footer_spinner' ).removeClass('spinner');
+				$( '.amp_footer_spinner' ).addClass('dashicons dashicons-yes');
 				location.reload();
 			});
-		}
-		else {
-			return false;		
-		}
-	});
-	jq( '.ampw-config-settings-form' ).on( 'click', '.rule-delete-link', function() {
-		if ( ! confirm( 'Are you sure you want to delete rule?' ) ) {
-			return false;
-		}
-	});
+		},
 
-	jq('#save-amp-settings').click( function() {
-		
-		jq( '.apm-wp-spinner' ).css( 'visibility', 'visible' );
-	});
-});
+		_disconnectMautic: function() {
+			if( confirm('Are you sure you wish to disconnect from Mautic?') ) {
+				var data= {
+					action:'config_disconnect_mautic'
+				};
+				$.post(ajaxurl, data, function(selHtml) {
+					location.reload();
+				});
+			}
+			else {
+				return false;			}
+		},
+
+		_deleteRule: function() {
+			if ( ! confirm( 'Are you sure you want to delete rule?' ) ) {
+				return false;
+			}
+		},
+		_saveSettings: function() {
+			$( '.apm-wp-spinner' ).css( 'visibility', 'visible' );
+		},
+    };
+
+    $( function() {
+        AutomatePlugMauticWP.init();
+    });
+
+})( jQuery );
