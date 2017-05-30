@@ -6,22 +6,33 @@
  * @since 1.0.0
  */
 
-if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
+if ( ! class_exists( 'APMautic_helper' ) ) :
 
 	/**
-	 * Create class AMPW_Mautic_Init
+	 * Create class APMautic_helper
 	 * load text domain, get options
 	 */
-	class AMPW_Mautic_Init {
+	class APMautic_helper {
 
 		/**
-		 * Constructor
+		 * Declare a static variable instance.
+		 *
+		 * @var instance
+		 */
+		private static $instance;
+
+		/**
+		 * Initiate class
 		 *
 		 * @since 1.0.0
-		 * @return void
+		 * @return object
 		 */
-		public function __construct() {
-			self::includes();
+		public static function instance() {
+			if ( ! isset( self::$instance ) ) {
+				self::$instance = new APMautic_helper();
+				self::includes();
+			}
+			return self::$instance;
 		}
 
 		/**
@@ -32,7 +43,7 @@ if ( ! class_exists( 'AMPW_Mautic_Init' ) ) :
 		 */
 		public function includes() {
 			require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
-			$this->load_plugin_textdomain();
+			self::load_plugin_textdomain();
 		}
 
 		/**
@@ -80,6 +91,9 @@ endif;
  *
  * @return mixed Option value
  */
+
+if ( ! function_exists( 'apm_get_option' ) ) :
+
 function apm_get_option( $key = '', $default = false ) {
 
 	$amp_options = get_option( 'ampw_mautic_config' );
@@ -89,13 +103,16 @@ function apm_get_option( $key = '', $default = false ) {
 	return apply_filters( "apm_get_option_{$key}", $value, $key, $default );
 }
 
+endif;
 /**
  * Initialize the class after plugins loaded.
  *
  * @since 1.0.0
  * @return void
  */
+if ( ! function_exists( 'ampw_mautic_init' ) ) :
 function ampw_mautic_init() {
-	$ampw_mautic_init = new AMPW_Mautic_Init();
+	APMautic_helper::instance();
 }
+endif;
 add_action( 'plugins_loaded', 'ampw_mautic_init' );

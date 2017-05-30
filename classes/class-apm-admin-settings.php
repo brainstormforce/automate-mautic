@@ -329,7 +329,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 			if ( isset( $_POST['apmw-mautic-nonce'] ) && wp_verify_nonce( $_POST['apmw-mautic-nonce'], 'apmwmautic' ) ) {
 
-				$amp_options = AMPW_Mautic_Init::get_amp_options();
+				$amp_options = APMautic_helper::get_amp_options();
 
 				$amp_options['base-url'] = isset( $_POST['base-url'] ) ? esc_url( $_POST['base-url'] ) : '';
 
@@ -346,7 +346,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			}
 			if ( isset( $_POST['apmw-mautic-nonce-tracking'] ) && wp_verify_nonce( $_POST['apmw-mautic-nonce-tracking'], 'apmautictrack' ) ) {
 
-				$amp_options = AMPW_Mautic_Init::get_amp_options();
+				$amp_options = APMautic_helper::get_amp_options();
 
 				$amp_options['enable-tracking'] = false;
 

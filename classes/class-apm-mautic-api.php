@@ -55,7 +55,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 */
 		public static function set_mautic_code() {
 			if ( isset( $_GET['code'] ) && 'automate-mautic' == $_REQUEST['page'] ) {
-				$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+				$credentials = APMautic_helper::get_mautic_credentials();
 				$credentials['access_code'] = sanitize_key( $_GET['code'] );
 				update_option( 'ampw_mautic_credentials', $credentials );
 				self::get_mautic_data();
@@ -69,7 +69,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 * @return void
 		 */
 		public static function get_mautic_data() {
-			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$credentials = APMautic_helper::get_mautic_credentials();
 			// If not authorized.
 			if ( ! isset( $credentials['access_token'] ) ) {
 				if ( isset( $credentials['access_code'] ) ) {
@@ -102,7 +102,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 * @return array
 		 */
 		public static function mautic_get_access_token( $grant_type ) {
-			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$credentials = APMautic_helper::get_mautic_credentials();
 
 			if ( ! isset( $credentials['baseUrl'] ) ) {
 
@@ -148,7 +148,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 */
 		public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 			$status = 'success';
-			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$credentials = APMautic_helper::get_mautic_credentials();
 
 			if ( isset( $credentials['access_code'] ) && ! empty( $credentials['access_code'] )  ) {
 				// if token expired, get new access token.
@@ -173,7 +173,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 			}
 
 			// add contacts.
-			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$credentials = APMautic_helper::get_mautic_credentials();
 
 			if( ! isset( $credentials['access_token'] ) ) {
 				return;
@@ -408,7 +408,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 */
 		public static function is_contact_published( $id ) {
 
-			$mautic_credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$mautic_credentials = APMautic_helper::get_mautic_credentials();
 
 			if ( $mautic_credentials['expires_in'] < time() ) {
 				$grant_type = 'refresh_token';
@@ -521,7 +521,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 */
 		public static function get_api_method_url( $email ) {
 
-			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$credentials = APMautic_helper::get_mautic_credentials();
 			$data = array();
 			$contact_id = $email_cid = '';
 
@@ -565,7 +565,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 * @return boolean
 		 */
 		public static function is_connected() {
-			$credentials = AMPW_Mautic_Init::get_mautic_credentials();
+			$credentials = APMautic_helper::get_mautic_credentials();
 
 			if ( ! isset( $credentials['access_token'] ) ) {
 
