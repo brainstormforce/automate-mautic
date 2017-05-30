@@ -239,9 +239,6 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 
 			global $wpdb;
 			$page_number = $this->get_pagenum();
-
-			$post_type = 'automate-mautic';
-
 			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='%s' && post_status = 'publish'";
 
 			if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) {
@@ -250,7 +247,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				$query .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
 
-			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, $post_type ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
+			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, AUTOMATEPLUS_MAUTIC_POSTTYPE ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
 
 			$perpage = 10;
 
@@ -283,7 +280,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
 
-			$result = $wpdb->get_results( $wpdb->prepare( $query, $post_type ), ARRAY_A ); // WPCS: unprepared SQL OK.
+			$result = $wpdb->get_results( $wpdb->prepare( $query, AUTOMATEPLUS_MAUTIC_POSTTYPE ), ARRAY_A ); // WPCS: unprepared SQL OK.
 
 			return $result;
 		}

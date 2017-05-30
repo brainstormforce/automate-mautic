@@ -172,7 +172,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 */
 		public static function clean_condition_actions( $post_id ) {
 			$post_type = get_post_type( $post_id );
-			if ( 'automate-mautic' != $post_type ) {
+			if ( AUTOMATEPLUS_MAUTIC_POSTTYPE != $post_type ) {
 				return;
 			}
 			delete_post_meta( $post_id, 'ampw_rule_condition' );
@@ -186,7 +186,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @return rule id array
 		 */
 		public static function get_comment_condition( $comment_data = array() ) {
-			$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'automate-mautic' );
+			$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => AUTOMATEPLUS_MAUTIC_POSTTYPE );
 			$posts = get_posts( $args );
 			$set_rules = array();
 			foreach ( $posts as $post ) : setup_postdata( $post );
@@ -217,7 +217,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @return array
 		 */
 		public static function get_wpur_condition() {
-			$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => 'automate-mautic' );
+			$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => AUTOMATEPLUS_MAUTIC_POSTTYPE );
 			$posts = get_posts( $args );
 			$ur_rules = array();
 			foreach ( $posts as $post ) : setup_postdata( $post );

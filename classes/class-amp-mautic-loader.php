@@ -50,6 +50,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_DIR', plugin_dir_path( AUTOMATE_MAUTIC_FILE ) );
 			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_URL', plugins_url( '/', AUTOMATE_MAUTIC_FILE ) );
 			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_CONFIG', 'ampw_mautic_config' );
+			define( 'AUTOMATEPLUS_MAUTIC_POSTTYPE', 'automate-mautic' );
 		}
 
 		/**
@@ -65,6 +66,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
 			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php' );
+			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-general-settings.php' );
 		}
 
 		/**
@@ -140,7 +142,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 				'show_ui'            => false,
 				'show_in_menu'       => 'options-general.php',
 				'query_var'          => true,
-				'rewrite'            => array( 'slug' => 'automate-mautic' ),
+				'rewrite'            => array( 'slug' => AUTOMATEPLUS_MAUTIC_POSTTYPE ),
 				'capability_type'    => 'post',
 				'has_archive'        => true,
 				'hierarchical'       => false,
@@ -148,7 +150,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 				'menu_icon'			 => 'dashicons-chart-line',
 				'supports'           => array( 'title' ),
 			);
-			register_post_type( 'automate-mautic', $args );
+			register_post_type( AUTOMATEPLUS_MAUTIC_POSTTYPE, $args );
 		}
 	}
 	APMautic_loader::instance();

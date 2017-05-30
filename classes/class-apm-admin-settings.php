@@ -56,7 +56,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public function mb_templates() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( 'automate-mautic' == $curr_screen ) {
+			if ( AUTOMATEPLUS_MAUTIC_POSTTYPE == $curr_screen ) {
 				include AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . '/assets/templates/meta-box-template.php';
 			}
 		}
@@ -74,7 +74,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				return;
 			}
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( 'automate-mautic' == $curr_screen ) {
+			if ( AUTOMATEPLUS_MAUTIC_POSTTYPE == $curr_screen ) {
 				self::save();
 				add_action( 'admin_enqueue_scripts', __CLASS__ . '::styles_scripts' );
 			}
@@ -91,7 +91,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				$cap	= 'delete_users';
 				$slug	= 'automate-mautic-settings';
 				$func	= __CLASS__ . '::render';
-				add_options_page( 'AutomatePlus Mautic',  __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ), 'administrator', 'automate-mautic', $func );
+				add_options_page( 'AutomatePlus Mautic',  __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ), 'administrator', AUTOMATEPLUS_MAUTIC_POSTTYPE, $func );
 			}
 		}
 
@@ -104,7 +104,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function styles_scripts() {
 
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( 'automate-mautic' == $curr_screen ) {
+			if ( AUTOMATEPLUS_MAUTIC_POSTTYPE == $curr_screen ) {
 				wp_enqueue_script( 'jquery' );
 				wp_enqueue_script( 'jquery-ui-sortable' );
 				wp_enqueue_script( 'apm-admin-script', AUTOMATEPLUS_MAUTIC_PLUGIN_URL . 'assets/js/admin.js' , array( 'jquery', 'jquery-ui-sortable', 'wp-util' ) );
@@ -257,7 +257,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				'post_title'    => $rule_name,
 				'post_content'  => '',
 				'post_status'   => 'publish',
-				'post_type'     => 'automate-mautic',
+				'post_type'     => AUTOMATEPLUS_MAUTIC_POSTTYPE,
 				);
 
 				if ( isset( $_GET['action'] ) &&  'edit' == $_GET['action'] ) {
@@ -394,7 +394,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function apmw_notices() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( ! APMautic_API::is_connected() && 'automate-mautic' == $curr_screen  ) {
+			if ( ! APMautic_API::is_connected() && AUTOMATEPLUS_MAUTIC_POSTTYPE == $curr_screen  ) {
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
 				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automateplus-mautic-wp' ), $redirect );
@@ -410,7 +410,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function render_messages( $message ) {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( 'update' == $message && 'automate-mautic' == $curr_screen ) {
+			if ( 'update' == $message && AUTOMATEPLUS_MAUTIC_POSTTYPE == $curr_screen ) {
 				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplus-mautic-wp' ) . '</p></div>';
 			}
 		}
