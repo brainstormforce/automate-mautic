@@ -175,7 +175,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 			// add contacts.
 			$credentials = APMautic_helper::get_mautic_credentials();
 
-			if( ! isset( $credentials['access_token'] ) ) {
+			if ( ! isset( $credentials['access_token'] ) ) {
 				return;
 			}
 			$access_token = $credentials['access_token'];

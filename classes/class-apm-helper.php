@@ -30,7 +30,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new APMautic_helper();
-				self::includes();
+				self::$instance->includes();
 			}
 			return self::$instance;
 		}
@@ -54,7 +54,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 */
 		public static function get_amp_options() {
 
-			$setting_options = get_option( 'ampw_mautic_config' );
+			$setting_options = get_option( AUTOMATEPLUS_MAUTIC_PLUGIN_CONFIG );
 			return $setting_options;
 		}
 
@@ -82,37 +82,38 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 	}
 endif;
 
-/**
- * Get options by key
- *
- * @since 1.0.2
- * @param string $key Options array key.
- * @param string $default The default option if the option isn't set.
- *
- * @return mixed Option value
- */
 
 if ( ! function_exists( 'apm_get_option' ) ) :
 
-function apm_get_option( $key = '', $default = false ) {
+	/**
+	 * Get options by key
+	 *
+	 * @since 1.0.2
+	 * @param string $key Options array key.
+	 * @param string $default The default option if the option isn't set.
+	 *
+	 * @return mixed Option value
+	 */
+	function apm_get_option( $key = '', $default = false ) {
 
-	$amp_options = get_option( 'ampw_mautic_config' );
+		$amp_options = get_option( AUTOMATEPLUS_MAUTIC_PLUGIN_CONFIG );
 
-	$value = isset( $amp_options[ $key ] ) ? $amp_options[ $key ] : $default;
+		$value = isset( $amp_options[ $key ] ) ? $amp_options[ $key ] : $default;
 
-	return apply_filters( "apm_get_option_{$key}", $value, $key, $default );
-}
+		return apply_filters( "apm_get_option_{$key}", $value, $key, $default );
+	}
 
 endif;
-/**
- * Initialize the class after plugins loaded.
- *
- * @since 1.0.0
- * @return void
- */
+
 if ( ! function_exists( 'ampw_mautic_init' ) ) :
-function ampw_mautic_init() {
-	APMautic_helper::instance();
-}
+	/**
+	 * Initialize the class after plugins loaded.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	function ampw_mautic_init() {
+		APMautic_helper::instance();
+	}
 endif;
 add_action( 'plugins_loaded', 'ampw_mautic_init' );

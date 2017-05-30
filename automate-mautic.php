@@ -11,6 +11,7 @@
  * @package automateplus-mautic
  * @author Brainstorm Force
  */
+
 // exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();

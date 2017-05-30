@@ -22,14 +22,14 @@
 		<?php
 			$items  = array(
 				'all_rules' => array(
-					'label' => 'All Rules'
+					'label' => 'All Rules',
 				),
 				'auth_mautic' => array(
-					'label' => 'Authenticate'
+					'label' => 'Authenticate',
 				),
 				'enable_tracking' => array(
-					'label' => 'Tracking'
-				)
+					'label' => 'Tracking',
+				),
 			);
 			$items = apply_filters( 'amp_new_options_tab', $items );
 			APMautic_AdminSettings::render_tab_items( $items, $active_tab );

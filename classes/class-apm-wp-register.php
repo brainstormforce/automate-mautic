@@ -5,6 +5,7 @@
  * @package automateplus-mautic
  * @since 1.0.0
  */
+
 if ( ! class_exists( 'APMautic_WP_register' ) ) :
 
 	/**
@@ -41,9 +42,7 @@ if ( ! class_exists( 'APMautic_WP_register' ) ) :
 		 * @return void
 		 */
 		public function hooks() {
-			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 ); //
-			add_action( 'profile_update', array( $this, 'add_registered_user' ), 10, 1 ); //
-		}
+			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 ); 			add_action( 'profile_update', array( $this, 'add_registered_user' ), 10, 1 ); 		}
 
 		/**
 		 * Add registered WP users to Mautic contacts

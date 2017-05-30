@@ -38,17 +38,18 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		}
 
 		/**
-		 * declare constants
+		 * Declare constants
 		 *
 		 * @since 1.0.0
-		 * @return object
+		 * @return void
 		 */
 		public static function constants() {
 
-			define( 'AUTOMATE_MAUTIC_FILE', trailingslashit(dirname(dirname(__FILE__))) . 'automate-mautic.php' );
+			define( 'AUTOMATE_MAUTIC_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'automate-mautic.php' );
 			define( 'AUTOMATE_MAUTIC_BASE', plugin_basename( AUTOMATE_MAUTIC_FILE ) );
 			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_DIR', plugin_dir_path( AUTOMATE_MAUTIC_FILE ) );
 			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_URL', plugins_url( '/', AUTOMATE_MAUTIC_FILE ) );
+			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_CONFIG', 'ampw_mautic_config' );
 		}
 
 		/**
