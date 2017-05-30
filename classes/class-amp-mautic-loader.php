@@ -45,12 +45,12 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		 */
 		public static function constants() {
 
-			define( 'AUTOMATE_MAUTIC_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'automate-mautic.php' );
-			define( 'AUTOMATE_MAUTIC_BASE', plugin_basename( AUTOMATE_MAUTIC_FILE ) );
-			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_DIR', plugin_dir_path( AUTOMATE_MAUTIC_FILE ) );
-			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_URL', plugins_url( '/', AUTOMATE_MAUTIC_FILE ) );
-			define( 'AUTOMATEPLUS_MAUTIC_PLUGIN_CONFIG', 'ampw_mautic_config' );
-			define( 'AUTOMATEPLUS_MAUTIC_POSTTYPE', 'automate-mautic' );
+			define( 'AP_MAUTIC_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'automate-mautic.php' );
+			define( 'AP_MAUTIC_BASE', plugin_basename( AP_MAUTIC_FILE ) );
+			define( 'AP_MAUTIC_PLUGIN_DIR', plugin_dir_path( AP_MAUTIC_FILE ) );
+			define( 'AP_MAUTIC_PLUGIN_URL', plugins_url( '/', AP_MAUTIC_FILE ) );
+			define( 'AP_MAUTIC_PLUGIN_CONFIG', 'ampw_mautic_config' );
+			define( 'AP_MAUTIC_POSTTYPE', 'automate-mautic' );
 		}
 
 		/**
@@ -60,13 +60,13 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		 * @return void
 		 */
 		public function includes() {
-			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-helper.php' );
-			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-mautic-api.php' );
-			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
-			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
-			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
-			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php' );
-			require_once( AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-general-settings.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-helper.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-mautic-api.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-general-settings.php' );
 		}
 
 		/**
@@ -142,7 +142,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 				'show_ui'            => false,
 				'show_in_menu'       => 'options-general.php',
 				'query_var'          => true,
-				'rewrite'            => array( 'slug' => AUTOMATEPLUS_MAUTIC_POSTTYPE ),
+				'rewrite'            => array( 'slug' => AP_MAUTIC_POSTTYPE ),
 				'capability_type'    => 'post',
 				'has_archive'        => true,
 				'hierarchical'       => false,
@@ -150,7 +150,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 				'menu_icon'			 => 'dashicons-chart-line',
 				'supports'           => array( 'title' ),
 			);
-			register_post_type( AUTOMATEPLUS_MAUTIC_POSTTYPE, $args );
+			register_post_type( AP_MAUTIC_POSTTYPE, $args );
 		}
 	}
 	APMautic_loader::instance();

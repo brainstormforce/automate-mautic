@@ -54,7 +54,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 		 * @return void
 		 */
 		public static function set_mautic_code() {
-			if ( isset( $_GET['code'] ) && AUTOMATEPLUS_MAUTIC_POSTTYPE == $_REQUEST['page'] ) {
+			if ( isset( $_GET['code'] ) && AP_MAUTIC_POSTTYPE == $_REQUEST['page'] ) {
 				$credentials = APMautic_helper::get_mautic_credentials();
 				$credentials['access_code'] = sanitize_key( $_GET['code'] );
 				update_option( 'ampw_mautic_credentials', $credentials );

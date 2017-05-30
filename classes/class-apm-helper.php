@@ -42,7 +42,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 * @return void
 		 */
 		public function includes() {
-			require_once AUTOMATEPLUS_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
+			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
 			self::load_plugin_textdomain();
 		}
 
@@ -54,7 +54,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 */
 		public static function get_amp_options() {
 
-			$setting_options = get_option( AUTOMATEPLUS_MAUTIC_PLUGIN_CONFIG );
+			$setting_options = get_option( AP_MAUTIC_PLUGIN_CONFIG );
 			return $setting_options;
 		}
 
@@ -96,7 +96,7 @@ if ( ! function_exists( 'apm_get_option' ) ) :
 	 */
 	function apm_get_option( $key = '', $default = false ) {
 
-		$amp_options = get_option( AUTOMATEPLUS_MAUTIC_PLUGIN_CONFIG );
+		$amp_options = get_option( AP_MAUTIC_PLUGIN_CONFIG );
 
 		$value = isset( $amp_options[ $key ] ) ? $amp_options[ $key ] : $default;
 

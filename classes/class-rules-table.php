@@ -247,7 +247,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				$query .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
 
-			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, AUTOMATEPLUS_MAUTIC_POSTTYPE ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
+			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
 
 			$perpage = 10;
 
@@ -280,7 +280,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
 
-			$result = $wpdb->get_results( $wpdb->prepare( $query, AUTOMATEPLUS_MAUTIC_POSTTYPE ), ARRAY_A ); // WPCS: unprepared SQL OK.
+			$result = $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ); // WPCS: unprepared SQL OK.
 
 			return $result;
 		}
