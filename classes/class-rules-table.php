@@ -10,13 +10,13 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if ( ! class_exists( 'APM_Rules_Table' ) ) {
+if ( ! class_exists( 'APMautic_Table' ) ) {
 
 	/**
 	 * Initiator
-	 * Create class APM_Rules_Table
+	 * Create class APMautic_Table
 	 */
-	class APM_Rules_Table extends WP_List_Table {
+	class APMautic_Table extends WP_List_Table {
 
 		/**
 		 * Number of items of the initial data set (before sort, search, and pagination).
@@ -109,7 +109,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 
 			$url = '&action=edit&post=' . $item['ID'];
 
-			$post_link = APM_AdminSettings::get_render_page_url( $url );
+			$post_link = APMautic_AdminSettings::get_render_page_url( $url );
 
 			$post_title = "<a href='" . $post_link . "'>" . $item['post_title'] . '</a>';
 
@@ -119,7 +119,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 
 			$wpnonce = wp_create_nonce( 'delete-rule' . $item['ID'] );
 
-			$url_base = APM_AdminSettings::get_render_page_url( '&tab=all_rules&action=delete_rule' );
+			$url_base = APMautic_AdminSettings::get_render_page_url( '&tab=all_rules&action=delete_rule' );
 
 			$delete_url = $url_base . '&rule_id=' . $item['ID'] . '&_wpnonce=' . $wpnonce;
 

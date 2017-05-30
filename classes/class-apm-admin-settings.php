@@ -6,13 +6,13 @@
  * @since 1.0.0
  */
 
-if ( ! class_exists( 'APM_AdminSettings' ) ) :
+if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 	/**
-	 * Create class APM_AdminSettings
+	 * Create class APMautic_AdminSettings
 	 * Handles settings page and post type table view
 	 */
-	final class APM_AdminSettings {
+	final class APMautic_AdminSettings {
 
 		/**
 		 * Declare a static variable instance.
@@ -29,7 +29,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new APM_AdminSettings();
+				self::$instance = new APMautic_AdminSettings();
 				self::$instance->hooks();
 			}
 			return self::$instance;
@@ -133,7 +133,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		 */
 		public static function ampw_rules_list() {
 
-			$new_post_url = APM_AdminSettings::get_render_page_url( '&tab=add_new_rule' );
+			$new_post_url = APMautic_AdminSettings::get_render_page_url( '&tab=add_new_rule' );
 			?>
 			<div class="wrap">
 			<h1>
@@ -150,7 +150,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 			if ( isset( $_GET['page'] ) ) {
 				echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
 			}
-			$list_table = new APM_Rules_Table();
+			$list_table = new APMautic_Table();
 			$list_table->prepare_items();
 			$list_table->search_box( 'search', 'apm_rule_search' );
 			?>
@@ -323,7 +323,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 					$update_actions = serialize( $update_actions );
 					update_post_meta( $post_id, 'ampw_rule_action', $update_actions );
 				}
-					$redirect = APM_AdminSettings::get_render_page_url( "&action=edit&post=$post_id" );
+					$redirect = APMautic_AdminSettings::get_render_page_url( "&action=edit&post=$post_id" );
 					wp_redirect( $redirect );
 			}
 
@@ -357,7 +357,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 
 				update_option( 'ampw_mautic_config', $amp_options );
 
-				$redirect = APM_AdminSettings::get_render_page_url( '&tab=enable_tracking' );
+				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=enable_tracking' );
 				wp_redirect( $redirect );
 			}
 
@@ -367,7 +367,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 				if ( isset( $_GET['rule_id'] ) ) {
 					$rule_id = esc_attr( $_GET['rule_id'] );
 					wp_delete_post( $rule_id );
-					$redirect = APM_AdminSettings::get_render_page_url( '&tab=all_rules' );
+					$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=all_rules' );
 					wp_redirect( $redirect );
 				}
 			}
@@ -382,7 +382,7 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		public static function mautic_authenticate_update() {
 
 			if ( isset( $_POST['ampw-save-authenticate'] ) && 'Save and Authenticate' == esc_attr( $_POST['ampw-save-authenticate'] ) ) {
-				AP_Mautic_Api::authenticate_update();
+				APMautic_API::authenticate_update();
 			}
 		}
 
@@ -394,9 +394,9 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 		 */
 		public static function apmw_notices() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( ! AP_Mautic_Api::is_connected() && 'automate-mautic' == $curr_screen  ) {
+			if ( ! APMautic_API::is_connected() && 'automate-mautic' == $curr_screen  ) {
 
-				$redirect = APM_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
+				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
 				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automateplus-mautic-wp' ), $redirect );
 			}
 		}
@@ -427,11 +427,11 @@ if ( ! class_exists( 'APM_AdminSettings' ) ) :
 			foreach ( $items as $slug => $data) {
 				$page_slug = '&tab='.$slug;
 				$active_tab = ( $slug == $active ) ? 'nav-tab-active' : '';
-				$url = APM_AdminSettings::get_render_page_url( $page_slug );
+				$url = APMautic_AdminSettings::get_render_page_url( $page_slug );
 				$output .= "<a class='nav-tab " . esc_attr( $active_tab ) . "' href='" . esc_url( $url ) . "'>" . esc_attr( $data['label'] ) . '</a>';
 			}
 			echo $output;
 		}
 	}
-	$apm_adminsettings = APM_AdminSettings::instance();
+	APMautic_AdminSettings::instance();
 endif;

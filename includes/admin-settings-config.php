@@ -32,20 +32,20 @@
 				)
 			);
 			$items = apply_filters( 'amp_new_options_tab', $items );
-			APM_AdminSettings::render_tab_items( $items, $active_tab );
+			APMautic_AdminSettings::render_tab_items( $items, $active_tab );
 		?>
 	</h2>
 	<?php
 
 	if ( 'all_rules' == $active_tab  ) {
-		APM_AdminSettings::ampw_rules_list();
+		APMautic_AdminSettings::ampw_rules_list();
 	}
 	if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) { ?>
 		<?php
-			APM_RulePanel::apmw_metabox_view();
+			APMautic_RulePanel::apmw_metabox_view();
 		?>
 	<?php } ?>
-	<form id="apmw-config-form" action="<?php APM_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
+	<form id="apmw-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="ampw-settings-form-content">
 			<?php
 			$apmw_enabled_track = apm_get_option( 'enable-tracking', 1 );
@@ -65,7 +65,7 @@
 
 			<?php
 
-			if ( ! AP_Mautic_Api::is_connected() ) { ?>
+			if ( ! APMautic_API::is_connected() ) { ?>
 			<!-- Client Public Key -->
 			<div class="apmw-config-fields">
 				<h4><?php _e( 'Public Key', 'automateplus-mautic-wp' ); ?></h4>
@@ -87,7 +87,7 @@
 			<?php wp_nonce_field( 'apmwmautic', 'apmw-mautic-nonce' );
 			}
 
-			if ( AP_Mautic_Api::is_connected() ) { ?>
+			if ( APMautic_API::is_connected() ) { ?>
 				<p class="submit">
 					<input type="button" name="ampw-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
 					<a class="ampw-disconnect-mautic"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 

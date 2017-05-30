@@ -49,7 +49,7 @@
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span>
 							<select class="select-condition form-control" name="pm_condition[]">
-								<?php APM_RulePanel::get_all_conditions_list( $meta_condition[0] ); ?>
+								<?php APMautic_RulePanel::get_all_conditions_list( $meta_condition[0] ); ?>
 							</select>
 							<?php
 
@@ -57,15 +57,15 @@
 
 								<div class="first-condition" style="display:inline;">
 									<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-										<?php APM_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
+										<?php APMautic_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
 									</select>
 								</div>
 									<div class="second-condition" style="display:inline;">
 										<?php
 										if ( 'os_page' == $meta_condition[1] ) {
-											APM_RulePanel::select_all_pages( $meta_condition[2] );
+											APMautic_RulePanel::select_all_pages( $meta_condition[2] );
 										} elseif ( 'os_post' == $meta_condition[1] ) {
-											APM_RulePanel::select_all_posts( $meta_condition[2] );
+											APMautic_RulePanel::select_all_posts( $meta_condition[2] );
 										}
 										echo '</div>';
 								endif;
@@ -101,7 +101,7 @@
 						
 									<div class="first-action" style="display:inline;">
 										<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
-											<?php APM_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
+											<?php APMautic_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
 										</select>
 									</div>
 							<?php
@@ -109,7 +109,7 @@
 							?>
 							<div class="second-action" style="display:inline;">
 								<input type="hidden" name="pm_action[]" value="segment">
-								<?php APM_RulePanel::select_all_segments( $meta_action[1] ); ?>
+								<?php APMautic_RulePanel::select_all_segments( $meta_action[1] ); ?>
 							</div>
 							<?php } elseif ( 'add_tag' == $meta_action[0] ) { ?>
 									<div class="second-action" style="display:inline;">
@@ -136,7 +136,7 @@
 
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
-				<a href="<?php APM_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
+				<a href="<?php APMautic_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
 				<span class="refresh-mautic-data-wrap"><span class="spinner amp_footer_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automateplus-mautic-wp' ); ?></a><span>
 			</p>
 			<?php wp_nonce_field( 'apmauticpmeta', 'apmw-mautic-post-meta-nonce' ); ?>
@@ -154,7 +154,7 @@
 					<span class="dashicons dashicons-minus remove-item"></span>
 					<span class="dashicons dashicons-editor-justify sort-items"></span> 
 					<select class="select-condition form-control" name="pm_condition[]">
-						<?php APM_RulePanel::get_all_conditions_list(); ?>
+						<?php APMautic_RulePanel::get_all_conditions_list(); ?>
 					</select>
 					<div class="first-condition" style="display:inline;"></div>
 					<div class="second-condition" style="display:inline;"></div>
@@ -174,12 +174,12 @@
 					<span class="dashicons dashicons-editor-justify sort-items"></span> 
 					<div class="first-action" style="display:inline;">
 						<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
-							<?php APM_RulePanel::get_all_actions_list(); ?>
+							<?php APMautic_RulePanel::get_all_actions_list(); ?>
 						</select>
 					</div>
 					<div class="second-action" style="display:inline;">
 						<input type="hidden" name="pm_action[]" value="segment">
-						<?php APM_RulePanel::select_all_segments(); ?>
+						<?php APMautic_RulePanel::select_all_segments(); ?>
 					</div>
 				</fieldset>
 			</div>               

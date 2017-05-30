@@ -175,14 +175,14 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 			$all_tags = '';
 
 			// get user registerd condition rules.
-			$status = APM_RulePanel::get_wpur_condition();
+			$status = APMautic_RulePanel::get_wpur_condition();
 
 			// return if the $status is not as expected.
 			if ( ! is_array( $status ) || 0 == sizeof( $status ) ) {
 				return;
 			}
 
-			$set_actions = APM_RulePanel::get_all_actions( $status );
+			$set_actions = APMautic_RulePanel::get_all_actions( $status );
 
 			$user_info = get_userdata( $user_id );
 
@@ -195,7 +195,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=> $user_info->user_url,
 			);
 
-			$api_data = AP_Mautic_Api::get_api_method_url( $email );
+			$api_data = APMautic_API::get_api_method_url( $email );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
@@ -210,7 +210,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				$body['tags'] = $all_tags;
 			}
 
-			AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body, $set_actions );
+			APMautic_API::ampw_mautic_api_call( $url, $method, $body, $set_actions );
 		}
 
 		/**
@@ -226,14 +226,14 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 
 			$all_tags = '';
 			// get comment post condition rules.
-			$status = APM_RulePanel::get_comment_condition( $commentdata );
+			$status = APMautic_RulePanel::get_comment_condition( $commentdata );
 
 			// return if the $status is not as expected.
 			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {
 				return;
 			}
 
-			$set_actions = APM_RulePanel::get_all_actions( $status );
+			$set_actions = APMautic_RulePanel::get_all_actions( $status );
 
 			$email = $commentdata['comment_author_email'];
 
@@ -243,7 +243,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				'website'	=> $commentdata['comment_author_url'],
 			);
 
-			$api_data = AP_Mautic_Api::get_api_method_url( $email );
+			$api_data = APMautic_API::get_api_method_url( $email );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
@@ -258,7 +258,7 @@ if ( ! class_exists( 'AutomatePlus_Mautic' ) ) :
 				$body['tags'] = $all_tags;
 			}
 
-			AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body, $set_actions );
+			APMautic_API::ampw_mautic_api_call( $url, $method, $body, $set_actions );
 		}
 	}
 endif;

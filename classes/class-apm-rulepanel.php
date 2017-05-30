@@ -6,13 +6,13 @@
  * @since 1.0.0
  */
 
-if ( ! class_exists( 'APM_RulePanel' ) ) :
+if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 
 	/**
-	 * Create class APM_RulePanel
+	 * Create class APMautic_RulePanel
 	 * Generate data for rule panel
 	 */
-	class APM_RulePanel {
+	class APMautic_RulePanel {
 
 		/**
 		 * Declare a static variable instance.
@@ -29,7 +29,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new APM_RulePanel();
+				self::$instance = new APMautic_RulePanel();
 				self::$instance->hooks();
 				self::$instance->includes();
 			}
@@ -63,7 +63,7 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 		 * @return void
 		 */
 		public static function apmw_metabox_view() {
-			APM_AdminSettings::render_form( 'post-meta' );
+			APMautic_AdminSettings::render_form( 'post-meta' );
 		}
 
 		/**
@@ -140,15 +140,15 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 				$method = 'GET';
 				$body['limit'] = 100000;
 
-				$segments = AP_Mautic_Api::ampw_mautic_api_call( $url, $method, $body );
+				$segments = APMautic_API::ampw_mautic_api_call( $url, $method, $body );
 
-				if ( ! AP_Mautic_Api::is_connected() || isset( $segments->errors ) ) {
+				if ( ! APMautic_API::is_connected() || isset( $segments->errors ) ) {
 					return;
 				}
 				set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
 			}
 
-			if ( empty( $segments ) || ! AP_Mautic_Api::is_connected() ) {
+			if ( empty( $segments ) || ! APMautic_API::is_connected() ) {
 				echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
 				return;
 			}
@@ -317,5 +317,5 @@ if ( ! class_exists( 'APM_RulePanel' ) ) :
 			echo $comment_sublist;
 		}
 	}
-	$apm_rulepanel = APM_RulePanel::instance();
+	APMautic_RulePanel::instance();
 endif;

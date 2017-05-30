@@ -6,13 +6,13 @@
  * @since 1.0.0
  */
 
-if ( ! class_exists( 'AP_Mautic_Api' ) ) :
+if ( ! class_exists( 'APMautic_API' ) ) :
 
 	/**
-	 * Create class AP_Mautic_Api
+	 * Create class APMautic_API
 	 * Handles API operations
 	 */
-	class AP_Mautic_Api {
+	class APMautic_API {
 
 		/**
 		 * Declare a static variable instance.
@@ -29,7 +29,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new AP_Mautic_Api();
+				self::$instance = new APMautic_API();
 				self::$instance->hooks();
 			}
 			return self::$instance;
@@ -497,7 +497,7 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			'version'		=> 'OAuth2',
 			'clientKey'		=> $apm_public_key,
 			'clientSecret'	=> $apm_secret_key,
-			'callback'		=> APM_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
+			'callback'		=> APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
 			'response_type'	=> 'code',
 			);
 
@@ -575,5 +575,5 @@ if ( ! class_exists( 'AP_Mautic_Api' ) ) :
 			return true;
 		}
 	}
-	$apm_mautic_api = AP_Mautic_Api::instance();
+	APMautic_API::instance();
 endif;
