@@ -110,7 +110,6 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			}
 		}
 
-
 		/**
 		 * Register a automate-mautic post type.
 		 *
