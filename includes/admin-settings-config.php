@@ -75,7 +75,9 @@
 				<h4><?php _e( 'Secret Key', 'automateplus-mautic-wp' ); ?></h4>	
 				<input type="text" class="regular-text" name="secret-key" class="regular-text" />
 				<p class="admin-help">
-					<?php _e( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read ', 'automateplus-mautic-wp' ); ?><a target='_blank' href="https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/"><?php _e( 'this article.', 'automateplus-mautic-wp' ); ?></a>
+					<?php 
+						echo sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' );
+					?>
 				</p>
 			</div>
 			<p class="submit">
@@ -99,7 +101,9 @@
 				<div class="ap-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'automateplus-mautic-wp' ); ?></h4>
 				<p class="admin-help">
-					<?php _e( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read <a target="_blank" href="https://mautic.org/docs/en/contacts/contact_monitoring.html">this article</a>.', 'automateplus-mautic-wp' ); ?>
+					<?php
+						echo sprintf( __( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://mautic.org/docs/en/contacts/contact_monitoring.html' ) . '">', '</a>' );
+					?>
 				</p>
 				<label>
 					<input type="checkbox" class="enabled-panels" name="enable-tracking" value="" <?php checked( 1, $ap_enabled_track ); ?> ><?php _e( 'Enable Tracking', 'automateplus-mautic-wp' ); ?>
