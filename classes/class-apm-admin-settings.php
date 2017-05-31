@@ -46,6 +46,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			add_action( 'admin_footer', array( $this, 'mb_templates' ) );
 			add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
 			add_action( 'admin_notices', array( $this, 'ap_mautic_notices' ), 100 );
+			add_action( 'wp_loaded', array( $this,'access_capabilities' ), 1 );
 		}
 
 		/**
@@ -210,7 +211,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @param string $type tab type.
 		 */
 		public static function render_page_url( $type = '' ) {
-			echo admin_url( '/options-general.php?page=automate-mautic' . $type );
+			$parent = self::get_menu_parent();
+			echo admin_url( '/'.$parent.'?page=automate-mautic' . $type );
 		}
 
 		/**
@@ -220,7 +222,18 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @param string $type tab type.
 		 */
 		public static function get_render_page_url( $type = '' ) {
-			return admin_url( '/options-general.php?page=automate-mautic' . $type );
+			$parent = self::get_menu_parent();
+			return admin_url( '/'.$parent.'?page=automate-mautic' . $type );
+		}
+
+		public static function get_menu_parent() {
+
+			$parent = !(apm_get_option('apmautic_menu_position')) ? 'options-general.php' : apm_get_option('apmautic_menu_position');
+			$is_top_level_page = in_array( $parent, array( 'top', 'middle', 'bottom' ), true );
+			if( $is_top_level_page ) {
+				$parent = 'admin.php';
+			}
+			return $parent;
 		}
 
 		/**
@@ -432,6 +445,41 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				$output .= "<a class='nav-tab " . esc_attr( $active_tab ) . "' href='" . esc_url( $url ) . "'>" . esc_attr( $data['label'] ) . '</a>';
 			}
 			echo $output;
+		}
+
+		/**
+		 * Add automate access capabilities to user roles
+		 * @since 1.0.0
+		 */
+		public static function access_capabilities() {
+
+			if ( is_user_logged_in() ) {
+				if ( current_user_can( 'manage_options' ) ) {
+
+				global $wp_roles;
+					$wp_roles_data = $wp_roles->get_names();
+					$roles = false;
+
+					$roles = apm_get_option( 'apmautic_access_role' );
+
+					if(!$roles) {
+						$roles = array();
+					}
+
+					// give access to administrator
+					$roles[] = 'administrator';
+
+					foreach ( $wp_roles_data as $key => $value ) {
+						$role = get_role( $key );
+
+						if ( in_array( $key, $roles ) ) {
+							$role->add_cap( 'access_automate_mautic' );
+						} else {
+							$role->remove_cap( 'access_automate_mautic' );
+						}
+					}
+				}
+			}
 		}
 	}
 	APMautic_AdminSettings::instance();

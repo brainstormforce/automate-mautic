@@ -139,7 +139,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 				'public'             => false,
 				'publicly_queryable' => false,
 				'show_ui'            => false,
-				'show_in_menu'       => 'options-general.php',
+				'show_in_menu'       => !(apm_get_option('apmautic_menu_position')) ? 'options-general.php' : apm_get_option('apmautic_menu_position'),
 				'query_var'          => true,
 				'rewrite'            => array( 'slug' => AP_MAUTIC_POSTTYPE ),
 				'capability_type'    => 'post',

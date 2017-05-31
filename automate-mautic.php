@@ -16,4 +16,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
-require_once 'classes/class-amp-mautic-loader.php';
+function ap_check_user_access() {
+	
+	// if( !current_user_can( "access_automate_mautic" ) ) {
+		require_once 'classes/class-amp-mautic-loader.php';
+	// }
+}
+add_action( 'plugins_loaded', 'ap_check_user_access' );
