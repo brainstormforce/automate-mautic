@@ -182,7 +182,7 @@ final class APMauticServices {
 		ob_start();
 		
 		$instance   = self::get_service_instance( $service );
-		$response   = $instance->render_fields( $saved_services );
+		echo $instance->render_fields( $saved_services );
 
 		return ob_get_clean();
 	}

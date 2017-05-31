@@ -127,6 +127,7 @@ final class APMauticServiceMautic extends APMauticService {
 		APMautic_helper::render_input_html('base-url', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
+			'def_value'		=> $base_url,
 			'type'          => 'text',
 			'label'         => __( 'Base URL', 'automateplus-mautic-wp' ),
 			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' )
