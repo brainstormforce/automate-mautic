@@ -79,6 +79,81 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		public function load_plugin_textdomain() {
 			load_plugin_textdomain( 'automateplus-mautic-wp' );
 		}
+
+		/**
+		 * Renders html with respective input fields
+		 *
+		 * @since 1.0.4
+		 * @param string $input The connection slug.
+		 * @param array  $settings The input type settings array.
+		 * @return string The html string.
+		 */
+		static public function render_input_html( $id = '', $settings = array() ) {
+
+			if ( $id != '' && ! empty( $settings ) ) {
+
+				$input = '<div class="apm-config-fields apm-' . $id . '-wrap '.$settings['row_class'].'">';
+		
+				switch ( $settings['type'] ) {
+					case 'text':
+						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
+						$input .= '<h4>' . $settings['label'] . '</h4>';
+						
+						if ( isset( $settings['help'] ) && $settings['help'] != '' ) {
+							$input .= '<p class="admin-help">'.$settings['help'].'</p>';
+						}
+
+						$input .= '<input type="text" name="' . $id . '" id="' . $id . '" class="regular-text ' . $settings['class'] . '" value="' . $default_value . '"/>';
+						break;
+
+					default:
+						$input .= '';
+						break;
+				}
+				
+				if ( isset( $settings['desc'] ) && $settings['desc'] != '' ) {
+					$input .= '<p class="admin-help admin-field-desc">' . $settings['desc'] . '</p>';
+				}
+
+				$input .= '</div>';
+			}
+
+			echo $input;
+		}
+
+		/**
+		 * Return service configuration data
+		 *
+		 * @since 1.0.4
+		 * @return array Service Data.
+		 */
+		static public function get_service_data() {
+			$config = get_option( AP_MAUTIC_PLUGIN_CONFIG );
+			$credentials = get_option( 'ampw_mautic_credentials' );
+
+			if ( is_array( $credentials ) ) {
+				$config = array_merge( $config, $credentials );
+			}
+
+			return $config;
+		}
+
+		/**
+		 * Check if Mautic is configured
+		 *
+		 * @since 1.0.4
+		 * @return boolean
+		 */
+		public static function is_service_connected() {
+			$credentials = self::get_mautic_credentials();
+
+			if ( ! isset( $credentials['access_token'] ) ) {
+
+				return false;
+			}
+
+			return true;
+		}
 	}
 endif;
 

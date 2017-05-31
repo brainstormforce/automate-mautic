@@ -48,6 +48,8 @@
 	<form id="apmw-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="ampw-settings-form-content">
 			<?php
+			var_dump( APMautic_helper::get_service_data() );
+			APMauticServices::render_settings();
 			$apmw_enabled_track = apm_get_option( 'enable-tracking', 1 );
 			$apmw_base_url = apm_get_option( 'base-url' );
 			$apmw_public_key = apm_get_option( 'public-key' );
