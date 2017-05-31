@@ -7,7 +7,7 @@
  */
 
 ?>
-<div id="ampw-post-meta" class="apmw-settings-form wp-core-ui">
+<div id="ap-mautic-post-meta" class="apmw-settings-form wp-core-ui">
 	<form id="ampw-post-meta-form" action="#" method="post">
 		
 		<?php
@@ -35,12 +35,12 @@
 				$meta_actions = unserialize( $meta_actions[0] );
 			}
 		?>
-		<div class="ampw-settings-form-content">
+		<div class="ap-mautic-form-content">
 		
-				<div class="ampw-mautic-metabox">
+				<div class="ap-mautic-metabox">
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
-						<div id="ampw-sortable-condition" class="apmw-item-wrap">
+						<div id="ap-mautic-sortable-condition" class="apmw-item-wrap">
 					<?php
 					if ( ! empty( $meta_conditions ) ) {
 						foreach ( $meta_conditions as $order => $meta_condition ) :
@@ -81,9 +81,9 @@
 					}
 						?>
 					</div>
-					<fieldset class="ampw-add-condition add-new-item">
+					<fieldset class="ap-mautic-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt ampw-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
+							<span class="dashicons dashicons-plus-alt ap-mautic-new-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
 						</div>
 					</fieldset>
 					</div>
@@ -127,7 +127,7 @@
 							</div>
 							<fieldset class="add-new-item">
 								<div>
-									<span class="dashicons dashicons-plus-alt ampw-add-action ampw-new-item-icon"></span><span class="ampw-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
+									<span class="dashicons dashicons-plus-alt ap-mautic-add-action ap-mautic-new-icon"></span><span class="ap-mautic-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
 								</div>
 							</fieldset>
 						</div>
@@ -137,7 +137,7 @@
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
 				<a href="<?php APMautic_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( 'Back to All Rules', 'automateplus-mautic-wp' ); ?></a>
-				<span class="refresh-mautic-data-wrap"><span class="spinner amp_footer_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automateplus-mautic-wp' ); ?></a><span>
+				<span class="refresh-mautic-data-wrap"><span class="spinner ap_mautic_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automateplus-mautic-wp' ); ?></a><span>
 			</p>
 			<?php wp_nonce_field( 'apmauticpmeta', 'apmw-mautic-post-meta-nonce' ); ?>
 				<?php
@@ -145,11 +145,11 @@
 		else {
 		?>
 		<!-- default fields -->
-		<div class="ampw-settings-form-content">
-		<div class="ampw-mautic-metabox">
+		<div class="ap-mautic-form-content">
+		<div class="ap-mautic-metabox">
 		<div class="conditions">
 			<h4> <?php _e( 'Trigger', 'automateplus-mautic-wp' ) ?> </h4>
-			<div id="ampw-sortable-condition" class="apmw-item-wrap">
+			<div id="ap-mautic-sortable-condition" class="apmw-item-wrap">
 				<fieldset class="ui-state-default" id="item-1">
 					<span class="dashicons dashicons-minus remove-item"></span>
 					<span class="dashicons dashicons-editor-justify sort-items"></span> 
@@ -159,10 +159,10 @@
 					<div class="first-condition" style="display:inline;"></div>
 					<div class="second-condition" style="display:inline;"></div>
 				</fieldset>
-			</div>               
-			<fieldset class="ampw-add-condition add-new-item">
+			</div>
+			<fieldset class="ap-mautic-add-condition add-new-item">
 				<div>
-					<span class="dashicons dashicons-plus-alt ampw-new-item-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
+					<span class="dashicons dashicons-plus-alt ap-mautic-new-icon"></span><?php _e( ' Add new condition', 'automateplus-mautic-wp' ); ?>
 				</div>
 			</fieldset>
 		</div>
@@ -182,10 +182,10 @@
 						<?php APMautic_RulePanel::select_all_segments(); ?>
 					</div>
 				</fieldset>
-			</div>               
+			</div>
 				<fieldset class="add-new-item">
 					<div>
-						<span class="dashicons dashicons-plus-alt ampw-add-action ampw-new-item-icon"></span><span class="ampw-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
+						<span class="dashicons dashicons-plus-alt ap-mautic-add-action ap-mautic-new-icon"></span><span class="ap-mautic-add-action"><?php _e( ' Add new action', 'automateplus-mautic-wp' ); ?></span>
 					</div>
 				</fieldset>
 		</div>

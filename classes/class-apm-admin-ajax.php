@@ -55,7 +55,7 @@ if ( ! class_exists( 'APMautic_AdminAjax' ) ) :
 		 * @return void
 		 */
 		public static function config_disconnect_mautic() {
-			$result = delete_option( 'ampw_mautic_credentials' );
+			$result = delete_option( AP_MAUTIC_APIAUTH );
 			wp_send_json_success( $result );
 		}
 

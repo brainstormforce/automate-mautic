@@ -172,9 +172,9 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function render_page_heading() {
 			$icon = AP_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
 			if ( ! empty( $icon ) ) {
-				echo '<img class="ampw-heading-icon" src="' . $icon . '" />';
+				echo '<img class="ap-mautic-heading-icon" src="' . $icon . '" />';
 			}
-			echo '<div class="ampw-heading-config">' . __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ) . '</div>';
+			echo '<div class="ap-mautic-heading-config">' . __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ) . '</div>';
 		}
 
 		/**

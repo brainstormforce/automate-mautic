@@ -66,7 +66,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 */
 		public static function get_mautic_credentials() {
 
-			$mautic_credentials = get_option( 'ampw_mautic_credentials' );
+			$mautic_credentials = get_option( AP_MAUTIC_APIAUTH );
 			return $mautic_credentials;
 		}
 

@@ -7,7 +7,7 @@
  */
 
 ?>
-<div id="automate-config-form" class="apmw-settings-form ampw-config-settings-form">
+<div id="automate-config-form" class="apmw-settings-form ap-mautic-config-form">
 	<?php
 		$active_tab = isset( $_GET['tab'] ) ?  esc_attr( $_GET['tab'] ) : 'all_rules';
 	if ( isset( $_GET['action'] ) ) {
@@ -46,7 +46,7 @@
 		?>
 	<?php } ?>
 	<form id="apmw-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
-		<div class="ampw-settings-form-content">
+		<div class="ap-mautic-form-content">
 			<?php
 			$apmw_enabled_track = apm_get_option( 'enable-tracking', 1 );
 			$apmw_base_url = apm_get_option( 'base-url' );
@@ -89,8 +89,8 @@
 
 			if ( APMautic_API::is_connected() ) { ?>
 				<p class="submit">
-					<input type="button" name="ampw-disconnect-mautic" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
-					<a class="ampw-disconnect-mautic"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 
+					<input type="button" name="ap-mautic-disconnect" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
+					<a class="ap-mautic-disconnect"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 
 				</p>
 				<?php } ?>
 			<!-- Enable pixel tracking -->

@@ -57,7 +57,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 			if ( isset( $_GET['code'] ) && AP_MAUTIC_POSTTYPE == $_REQUEST['page'] ) {
 				$credentials = APMautic_helper::get_mautic_credentials();
 				$credentials['access_code'] = sanitize_key( $_GET['code'] );
-				update_option( 'ampw_mautic_credentials', $credentials );
+				update_option( AP_MAUTIC_APIAUTH, $credentials );
 				self::get_mautic_data();
 			}
 		}
@@ -88,7 +88,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 						$credentials['access_token']  = $access_details->access_token;
 						$credentials['expires_in']    = $expiration;
 						$credentials['refresh_token'] = $access_details->refresh_token;
-						update_option( 'ampw_mautic_credentials', $credentials );
+						update_option( AP_MAUTIC_APIAUTH, $credentials );
 					}
 				}
 			}
@@ -167,7 +167,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 						$credentials['access_token'] = $access_details->access_token;
 						$credentials['expires_in'] = $expiration;
 						$credentials['refresh_token'] = $access_details->refresh_token;
-						update_option( 'ampw_mautic_credentials', $credentials );
+						update_option( AP_MAUTIC_APIAUTH, $credentials );
 					}
 				} // refresh code token ends.
 			}
@@ -354,7 +354,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 					$mautic_credentials['access_token'] = $access_details->access_token;
 					$mautic_credentials['expires_in'] = $expiration;
 					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( 'ampw_mautic_credentials', $mautic_credentials );
+					update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
 				}
 			}
 
@@ -426,7 +426,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 					$mautic_credentials['access_token'] = $access_details->access_token;
 					$mautic_credentials['expires_in'] = $expiration;
 					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( 'ampw_mautic_credentials', $mautic_credentials );
+					update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
 				}
 			}
 
@@ -501,7 +501,7 @@ if ( ! class_exists( 'APMautic_API' ) ) :
 			'response_type'	=> 'code',
 			);
 
-			update_option( 'ampw_mautic_credentials', $settings );
+			update_option( AP_MAUTIC_APIAUTH, $settings );
 			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
 			// OAuth 2.0.
 			$authurl .= '?client_id=' . $settings['clientKey'] . '&redirect_uri=' . urlencode( $settings['callback'] );
