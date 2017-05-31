@@ -9,7 +9,6 @@
 ?>
 <div id="ap-mautic-post-meta" class="ap-settings-form wp-core-ui">
 	<form id="ampw-post-meta-form" action="#" method="post">
-		
 		<?php
 		if ( isset( $_GET['post'] ) ) {
 			$post_id = esc_attr( $_GET['post'] );

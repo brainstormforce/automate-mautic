@@ -20,6 +20,7 @@
 
 			//get markups from template
 			var $ = jQuery.noConflict();
+
 			$( document ).on( 'click', '.remove-item', this._removeItem );
 			$( document ).on( 'click', '.ap-mautic-add-condition', this._ApendCondition );
 			$( document ).on( 'click', '.ap-mautic-add-action', this._AddAction );
@@ -31,6 +32,11 @@
 			$( document ).on( 'click', '.ap-mautic-disconnect', this._disconnectMautic );
 			$( '.ap-mautic-config-form' ).on( 'click', '#save-amp-settings', this._saveSettings );
 			$( '.ap-mautic-config-form' ).on( 'click', '.rule-delete-link', this._deleteRule );
+			$( '#ampw-sortable-condition' ).sortable();
+			$( '#ampw-sortable-condition' ).disableSelection();
+			$( '#ampw-sortable-action' ).sortable();
+			$( '#ampw-sortable-action' ).disableSelection();
+			$('.ap-mautic-metabox').find('select').select2();
 		},
 
 		_removeItem: function() {
