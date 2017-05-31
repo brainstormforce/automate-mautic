@@ -50,6 +50,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			define( 'AP_MAUTIC_PLUGIN_DIR', plugin_dir_path( AP_MAUTIC_FILE ) );
 			define( 'AP_MAUTIC_PLUGIN_URL', plugins_url( '/', AP_MAUTIC_FILE ) );
 			define( 'AP_MAUTIC_PLUGIN_CONFIG', 'ampw_mautic_config' );
+			define( 'AP_MAUTIC_APIAUTH', 'ampw_mautic_credentials' );
 			define( 'AP_MAUTIC_POSTTYPE', 'automate-mautic' );
 			define( 'AP_MAUTIC_SERVICE', 'mautic' );
 		}
@@ -68,7 +69,6 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php' );
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-general-settings.php' );
 		}
 
 		/**
