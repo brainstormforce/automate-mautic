@@ -45,7 +45,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 			add_action( 'admin_footer', array( $this, 'mb_templates' ) );
 			add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
-			add_action( 'admin_notices', array( $this, 'apmw_notices' ), 100 );
+			add_action( 'admin_notices', array( $this, 'ap_mautic_notices' ), 100 );
 		}
 
 		/**
@@ -246,7 +246,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				return;
 			}
 
-			if ( isset( $_POST['apmw-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['apmw-mautic-post-meta-nonce'], 'apmauticpmeta' ) ) {
+			if ( isset( $_POST['ap-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-post-meta-nonce'], 'apmauticpmeta' ) ) {
 				$rule_id = $update_conditions = '';
 				if ( isset( $_POST['ampw_rule_title'] ) ) {
 					$rule_name = esc_attr( $_POST['ampw_rule_title'] );
@@ -327,7 +327,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 					wp_redirect( $redirect );
 			}
 
-			if ( isset( $_POST['apmw-mautic-nonce'] ) && wp_verify_nonce( $_POST['apmw-mautic-nonce'], 'apmwmautic' ) ) {
+			if ( isset( $_POST['ap-mautic-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-nonce'], 'apmwmautic' ) ) {
 
 				$amp_options = APMautic_helper::get_amp_options();
 
@@ -344,7 +344,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 				update_option( AP_MAUTIC_PLUGIN_CONFIG, $amp_options );
 			}
-			if ( isset( $_POST['apmw-mautic-nonce-tracking'] ) && wp_verify_nonce( $_POST['apmw-mautic-nonce-tracking'], 'apmautictrack' ) ) {
+			if ( isset( $_POST['ap-mautic-nonce-tracking'] ) && wp_verify_nonce( $_POST['ap-mautic-nonce-tracking'], 'apmautictrack' ) ) {
 
 				$amp_options = APMautic_helper::get_amp_options();
 
@@ -392,7 +392,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public static function apmw_notices() {
+		public static function ap_mautic_notices() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 			if ( ! APMautic_API::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen  ) {
 

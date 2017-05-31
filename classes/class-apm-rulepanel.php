@@ -62,7 +62,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public static function apmw_metabox_view() {
+		public static function ap_mautic_metabox_view() {
 			APMautic_AdminSettings::render_form( 'post-meta' );
 		}
 
