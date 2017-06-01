@@ -256,8 +256,22 @@ final class APMauticServiceMautic extends APMauticService {
 	 *      @type bool|string $error The error message or false if no error.
 	 * }
 	 */  
-	public function subscribe( $settings, $email, $name = false )
-	{
-		//subscribe here
+	public function subscribe( $email, $settings, $actions ) {
+
+		$api_data = APMauticServices::get_api_method_url( $email );
+		$url = $api_data['url'];
+		$method = $api_data['method'];
+
+		// add tags set in actions.
+		if ( isset( $actions['add_tag'] ) ) {
+
+			foreach ( $actions['add_tag'] as $tags ) {
+				$all_tags .= $tags . ',';
+			}
+
+			$all_tags = rtrim( $all_tags ,',' );
+			$settings['tags'] = $all_tags;
+		}
+		APMauticServices::ampw_mautic_api_call( $url, $method, $settings, $actions );
 	}
 }

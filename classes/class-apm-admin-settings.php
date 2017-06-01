@@ -44,8 +44,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public function hooks() {
 			add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
 			add_action( 'admin_footer', array( $this, 'mb_templates' ) );
-			add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
 			add_action( 'admin_notices', array( $this, 'ap_mautic_notices' ), 100 );
+			add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
 			add_action( 'wp_loaded', array( $this,'access_capabilities' ), 1 );
 		}
 

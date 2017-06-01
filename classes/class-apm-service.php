@@ -47,22 +47,4 @@ abstract class APMauticService {
 	 * }
 	 */  
 	abstract public function render_fields( $service_data );
-
-	/**
-	 * Get the saved data for a specific account.
-	 *
-	 * @since 1.0.4
-	 * @param string $account The account name.
-	 * @return array|bool The account data or false if it doesn't exist.
-	 */  
-	public function get_account_data( $account ) 
-	{
-		$saved_services = FLBuilderModel::get_services();
-		
-		if ( isset( $saved_services[ $this->id ] ) && isset( $saved_services[ $this->id ][ $account ] ) ) {
-			return $saved_services[ $this->id ][ $account ];
-		}
-		
-		return false;
-	}
 }

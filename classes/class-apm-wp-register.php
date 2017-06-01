@@ -42,7 +42,9 @@ if ( ! class_exists( 'APMautic_WP_register' ) ) :
 		 * @return void
 		 */
 		public function hooks() {
-			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 ); 			add_action( 'profile_update', array( $this, 'add_registered_user' ), 10, 1 ); 		}
+			add_action( 'user_register', array( $this, 'add_registered_user' ), 10, 1 );
+			add_action( 'profile_update', array( $this, 'add_registered_user' ), 10, 1 );
+		}
 
 		/**
 		 * Add registered WP users to Mautic contacts
@@ -81,21 +83,10 @@ if ( ! class_exists( 'APMautic_WP_register' ) ) :
 				'website'	=> $user_info->user_url,
 			);
 
-			$api_data = APMauticServices::get_api_method_url( $email );
-			$url = $api_data['url'];
-			$method = $api_data['method'];
 
-			// add tags set in actions.
-			if ( isset( $set_actions['add_tag'] ) ) {
-
-				foreach ( $set_actions['add_tag'] as $tags ) {
-					$all_tags .= $tags . ',';
-				}
-
-				$all_tags = rtrim( $all_tags ,',' );
-				$body['tags'] = $all_tags;
-			}
-			APMauticServices::ampw_mautic_api_call( $url, $method, $body, $set_actions );
+		// $saved_services = APMautic_helper::get_service_data();
+		$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+		$instance->subscribe( $email, $body, $set_actions );
 		}
 	}
 	APMautic_WP_register::instance();
