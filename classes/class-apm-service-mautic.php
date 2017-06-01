@@ -104,6 +104,15 @@ final class APMauticServiceMautic extends APMauticService {
 			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' )
 		));
 
+		APMautic_helper::render_input_html('ampw-save-authenticate', array(
+			'row_class'     => 'apm-service-row',
+			'class'         => 'apm-service-input',
+			'type'          => 'button',
+			'def_value'		=> 'connected',
+			'nonce_acion'	=> 'apmwmautic',
+			'nonce_name'	=> 'ap-mautic-nonce',
+			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' )
+		));
 		return ob_get_clean();
 	}
 
@@ -147,7 +156,17 @@ final class APMauticServiceMautic extends APMauticService {
 			'label'         => __( 'Secret Key', 'automateplus-mautic-wp' ),
 			'desc'          => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="'. esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' )
 		));
-		
+
+		APMautic_helper::render_input_html('ampw-save-authenticate', array(
+			'row_class'     => 'apm-service-row',
+			'class'         => 'apm-service-input',
+			'type'          => 'submit',
+			'def_value'		=> 'Save and Authenticate',
+			'nonce_acion'	=> 'apmwmautic',
+			'nonce_name'	=> 'ap-mautic-nonce',
+			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' )
+		));
+
 		return ob_get_clean();
 	}
 

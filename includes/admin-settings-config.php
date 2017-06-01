@@ -48,61 +48,25 @@
 	<form id="ap-mautic-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="ap-mautic-form-content">
 			<?php
-
-			var_dump( APMautic_helper::get_service_data() );
-			APMauticServices::render_settings();
 			
 			$ap_enabled_track = apm_get_option( 'enable-tracking', 1 );
 			$ap_base_url = apm_get_option( 'base-url' );
 
-
 			if ( 'auth_mautic' == $active_tab ) { ?>
-			<!-- Base Url -->
-			<div class="ap-config-fields">
-				<h4><?php _e( 'Base URL', 'automateplus-mautic-wp' ); ?></h4>
-				<p class="admin-help">
-					<?php _e( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' ); ?>
-				</p>
-				<input type="text" class="regular-text" name="base-url" value="<?php echo $ap_base_url; ?>" class="regular-text" />
-			</div>
-
 			<?php
-
-			if ( ! APMautic_API::is_connected() ) { ?>
-			<!-- Client Public Key -->
-			<div class="ap-config-fields">
-				<h4><?php _e( 'Public Key', 'automateplus-mautic-wp' ); ?></h4>
-				<input type="text" class="regular-text" name="public-key" class="regular-text" />
-			</div>
-			
-			<!-- Client Secret Key -->
-			<div class="ap-config-fields">
-				<h4><?php _e( 'Secret Key', 'automateplus-mautic-wp' ); ?></h4>	
-				<input type="text" class="regular-text" name="secret-key" class="regular-text" />
-				<p class="admin-help">
-					<?php 
-						echo sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' );
-					?>
-				</p>
-			</div>
-			<p class="submit">
-				<input type="submit" name="ampw-save-authenticate" class="button-primary" value="<?php esc_attr_e( 'Save and Authenticate', 'automateplus-mautic-wp' ); ?>" />
-			</p>
-
-			<?php wp_nonce_field( 'apmwmautic', 'ap-mautic-nonce' );
+				APMauticServices::render_settings();
+				if( APMautic_helper::is_service_connected() ) {
+			?>
+				<a class="ap-mautic-disconnect"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a>
+				<?php
+				}
 			}
 
-			if ( APMautic_API::is_connected() ) { ?>
-				<p class="submit">
-					<input type="button" name="ap-mautic-disconnect" class="button-primary" value="<?php _e( 'Connected', 'automateplus-mautic-wp' ); ?>" />
-					<a class="ap-mautic-disconnect"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a> 
-				</p>
-				<?php } ?>
-			<!-- Enable pixel tracking -->
-			<?php
-			}
+			if ( 'enable_tracking' == $active_tab ) { 
 
-			if ( 'enable_tracking' == $active_tab ) { ?>
+				// APMauticServices::render_tracking_settings();
+			?>
+
 				<div class="ap-config-fields">
 				<h4><?php _e( 'Enable Mautic Tracking', 'automateplus-mautic-wp' ); ?></h4>
 				<p class="admin-help">

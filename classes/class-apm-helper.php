@@ -93,7 +93,6 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 			if ( $id != '' && ! empty( $settings ) ) {
 
 				$input = '<div class="apm-config-fields apm-' . $id . '-wrap '.$settings['row_class'].'">';
-		
 				switch ( $settings['type'] ) {
 					case 'text':
 						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
@@ -105,6 +104,31 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 						$input .= '<input type="text" name="' . $id . '" id="' . $id . '" class="regular-text ' . $settings['class'] . '" value="' . $default_value . '"/>';
 						break;
+
+					case 'submit':
+						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
+
+						if ( isset( $settings['help'] ) && $settings['help'] != '' ) {
+							$input .= '<p class="admin-help">'.$settings['help'].'</p>';
+						}
+
+						$input .= '<p class="submit"><input type="submit" name="' . $id . '" id="' . $id . '" class="button-primary ' . $settings['class'] . '" value="' . $default_value . '"/></p>';
+						if ( isset( $settings['nonce_acion'] ) && $settings['nonce_acion'] != '' ) {
+							$input .= wp_nonce_field( $settings['nonce_acion'], $settings['nonce_name'] );
+						}
+						break;
+
+					case 'button':
+						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
+
+						if ( isset( $settings['help'] ) && $settings['help'] != '' ) {
+							$input .= '<p class="admin-help">'.$settings['help'].'</p>';
+						}
+						$input .= '<p class="submit"><input type="button" name="' . $id . '" id="' . $id . '" class="button-primary ' . $settings['class'] . '" value="' . $default_value . '"/></p>';
+						if ( isset( $settings['nonce_acion'] ) && $settings['nonce_acion'] != '' ) {
+							$input .= wp_nonce_field( $settings['nonce_acion'], $settings['nonce_name'] );
+						}
+					break;
 
 					default:
 						$input .= '';
