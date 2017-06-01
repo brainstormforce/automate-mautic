@@ -159,9 +159,10 @@ final class APMauticServiceMautic extends APMauticService {
 
 		APMautic_helper::render_input_html('ampw-save-authenticate', array(
 			'row_class'     => 'apm-service-row',
-			'class'         => 'apm-service-input',
+			'class'         => 'save-amp-settings',
 			'type'          => 'submit',
 			'def_value'		=> 'Save and Authenticate',
+			'spinner'		=> true,
 			'nonce_acion'	=> 'apmwmautic',
 			'nonce_name'	=> 'ap-mautic-nonce',
 			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' )

@@ -112,7 +112,10 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 							$input .= '<p class="admin-help">'.$settings['help'].'</p>';
 						}
 
-						$input .= '<p class="submit"><input type="submit" name="' . $id . '" id="' . $id . '" class="button-primary ' . $settings['class'] . '" value="' . $default_value . '"/></p>';
+						$input .= '<p class="submit"><input type="submit" name="' . $id . '" id="' . $id . '" class="button-primary ' . $settings['class'] . '" value="' . $default_value . '"/>';
+						if ( isset( $settings['spinner'] ) && $settings['spinner'] ) {
+							$input .= '<span class="spinner ap_mautic_spinner" style=""></span></p>';
+						}
 						if ( isset( $settings['nonce_acion'] ) && $settings['nonce_acion'] != '' ) {
 							$input .= wp_nonce_field( $settings['nonce_acion'], $settings['nonce_name'] );
 						}
@@ -128,6 +131,15 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 						if ( isset( $settings['nonce_acion'] ) && $settings['nonce_acion'] != '' ) {
 							$input .= wp_nonce_field( $settings['nonce_acion'], $settings['nonce_name'] );
 						}
+					break;
+
+					case 'checkbox':
+						$checked = ( isset( $settings['ischecked'] ) ) ? $settings['ischecked'] : '';
+						$input .= '<h4>' . $settings['label'] . '</h4>';
+						if ( isset( $settings['help'] ) && $settings['help'] != '' ) {
+							$input .= '<p class="admin-help">'.$settings['help'].'</p>';
+						}
+						$input .= '<input type="checkbox" name="' . $id . '" id="' . $id . '" class="' . $settings['class'] . '" value="" "'.checked( 1, $checked, false).'"/>'.$settings['text'];
 					break;
 
 					default:

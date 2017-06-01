@@ -48,42 +48,13 @@
 	<form id="ap-mautic-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="ap-mautic-form-content">
 			<?php
-			
-			$ap_enabled_track = apm_get_option( 'enable-tracking', 1 );
-			$ap_base_url = apm_get_option( 'base-url' );
+			$active_path = str_replace('_', '-', $active_tab);
+			$active_path = 'admin-settings-'.$active_path;
+			$tab_file = AP_MAUTIC_PLUGIN_DIR . 'includes/' . $active_path . '.php';
 
-			if ( 'auth_mautic' == $active_tab ) { ?>
-			<?php
-				APMauticServices::render_settings();
-				if( APMautic_helper::is_service_connected() ) {
-			?>
-				<a class="ap-mautic-disconnect"> <?php _e( 'Disconnect Mautic', 'automateplus-mautic-wp' ); ?> </a>
-				<?php
-				}
+			if ( file_exists( $tab_file ) ) {
+				require_once $tab_file;
 			}
-
-			if ( 'enable_tracking' == $active_tab ) { 
-
-				// APMauticServices::render_tracking_settings();
-			?>
-
-				<div class="ap-config-fields">
-				<h4><?php _e( 'Enable Mautic Tracking', 'automateplus-mautic-wp' ); ?></h4>
-				<p class="admin-help">
-					<?php
-						echo sprintf( __( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://mautic.org/docs/en/contacts/contact_monitoring.html' ) . '">', '</a>' );
-					?>
-				</p>
-				<label>
-					<input type="checkbox" class="enabled-panels" name="enable-tracking" value="" <?php checked( 1, $ap_enabled_track ); ?> ><?php _e( 'Enable Tracking', 'automateplus-mautic-wp' ); ?>
-				</label><br>
-			</div>
-			<p class="submit">
-				<input type="submit" name="save-apmw" id="save-amp-settings" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'automateplus-mautic-wp' ); ?>" />
-				<span class="spinner apm-wp-spinner" style="float: none;margin-bottom: 0.5em;"></span>
-			</p>
-			<?php wp_nonce_field( 'apmautictrack', 'ap-mautic-nonce-tracking' ); ?>
-		<?php }
 			do_action( 'amp_options_tab_content', $active_tab );
 		?>
 		</div>

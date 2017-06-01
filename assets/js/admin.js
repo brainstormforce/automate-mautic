@@ -30,7 +30,7 @@
 			$( document ).on( 'change', '.sub-seg-action', this._subAction );
 			$( document ).on( 'click', '#refresh-mautic', this._refreshMautic );
 			$( document ).on( 'click', '.ap-mautic-disconnect', this._disconnectMautic );
-			$( '.ap-mautic-config-form' ).on( 'click', '#save-amp-settings', this._saveSettings );
+			$( '.ap-mautic-config-form' ).on( 'click', '.save-amp-settings', this._saveSettings );
 			$( '.ap-mautic-config-form' ).on( 'click', '.rule-delete-link', this._deleteRule );
 			$( '#ampw-sortable-condition' ).sortable();
 			$( '#ampw-sortable-condition' ).disableSelection();
@@ -166,7 +166,7 @@
 			}
 		},
 		_saveSettings: function() {
-			$( '.apm-wp-spinner' ).css( 'visibility', 'visible' );
+			$( '.ap_mautic_spinner' ).css( 'visibility', 'visible' );
 		},
 	};
 
