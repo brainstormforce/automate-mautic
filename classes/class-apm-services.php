@@ -123,8 +123,127 @@ final class APMauticServices {
 	 */
 	public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 		$status = 'success';
+
+		self::generate_access_token();
+		// add contacts.
 		$credentials = APMautic_helper::get_mautic_credentials();
 
+		if ( ! isset( $credentials['access_token'] ) ) {
+			return;
+		}
+		$access_token = $credentials['access_token'];
+		$param['access_token'] = $access_token;
+
+		$url = $credentials['baseUrl'] . $url;
+
+		$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+		$response = wp_remote_post( $url, array(
+			'method' => $method,
+			'timeout' => 45,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'blocking' => true,
+			'headers' => array(),
+			'body' => $param,
+			'cookies' => array(),
+		));
+
+		if ( is_wp_error( $response ) ) {
+			$error_msg = $response->get_error_message();
+			$status = 'error';
+			echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+
+		} else {
+
+			if ( is_array( $response ) ) {
+
+				$response_code = wp_remote_retrieve_response_code( $response );
+
+				if ( 200 === $response_code || 201 === $response_code ) {
+
+					$response_body = wp_remote_retrieve_body( $response );
+					$contact_created = json_decode( $response_body );
+					$contact = $contact_created->contact;
+
+					if ( isset( $contact->id ) ) {
+
+						$contact_id = (int) $contact->id;
+						$res = self::contact_segment_subscribe( $contact_id, $credentials, $segments );
+						$status = $res['status'];
+					}
+				} else {
+					$ret = false;
+					$status = 'error';
+					$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * GET api request data
+	 *
+	 * @since 1.0.0
+	 * @param string $url api endpoint.
+	 * @param string $url API menthod.
+	 * @param array  $param parameters.
+	 * @return array
+	 */
+	public static function mautic_api_get_data( $url, $param = array() ) {
+		$status = 'success';
+		// add contacts.
+		self::generate_access_token();
+		$credentials = APMautic_helper::get_mautic_credentials();
+
+		if ( ! isset( $credentials['access_token'] ) ) {
+			return;
+		}
+		$access_token = $credentials['access_token'];
+		$param['access_token'] = $access_token;
+
+		$url = $credentials['baseUrl'] . $url;
+
+		$url = $url . '?access_token=' . $access_token;
+
+		if ( isset( $param['limit'] ) ) {
+			// make sure segments are not limited to 10.
+			$url .= '&limit=' . $param['limit'];
+		}
+		$response = wp_remote_get( $url );
+
+		if ( is_array( $response ) ) {
+			$response_body = wp_remote_retrieve_body( $response );
+			$body_data = json_decode( $response_body );
+			$response_code = wp_remote_retrieve_response_code( $response );
+
+			if ( 201 !== $response_code  ) {
+
+				if ( 200 !== $response_code ) {
+					$ret = false;
+					$status = 'error';
+					$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
+					echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
+					return;
+				}
+			}
+			return $body_data;
+		}
+	}
+
+	/**
+	 * check refresh token
+	 *
+	 * @since 1.0.0
+	 * @param int    $segment_id api mautic segment ID.
+	 * @param int    $contact_id mautic contact ID.
+	 * @param array  $mautic_credentials mautic credentials.
+	 * @param string $act operation to perform.
+	 * @return array
+	 */
+	public static function generate_access_token() {
+
+		$credentials = APMautic_helper::get_mautic_credentials();
 		if ( isset( $credentials['access_code'] ) && ! empty( $credentials['access_code'] )  ) {
 			// if token expired, get new access token.
 			if ( $credentials['expires_in'] < time() ) {
@@ -146,113 +265,44 @@ final class APMauticServices {
 				}
 			} // refresh code token ends.
 		}
-
-		// add contacts.
-		$credentials = APMautic_helper::get_mautic_credentials();
-
-		if ( ! isset( $credentials['access_token'] ) ) {
-			return;
-		}
-		$access_token = $credentials['access_token'];
-		$param['access_token'] = $access_token;
-
-		$url = $credentials['baseUrl'] . $url;
-		if ( 'GET' == $method ) {
-
-			$url = $url . '?access_token=' . $access_token;
-
-			if ( isset( $param['limit'] ) ) {
-				// make sure segments are not limited to 10.
-				$url .= '&limit=' . $param['limit'];
-			}
-
-			$response = wp_remote_get( $url );
-
-			if ( is_array( $response ) ) {
-				$response_body = wp_remote_retrieve_body( $response );
-				$body_data = json_decode( $response_body );
-				$response_code = wp_remote_retrieve_response_code( $response );
-
-				if ( 201 !== $response_code  ) {
-
-					if ( 200 !== $response_code ) {
-						$ret = false;
-						$status = 'error';
-						$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-						echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
-						return;
-					}
-				}
-				return $body_data;
-			}
-		} elseif ( 'POST' == $method || 'PATCH' == $method ) {	// add new contact to mautic request.
-
-			$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-			$response = wp_remote_post( $url, array(
-				'method' => $method,
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking' => true,
-				'headers' => array(),
-				'body' => $param,
-				'cookies' => array(),
-			));
-
-		}
-		if ( is_wp_error( $response ) ) {
-			$error_msg = $response->get_error_message();
-			$status = 'error';
-			echo __( 'There appears to be an error with the configuration.', 'automateplus-mautic-wp' );
-
-		} else {
-
-			if ( is_array( $response ) ) {
-
-				$response_code = wp_remote_retrieve_response_code( $response );
-
-				if ( 200 === $response_code || 201 === $response_code ) {
-
-					$response_body = wp_remote_retrieve_body( $response );
-					$contact_created = json_decode( $response_body );
-
-					$contact = $contact_created->contact;
-
-					if ( isset( $contact->id ) ) {
-						$contact_id = (int) $contact->id;
-						// add contact to segment.
-						$add_segment = $segments['add_segment'];
-						if ( is_array( $add_segment ) ) {
-							foreach ( $add_segment as $segment_id ) {
-								$segment_id = (int) $segment_id;
-								$action = 'add';
-								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
-							}
-						}
-
-						// remove contact from segment.
-						$remove_segment = $segments['remove_segment'];
-						if ( is_array( $remove_segment ) ) {
-							foreach ( $remove_segment as $segment_id ) {
-								$segment_id = (int) $segment_id;
-								$action = 'remove';
-								$res = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
-							}
-						}
-
-						$status = $res['status'];
-					}
-				} else {
-					$ret = false;
-					$status = 'error';
-					$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-				}
-			}
-		}
 	}
 
 	/**
-	 * Add contacts to segment
+	 * call contact add or remove to segment
+	 *
+	 * @since 1.0.0
+	 * @param int    $segment_id api mautic segment ID.
+	 * @param int    $contact_id mautic contact ID.
+	 * @param array  $mautic_credentials mautic credentials.
+	 * @param string $act operation to perform.
+	 * @return array
+	 */
+	public static function contact_segment_subscribe( $contact_id, $credentials, $segments ) {
+
+		// add contact to segment.
+		$add_segment = $segments['add_segment'];
+		if ( is_array( $add_segment ) ) {
+			foreach ( $add_segment as $segment_id ) {
+				$segment_id = (int) $segment_id;
+				$action = 'add';
+				$result = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
+			}
+		}
+
+		// remove contact from segment.
+		$remove_segment = $segments['remove_segment'];
+		if ( is_array( $remove_segment ) ) {
+			foreach ( $remove_segment as $segment_id ) {
+				$segment_id = (int) $segment_id;
+				$action = 'remove';
+				$result = self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Add/remove contacts to segment
 	 *
 	 * @since 1.0.0
 	 * @param int    $segment_id api mautic segment ID.

@@ -94,7 +94,6 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			} else {
 				$enable_mautic_tracking = false;
 			}
-
 			$base_url = apm_get_option( 'base-url' );
 
 			if ( $enable_mautic_tracking && ! empty( $base_url ) ) {

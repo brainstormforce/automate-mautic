@@ -137,10 +137,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				$segments = $segments_trans;
 			} else {
 				$url = '/api/segments/';
-				$method = 'GET';
 				$body['limit'] = 100000;
 
-				$segments = APMauticServices::ampw_mautic_api_call( $url, $method, $body );
+				$segments = APMauticServices::mautic_api_get_data( $url, $body );
 
 				if ( ! APMauticServices::is_connected() || isset( $segments->errors ) ) {
 					return;
