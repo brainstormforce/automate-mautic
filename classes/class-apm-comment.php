@@ -75,7 +75,7 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 				'website'	=> $commentdata['comment_author_url'],
 			);
 
-			$api_data = APMautic_API::get_api_method_url( $email );
+			$api_data = APMauticServices::get_api_method_url( $email );
 			$url = $api_data['url'];
 			$method = $api_data['method'];
 
@@ -90,7 +90,7 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 				$body['tags'] = $all_tags;
 			}
 
-			APMautic_API::ampw_mautic_api_call( $url, $method, $body, $set_actions );
+			APMauticServices::ampw_mautic_api_call( $url, $method, $body, $set_actions );
 		}
 	}
 	APMautic_Comment::instance();

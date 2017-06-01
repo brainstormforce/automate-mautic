@@ -36,15 +36,13 @@
 		?>
 	</h2>
 	<?php
-
-	if ( 'all_rules' == $active_tab  ) {
-		APMautic_AdminSettings::ampw_rules_list();
-	}
-	if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) { ?>
-		<?php
+		if ( 'all_rules' == $active_tab  ) {
+			APMautic_AdminSettings::ampw_rules_list();
+		}
+		if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) {
 			APMautic_RulePanel::ap_mautic_metabox_view();
-		?>
-	<?php } ?>
+		}
+	?>
 	<form id="ap-mautic-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="ap-mautic-form-content">
 			<?php

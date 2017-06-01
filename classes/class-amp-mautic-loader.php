@@ -64,7 +64,6 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		public function includes() {
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-helper.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-services.php' );
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-mautic-api.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
@@ -80,6 +79,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		public function hooks() {
 			add_action( 'wp_head', array( $this, 'mautic_tracking_script' ) );
 			add_action( 'init', array( $this, 'mautic_register_posttype' ) );
+			add_action( 'admin_init', 'APMauticServices::set_mautic_code' );
 		}
 
 		/**

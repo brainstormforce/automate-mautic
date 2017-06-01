@@ -134,7 +134,7 @@
 		},
 
 		_refreshMautic: function() {
-			( '.ap_mautic_spinner' ).css( 'visibility', 'visible' );
+			$( '.ap_mautic_spinner' ).css( 'visibility', 'visible' );
 			var data= {
 				action:'clean_mautic_transient'
 			};

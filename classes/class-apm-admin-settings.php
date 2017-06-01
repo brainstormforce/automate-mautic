@@ -395,7 +395,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function mautic_authenticate_update() {
 
 			if ( isset( $_POST['ampw-save-authenticate'] ) && 'Save and Authenticate' == esc_attr( $_POST['ampw-save-authenticate'] ) ) {
-				APMautic_API::authenticate_update();
+				APMauticServices::authenticate_update();
 			}
 		}
 
@@ -407,7 +407,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function ap_mautic_notices() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( ! APMautic_API::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen  ) {
+			if ( ! APMauticServices::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen  ) {
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
 				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automateplus-mautic-wp' ), $redirect );

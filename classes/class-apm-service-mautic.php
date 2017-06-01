@@ -246,7 +246,7 @@ final class APMauticServiceMautic extends APMauticService {
 	}
 
 	/** 
-	 * Subscribe an email address to MailChimp.
+	 * Subscribe an email address to Mautic.
 	 *
 	 * @since 1.5.4
 	 * @param object $settings A module settings object.
@@ -258,113 +258,6 @@ final class APMauticServiceMautic extends APMauticService {
 	 */  
 	public function subscribe( $settings, $email, $name = false )
 	{
-		$account_data = $this->get_account_data( $settings->service_account );
-		$response     = array( 'error' => false );
-		
-		if ( ! $account_data ) {
-			$response['error'] = __( 'There was an error subscribing to MailChimp. The account is no longer connected.', 'fl-builder' );
-		}
-		else {
-			
-			$api     = $this->get_api( $account_data['api_key'] );
-			$double  = apply_filters( 'fl_builder_mailchimp_double_option', true );
-			$welcome = apply_filters( 'fl_builder_mailchimp_welcome', true );
-			$email   = array( 'email' => $email );
-			$data    = array();
-			
-			// Name
-			if ( $name ) {
-				
-				$names = explode( ' ', $name );
-				
-				if ( isset( $names[0] ) ) {
-					$data['FNAME'] = $names[0];
-				}
-				if ( isset( $names[1] ) ) {
-					$data['LNAME'] = $names[1];
-				}
-			}
-			
-			// Groups
-			if ( isset( $settings->groups ) && is_array( $settings->groups ) ) {
-				
-				$groups = array();
-				
-				// Build the array of saved group data.
-				for ( $i = 0; $i < count( $settings->groups ); $i++ ) {
-					
-					if ( empty( $settings->groups[ $i ] ) ) {
-						continue;
-					}
-					
-					$group_data = explode( '_', $settings->groups[ $i ] );
-					
-					if ( $group_data[0] != $settings->list_id ) {
-						continue;
-					}
-					if ( ! isset( $groups[ $group_data[1] ] ) ) {
-						$groups[ $group_data[1] ] = array();
-					}
-					
-					$groups[ $group_data[1] ][] = $group_data[2];
-				}
-				
-				// Get the subgroup names from the API and add to the $data array.
-				if ( count( $groups ) > 0 ) {
-				
-					$groups_result = $api->lists->interestGroupings( $settings->list_id );
-					
-					if ( is_array( $groups_result ) && count( $groups_result ) > 0 ) {
-						
-						foreach ( $groups_result as $group ) {
-							
-							if ( ! isset( $groups[ $group['id'] ] ) ) {
-								continue;
-							}
-							
-							$subgroup_names = array();
-							
-							foreach ( $group['groups'] as $subgroup ) {
-								
-								if ( in_array( $subgroup['id'], $groups[ $group['id'] ] ) ) {
-									$subgroup_names[] = $subgroup['name'];
-								}
-							}
-							
-							if ( 0 === count( $subgroup_names ) ) {
-								unset( $groups[ $group['id'] ] );
-							}
-							else {
-								$groups[ $group['id'] ] = $subgroup_names;
-							}
-						}
-						
-						$i = 0;
-						
-						foreach ( $groups as $group_id => $subgroups ) {
-							$data['groupings'][ $i ]['id']     = $group_id;
-							$data['groupings'][ $i ]['groups'] = $subgroups;
-							$i++;
-						}
-					}
-				}
-			}
-			
-			// Subscribe
-			try {
-				$api->lists->subscribe( $settings->list_id, $email, $data, 'html', (bool) $double, true, false, (bool) $welcome );
-			} 
-			catch( Mailchimp_List_AlreadySubscribed $e ) {
-				return $response;
-			} 
-			catch ( Mailchimp_Error $e ) {
-				$response['error'] = sprintf(
-					__( 'There was an error subscribing to MailChimp. %s', 'fl-builder' ),
-					$e->getMessage()
-				);
-			}
-		}
-		
-		return $response;
+		//subscribe here
 	}
 }
