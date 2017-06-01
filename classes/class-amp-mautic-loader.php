@@ -52,6 +52,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			define( 'AP_MAUTIC_PLUGIN_CONFIG', 'ampw_mautic_config' );
 			define( 'AP_MAUTIC_APIAUTH', 'ampw_mautic_credentials' );
 			define( 'AP_MAUTIC_POSTTYPE', 'automate-mautic' );
+			define( 'AP_MAUTIC_SERVICE', 'mautic' );
 		}
 
 		/**
@@ -62,6 +63,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		 */
 		public function includes() {
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-helper.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-services.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-mautic-api.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
