@@ -158,6 +158,37 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		}
 
 		/**
+		 * Renders html with respective settings fields
+		 *
+		 * @since 1.0.4
+		 * @param string $input The connection slug.
+		 * @param array  $settings The input type settings array.
+		 * @return string The html string.
+		 */
+		static public function render_settings_field( $id = '', $settings = array() ) {
+
+			if ( $id != '' && ! empty( $settings ) ) {
+
+				$input = '';
+				switch ( $settings['type'] ) {
+					case 'select':
+						$input .= '<select id="'.esc_attr( $settings['id'] ).'" class="'.esc_attr( $settings['class'] ).'" name="'.$id.'" >';
+
+						foreach( $settings['options'] as $option_key => $option_val ) {
+							$selected = selected( $option_key, $settings['selected'], false );
+							$input .='<option value="' . $option_key . '"' . $selected . '>' . $option_val . '</option>';
+						}
+						$input .= '</select>';
+						break;
+					default:
+						$input .= '';
+						break;
+				}
+			}
+			echo $input;
+		}
+
+		/**
 		 * Return service configuration data
 		 *
 		 * @since 1.0.4

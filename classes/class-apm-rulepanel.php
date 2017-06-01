@@ -89,15 +89,30 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 */
 		public static function select_all_pages( $select = null ) {
 
-			$all_pages = '<select id="sub-sub-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
-			$pages = get_pages();
-			$all_pages .= '<option>' . __( 'Select Page', 'automateplus-mautic-wp' ) . '</option>';
+		$pages = get_pages();
+		foreach ( $pages as $page ) {
+			$options[ $page->ID ] = $page->post_title;
+		}
+		// render_settings_field
 
-			foreach ( $pages as $page ) {
-				$all_pages .= self::make_option( $page->ID, $page->post_title, $select );
-			}
-			$all_pages .= '</select>';
-			echo $all_pages;
+		FLBuilder::render_settings_field( 'ss_cp_condition[]', array(
+			'type'     		=> 'select',
+			'id'			=> 'sub-sub-condition',
+			'class'         => 'root-cp-condition form-control',
+			'options'       => $options,
+			'selected'		=> $select
+		));
+			/*
+				$all_pages = '<select id="sub-sub-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
+				$pages = get_pages();
+				$all_pages .= '<option>' . __( 'Select Page', 'automateplus-mautic-wp' ) . '</option>';
+
+				foreach ( $pages as $page ) {
+					$all_pages .= self::make_option( $page->ID, $page->post_title, $select );
+				}
+				$all_pages .= '</select>';
+				echo $all_pages;
+			*/
 		}
 
 		/**
