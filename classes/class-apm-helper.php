@@ -165,7 +165,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 * @param array  $settings The input type settings array.
 		 * @return string The html string.
 		 */
-		static public function render_settings_field( $id = '', $settings = array() ) {
+		public static function render_settings_field( $id = '', $settings = array() ) {
 
 			if ( $id != '' && ! empty( $settings ) ) {
 
@@ -194,7 +194,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 * @since 1.0.4
 		 * @return array Service Data.
 		 */
-		static public function get_service_data() {
+		public static function get_service_data() {
 			$config = get_option( AP_MAUTIC_PLUGIN_CONFIG );
 			$credentials = get_option( 'ampw_mautic_credentials' );
 

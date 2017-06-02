@@ -181,6 +181,67 @@ final class APMauticServices {
 	}
 
 	/**
+	 * Render the connection settings or account settings for a service.
+	 *
+	 * Called via the render_service_settings frontend AJAX action.
+	 *
+	 * @since 1.5.4
+	 * @return array The response array.
+	 */
+	static public function render_settings() {
+		$is_connected		= APMautic_helper::is_service_connected();
+		$service            = AP_MAUTIC_SERVICE;
+		$response_fields 	= '';
+		// Render the settings to connect a new account.
+		if ( $is_connected ) {
+			$response_fields = self::render_connect_settings( $service );
+		}
+		// Render the settings to select a connected account.
+		else {
+			$response_fields = self::render_account_settings( $service );
+		}
+
+		// Return the response.
+		echo $response_fields;
+	}
+
+	/**
+	 * Render the settings to connect to a new account.
+	 *
+	 * @since 1.5.4
+	 * @return string The settings markup.
+	 */
+	static public function render_connect_settings( $service ) {
+		ob_start();
+
+		$saved_services = APMautic_helper::get_service_data();
+
+		$instance = self::get_service_instance( $service );
+		echo $instance->render_connect_settings( $saved_services );
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Render the account settings for a saved connection.
+	 *
+	 * @since 1.5.4
+	 * @param string $service The service id such as "mailchimp".
+	 * @param string $active The name of the active account, if any.
+	 * @return string The account settings markup.
+	 */
+	static public function render_account_settings( $service )
+	{
+		$saved_services = APMautic_helper::get_service_data();
+		ob_start();
+		$instance   = self::get_service_instance( $service );
+		echo $instance->render_fields( $saved_services );
+
+		return ob_get_clean();
+	}
+
+
+	/**
 	 * GET api request data
 	 *
 	 * @since 1.0.0
