@@ -53,9 +53,7 @@
 							if ( 'CP' == $meta_condition[0]  ) : ?>
 
 								<div class="first-condition" style="display:inline;">
-									<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
-										<?php APMautic_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
-									</select>
+									<?php APMautic_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
 								</div>
 									<div class="second-condition" style="display:inline;">
 										<?php
