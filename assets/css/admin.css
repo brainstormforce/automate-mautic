@@ -4,6 +4,7 @@
     background: #f5f5f5;
     padding: 8px 0px 8px 4px;
 }
+
 .ap-mautic-metabox .remove-item {
     background: #990000;
     border-radius: 50%;
@@ -12,54 +13,75 @@
     width: 18px;
     height: 18px;
 }
+
 .ap-mautic-metabox span.remove-item, span.sort-items {
     margin: 5px 0px 5px 7px;
 }
+
 .ap-mautic-metabox select {
     border-radius: 4px;
 }
+
 .ap-mautic-metabox span.ap-mautic-new-icon {
     color: #008000;
     margin-left: 5px; 
 }
+
 .ap-mautic-metabox fieldset.add-new-item {
     background: #fff;
     border-width: 1px;
     border-radius: 0 0 5px 5px;
 }
+
 .ap-mautic-metabox fieldset.add-new-item:hover {
     background: #f5f5f5;
 }
+
 .ap-mautic-metabox fieldset.ap-mautic-add-condition:hover, span.ap-mautic-add-action:hover, a.ap-mautic-disconnect, a.refresh-mautic-data {
     cursor: pointer;
 }
+
 #ap-mautic-post-meta .refresh-mautic-data-wrap {
     float: right;
 }
+
 #ap-mautic-post-meta .ap-mautic-form-content {
     background: white;
     padding: 1em 2em;
 }
+
 #ap-mautic-post-meta .ampw_rule_title {
     padding: 10px;
     margin: 1em 0;
     font-size: 20px;
     width: 50%;
 }
+
 .ap-mautic-settings-heading {
     display: inline-block;
 }
+
 .ap-mautic-settings-heading .ap-mautic-heading-icon {
     height: 40px;
     width: 40px;
     float:left;
 }
+
 .ap-mautic-settings-heading .ap-mautic-heading-config {
     float:left;
     margin: 5px;
 }
+
 .ap_mautic_spinner {
     float: none; 
     margin-bottom: 0.5em;
     font-size: 22px;
+}
+
+form.ap-mautic-post-meta .first-condition, form.ap-mautic-post-meta .second-condition {
+    display:inline;
+}
+
+form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action {
+    display:inline;
 }

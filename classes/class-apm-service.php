@@ -25,7 +25,7 @@ abstract class APMauticService {
 	 *      @type array $data An array of data used to make the connection.
 	 * }
 	 */
-	abstract public function connect( $fields = array() );
+	// abstract public function connect( $fields = array() );
 
 	/**
 	 * Renders the markup for the connection settings.
@@ -33,7 +33,7 @@ abstract class APMauticService {
 	 * @since 1.0.4
 	 * @return string The connection settings markup.
 	 */
-	abstract public function render_connect_settings( $service_data );
+	// abstract public function render_connect_settings( $service_data );
 
 	/**
 	 * Render the markup for service specific fields.

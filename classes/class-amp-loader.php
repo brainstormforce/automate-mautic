@@ -10,7 +10,6 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 
 	/**
 	 * Create class APMautic_Loader
-	 * Handles register post type, trigger actions
 	 */
 	class APMautic_Loader {
 

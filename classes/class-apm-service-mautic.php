@@ -23,63 +23,6 @@ final class APMauticServiceMautic extends APMauticService {
 	private $api_instance = null;
 
 	/**
-	 * Get an instance of the API.
-	 *
-	 * @since 1.5.4
-	 * @param string $api_key A valid API key.
-	 * @return object The API instance.
-	 */
-	public function get_api( $api_key ) {
-		if ( $this->api_instance ) {
-			return $this->api_instance;
-		}
-		if ( ! class_exists( 'Mailchimp' ) ) {
-			require_once FL_BUILDER_DIR . 'includes/vendor/mailchimp/mailchimp.php';
-		}
-
-		$this->api_instance = new Mailchimp( $api_key );
-
-		return $this->api_instance;
-	}
-
-	/**
-	 * Test the API connection.
-	 *
-	 * @since 1.5.4
-	 * @param array $fields {
-	 *      @type string $api_key A valid API key.
-	 * }
-	 * @return array{
-	 *      @type bool|string $error The error message or false if no error.
-	 *      @type array $data An array of data used to make the connection.
-	 * }
-	 */
-	public function connect( $fields = array() ) {
-		$response = array(
-			'error'  => false,
-			'data'   => array(),
-		);
-
-		// Make sure we have an API key.
-		if ( ! isset( $fields['api_key'] ) || empty( $fields['api_key'] ) ) {
-			$response['error'] = __( 'Error: You must provide an API key.', 'fl-builder' );
-		} // Try to connect and store the connection data.
-		else {
-
-			$api = $this->get_api( $fields['api_key'] );
-
-			try {
-				$api->helper->ping();
-				$response['data'] = array( 'api_key' => $fields['api_key'] );
-			} catch ( Mailchimp_Invalid_ApiKey $e ) {
-				$response['error'] = $e->getMessage();
-			}
-		}
-
-		return $response;
-	}
-
-	/**
 	 * Renders the markup for the connection settings.
 	 *
 	 * @since 1.0.4
@@ -194,7 +137,7 @@ final class APMauticServiceMautic extends APMauticService {
 	 * Subscribe an email address to Mautic.
 	 *
 	 * @since 1.5.4
-	 * @param object $settings A module settings object.
+	 * @param array $settings body params.
 	 * @param string $email The email to subscribe.
 	 * @param string $name Optional. The full name of the person subscribing.
 	 * @return array {
