@@ -22,14 +22,24 @@
 				<?php APMautic_RulePanel::get_all_actions_list(); ?>
 		</div>
 		<div class="second-action" style="display:inline;">
-			<input type="hidden" name="pm_action[]" value="segment">
-			<?php APMautic_RulePanel::select_all_segments(); ?>
+			<?php
+			APMautic_helper::render_input_html('pm_action[]', array(
+				'def_value'		=> 'segment',
+				'type'          => 'hidden',
+				'iswrap'		=>	false
+			));
+			APMautic_RulePanel::select_all_segments(); ?>
 		</div>
 	<# } #>
 
 	<# if( 'get-all-segments' === data.clas ) { #>
-			<input type="hidden" name="pm_action[]" value="segment">
-			<?php APMautic_RulePanel::select_all_segments(); ?>
+			<?php
+			APMautic_helper::render_input_html('pm_action[]', array(
+				'def_value'		=> 'segment',
+				'type'          => 'hidden',
+				'iswrap'		=>	false,
+			));
+			APMautic_RulePanel::select_all_segments(); ?>
 	<# } #>
 
 	<# if( 'sub-cp-condition' === data.clas ) { #>
@@ -37,11 +47,7 @@
 	<# } #>
 
 	<# if( 'sub-tag-action' === data.clas ) { #>
-		<input id="sub-tag-action" type="text" class="sub-tag-action form-control" placeholder="comma separated tags" name="ss_seg_action[]">
-	<# } #>
-
-	<# if( 'sub-point-action' === data.clas ) { #>
-		<input id="sub-point-action" type="number" class="sub-point-action form-control" name="ss_seg_action[]">
+		<input id="sub-tag-action" type="text" class="sub-tag-action form-control" placeholder="Comma Separated Tags" name="ss_seg_action[]">
 	<# } #>
 
 	<# if( 'os_page' === data.clas ) { #>
