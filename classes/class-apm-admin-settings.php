@@ -347,6 +347,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				}
 					$redirect = APMautic_AdminSettings::get_render_page_url( "&action=edit&post=$post_id" );
 					wp_redirect( $redirect );
+					exit();
 			}
 
 			if ( isset( $_POST['ap-mautic-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-nonce'], 'apmwmautic' ) ) {
@@ -391,6 +392,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 					wp_delete_post( $rule_id );
 					$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=all_rules' );
 					wp_redirect( $redirect );
+					exit();
 				}
 			}
 		}
