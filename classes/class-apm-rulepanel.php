@@ -334,11 +334,22 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @return void
 		 */
 		public static function get_comment_condition_sublist( $select = '' ) {
-			$comment_sublist = '<option value="ao_website" ' . selected( $select, 'ao_website' ) . '>' . __( 'Anywhere On Website', 'automateplus-mautic-wp' ) . '</option>
-			<option value="os_page" ' . selected( $select, 'os_page' ) . '>' . __( 'On Specific Page', 'automateplus-mautic-wp' ) . '</option>
-			<option value="os_post" ' . selected( $select, 'os_post' ) . '>' . __( 'On Specific Post', 'automateplus-mautic-wp' ) . '</option>';
-			$comment_sublist = apply_filters( 'amp_mautic_comment_condition_sublist', $comment_sublist );
-			echo $comment_sublist;
+
+			$options = array(
+				'ao_website'	=>	__( 'Anywhere On Website', 'automateplus-mautic-wp' ),
+				'os_page'		=>	__( 'On Specific Page', 'automateplus-mautic-wp' ),
+				'os_post'		=>	__( 'On Specific Post', 'automateplus-mautic-wp' )
+			);
+
+			$options = apply_filters( 'amp_mautic_comment_condition_sublist', $options );
+
+			APMautic_helper::render_settings_field( 'sub_cp_condition[]', array(
+				'type'			=> 'select',
+				'id'			=> 'sub-cp-condition',
+				'class'			=> 'sub-cp-condition form-control',
+				'options'		=> $options,
+				'selected'		=> $select
+			));
 		}
 	}
 	APMautic_RulePanel::instance();

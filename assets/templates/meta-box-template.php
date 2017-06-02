@@ -33,9 +33,7 @@
 	<# } #>
 
 	<# if( 'sub-cp-condition' === data.clas ) { #>
-		<select id="sub-cp-condition" class="sub-cp-condition form-control" name="sub_cp_condition[]">
 			<?php APMautic_RulePanel::get_comment_condition_sublist(); ?>
-		</select>
 	<# } #>
 
 	<# if( 'sub-tag-action' === data.clas ) { #>
