@@ -210,7 +210,12 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function render_page_url( $type = '' ) {
 			$parent = self::get_menu_parent();
-			echo admin_url( '/' . $parent . '?page=automate-mautic' . $type );
+			$admin_url = admin_url( $parent );
+			
+			$admin_url = add_query_arg( array(
+			    'page' => 'automate-mautic' . $type,
+			), $admin_url );
+			echo $admin_url;
 		}
 
 		/**
@@ -221,7 +226,11 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function get_render_page_url( $type = '' ) {
 			$parent = self::get_menu_parent();
-			return admin_url( '/' . $parent . '?page=automate-mautic' . $type );
+			$admin_url = admin_url( $parent );
+			$admin_url = add_query_arg( array(
+			    'page' => 'automate-mautic' . $type,
+			), $admin_url );
+			return $admin_url;
 		}
 
 		public static function get_menu_parent() {
