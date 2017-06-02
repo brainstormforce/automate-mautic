@@ -3,7 +3,7 @@
  * MautiPress initial setup
  *
  * @package automateplus-mautic
- * @since 1.0.0
+ * @since 1.0.5
  */
 
 if ( ! class_exists( 'APMautic_helper' ) ) :
@@ -41,7 +41,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		/**
 		 * Renders html with respective input fields
 		 *
-		 * @since 1.0.4
+		 * @since 1.0.5
 		 * @param string $input The connection slug.
 		 * @param array  $settings The input type settings array.
 		 * @return string The html string.
@@ -133,9 +133,9 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		/**
 		 * Renders html with respective settings fields
 		 *
-		 * @since 1.0.4
-		 * @param string $input The connection slug.
-		 * @param array  $settings The input type settings array.
+		 * @since 1.0.5
+		 * @param string $id unique settings name.
+		 * @param array  $settings settings type settings array.
 		 * @return string The html string.
 		 */
 		public static function render_settings_field( $id = '', $settings = array() ) {
@@ -164,7 +164,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		/**
 		 * Return service configuration data
 		 *
-		 * @since 1.0.4
+		 * @since 1.0.5
 		 * @return array Service Data.
 		 */
 		public static function get_service_data() {
@@ -196,7 +196,6 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		}
 	}
 endif;
-
 
 if ( ! function_exists( 'apm_get_option' ) ) :
 

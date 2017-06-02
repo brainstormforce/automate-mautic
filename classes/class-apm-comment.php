@@ -3,14 +3,14 @@
  * Mautic for WordPress initiate
  *
  * @package automateplus-mautic
- * @since 1.0.0
+ * @since 1.0.5
  */
 
 if ( ! class_exists( 'APMautic_Comment' ) ) :
 
 	/**
 	 * Create class APMautic_Comment
-	 * Handles register post type, trigger actions
+	 * Handles comment post actions
 	 */
 	class APMautic_Comment {
 
@@ -24,7 +24,7 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 		/**
 		 * Initiate class
 		 *
-		 * @since 1.0.0
+		 * @since 1.0.5
 		 * @return object
 		 */
 		public static function instance() {
@@ -38,7 +38,7 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 		/**
 		 * Call comment post hook
 		 *
-		 * @since 1.0.0
+		 * @since 1.0.5
 		 * @return void
 		 */
 		public function hooks() {
@@ -48,7 +48,7 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 		/**
 		 * Add comments author to Mautic contacts
 		 *
-		 * @since 1.0.0
+		 * @since 1.0.5
 		 * @param int    $id comment author ID.
 		 * @param string $approved Comment status.
 		 * @param array  $commentdata Comment author data.
@@ -74,8 +74,6 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 				'email'		=> $commentdata['comment_author_email'],
 				'website'	=> $commentdata['comment_author_url'],
 			);
-
-			// $saved_services = APMautic_helper::get_service_data();
 			$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
 			$instance->subscribe( $email, $body, $set_actions );
 		}

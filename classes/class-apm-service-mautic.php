@@ -3,20 +3,20 @@
 /**
  * Helper class for the Mautic API.
  *
- * @since 1.0.4
+ * @since 1.0.5
  */
 final class APMauticServiceMautic extends APMauticService {
 
 	/**
 	 * The ID for this service.
 	 *
-	 * @since 1.5.4
+	 * @since 1.0.5
 	 * @var string $id
 	 */
 	public $id = AP_MAUTIC_SERVICE;
 
 	/**
-	 * @since 1.5.4
+	 * @since 1.0.5
 	 * @var object $api_instance
 	 * @access private
 	 */
@@ -35,7 +35,7 @@ final class APMauticServiceMautic extends APMauticService {
 		if ( ! class_exists( 'AP_MauticAPI' ) ) {
 			require_once AP_MAUTIC_PLUGIN_DIR . 'includes/vendor/mautic.php';
 		}
-		
+
 		$this->api_instance = new AP_MauticAPI();
 		return $this->api_instance;
 	}
@@ -44,14 +44,9 @@ final class APMauticServiceMautic extends APMauticService {
 	 * Test the API connection.
 	 *
 	 * @since 1.0.5
-	 * @param array $fields {
-	 *      @type string $api_key A valid API key.
-	 * }
-	 * @return array{
-	 *      @type bool|string $error The error message or false if no error.
-	 *      @type array $data An array of data used to make the connection.
-	 * }
-	 */  
+	 * @param array $data post authentication data.
+	 * @return void
+	 */
 	public function connect( $data ) {
 
 		$mautic_api_url = $apm_public_key = $apm_secret_key = '';
@@ -107,7 +102,8 @@ final class APMauticServiceMautic extends APMauticService {
 	/**
 	 * Renders the markup for the connection settings.
 	 *
-	 * @since 1.0.4
+	 * @since 1.0.5
+	 * @param array $service_data authenticated saved data.
 	 * @return string The connection settings markup.
 	 */
 	public function render_connect_settings( $service_data ) {
@@ -139,13 +135,9 @@ final class APMauticServiceMautic extends APMauticService {
 	/**
 	 * Render the markup for service specific fields.
 	 *
-	 * @since 1.0.4
-	 * @param string $account The name of the saved account.
-	 * @param object $settings Saved module settings.
-	 * @return array {
-	 *      @type bool|string $error The error message or false if no error.
-	 *      @type string $html The field markup.
-	 * }
+	 * @since 1.0.5
+	 * @param array $service_data Saved module settings.
+	 * @return string html data
 	 */
 	public function render_fields( $service_data ) {
 		$base_url  = isset( $service_data['base-url'] ) ? $service_data['base-url'] : '';
@@ -193,11 +185,9 @@ final class APMauticServiceMautic extends APMauticService {
 	/**
 	 * Render markup for the list field.
 	 *
-	 * @since 1.5.4
-	 * @param array  $lists List data from the API.
-	 * @param object $settings Saved module settings.
+	 * @since 1.0.5
+	 * @param object $select Saved list.
 	 * @return string The markup for the list field.
-	 * @access private
 	 */
 	public function render_list_field( $select ) {
 
@@ -230,12 +220,10 @@ final class APMauticServiceMautic extends APMauticService {
 	 * Subscribe an email address to Mautic.
 	 *
 	 * @since 1.0.5
-	 * @param array  $settings body params.
 	 * @param string $email The email to subscribe.
-	 * @param string $name Optional. The full name of the person subscribing.
-	 * @return array {
-	 *      @type bool|string $error The error message or false if no error.
-	 * }
+	 * @param array  $settings body params.
+	 * @param string $actions all set actions in rule.
+	 * @return void
 	 */
 	public function subscribe( $email, $settings, $actions ) {
 

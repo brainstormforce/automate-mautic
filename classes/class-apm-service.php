@@ -9,7 +9,7 @@
 /**
  * Base class for services.
  *
- * @since 1.0.4
+ * @since 1.0.5
  */
 abstract class APMauticService {
 

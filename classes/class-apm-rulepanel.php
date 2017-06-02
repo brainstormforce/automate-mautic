@@ -67,20 +67,6 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		}
 
 		/**
-		 * Make options html
-		 *
-		 * @param int/string $id value.
-		 * @param string     $value option text.
-		 * @param string     $selected selected value.
-		 * @since 1.0.0
-		 * @return string
-		 */
-		public static function make_option( $id, $value, $selected = null ) {
-			$selected = selected( $id, $selected, false );
-			return '<option value="' . $id . '"' . $selected . '>' . $value . '</option>';
-		}
-
-		/**
 		 * Get all pages list
 		 *
 		 * @param string $select selected value.
@@ -234,7 +220,6 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 					if ( 'add_tag' == $meta_action[0] ) {
 						array_push( $all_actions['add_tag'], $meta_action[1] );
 					}
-
 					endforeach;
 				endforeach;
 
