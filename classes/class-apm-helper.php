@@ -54,6 +54,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 				$type = ( isset( $settings['type'] ) ) ? $settings['type'] : '';
 				$class = ( isset( $settings['class'] ) ) ? $settings['class'] : '';
 				$label = ( isset( $settings['label'] ) ) ? $settings['label'] : '';
+				$placeholder = ( isset( $settings['placeholder'] ) ) ? $settings['placeholder'] : '';
 				$iswrap = ( isset( $settings['iswrap'] ) ) ? $settings['iswrap'] : true;
 				$input = '';
 				if ( $iswrap ) {
@@ -66,10 +67,6 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 						if ( isset( $settings['help'] ) && '' != $settings['help'] ) {
 							$input .= '<p class="admin-help">' . $settings['help'] . '</p>';
-						}
-
-						if ( isset( $settings['placeholder'] ) && '' != $settings['placeholder'] ) {
-							$placeholder = $settings['placeholder'];
 						}
 
 						$input .= '<input type="text" name="' . $id . '" id="' . $id . '" class="regular-text ' . $class . '" placeholder="' . $placeholder . '" value="' . $default_value . '"/>';
