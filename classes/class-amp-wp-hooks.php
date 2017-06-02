@@ -20,7 +20,7 @@ class APMautic_WP_Hooks {
 	 * @return object
 	 */
 	public static function instance() {
-		
+
 		if ( ! isset( self::$instance ) ) {
 			self::$instance = new APMautic_WP_Hooks();
 			self::$instance->hooks();
@@ -110,7 +110,7 @@ class APMautic_WP_Hooks {
 			'public'             => false,
 			'publicly_queryable' => false,
 			'show_ui'            => false,
-			'show_in_menu'       => !(apm_get_option('apmautic_menu_position')) ? 'options-general.php' : apm_get_option('apmautic_menu_position'),
+			'show_in_menu'       => ! (apm_get_option( 'apmautic_menu_position' )) ? 'options-general.php' : apm_get_option( 'apmautic_menu_position' ),
 			'query_var'          => true,
 			'rewrite'            => array( 'slug' => AP_MAUTIC_POSTTYPE ),
 			'capability_type'    => 'post',

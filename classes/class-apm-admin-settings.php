@@ -212,7 +212,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function render_page_url( $type = '' ) {
 			$parent = self::get_menu_parent();
-			echo admin_url( '/'.$parent.'?page=automate-mautic' . $type );
+			echo admin_url( '/' . $parent . '?page=automate-mautic' . $type );
 		}
 
 		/**
@@ -223,14 +223,14 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function get_render_page_url( $type = '' ) {
 			$parent = self::get_menu_parent();
-			return admin_url( '/'.$parent.'?page=automate-mautic' . $type );
+			return admin_url( '/' . $parent . '?page=automate-mautic' . $type );
 		}
 
 		public static function get_menu_parent() {
 
-			$parent = !(apm_get_option('apmautic_menu_position')) ? 'options-general.php' : apm_get_option('apmautic_menu_position');
+			$parent = ! (apm_get_option( 'apmautic_menu_position' )) ? 'options-general.php' : apm_get_option( 'apmautic_menu_position' );
 			$is_top_level_page = in_array( $parent, array( 'top', 'middle', 'bottom' ), true );
-			if( $is_top_level_page ) {
+			if ( $is_top_level_page ) {
 				$parent = 'admin.php';
 			}
 			return $parent;
@@ -449,6 +449,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 		/**
 		 * Add automate access capabilities to user roles
+		 *
 		 * @since 1.0.0
 		 */
 		public static function access_capabilities() {
@@ -456,13 +457,13 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( is_user_logged_in() ) {
 				if ( current_user_can( 'manage_options' ) ) {
 
-				global $wp_roles;
+					global $wp_roles;
 					$wp_roles_data = $wp_roles->get_names();
 					$roles = false;
 
 					$roles = apm_get_option( 'apmautic_access_role' );
 
-					if(!$roles) {
+					if ( ! $roles ) {
 						$roles = array();
 					}
 

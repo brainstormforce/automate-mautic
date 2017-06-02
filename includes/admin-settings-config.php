@@ -36,18 +36,18 @@
 		?>
 	</h2>
 	<?php
-		if ( 'all_rules' == $active_tab  ) {
-			APMautic_AdminSettings::ampw_rules_list();
-		}
-		if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) {
-			APMautic_RulePanel::ap_mautic_metabox_view();
-		}
+	if ( 'all_rules' == $active_tab  ) {
+		APMautic_AdminSettings::ampw_rules_list();
+	}
+	if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) {
+		APMautic_RulePanel::ap_mautic_metabox_view();
+	}
 	?>
 	<form id="ap-mautic-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="ap-mautic-form-content">
 			<?php
-			$active_path = str_replace('_', '-', $active_tab);
-			$active_path = 'admin-settings-'.$active_path;
+			$active_path = str_replace( '_', '-', $active_tab );
+			$active_path = 'admin-settings-' . $active_path;
 			$tab_file = AP_MAUTIC_PLUGIN_DIR . 'includes/' . $active_path . '.php';
 
 			if ( file_exists( $tab_file ) ) {

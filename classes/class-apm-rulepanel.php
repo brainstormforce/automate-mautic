@@ -100,7 +100,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				'id'			=> 'sub-sub-condition',
 				'class'			=> 'root-cp-condition form-control',
 				'options'		=> $options,
-				'selected'		=> $select
+				'selected'		=> $select,
 			));
 		}
 
@@ -125,7 +125,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				'id'			=> 'ss-cp-condition',
 				'class'			=> 'root-cp-condition form-control',
 				'options'		=> $options,
-				'selected'		=> $select
+				'selected'		=> $select,
 			));
 			wp_reset_postdata();
 		}
@@ -285,9 +285,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_conditions_list( $select = '' ) {
 
 			$options = array(
-				''		=>	__( 'Select Condition', 'automateplus-mautic-wp' ),
-				'UR'	=>	__( 'User Register on WordPress', 'automateplus-mautic-wp' ),
-				'CP'	=>	__( 'User Post a Comment', 'automateplus-mautic-wp' )
+				''		=> __( 'Select Condition', 'automateplus-mautic-wp' ),
+				'UR'	=> __( 'User Register on WordPress', 'automateplus-mautic-wp' ),
+				'CP'	=> __( 'User Post a Comment', 'automateplus-mautic-wp' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_conditions_list', $options );
@@ -297,7 +297,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				'id'			=> 'selct-condition-list',
 				'class'			=> 'select-condition form-control',
 				'options'		=> $options,
-				'selected'		=> $select
+				'selected'		=> $select,
 			));
 		}
 
@@ -310,9 +310,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_actions_list( $select = '' ) {
 
 			$options = array(
-				'add_segment'		=>	__( 'Add to segment', 'automateplus-mautic-wp' ),
-				'remove_segment'	=>	__( 'Remove from segment', 'automateplus-mautic-wp' ),
-				'add_tag'			=>	__( 'Add Tags', 'automateplus-mautic-wp' )
+				'add_segment'		=> __( 'Add to segment', 'automateplus-mautic-wp' ),
+				'remove_segment'	=> __( 'Remove from segment', 'automateplus-mautic-wp' ),
+				'add_tag'			=> __( 'Add Tags', 'automateplus-mautic-wp' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_actions_list', $options );
@@ -322,7 +322,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				'id'			=> 'sub-seg-action',
 				'class'			=> 'sub-seg-action form-control',
 				'options'		=> $options,
-				'selected'		=> $select
+				'selected'		=> $select,
 			));
 
 		}
@@ -336,9 +336,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_comment_condition_sublist( $select = '' ) {
 
 			$options = array(
-				'ao_website'	=>	__( 'Anywhere On Website', 'automateplus-mautic-wp' ),
-				'os_page'		=>	__( 'On Specific Page', 'automateplus-mautic-wp' ),
-				'os_post'		=>	__( 'On Specific Post', 'automateplus-mautic-wp' )
+				'ao_website'	=> __( 'Anywhere On Website', 'automateplus-mautic-wp' ),
+				'os_page'		=> __( 'On Specific Page', 'automateplus-mautic-wp' ),
+				'os_post'		=> __( 'On Specific Post', 'automateplus-mautic-wp' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_comment_condition_sublist', $options );
@@ -348,7 +348,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				'id'			=> 'sub-cp-condition',
 				'class'			=> 'sub-cp-condition form-control',
 				'options'		=> $options,
-				'selected'		=> $select
+				'selected'		=> $select,
 			));
 		}
 	}

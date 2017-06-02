@@ -26,7 +26,7 @@
 			APMautic_helper::render_input_html('pm_action[]', array(
 				'def_value'		=> 'segment',
 				'type'          => 'hidden',
-				'iswrap'		=>	false
+				'iswrap'		=> false,
 			));
 			APMautic_RulePanel::select_all_segments(); ?>
 		</div>
@@ -37,7 +37,7 @@
 			APMautic_helper::render_input_html('pm_action[]', array(
 				'def_value'		=> 'segment',
 				'type'          => 'hidden',
-				'iswrap'		=>	false,
+				'iswrap'		=> false,
 			));
 			APMautic_RulePanel::select_all_segments(); ?>
 	<# } #>

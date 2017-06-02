@@ -12,9 +12,9 @@ abstract class APMauticService {
 	 *
 	 * @since 1.0.4
 	 * @var string $id
-	 */  
+	 */
 	public $id = '';
-	
+
 	/**
 	 * Test the API connection.
 	 *
@@ -24,7 +24,7 @@ abstract class APMauticService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type array $data An array of data used to make the connection.
 	 * }
-	 */  
+	 */
 	abstract public function connect( $fields = array() );
 
 	/**
@@ -32,11 +32,11 @@ abstract class APMauticService {
 	 *
 	 * @since 1.0.4
 	 * @return string The connection settings markup.
-	 */  
+	 */
 	abstract public function render_connect_settings( $service_data );
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.0.4
 	 * @param string $account The name of the saved account.
@@ -45,6 +45,6 @@ abstract class APMauticService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type string $html The field markup.
 	 * }
-	 */  
+	 */
 	abstract public function render_fields( $service_data );
 }

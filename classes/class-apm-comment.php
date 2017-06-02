@@ -75,9 +75,9 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 				'website'	=> $commentdata['comment_author_url'],
 			);
 
-		// $saved_services = APMautic_helper::get_service_data();
-		$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
-		$instance->subscribe( $email, $body, $set_actions );
+			// $saved_services = APMautic_helper::get_service_data();
+			$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance->subscribe( $email, $body, $set_actions );
 		}
 	}
 	APMautic_Comment::instance();

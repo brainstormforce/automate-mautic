@@ -12,14 +12,14 @@ final class APMauticServiceMautic extends APMauticService {
 	 *
 	 * @since 1.5.4
 	 * @var string $id
-	 */  
+	 */
 	public $id = AP_MAUTIC_SERVICE;
 
 	/**
 	 * @since 1.5.4
 	 * @var object $api_instance
 	 * @access private
-	 */  
+	 */
 	private $api_instance = null;
 
 	/**
@@ -28,21 +28,20 @@ final class APMauticServiceMautic extends APMauticService {
 	 * @since 1.5.4
 	 * @param string $api_key A valid API key.
 	 * @return object The API instance.
-	 */  
-	public function get_api( $api_key ) 
-	{
+	 */
+	public function get_api( $api_key ) {
 		if ( $this->api_instance ) {
 			return $this->api_instance;
 		}
 		if ( ! class_exists( 'Mailchimp' ) ) {
 			require_once FL_BUILDER_DIR . 'includes/vendor/mailchimp/mailchimp.php';
 		}
-		
+
 		$this->api_instance = new Mailchimp( $api_key );
-		
+
 		return $this->api_instance;
 	}
-	
+
 	/**
 	 * Test the API connection.
 	 *
@@ -54,32 +53,29 @@ final class APMauticServiceMautic extends APMauticService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type array $data An array of data used to make the connection.
 	 * }
-	 */  
-	public function connect( $fields = array() ) 
-	{
-		$response = array( 
+	 */
+	public function connect( $fields = array() ) {
+		$response = array(
 			'error'  => false,
-			'data'   => array()
+			'data'   => array(),
 		);
-		
+
 		// Make sure we have an API key.
 		if ( ! isset( $fields['api_key'] ) || empty( $fields['api_key'] ) ) {
 			$response['error'] = __( 'Error: You must provide an API key.', 'fl-builder' );
-		}
-		// Try to connect and store the connection data.
+		} // Try to connect and store the connection data.
 		else {
-			
+
 			$api = $this->get_api( $fields['api_key'] );
 
 			try {
 				$api->helper->ping();
 				$response['data'] = array( 'api_key' => $fields['api_key'] );
-			} 
-			catch ( Mailchimp_Invalid_ApiKey $e ) {
+			} catch ( Mailchimp_Invalid_ApiKey $e ) {
 				$response['error'] = $e->getMessage();
 			}
 		}
-		
+
 		return $response;
 	}
 
@@ -88,20 +84,19 @@ final class APMauticServiceMautic extends APMauticService {
 	 *
 	 * @since 1.0.4
 	 * @return string The connection settings markup.
-	 */  
-	public function render_connect_settings( $service_data ) 
-	{
+	 */
+	public function render_connect_settings( $service_data ) {
 		$base_url  = isset( $service_data['base-url'] ) ? $service_data['base-url'] : '';
-		
+
 		ob_start();
-		
+
 		APMautic_helper::render_input_html('base-url', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
 			'type'          => 'text',
 			'label'         => __( 'Base URL', 'automateplus-mautic-wp' ),
-			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' )
+			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' ),
 		));
 
 		APMautic_helper::render_input_html('ampw-save-authenticate', array(
@@ -111,13 +106,13 @@ final class APMauticServiceMautic extends APMauticService {
 			'def_value'		=> 'connected',
 			'nonce_acion'	=> 'apmwmautic',
 			'nonce_name'	=> 'ap-mautic-nonce',
-			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' )
+			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' ),
 		));
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.0.4
 	 * @param string $account The name of the saved account.
@@ -126,27 +121,26 @@ final class APMauticServiceMautic extends APMauticService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type string $html The field markup.
 	 * }
-	 */  
-	public function render_fields( $service_data ) 
-	{
+	 */
+	public function render_fields( $service_data ) {
 		$base_url  = isset( $service_data['base-url'] ) ? $service_data['base-url'] : '';
-		
+
 		ob_start();
-		
+
 		APMautic_helper::render_input_html('base-url', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
 			'type'          => 'text',
 			'label'         => __( 'Base URL', 'automateplus-mautic-wp' ),
-			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' )
+			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' ),
 		));
 
 		APMautic_helper::render_input_html('public-key', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'type'          => 'text',
-			'label'         => __( 'Public Key', 'automateplus-mautic-wp' )
+			'label'         => __( 'Public Key', 'automateplus-mautic-wp' ),
 		));
 
 		APMautic_helper::render_input_html('secret-key', array(
@@ -154,7 +148,7 @@ final class APMauticServiceMautic extends APMauticService {
 			'class'         => 'apm-service-input',
 			'type'          => 'text',
 			'label'         => __( 'Secret Key', 'automateplus-mautic-wp' ),
-			'desc'          => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="'. esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' )
+			'desc'          => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' ),
 		));
 
 		APMautic_helper::render_input_html('ampw-save-authenticate', array(
@@ -165,17 +159,17 @@ final class APMauticServiceMautic extends APMauticService {
 			'spinner'		=> true,
 			'nonce_acion'	=> 'apmwmautic',
 			'nonce_name'	=> 'ap-mautic-nonce',
-			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' )
+			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' ),
 		));
 
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render markup for the list field. 
+	 * Render markup for the list field.
 	 *
 	 * @since 1.5.4
-	 * @param array $lists List data from the API.
+	 * @param array  $lists List data from the API.
 	 * @param object $settings Saved module settings.
 	 * @return string The markup for the list field.
 	 * @access private
@@ -192,11 +186,11 @@ final class APMauticServiceMautic extends APMauticService {
 			'id'			=> 'ss-cp-condition',
 			'class'			=> 'root-seg-action',
 			'options'		=> $options,
-			'selected'		=> $select
+			'selected'		=> $select,
 		));
 	}
 
-	/** 
+	/**
 	 * Subscribe an email address to Mautic.
 	 *
 	 * @since 1.5.4
@@ -206,7 +200,7 @@ final class APMauticServiceMautic extends APMauticService {
 	 * @return array {
 	 *      @type bool|string $error The error message or false if no error.
 	 * }
-	 */  
+	 */
 	public function subscribe( $email, $settings, $actions ) {
 
 		$api_data = APMauticServices::get_api_method_url( $email );

@@ -28,7 +28,7 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 		 * @return object
 		 */
 		public static function instance() {
-			
+
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new APMautic_Loader();
 				self::$instance->constants();

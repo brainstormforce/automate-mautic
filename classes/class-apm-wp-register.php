@@ -83,10 +83,9 @@ if ( ! class_exists( 'APMautic_WP_register' ) ) :
 				'website'	=> $user_info->user_url,
 			);
 
-
-		// $saved_services = APMautic_helper::get_service_data();
-		$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
-		$instance->subscribe( $email, $body, $set_actions );
+			// $saved_services = APMautic_helper::get_service_data();
+			$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance->subscribe( $email, $body, $set_actions );
 		}
 	}
 	APMautic_WP_register::instance();

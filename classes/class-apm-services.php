@@ -18,8 +18,8 @@ final class APMauticServices {
 		'mautic'    => array(
 			'type'              => 'autoresponder',
 			'name'              => 'Mautic',
-			'class'             => 'APMauticServiceMautic'
-		)
+			'class'             => 'APMauticServiceMautic',
+		),
 	);
 
 	/**
@@ -195,8 +195,7 @@ final class APMauticServices {
 		// Render the settings to connect a new account.
 		if ( $is_connected ) {
 			$response_fields = self::render_connect_settings( $service );
-		}
-		// Render the settings to select a connected account.
+		} // Render the settings to select a connected account.
 		else {
 			$response_fields = self::render_account_settings( $service );
 		}
@@ -230,8 +229,7 @@ final class APMauticServices {
 	 * @param string $active The name of the active account, if any.
 	 * @return string The account settings markup.
 	 */
-	static public function render_account_settings( $service )
-	{
+	static public function render_account_settings( $service ) {
 		$saved_services = APMautic_helper::get_service_data();
 		ob_start();
 		$instance   = self::get_service_instance( $service );
@@ -668,7 +666,7 @@ final class APMauticServices {
 	 */
 	static public function get_services_data() {
 		$services = self::$services_data;
-		
+
 		return $services;
 	}
 
@@ -679,8 +677,7 @@ final class APMauticServices {
 	 * @param string $type The type of service.
 	 * @return object
 	 */
-	static public function get_service_instance( $service )
-	{
+	static public function get_service_instance( $service ) {
 		$services = self::get_services_data();
 		$data     = $services[ $service ];
 
