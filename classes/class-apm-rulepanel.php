@@ -113,16 +113,21 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 */
 		public static function select_all_posts( $select = null ) {
 			// get all posts.
-			$all_posts = '<select id="ss-cp-condition" class="root-cp-condition form-control" name="ss_cp_condition[]">';
 			$args = array( 'posts_per_page' => -1 );
 			$posts = get_posts( $args );
-			$all_posts .= '<option>' . __( 'Select Post', 'automateplus-mautic-wp' ) . '</option>';
+			$options = array( '' => __( 'Select Post', 'automateplus-mautic-wp' ) );
 			foreach ( $posts as $post ) : setup_postdata( $post );
-				$all_posts .= self::make_option( $post->ID, $post->post_title, $select );
-				endforeach;
-			$all_posts .= '</select>';
+				$options[ $post->ID ] = $post->post_title;
+			endforeach;
+
+			APMautic_helper::render_settings_field( 'ss_cp_condition[]', array(
+				'type'			=> 'select',
+				'id'			=> 'ss-cp-condition',
+				'class'			=> 'root-cp-condition form-control',
+				'options'		=> $options,
+				'selected'		=> $select
+			));
 			wp_reset_postdata();
-			echo $all_posts;
 		}
 
 		/**
@@ -156,14 +161,8 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				return;
 			}
 
-			$all_segments = '<select class="root-seg-action" name="ss_seg_action[]">';
-			$all_segments .= '<option>' . __( 'Select Segment', 'automateplus-mautic-wp' ) . '</option>';
-
-			foreach ( $segments->lists as $offset => $list ) {
-				$all_segments .= self::make_option( $list->id, $list->name, $select );
-			}
-			$all_segments .= '</select>';
-			echo $all_segments;
+			$instance   = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance->render_list_field( $segments->lists, $select );
 		}
 
 		/**
@@ -284,12 +283,22 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @return void
 		 */
 		public static function get_all_conditions_list( $select = '' ) {
-			$conditions = '<option>' . __( 'Select Condition', 'automateplus-mautic-wp' ) . '</option>
-			<option value="UR" ' . selected( $select, 'UR' ) . '>' . __( 'User Register on WordPress', 'automateplus-mautic-wp' ) . '</option>
-			<option value="CP" ' . selected( $select, 'CP' ) . '>' . __( 'User Post a Comment', 'automateplus-mautic-wp' ) . '</option>';
 
-			$all_conditions = apply_filters( 'amp_mautic_conditions_list', $conditions, $select );
-			echo $all_conditions;
+			$options = array(
+				''		=>	__( 'Select Condition', 'automateplus-mautic-wp' ),
+				'UR'	=>	__( 'User Register on WordPress', 'automateplus-mautic-wp' ),
+				'CP'	=>	__( 'User Post a Comment', 'automateplus-mautic-wp' )
+			);
+
+			$options = apply_filters( 'amp_mautic_conditions_list', $options );
+
+			APMautic_helper::render_settings_field( 'pm_condition[]', array(
+				'type'			=> 'select',
+				'id'			=> 'selct-condition-list',
+				'class'			=> 'select-condition form-control',
+				'options'		=> $options,
+				'selected'		=> $select
+			));
 		}
 
 		/**
@@ -299,11 +308,23 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @return void
 		 */
 		public static function get_all_actions_list( $select = '' ) {
-			$actions = '<option value="add_segment" ' . selected( $select, 'add_segment' ) . '>' . __( 'Add to segment', 'automateplus-mautic-wp' ) . '</option>
-			<option value="remove_segment" ' . selected( $select, 'remove_segment' ) . '>' . __( 'Remove from segment', 'automateplus-mautic-wp' ) . '</option>
-			<option value="add_tag" ' . selected( $select, 'add_tag' ) . '>' . __( 'Add Tags', 'automateplus-mautic-wp' ) . '</option>';
-			$all_actions = apply_filters( 'amp_mautic_actions_list', $actions );
-			echo $all_actions;
+
+			$options = array(
+				'add_segment'		=>	__( 'Add to segment', 'automateplus-mautic-wp' ),
+				'remove_segment'	=>	__( 'Remove from segment', 'automateplus-mautic-wp' ),
+				'add_tag'			=>	__( 'Add Tags', 'automateplus-mautic-wp' )
+			);
+
+			$options = apply_filters( 'amp_mautic_actions_list', $options );
+
+			APMautic_helper::render_settings_field( 'sub_seg_action[]', array(
+				'type'			=> 'select',
+				'id'			=> 'sub-seg-action',
+				'class'			=> 'sub-seg-action form-control',
+				'options'		=> $options,
+				'selected'		=> $select
+			));
+
 		}
 
 		/**

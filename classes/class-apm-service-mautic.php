@@ -179,70 +179,21 @@ final class APMauticServiceMautic extends APMauticService {
 	 * @param object $settings Saved module settings.
 	 * @return string The markup for the list field.
 	 * @access private
-	 */  
-	private function render_list_field( $lists, $settings ) 
-	{
-		ob_start();
-		
-		$options = array( '' => __( 'Choose...', 'fl-builder' ) );
-		
-		foreach ( $lists['data'] as $list ) {
-			$options[ $list['id'] ] = $list['name'];
-		}
-		
-		FLBuilder::render_settings_field( 'list_id', array(
-			'row_class'     => 'fl-builder-service-field-row',
-			'class'         => 'fl-builder-service-list-select fl-builder-mailchimp-list-select',
-			'type'          => 'select',
-			'label'         => _x( 'List', 'An email list from a third party provider.', 'fl-builder' ),
-			'options'       => $options,
-			'preview'       => array(
-				'type'          => 'none'
-			)
-		), $settings); 
-		
-		return ob_get_clean();
-	}
+	 */
+	public function render_list_field( $lists, $select ) {
 
-	/**
-	 * Render markup for the groups field. 
-	 *
-	 * @since 1.6.0
-	 * @param string $list_id The ID of the list for this groups.
-	 * @param array $groups An array of group data.
-	 * @param object $settings Saved module settings.
-	 * @return string The markup for the group field.
-	 * @access private
-	 */  
-	private function render_groups_field( $list_id, $groups, $settings ) 
-	{
-		if ( ! is_array( $groups ) || 0 === count( $groups ) ) {
-			return;
+		$options = array( '' => __( 'Select Segment', 'automateplus-mautic-wp' ) );
+		foreach ( $lists as $list ) {
+			$options[ $list->id ] = $list->name;
 		}
-		
-		ob_start();
-		
-		$options = array( '' => __( 'No Group', 'fl-builder' ) );
-		
-		foreach ( $groups as $group ) {
-			foreach ( $group['groups'] as $subgroup ) {
-				$options[ $list_id . '_' . $group['id'] . '_' . $subgroup['id'] ] = $group['name'] . ' - ' . $subgroup['name'];
-			}
-		}
-		
-		FLBuilder::render_settings_field( 'groups', array(
-			'row_class'     => 'fl-builder-service-field-row',
-			'class'         => 'fl-builder-mailchimp-group-select',
-			'type'          => 'select',
-			'label'         => _x( 'Groups', 'MailChimp list group.', 'fl-builder' ),
-			'multi-select'	=> true,
-			'options'       => $options,
-			'preview'       => array(
-				'type'          => 'none'
-			)
-		), $settings); 
-		
-		return ob_get_clean();
+
+		APMautic_helper::render_settings_field( 'ss_seg_action[]', array(
+			'type'			=> 'select',
+			'id'			=> 'ss-cp-condition',
+			'class'			=> 'root-seg-action',
+			'options'		=> $options,
+			'selected'		=> $select
+		));
 	}
 
 	/** 

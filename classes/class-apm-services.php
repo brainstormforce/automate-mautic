@@ -225,7 +225,7 @@ final class APMauticServices {
 	/**
 	 * Render the account settings for a saved connection.
 	 *
-	 * @since 1.5.4
+	 * @since 1.0.0
 	 * @param string $service The service id such as "mailchimp".
 	 * @param string $active The name of the active account, if any.
 	 * @return string The account settings markup.

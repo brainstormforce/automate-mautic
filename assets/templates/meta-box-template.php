@@ -11,9 +11,7 @@
 	<# if ( 'condition-field' === data.clas ) { #>
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
-		<select class="select-condition form-control" name="pm_condition[]">
 			<?php APMautic_RulePanel::get_all_conditions_list(); ?>
-		</select>
 		<div class="first-condition" style="display:inline;"></div>
 		<div class="second-condition" style="display:inline;"></div>
 	<# } #>
@@ -21,9 +19,7 @@
 		<span class="dashicons dashicons-minus remove-item"></span>
 		<span class="dashicons dashicons-editor-justify sort-items"></span>
 		<div class="first-action" style="display:inline;">
-			<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
 				<?php APMautic_RulePanel::get_all_actions_list(); ?>
-			</select>
 		</div>
 		<div class="second-action" style="display:inline;">
 			<input type="hidden" name="pm_action[]" value="segment">
