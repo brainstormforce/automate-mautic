@@ -47,10 +47,8 @@
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span>
-							<select class="select-condition form-control" name="pm_condition[]">
-								<?php APMautic_RulePanel::get_all_conditions_list( $meta_condition[0] ); ?>
-							</select>
-							<?php
+
+							<?php APMautic_RulePanel::get_all_conditions_list( $meta_condition[0] );
 
 							if ( 'CP' == $meta_condition[0]  ) : ?>
 
@@ -99,9 +97,7 @@
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
 						
 									<div class="first-action" style="display:inline;">
-										<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
-											<?php APMautic_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
-										</select>
+										<?php APMautic_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
 									</div>
 							<?php
 							if ( 'add_segment' == $meta_action[0] || 'remove_segment' == $meta_action[0] ) {
@@ -152,9 +148,7 @@
 				<fieldset class="ui-state-default" id="item-1">
 					<span class="dashicons dashicons-minus remove-item"></span>
 					<span class="dashicons dashicons-editor-justify sort-items"></span> 
-					<select class="select-condition form-control" name="pm_condition[]">
 						<?php APMautic_RulePanel::get_all_conditions_list(); ?>
-					</select>
 					<div class="first-condition" style="display:inline;"></div>
 					<div class="second-condition" style="display:inline;"></div>
 				</fieldset>
@@ -172,9 +166,7 @@
 					<span class="dashicons dashicons-minus remove-item"></span>
 					<span class="dashicons dashicons-editor-justify sort-items"></span> 
 					<div class="first-action" style="display:inline;">
-						<select id="sub-seg-action" class="sub-seg-action form-control" name="sub_seg_action[]">
-							<?php APMautic_RulePanel::get_all_actions_list(); ?>
-						</select>
+						<?php APMautic_RulePanel::get_all_actions_list(); ?>
 					</div>
 					<div class="second-action" style="display:inline;">
 						<input type="hidden" name="pm_action[]" value="segment">
