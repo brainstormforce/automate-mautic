@@ -1,9 +1,11 @@
 <?php
-
 /**
  * Create class APMautic_WP_Hooks
  * Handles register post type, trigger actions
+ * @package automateplus-mautic
+ * @since 1.0.5
  */
+
 class APMautic_WP_Hooks {
 
 	/**
@@ -38,8 +40,13 @@ class APMautic_WP_Hooks {
 	public function hooks() {
 		add_action( 'wp_head', __CLASS__ . '::mautic_tracking_script' );
 		add_action( 'init', __CLASS__ . '::mautic_register_posttype' );
-		add_action( 'admin_init', 'APMauticServices::set_mautic_code' );
+		add_action( 'admin_init', __CLASS__ . '::update_access_token');
 		add_action( 'plugins_loaded', __CLASS__ . '::load_plugin_textdomain' );
+	}
+
+	public static function update_access_token(){
+		$instance   = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+		$instance->update_token();
 	}
 
 	/**

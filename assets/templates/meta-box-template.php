@@ -28,7 +28,7 @@
 				'type'          => 'hidden',
 				'iswrap'		=> false,
 			));
-			APMautic_RulePanel::select_all_segments(); ?>
+			APMauticServices::select_all_segments(); ?>
 		</div>
 	<# } #>
 
@@ -39,7 +39,7 @@
 				'type'          => 'hidden',
 				'iswrap'		=> false,
 			));
-			APMautic_RulePanel::select_all_segments(); ?>
+			APMauticServices::select_all_segments(); ?>
 	<# } #>
 
 	<# if( 'sub-cp-condition' === data.clas ) { #>

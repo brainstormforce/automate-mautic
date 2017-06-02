@@ -131,41 +131,6 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		}
 
 		/**
-		 * Get all segments list
-		 *
-		 * @param string $select selected value.
-		 * @since 1.0.0
-		 * @return void
-		 */
-		public static function select_all_segments( $select = null ) {
-			// get all segments.
-			$segments = '';
-			$segments_trans = get_transient( 'apm_all_segments' );
-
-			if ( $segments_trans ) {
-				$segments = $segments_trans;
-			} else {
-				$url = '/api/segments/';
-				$body['limit'] = 100000;
-
-				$segments = APMauticServices::mautic_api_get_data( $url, $body );
-
-				if ( ! APMauticServices::is_connected() || isset( $segments->errors ) ) {
-					return;
-				}
-				set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
-			}
-
-			if ( empty( $segments ) || ! APMauticServices::is_connected() ) {
-				echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
-				return;
-			}
-
-			$instance   = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
-			$instance->render_list_field( $segments->lists, $select );
-		}
-
-		/**
 		 * Delete meta assosites with rule
 		 *
 		 * @param int $post_id rule ID.

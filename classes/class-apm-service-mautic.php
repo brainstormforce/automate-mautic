@@ -23,6 +23,88 @@ final class APMauticServiceMautic extends APMauticService {
 	private $api_instance = null;
 
 	/**
+	 * Get an instance of the API.
+	 *
+	 * @since 1.0.5
+	 * @return object The API instance.
+	 */
+	public function get_api() {
+		if ( $this->api_instance ) {
+			return $this->api_instance;
+		}
+		if ( ! class_exists( 'AP_MauticAPI' ) ) {
+			require_once AP_MAUTIC_PLUGIN_DIR . 'includes/vendor/mautic.php';
+		}
+		
+		$this->api_instance = new AP_MauticAPI();
+		return $this->api_instance;
+	}
+
+	/**
+	 * Test the API connection.
+	 *
+	 * @since 1.0.5
+	 * @param array $fields {
+	 *      @type string $api_key A valid API key.
+	 * }
+	 * @return array{
+	 *      @type bool|string $error The error message or false if no error.
+	 *      @type array $data An array of data used to make the connection.
+	 * }
+	 */  
+	public function connect( $data ) {
+
+		$mautic_api_url = $apm_public_key = $apm_secret_key = '';
+		$cpts_err = false;
+		$lists = null;
+		$ref_list_id = null;
+
+		$mautic_api_url = isset( $data['base-url'] ) ? esc_url( $data['base-url'] ) : '';
+		$apm_public_key = isset( $data['public-key'] ) ? sanitize_key( $data['public-key'] ) : '';
+		$apm_secret_key = isset( $data['secret-key'] ) ? sanitize_key( $data['secret-key'] ) : '';
+
+		$mautic_api_url = rtrim( $mautic_api_url ,'/' );
+		if ( empty( $mautic_api_url ) ) {
+			$status = 'error';
+			$message = 'API URL is missing.';
+			$cpts_err = true;
+		}
+		if ( empty( $apm_secret_key ) ) {
+			$status = 'error';
+			$message = 'Secret Key is missing.';
+			$cpts_err = true;
+		}
+		$settings = array(
+		'baseUrl'		=> $mautic_api_url,
+		'version'		=> 'OAuth2',
+		'clientKey'		=> $apm_public_key,
+		'clientSecret'	=> $apm_secret_key,
+		'callback'		=> APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
+		'response_type'	=> 'code',
+		);
+
+		update_option( AP_MAUTIC_APIAUTH, $settings );
+		$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
+		// OAuth 2.0.
+		$authurl .= '?client_id=' . $settings['clientKey'] . '&redirect_uri=' . urlencode( $settings['callback'] );
+		$state    = md5( time() . mt_rand() );
+		$authurl .= '&state=' . $state;
+		$authurl .= '&response_type=' . $settings['response_type'];
+		wp_redirect( $authurl );
+		exit;
+	}
+	public function update_token() {
+
+		$api = $this->get_api();
+		if ( isset( $_GET['code'] ) && AP_MAUTIC_POSTTYPE == $_REQUEST['page'] ) {
+			$credentials = APMautic_helper::get_mautic_credentials();
+			$credentials['access_code'] = sanitize_key( $_GET['code'] );
+			update_option( AP_MAUTIC_APIAUTH, $credentials );
+			$api->get_mautic_data();
+		}
+	}
+
+	/**
 	 * Renders the markup for the connection settings.
 	 *
 	 * @since 1.0.4
@@ -117,13 +199,24 @@ final class APMauticServiceMautic extends APMauticService {
 	 * @return string The markup for the list field.
 	 * @access private
 	 */
-	public function render_list_field( $lists, $select ) {
+	public function render_list_field( $select ) {
 
+		$segments_trans = get_transient( 'apm_all_segments' );
+		if ( $segments_trans ) {
+			$segments = $segments_trans;
+		} else {
+			$api = $this->get_api();
+			$segments = $api->get_all_segments();
+			set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
+		}
+		if ( empty( $segments ) || ! APMauticServices::is_connected() ) {
+			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
+			return;
+		}
 		$options = array( '' => __( 'Select Segment', 'automateplus-mautic-wp' ) );
-		foreach ( $lists as $list ) {
+		foreach ( $segments as $list ) {
 			$options[ $list->id ] = $list->name;
 		}
-
 		APMautic_helper::render_settings_field( 'ss_seg_action[]', array(
 			'type'			=> 'select',
 			'id'			=> 'ss-cp-condition',
@@ -136,8 +229,8 @@ final class APMauticServiceMautic extends APMauticService {
 	/**
 	 * Subscribe an email address to Mautic.
 	 *
-	 * @since 1.5.4
-	 * @param array $settings body params.
+	 * @since 1.0.5
+	 * @param array  $settings body params.
 	 * @param string $email The email to subscribe.
 	 * @param string $name Optional. The full name of the person subscribing.
 	 * @return array {
@@ -146,7 +239,8 @@ final class APMauticServiceMautic extends APMauticService {
 	 */
 	public function subscribe( $email, $settings, $actions ) {
 
-		$api_data = APMauticServices::get_api_method_url( $email );
+		$api = $this->get_api();
+		$api_data = $api->get_api_method_url( $email );
 		$url = $api_data['url'];
 		$method = $api_data['method'];
 
@@ -160,6 +254,6 @@ final class APMauticServiceMautic extends APMauticService {
 			$all_tags = rtrim( $all_tags ,',' );
 			$settings['tags'] = $all_tags;
 		}
-		APMauticServices::ampw_mautic_api_call( $url, $method, $settings, $actions );
+		$api->ampw_mautic_api_call( $url, $method, $settings, $actions );
 	}
 }

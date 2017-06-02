@@ -102,7 +102,7 @@
 							?>
 							<div class="second-action">
 								<input type="hidden" name="pm_action[]" value="segment">
-								<?php APMautic_RulePanel::select_all_segments( $meta_action[1] ); ?>
+								<?php APMauticServices::select_all_segments( $meta_action[1] ); ?>
 							</div>
 							<?php } elseif ( 'add_tag' == $meta_action[0] ) { ?>
 									<div class="second-action">
@@ -168,7 +168,7 @@
 					</div>
 					<div class="second-action">
 						<input type="hidden" name="pm_action[]" value="segment">
-						<?php APMautic_RulePanel::select_all_segments(); ?>
+						<?php APMauticServices::select_all_segments(); ?>
 					</div>
 				</fieldset>
 			</div>

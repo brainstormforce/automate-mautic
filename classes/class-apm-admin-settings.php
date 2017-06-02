@@ -393,7 +393,9 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function mautic_authenticate_update() {
 
 			if ( isset( $_POST['ampw-save-authenticate'] ) && 'Save and Authenticate' == esc_attr( $_POST['ampw-save-authenticate'] ) ) {
-				APMauticServices::authenticate_update();
+				$post_data = $_POST;
+				$instance   = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+				$instance->connect( $post_data );
 			}
 		}
 

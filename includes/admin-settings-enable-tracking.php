@@ -1,4 +1,11 @@
 <?php
+/**
+ * Enable tracking render html
+ *
+ * @package automateplus-mautic
+ * @since 1.0.5
+ */
+
 	$ap_enabled_track = apm_get_option( 'enable-tracking', 1 );
 	APMautic_helper::render_input_html('enable-tracking', array(
 		'row_class'     => 'apm-service-row',
@@ -18,4 +25,3 @@
 		'nonce_acion'	=> 'apmautictrack',
 		'nonce_name'	=> 'ap-mautic-nonce-tracking',
 	));
-

@@ -3,7 +3,7 @@
  * Mautic for WordPress initiate
  *
  * @package automateplus-mautic
- * @since 1.0.0
+ * @since 1.0.5
  */
 
 if ( ! class_exists( 'APMautic_Loader' ) ) :
