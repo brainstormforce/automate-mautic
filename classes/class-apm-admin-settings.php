@@ -43,10 +43,10 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public function hooks() {
 			add_action( 'after_setup_theme', __CLASS__ . '::init_hooks' );
-			add_action( 'admin_footer', array( $this, 'mb_templates' ) );
-			add_action( 'admin_notices', array( $this, 'ap_mautic_notices' ), 100 );
-			add_action( 'wp_loaded', array( $this, 'mautic_authenticate_update' ) );
-			add_action( 'wp_loaded', array( $this,'access_capabilities' ), 1 );
+			add_action( 'admin_footer', __CLASS__ . '::mb_templates' );
+			add_action( 'admin_notices', __CLASS__ . '::ap_mautic_notices', 100 );
+			add_action( 'wp_loaded', __CLASS__ . '::access_capabilities', 1 );
+			add_action( 'wp_loaded', __CLASS__ . '::mautic_authenticate_update' );
 		}
 
 		/**
@@ -55,7 +55,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @since 1.0.0
 		 * @return void
 		 */
-		public function mb_templates() {
+		public static function mb_templates() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 			if ( AP_MAUTIC_POSTTYPE == $curr_screen ) {
 				include AP_MAUTIC_PLUGIN_DIR . '/assets/templates/meta-box-template.php';
