@@ -28,12 +28,14 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		 * @return object
 		 */
 		public static function instance() {
+			
 			if ( ! isset( self::$instance ) ) {
 				self::$instance = new APMautic_loader();
 				self::$instance->constants();
 				self::$instance->includes();
 				self::$instance->hooks();
 			}
+
 			return self::$instance;
 		}
 
@@ -68,7 +70,6 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php' );
-
 		}
 
 		/**
@@ -78,9 +79,20 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		 * @return void
 		 */
 		public function hooks() {
-			add_action( 'wp_head', array( $this, 'mautic_tracking_script' ) );
-			add_action( 'init', array( $this, 'mautic_register_posttype' ) );
+			add_action( 'wp_head', __CLASS__ . '::mautic_tracking_script' );
+			add_action( 'init', __CLASS__ . '::mautic_register_posttype' );
 			add_action( 'admin_init', 'APMauticServices::set_mautic_code' );
+			add_action( 'plugins_loaded', __CLASS__ . '::load_plugin_textdomain' );
+		}
+
+		/**
+		 * Load text domain
+		 *
+		 * @since 1.0.0
+		 * @return void
+		 */
+		public static function load_plugin_textdomain() {
+			load_plugin_textdomain( 'automateplus-mautic-wp' );
 		}
 
 		/**
@@ -88,7 +100,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		 *
 		 * @since 1.0.0
 		 */
-		public function mautic_tracking_script() {
+		public static function mautic_tracking_script() {
 
 			if ( 1 == apm_get_option( 'enable-tracking', 1 ) ) {
 				$enable_mautic_tracking = true;
@@ -118,7 +130,7 @@ if ( ! class_exists( 'APMautic_loader' ) ) :
 		 * @since 1.0.0
 		 * @link http://codex.wordpress.org/Function_Reference/register_post_type
 		 */
-		public function mautic_register_posttype() {
+		public static function mautic_register_posttype() {
 			$labels = array(
 				'name'               => _x( 'Rules', 'post type general name', 'automateplus-mautic-wp' ),
 				'singular_name'      => _x( 'Rule', 'post type singular name', 'automateplus-mautic-wp' ),

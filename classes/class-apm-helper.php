@@ -15,38 +15,6 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 	class APMautic_helper {
 
 		/**
-		 * Declare a static variable instance.
-		 *
-		 * @var instance
-		 */
-		private static $instance;
-
-		/**
-		 * Initiate class
-		 *
-		 * @since 1.0.0
-		 * @return object
-		 */
-		public static function instance() {
-			if ( ! isset( self::$instance ) ) {
-				self::$instance = new APMautic_helper();
-				self::$instance->includes();
-			}
-			return self::$instance;
-		}
-
-		/**
-		 * Include files
-		 *
-		 * @since 1.0.0
-		 * @return void
-		 */
-		public function includes() {
-			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php';
-			self::load_plugin_textdomain();
-		}
-
-		/**
 		 * Get config option
 		 *
 		 * @since 1.0.0
@@ -68,16 +36,6 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 			$mautic_credentials = get_option( AP_MAUTIC_APIAUTH );
 			return $mautic_credentials;
-		}
-
-		/**
-		 * Load text domain
-		 *
-		 * @since 1.0.0
-		 * @return void
-		 */
-		public function load_plugin_textdomain() {
-			load_plugin_textdomain( 'automateplus-mautic-wp' );
 		}
 
 		/**
@@ -246,16 +204,3 @@ if ( ! function_exists( 'apm_get_option' ) ) :
 	}
 
 endif;
-
-if ( ! function_exists( 'ampw_mautic_init' ) ) :
-	/**
-	 * Initialize the class after plugins loaded.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	function ampw_mautic_init() {
-		APMautic_helper::instance();
-	}
-endif;
-add_action( 'plugins_loaded', 'ampw_mautic_init' );
