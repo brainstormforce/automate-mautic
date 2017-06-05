@@ -112,6 +112,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				wp_enqueue_style( 'apm-admin-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/admin.css' );
 				wp_enqueue_script( 'apm-select2-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js' , array( 'jquery' ) );
 				wp_enqueue_style( 'apm-select2-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/select2.min.css' );
+
+				do_action( 'amp_admin_scripts' );
 			}
 		}
 
@@ -389,8 +391,6 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				wp_redirect( $redirect );
 			}
 
-			do_action( 'amp_update_tab_content' );
-
 			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule' . $_GET['rule_id'] ) ) {
 				if ( isset( $_GET['rule_id'] ) ) {
 					$rule_id = esc_attr( $_GET['rule_id'] );
@@ -400,6 +400,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 					exit();
 				}
 			}
+
+			do_action( 'amp_update_tab_content' );
 		}
 
 		/**
