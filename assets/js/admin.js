@@ -37,6 +37,7 @@
 			$( '#ampw-sortable-action' ).sortable();
 			$( '#ampw-sortable-action' ).disableSelection();
 			$('.ap-mautic-metabox').find('select').select2();
+			$('#automate-config-form').find('select').select2();
 		},
 
 		_removeItem: function() {
