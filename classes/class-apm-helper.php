@@ -138,12 +138,16 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 */
 		public static function render_settings_field( $id = '', $settings = array() ) {
 
+			$element_id = ( isset( $settings['id'] ) ) ? $settings['id'] : '';
+			$class = ( isset( $settings['class'] ) ) ? $settings['class'] : '';
+			$return = ( isset( $settings['return'] ) ) ? $settings['return'] : false;
+
 			if ( '' != $id && ! empty( $settings ) ) {
 
 				$input = '';
 				switch ( $settings['type'] ) {
 					case 'select':
-						$input .= '<select id="' . esc_attr( $settings['id'] ) . '" class="' . esc_attr( $settings['class'] ) . '" name="' . $id . '" >';
+						$input .= '<select id="' . esc_attr( $element_id ) . '" class="' . esc_attr( $class ) . '" name="' . $id . '" >';
 
 						foreach ( $settings['options'] as $option_key => $option_val ) {
 							$selected = selected( $option_key, $settings['selected'], false );
@@ -155,6 +159,9 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 						$input .= '';
 						break;
 				}
+			}
+			if( $return ) {
+				return $input;
 			}
 			echo $input;
 		}
