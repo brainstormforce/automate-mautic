@@ -273,4 +273,25 @@ final class APMauticServiceMautic extends APMauticService {
 		$api = $this->get_api();
 		$api->remove_from_all_segments($email);
 	}
+
+	/**
+	 * Check if contact is already published.
+	 *
+	 * @since 1.0.5
+	 * @param int $id contact id.
+	 * @return void
+	 */
+	public function is_contact_published( $id ) {
+
+		$api = $this->get_api();
+		$status = $api->is_contact_published( $email );
+		return $status;
+	}
+
+	public function mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act ) {
+
+		$api = $this->get_api();
+		$response = $api->mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act );
+		return $response;
+	}
 }
