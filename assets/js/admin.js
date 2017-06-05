@@ -80,7 +80,7 @@
 					parent.find('div.second-condition').html('');
 				break;
 
-				default:
+				case 'Default' :
 					parent.find('div.first-condition').html('');
 					parent.find('div.second-condition').html('');
 			}

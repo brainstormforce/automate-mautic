@@ -235,7 +235,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_conditions_list( $select = '' ) {
 
 			$options = array(
-				''		=> __( 'Select Condition', 'automateplus-mautic-wp' ),
+				'Default'		=> __( 'Select Condition', 'automateplus-mautic-wp' ),
 				'UR'	=> __( 'User Register on WordPress', 'automateplus-mautic-wp' ),
 				'CP'	=> __( 'User Post a Comment', 'automateplus-mautic-wp' ),
 			);
