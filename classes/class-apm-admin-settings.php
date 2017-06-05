@@ -90,7 +90,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function menu() {
 			if ( current_user_can( 'delete_users' ) ) {
 				$func	= __CLASS__ . '::render';
-				if ( !class_exists( 'AMPMauticAddonInit' ) ) {
+				if ( ! class_exists( 'AMPMauticAddonInit' ) ) {
 					add_options_page( 'AutomatePlus Mautic',  __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
 				}
 			}
@@ -213,7 +213,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function render_page_url( $type = '' ) {
 			$parent = self::get_menu_parent();
 			$admin_url = admin_url( $parent );
-			
+
 			$admin_url = add_query_arg( array(
 			    'page' => 'automate-mautic' . $type,
 			), $admin_url );
@@ -235,6 +235,11 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			return $admin_url;
 		}
 
+		/**
+		 * Get Menu parent for top-level menu.
+		 *
+		 * @since 1.0.5
+		 */
 		public static function get_menu_parent() {
 
 			$parent = ! (apm_get_option( 'apmautic_menu_position' )) ? 'options-general.php' : apm_get_option( 'apmautic_menu_position' );
@@ -480,7 +485,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 						$roles = array();
 					}
 
-					// give access to administrator
+					// give access to administrator.
 					$roles[] = 'administrator';
 
 					foreach ( $wp_roles_data as $key => $value ) {

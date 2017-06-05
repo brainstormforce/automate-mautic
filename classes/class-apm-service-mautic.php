@@ -1,4 +1,10 @@
 <?php
+/**
+ * Mautic API functions.
+ *
+ * @package automateplus-mautic
+ * @since 1.0.5
+ */
 
 /**
  * Helper class for the Mautic API.
@@ -16,6 +22,8 @@ final class APMauticServiceMautic extends APMauticService {
 	public $id = AP_MAUTIC_SERVICE;
 
 	/**
+	 * Store API instance.
+	 *
 	 * @since 1.0.5
 	 * @var object $api_instance
 	 * @access private
@@ -88,6 +96,12 @@ final class APMauticServiceMautic extends APMauticService {
 		wp_redirect( $authurl );
 		exit;
 	}
+
+	/**
+	 * Update access token after authentication.
+	 *
+	 * @since 1.0.5
+	 */
 	public function update_token() {
 
 		$api = $this->get_api();

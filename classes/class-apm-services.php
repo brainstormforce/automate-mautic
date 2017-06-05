@@ -139,8 +139,7 @@ final class APMauticServices {
 	 * Get an instance of a service helper class.
 	 *
 	 * @since 1.0.5
-	 * @param string $service The type of service.
-	 * @return object
+	 * @param string $select selected segment.
 	 */
 	public static function select_all_segments( $select = '' ) {
 			// get all segments.

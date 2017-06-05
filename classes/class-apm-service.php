@@ -25,11 +25,7 @@ abstract class APMauticService {
 	 * Test the API connection.
 	 *
 	 * @since 1.0.5
-	 * @param array $fields
-	 * @return array{
-	 *      @type bool|string $error The error message or false if no error.
-	 *      @type array $data An array of data used to make the connection.
-	 * }
+	 * @param array $fields required fields for authentication.
 	 */
 	abstract public function connect( $fields );
 
@@ -37,8 +33,7 @@ abstract class APMauticService {
 	 * Renders the markup for the connection settings.
 	 *
 	 * @since 1.0.5,
-	 * @param array,
-	 * @param $service_data,
+	 * @param array $service_data render fields for authentication.
 	 * @return string The connection settings markup.
 	 */
 	abstract public function render_connect_settings( $service_data );
@@ -48,10 +43,6 @@ abstract class APMauticService {
 	 *
 	 * @since 1.0.5
 	 * @param object $service_data Saved module settings.
-	 * @return array {
-	 *      @type bool|string $error The error message or false if no error.
-	 *      @type string $html The field markup.
-	 * }
 	 */
 	abstract public function render_fields( $service_data );
 }

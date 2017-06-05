@@ -42,9 +42,8 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 * Renders html with respective input fields
 		 *
 		 * @since 1.0.5
-		 * @param string $input The connection slug.
+		 * @param string $id The unique name for input.
 		 * @param array  $settings The input type settings array.
-		 * @return string The html string.
 		 */
 		static public function render_input_html( $id = '', $settings = array() ) {
 
@@ -136,7 +135,6 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 * @since 1.0.5
 		 * @param string $id unique settings name.
 		 * @param array  $settings settings type settings array.
-		 * @return string The html string.
 		 */
 		public static function render_settings_field( $id = '', $settings = array() ) {
 

@@ -1,12 +1,18 @@
 <?php
 /**
+ * Core Actions, Post type
+ *
+ * @package automateplus-mautic
+ * @since 1.0.5
+ */
+
+/**
  * Create class APMautic_WP_Hooks
  * Handles register post type, trigger actions
  *
  * @package automateplus-mautic
  * @since 1.0.5
  */
-
 class APMautic_WP_Hooks {
 
 	/**
@@ -45,6 +51,12 @@ class APMautic_WP_Hooks {
 		add_action( 'plugins_loaded', __CLASS__ . '::load_plugin_textdomain' );
 	}
 
+	/**
+	 * Update access token after Authentication
+	 *
+	 * @since 1.0.5
+	 * @return void
+	 */
 	public static function update_access_token() {
 		$instance   = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
 		$instance->update_token();
