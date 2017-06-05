@@ -277,6 +277,20 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 
 		}
 
+
+		/**
+		 * Get all actons list
+		 *
+		 * @param string $id unique value.
+		 * @param string $value option label .
+   		 * @param string $selected sleceted option.
+		 * @return string
+		 */
+		public static function make_option( $id, $value, $selected = null ) {
+			$selected = selected( $id, $selected, false );
+			return '<option value="' . $id . '"' . $selected . '>' . $value . '</option>';
+		}
+
 		/**
 		 * Get comment subcondition list
 		 *
@@ -301,6 +315,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				'selected'		=> $select,
 			));
 		}
+
+
+
 	}
 	APMautic_RulePanel::instance();
 endif;

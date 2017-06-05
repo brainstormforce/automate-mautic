@@ -140,6 +140,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 			$element_id = ( isset( $settings['id'] ) ) ? $settings['id'] : '';
 			$class = ( isset( $settings['class'] ) ) ? $settings['class'] : '';
+			$return = ( isset( $settings['return'] ) ) ? $settings['return'] : false;
 
 			if ( '' != $id && ! empty( $settings ) ) {
 
@@ -158,6 +159,9 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 						$input .= '';
 						break;
 				}
+			}
+			if( $return ) {
+				return $input;
 			}
 			echo $input;
 		}
