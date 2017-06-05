@@ -523,4 +523,67 @@
 			return $body_data;
 		}
 	}
+
+	/**
+	 * Remove contact from all segments
+	 *
+	 * @since 1.0.0
+	 * @param string $email email to be removed.
+	 * @return void
+	 */
+	public static function remove_from_all_segments( $email ) {
+
+		$contact_id = self::get_mautic_contact_id( $email );
+
+		if ( isset( $contact_id ) ) {
+			// get all segments contact_id is member of.
+			$url = '/api/contacts/' . $contact_id . '/segments';
+			$method = 'GET';
+
+			$segments = self::ampw_mautic_api_call( $url, $method );
+
+			$credentials = APMautic_helper::get_mautic_credentials();
+
+			if ( empty( $segments ) ) {
+
+				return;
+			}
+
+			foreach ( $segments->lists as $list ) {
+
+				$segment_id = $list->id;
+				$segment_id = (int) $segment_id;
+				$action = 'remove';
+				self::mautic_contact_to_segment( $segment_id, $contact_id, $credentials, $action );
+			}
+		}
+	}
+
+   /**
+	* Remove contact from all segments
+	*
+	* @since 1.0.0
+	* @param string $email contact email.
+	* @return int contact ID
+	*/
+	public static function get_mautic_contact_id( $email ) {
+
+		$credentials = APMautic_helper::get_mautic_credentials();
+
+		if ( isset( $_COOKIE['mtc_id'] ) ) {
+
+			$contact_id = esc_attr( $_COOKIE['mtc_id'] );
+
+			$email_cid = self::mautic_get_contact_by_email( $email, $credentials );
+			if ( isset( $email_cid ) ) {
+
+				$contact_id = $email_cid;
+			}
+		} else {
+			$contact_id = self::mautic_get_contact_by_email( $email, $credentials );
+
+		}
+
+		return $contact_id;
+	}
 }

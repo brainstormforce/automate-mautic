@@ -258,4 +258,19 @@ final class APMauticServiceMautic extends APMauticService {
 		}
 		$api->ampw_mautic_api_call( $url, $method, $settings, $actions );
 	}
+
+	/**
+	 * Remove contact form all segment.
+	 *
+	 * @since 1.0.5
+	 * @param string $email The email to subscribe.
+	 * @param array  $settings body params.
+	 * @param string $actions all set actions in rule.
+	 * @return void
+	 */
+	public function remove_from_all_segment( $email ) {
+
+		$api = $this->get_api();
+		$api->remove_from_all_segments($email);
+	}
 }
