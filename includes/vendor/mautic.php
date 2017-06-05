@@ -444,6 +444,24 @@
 	}
 
 	/**
+	 * Get all contact fields
+	 *
+	 * @since 1.0.5
+	 * @return array
+	 */
+	public static function get_all_contact_fields() {
+		// get all Mautic forms.
+		$url = '/api/contacts/list/fields';
+		$mautic_cfields = self::mautic_api_get_data( $url );
+
+		if ( ! APMauticServices::is_connected() || isset( $mautic_cfields->errors ) ) {
+
+			return;
+		}
+		return $mautic_cfields;
+	}
+
+	/**
 	 * Check refresh token
 	 *
 	 * @since 1.0.5

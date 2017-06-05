@@ -231,6 +231,26 @@ final class APMauticServiceMautic extends APMauticService {
 	}
 
 	/**
+	 * Render contact field.
+	 *
+	 * @since 1.0.5
+	 * @param string $select Saved field.
+	 * @return string The markup for the list field.
+	 */
+	public function get_contact_field() {
+
+		$mautic_cfields_trans = get_transient( 'mautic_all_cfields' );
+		if ( $mautic_cfields_trans ) {
+			$mautic_cfields = $mautic_cfields_trans;
+		} else {
+			$api = $this->get_api();
+			$mautic_cfields = $api->get_all_contact_fields();
+			set_transient( 'mautic_all_cfields', $mautic_cfields, DAY_IN_SECONDS );
+		}
+		return $mautic_cfields;
+	}
+
+	/**
 	 * Subscribe an email address to Mautic.
 	 *
 	 * @since 1.0.5
