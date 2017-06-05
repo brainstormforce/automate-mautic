@@ -79,6 +79,10 @@
 					parent.find('div.first-condition').html('');
 					parent.find('div.second-condition').html('');
 				break;
+
+				default:
+					parent.find('div.first-condition').html('');
+					parent.find('div.second-condition').html('');
 			}
 		},
 
