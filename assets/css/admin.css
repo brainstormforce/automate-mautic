@@ -41,6 +41,10 @@
     cursor: pointer;
 }
 
+.ap-mautic-nav div.amp-connected-btn {
+    display: inline-block;
+}
+
 #ap-mautic-post-meta .refresh-mautic-data-wrap {
     float: right;
 }

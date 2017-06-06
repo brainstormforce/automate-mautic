@@ -183,6 +183,7 @@
 		</div>
 		<p class="submit">
 		<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
+		<span class="refresh-mautic-data-wrap"><span class="spinner ap_mautic_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automateplus-mautic-wp' ); ?></a><span>
 		</p>
 		<?php wp_nonce_field( 'apmauticpmeta', 'ap-mautic-post-meta-nonce' ); ?>
 		<?php }	?>

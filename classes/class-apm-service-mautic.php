@@ -135,13 +135,12 @@ final class APMauticServiceMautic extends APMauticService {
 		));
 
 		APMautic_helper::render_input_html('ampw-save-authenticate', array(
-			'row_class'     => 'apm-service-row',
+			'row_class'     => 'apm-service-row amp-connected-btn',
 			'class'         => 'apm-service-input',
 			'type'          => 'button',
-			'def_value'		=> 'connected',
+			'def_value'		=> 'Connected',
 			'nonce_acion'	=> 'apmwmautic',
 			'nonce_name'	=> 'ap-mautic-nonce',
-			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' ),
 		));
 		return ob_get_clean();
 	}
