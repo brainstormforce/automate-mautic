@@ -234,7 +234,6 @@ final class APMauticServiceMautic extends APMauticService {
 	 * Render contact field.
 	 *
 	 * @since 1.0.5
-	 * @param string $select Saved field.
 	 * @return string The markup for the list field.
 	 */
 	public function get_contact_field() {
@@ -284,14 +283,12 @@ final class APMauticServiceMautic extends APMauticService {
 	 *
 	 * @since 1.0.5
 	 * @param string $email The email to subscribe.
-	 * @param array  $settings body params.
-	 * @param string $actions all set actions in rule.
 	 * @return void
 	 */
 	public function remove_from_all_segment( $email ) {
 
 		$api = $this->get_api();
-		$api->remove_from_all_segments($email);
+		$api->remove_from_all_segments( $email );
 	}
 
 	/**
@@ -299,7 +296,7 @@ final class APMauticServiceMautic extends APMauticService {
 	 *
 	 * @since 1.0.5
 	 * @param int $id contact id.
-	 * @return void
+	 * @return bool
 	 */
 	public function is_contact_published( $id ) {
 
@@ -308,6 +305,16 @@ final class APMauticServiceMautic extends APMauticService {
 		return $status;
 	}
 
+	/**
+	 * Add/remove contacts from segment
+	 *
+	 * @since 1.0.5
+	 * @param int    $segment_id api mautic segment ID.
+	 * @param int    $contact_id mautic contact ID.
+	 * @param array  $mautic_credentials mautic credentials.
+	 * @param string $act operation to perform.
+	 * @return array
+	 */
 	public function mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act ) {
 
 		$api = $this->get_api();

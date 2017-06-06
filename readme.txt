@@ -3,8 +3,8 @@ Contributors: brainstormforce, rahulwalunje-1
 Donate link: https://www.paypal.me/BrainstormForce
 Requires at least: 3.0
 Tags: mautic, email, contacts, marketing, tags
-Stable tag: 1.0.4
-Tested up to: 4.7.2
+Stable tag: 1.0.5
+Tested up to: 4.7.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,11 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 4. Rule actions list
 
 == Changelog ==
+
+= 1.0.5 =
+* New: Mautic Addons Compatibility.
+* Fix: Optimize code base and admin file loading.
+* Fix: Change refresh mautic data link position.
 
 = 1.0.4 =
 * Fix: Removed deprecated Mautic v2.6 error messages.

@@ -160,7 +160,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 						break;
 				}
 			}
-			if( $return ) {
+			if ( $return ) {
 				return $input;
 			}
 			echo $input;

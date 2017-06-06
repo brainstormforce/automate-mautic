@@ -283,7 +283,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 *
 		 * @param string $id unique value.
 		 * @param string $value option label .
-   		 * @param string $selected sleceted option.
+		 * @param string $selected sleceted option.
 		 * @return string
 		 */
 		public static function make_option( $id, $value, $selected = null ) {
