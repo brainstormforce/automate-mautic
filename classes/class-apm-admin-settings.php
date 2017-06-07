@@ -90,7 +90,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function menu() {
 			if ( current_user_can( 'delete_users' ) ) {
 				$func	= __CLASS__ . '::render';
-				if ( ! class_exists( 'AMPMauticAddonInit' ) ) {
+				$menu_position = apm_get_option( 'apmautic_menu_position' );
+				if ( ! class_exists( 'AMPMauticAddonInit' ) || ! $menu_position ) {
 					add_options_page( 'AutomatePlus Mautic',  __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
 				}
 			}
