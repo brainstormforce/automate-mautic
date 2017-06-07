@@ -65,10 +65,9 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-helper.php' );
 
 			if ( is_admin() ) {
-				require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 				require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php' );
 			}
-
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-amp-wp-hooks.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-services.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
