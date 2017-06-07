@@ -70,6 +70,8 @@
 			parent = $(this).parent();
 			switch(this.value) {
 				case 'CP' :
+				case 'CP_APPROVE' :
+				
 					var SelCondition = mbTemplate( { clas: "sub-cp-condition" } );
 					parent.find('div.second-condition').html('');
 					parent.find('div.first-condition').html(SelCondition);

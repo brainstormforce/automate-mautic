@@ -135,10 +135,11 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		/**
 		 * Check if rule is set
 		 *
-		 * @param array $comment_data comment data.
+		 * @param array  $comment_data comment data.
+		 * @param string $condition is approved comment condition.
 		 * @return rule id array
 		 */
-		public static function get_comment_condition( $comment_data = array() ) {
+		public static function get_comment_condition( $comment_data = array(), $condition ) {
 			$args = array( 'posts_per_page' => -1, 'post_status' => 'publish', 'post_type' => AP_MAUTIC_POSTTYPE );
 			$posts = get_posts( $args );
 			$set_rules = array();
@@ -147,7 +148,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				$meta_conditions = get_post_meta( $rule_id, 'ampw_rule_condition' );
 				$meta_conditions = unserialize( $meta_conditions[0] );
 				foreach ( $meta_conditions as $order => $meta_condition ) :
-					if ( 'CP' == $meta_condition[0] ) {
+					if ( $condition == $meta_condition[0] ) {
 						if ( 'ao_website' == $meta_condition[1] ) {
 
 							// add rule_id into array.

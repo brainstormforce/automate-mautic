@@ -58,7 +58,7 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 
 			$all_tags = '';
 			// get comment post condition rules.
-			$status = APMautic_RulePanel::get_comment_condition( $commentdata );
+			$status = APMautic_RulePanel::get_comment_condition( $commentdata, 'CP' );
 
 			// return if the $status is not as expected.
 			if ( ! is_array( $status ) || sizeof( $status ) == 0 ) {

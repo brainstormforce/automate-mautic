@@ -124,7 +124,6 @@
 			'body' => $param,
 			'cookies' => array(),
 		));
-
 		if ( is_wp_error( $response ) ) {
 			$error_msg = $response->get_error_message();
 			$status = 'error';

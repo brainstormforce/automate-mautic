@@ -40,6 +40,7 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 == Changelog ==
 
 = 1.0.5 =
+* New: Add approved comment users condition in Rule ( Note : contact tracking will not work for this condtions instead new contact will be created. ).
 * New: Mautic Addons Compatibility.
 * Fix: Optimize code base and admin file loading.
 * Fix: Change refresh mautic data link position.

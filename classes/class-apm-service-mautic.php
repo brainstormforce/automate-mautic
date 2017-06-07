@@ -252,20 +252,26 @@ final class APMauticServiceMautic extends APMauticService {
 	 * Subscribe an email address to Mautic.
 	 *
 	 * @since 1.0.5
-	 * @param string $email The email to subscribe.
-	 * @param array  $settings body params.
-	 * @param string $actions all set actions in rule.
+	 * @param string  $email The email to subscribe.
+	 * @param array   $settings body params.
+	 * @param string  $actions all set actions in rule.
+	 * @param boolean $new_contact if set create new contact.
 	 * @return void
 	 */
-	public function subscribe( $email, $settings, $actions ) {
+	public function subscribe( $email, $settings, $actions, $new_contact = false ) {
 
 		$api = $this->get_api();
-		$api_data = $api->get_api_method_url( $email );
-		$url = $api_data['url'];
-		$method = $api_data['method'];
 
+		if ( ! $new_contact ) {
+			$api_data = $api->get_api_method_url( $email );
+			$url = $api_data['url'];
+			$method = $api_data['method'];
+		} else {
+			$method = 'POST';
+			$url = '/api/contacts/new';
+		}
 		// add tags set in actions.
-		if ( isset( $actions['add_tag'] ) ) {
+		if ( ! empty( $actions['add_tag'] ) ) {
 
 			foreach ( $actions['add_tag'] as $tags ) {
 				$all_tags .= $tags . ',';

@@ -72,6 +72,7 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-services.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-approved-comment.php' );
 		}
 	}
 	APMautic_Loader::instance();
