@@ -62,7 +62,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 * @since 1.0.0
 		 */
 		public function no_items() {
-			_e( 'No rules avaliable.', 'automateplus-mautic-wp' );
+			_e( 'No rules avaliable.', 'automateplug-mautic-wp' );
 		}
 
 		/**
@@ -87,7 +87,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 */
 		public function column_post_author( array $item ) {
 			if ( '' === trim( $item['post_author'] ) ) {
-				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
+				$item['post_author'] = __( '(no post_author)', 'automateplug-mautic-wp' );
 			}
 
 			$author = get_the_author_meta( 'display_name', $item['post_author'] );
@@ -104,7 +104,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 */
 		public function column_post_title( array $item ) {
 			if ( '' === trim( $item['post_title'] ) ) {
-				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
+				$item['post_title'] = __( '(no post_title)', 'automateplug-mautic-wp' );
 			}
 
 			$url = '&action=edit&post=' . $item['ID'];
@@ -115,7 +115,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 
 			$row_actions = array();
 
-			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Edit', 'automateplus-mautic-wp' ) );
+			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'automateplug-mautic-wp' ), $item['post_title'] ) ), __( 'Edit', 'automateplug-mautic-wp' ) );
 
 			$wpnonce = wp_create_nonce( 'delete-rule' . $item['ID'] );
 
@@ -123,7 +123,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 
 			$delete_url = $url_base . '&rule_id=' . $item['ID'] . '&_wpnonce=' . $wpnonce;
 
-			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Delete', 'automateplus-mautic-wp' ) );
+			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automateplug-mautic-wp' ), $item['post_title'] ) ), __( 'Delete', 'automateplug-mautic-wp' ) );
 
 			return $post_title . $this->row_actions( $row_actions );
 		}
@@ -202,14 +202,14 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			}
 
 			$name_id = "bulk-action-{$which}";
-			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'automateplus-mautic-wp' ) . "</label>\n";
+			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'automateplug-mautic-wp' ) . "</label>\n";
 			echo "<select name='{$name_id}' id='{$name_id}'>\n";
-			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'automateplus-mautic-wp' ) . "</option>\n";
+			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'automateplug-mautic-wp' ) . "</option>\n";
 			foreach ( $this->_actions as $name => $title ) {
 				echo "\t<option value='{$name}'>{$title}</option>\n";
 			}
 			echo "</select>\n";
-			submit_button( __( 'Apply', 'automateplus-mautic-wp' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
+			submit_button( __( 'Apply', 'automateplug-mautic-wp' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
 			echo "\n";
 		}
 

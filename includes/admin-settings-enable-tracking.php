@@ -12,9 +12,9 @@
 		'class'         => 'apm-service-input',
 		'type'          => 'checkbox',
 		'ischecked'		=> $ap_enabled_track,
-		'label'         => __( 'Enable Mautic Tracking', 'automateplus-mautic-wp' ),
-		'text'         	=> __( 'Enable Tracking', 'automateplus-mautic-wp' ),
-		'desc'          => sprintf( __( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://mautic.org/docs/en/contacts/contact_monitoring.html' ) . '">', '</a>' ),
+		'label'         => __( 'Enable Mautic Tracking', 'automateplug-mautic-wp' ),
+		'text'         	=> __( 'Enable Tracking', 'automateplug-mautic-wp' ),
+		'desc'          => sprintf( __( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read %1$sthis article%2$s.', 'automateplug-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://mautic.org/docs/en/contacts/contact_monitoring.html' ) . '">', '</a>' ),
 	));
 	APMautic_helper::render_input_html('save-apmw', array(
 		'row_class'		=> 'apm-service-row',

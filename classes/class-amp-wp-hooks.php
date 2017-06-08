@@ -69,7 +69,7 @@ class APMautic_WP_Hooks {
 	 * @return void
 	 */
 	public static function load_plugin_textdomain() {
-		load_plugin_textdomain( 'automateplus-mautic-wp' );
+		load_plugin_textdomain( 'automateplug-mautic-wp' );
 	}
 
 	/**
@@ -109,24 +109,24 @@ class APMautic_WP_Hooks {
 	 */
 	public static function mautic_register_posttype() {
 		$labels = array(
-			'name'               => _x( 'Rules', 'post type general name', 'automateplus-mautic-wp' ),
-			'singular_name'      => _x( 'Rule', 'post type singular name', 'automateplus-mautic-wp' ),
-			'menu_name'          => _x( 'Rules', 'admin menu', 'automateplus-mautic-wp' ),
-			'name_admin_bar'     => _x( 'Rule', 'add new on admin bar', 'automateplus-mautic-wp' ),
-			'add_new'            => _x( 'Add New', 'rule', 'automateplus-mautic-wp' ),
-			'add_new_item'       => __( 'Add New Rule', 'automateplus-mautic-wp' ),
-			'new_item'           => __( 'New Rule', 'automateplus-mautic-wp' ),
-			'edit_item'          => __( 'Edit Rule', 'automateplus-mautic-wp' ),
-			'view_item'          => __( 'View Rule', 'automateplus-mautic-wp' ),
-			'all_items'          => __( 'All Rules', 'automateplus-mautic-wp' ),
-			'search_items'       => __( 'Search Rules', 'automateplus-mautic-wp' ),
-			'parent_item_colon'  => __( 'Parent Rules:', 'automateplus-mautic-wp' ),
-			'not_found'          => __( 'No rules found.', 'automateplus-mautic-wp' ),
-			'not_found_in_trash' => __( 'No rules found in Trash.', 'automateplus-mautic-wp' ),
+			'name'               => _x( 'Rules', 'post type general name', 'automateplug-mautic-wp' ),
+			'singular_name'      => _x( 'Rule', 'post type singular name', 'automateplug-mautic-wp' ),
+			'menu_name'          => _x( 'Rules', 'admin menu', 'automateplug-mautic-wp' ),
+			'name_admin_bar'     => _x( 'Rule', 'add new on admin bar', 'automateplug-mautic-wp' ),
+			'add_new'            => _x( 'Add New', 'rule', 'automateplug-mautic-wp' ),
+			'add_new_item'       => __( 'Add New Rule', 'automateplug-mautic-wp' ),
+			'new_item'           => __( 'New Rule', 'automateplug-mautic-wp' ),
+			'edit_item'          => __( 'Edit Rule', 'automateplug-mautic-wp' ),
+			'view_item'          => __( 'View Rule', 'automateplug-mautic-wp' ),
+			'all_items'          => __( 'All Rules', 'automateplug-mautic-wp' ),
+			'search_items'       => __( 'Search Rules', 'automateplug-mautic-wp' ),
+			'parent_item_colon'  => __( 'Parent Rules:', 'automateplug-mautic-wp' ),
+			'not_found'          => __( 'No rules found.', 'automateplug-mautic-wp' ),
+			'not_found_in_trash' => __( 'No rules found in Trash.', 'automateplug-mautic-wp' ),
 		);
 		$args = array(
 			'labels'             => $labels,
-			'description'        => __( 'Description.', 'automateplus-mautic-wp' ),
+			'description'        => __( 'Description.', 'automateplug-mautic-wp' ),
 			'public'             => false,
 			'publicly_queryable' => false,
 			'show_ui'            => false,

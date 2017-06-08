@@ -130,8 +130,8 @@ final class APMauticServiceMautic extends APMauticService {
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
 			'type'          => 'text',
-			'label'         => __( 'Base URL', 'automateplus-mautic-wp' ),
-			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' ),
+			'label'         => __( 'Base URL', 'automateplug-mautic-wp' ),
+			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplug-mautic-wp' ),
 		));
 
 		APMautic_helper::render_input_html('ampw-save-authenticate', array(
@@ -162,23 +162,23 @@ final class APMauticServiceMautic extends APMauticService {
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
 			'type'          => 'text',
-			'label'         => __( 'Base URL', 'automateplus-mautic-wp' ),
-			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplus-mautic-wp' ),
+			'label'         => __( 'Base URL', 'automateplug-mautic-wp' ),
+			'help'          => __( 'This setting is required for Mautic Integration.', 'automateplug-mautic-wp' ),
 		));
 
 		APMautic_helper::render_input_html('public-key', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'type'          => 'text',
-			'label'         => __( 'Public Key', 'automateplus-mautic-wp' ),
+			'label'         => __( 'Public Key', 'automateplug-mautic-wp' ),
 		));
 
 		APMautic_helper::render_input_html('secret-key', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'type'          => 'text',
-			'label'         => __( 'Secret Key', 'automateplus-mautic-wp' ),
-			'desc'          => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automateplus-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' ),
+			'label'         => __( 'Secret Key', 'automateplug-mautic-wp' ),
+			'desc'          => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automateplug-mautic-wp' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' ),
 		));
 
 		APMautic_helper::render_input_html('ampw-save-authenticate', array(
@@ -189,7 +189,7 @@ final class APMauticServiceMautic extends APMauticService {
 			'spinner'		=> true,
 			'nonce_acion'	=> 'apmwmautic',
 			'nonce_name'	=> 'ap-mautic-nonce',
-			'label'         => __( 'Save and Authenticate', 'automateplus-mautic-wp' ),
+			'label'         => __( 'Save and Authenticate', 'automateplug-mautic-wp' ),
 		));
 
 		return ob_get_clean();
@@ -213,10 +213,10 @@ final class APMauticServiceMautic extends APMauticService {
 			set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
 		}
 		if ( empty( $segments ) || ! APMauticServices::is_connected() ) {
-			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplus-mautic-wp' );
+			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automateplug-mautic-wp' );
 			return;
 		}
-		$options = array( '' => __( 'Select Segment', 'automateplus-mautic-wp' ) );
+		$options = array( '' => __( 'Select Segment', 'automateplug-mautic-wp' ) );
 		foreach ( $segments as $list ) {
 			$options[ $list->id ] = $list->name;
 		}

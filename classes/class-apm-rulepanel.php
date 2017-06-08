@@ -76,7 +76,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function select_all_pages( $select = null ) {
 
 			$pages = get_pages();
-			$options = array( '' => __( 'Select Page', 'automateplus-mautic-wp' ) );
+			$options = array( '' => __( 'Select Page', 'automateplug-mautic-wp' ) );
 			foreach ( $pages as $page ) {
 				$options[ $page->ID ] = $page->post_title;
 			}
@@ -101,7 +101,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 			// get all posts.
 			$args = array( 'posts_per_page' => -1 );
 			$posts = get_posts( $args );
-			$options = array( '' => __( 'Select Post', 'automateplus-mautic-wp' ) );
+			$options = array( '' => __( 'Select Post', 'automateplug-mautic-wp' ) );
 			foreach ( $posts as $post ) : setup_postdata( $post );
 				$options[ $post->ID ] = $post->post_title;
 			endforeach;
@@ -236,9 +236,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_conditions_list( $select = '' ) {
 
 			$options = array(
-				'Default'		=> __( 'Select Condition', 'automateplus-mautic-wp' ),
-				'UR'	=> __( 'User Register on WordPress', 'automateplus-mautic-wp' ),
-				'CP'	=> __( 'User Post a Comment', 'automateplus-mautic-wp' ),
+				'Default'		=> __( 'Select Condition', 'automateplug-mautic-wp' ),
+				'UR'	=> __( 'User Register on WordPress', 'automateplug-mautic-wp' ),
+				'CP'	=> __( 'User Post a Comment', 'automateplug-mautic-wp' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_conditions_list', $options );
@@ -261,9 +261,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_actions_list( $select = '' ) {
 
 			$options = array(
-				'add_segment'		=> __( 'Add to segment', 'automateplus-mautic-wp' ),
-				'remove_segment'	=> __( 'Remove from segment', 'automateplus-mautic-wp' ),
-				'add_tag'			=> __( 'Add Tags', 'automateplus-mautic-wp' ),
+				'add_segment'		=> __( 'Add to segment', 'automateplug-mautic-wp' ),
+				'remove_segment'	=> __( 'Remove from segment', 'automateplug-mautic-wp' ),
+				'add_tag'			=> __( 'Add Tags', 'automateplug-mautic-wp' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_actions_list', $options );
@@ -301,9 +301,9 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_comment_condition_sublist( $select = '' ) {
 
 			$options = array(
-				'ao_website'	=> __( 'Anywhere On Website', 'automateplus-mautic-wp' ),
-				'os_page'		=> __( 'On Specific Page', 'automateplus-mautic-wp' ),
-				'os_post'		=> __( 'On Specific Post', 'automateplus-mautic-wp' ),
+				'ao_website'	=> __( 'Anywhere On Website', 'automateplug-mautic-wp' ),
+				'os_page'		=> __( 'On Specific Page', 'automateplug-mautic-wp' ),
+				'os_post'		=> __( 'On Specific Post', 'automateplug-mautic-wp' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_comment_condition_sublist', $options );
