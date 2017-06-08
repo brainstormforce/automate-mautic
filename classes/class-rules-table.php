@@ -1,6 +1,6 @@
 <?php
 /**
- * AutomatePlus Table List
+ * AutomatePlug Table List
  *
  * @package automateplus-mautic
  * @since 1.0.0

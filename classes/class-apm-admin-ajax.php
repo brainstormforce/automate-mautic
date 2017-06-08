@@ -1,6 +1,6 @@
 <?php
 /**
- * AutomatePlus admin ajax.
+ * AutomatePlug admin ajax.
  *
  * @package automateplus-mautic
  * @since 1.0.0

@@ -92,7 +92,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				$func	= __CLASS__ . '::render';
 				$menu_position = apm_get_option( 'apmautic_menu_position' );
 				if ( ! class_exists( 'AMPMauticAddonInit' ) || ! $menu_position ) {
-					add_options_page( 'AutomatePlus Mautic',  __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
+					add_options_page( 'AutomatePlug Mautic',  __( 'AutomatePlug Mautic', 'automateplus-mautic-wp' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
 				}
 			}
 		}
@@ -178,7 +178,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( ! empty( $icon ) ) {
 				echo '<img class="ap-mautic-heading-icon" src="' . $icon . '" />';
 			}
-			echo '<div class="ap-mautic-heading-config">' . __( 'AutomatePlus Mautic', 'automateplus-mautic-wp' ) . '</div>';
+			echo '<div class="ap-mautic-heading-config">' . __( 'AutomatePlug Mautic', 'automateplus-mautic-wp' ) . '</div>';
 		}
 
 		/**
