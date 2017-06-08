@@ -8,7 +8,7 @@
  * Author URI: http://www.brainstormforce.com/
  * Text Domain: automateplug-mautic-wp
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @author Brainstorm Force
  */
 

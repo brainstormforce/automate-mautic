@@ -2,7 +2,7 @@
 /**
  * Mautic for WordPress initiate
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.5
  */
 
@@ -58,7 +58,7 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 		 */
 		public function approve_comment_condition( $conditions ) {
 
-			$conditions['CP_APPROVE']	= __( 'Approved Comment Post', 'automateplus-mautic-edd' );
+			$conditions['CP_APPROVE']	= __( 'Approved Comment Post', 'automateplug-mautic-wp' );
 			return $conditions;
 		}
 

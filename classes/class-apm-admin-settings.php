@@ -2,7 +2,7 @@
 /**
  * Handles logic for the admin settings page.
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.0
  */
 

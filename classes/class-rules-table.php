@@ -2,7 +2,7 @@
 /**
  * AutomatePlug Table List
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.0
  */
 

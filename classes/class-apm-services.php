@@ -2,7 +2,7 @@
 /**
  * Authenticate mautic helper function
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.5
  */
 

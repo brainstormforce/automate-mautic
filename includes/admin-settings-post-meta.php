@@ -2,7 +2,7 @@
 /**
  * Handle rules panel
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.0
  */
 

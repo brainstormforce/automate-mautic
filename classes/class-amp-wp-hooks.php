@@ -2,7 +2,7 @@
 /**
  * Core Actions, Post type
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.5
  */
 
@@ -10,7 +10,7 @@
  * Create class APMautic_WP_Hooks
  * Handles register post type, trigger actions
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.5
  */
 class APMautic_WP_Hooks {
