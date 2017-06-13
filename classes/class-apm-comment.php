@@ -56,7 +56,6 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 		 */
 		public function add_comment_author( $id, $approved, $commentdata ) {
 
-			$all_tags = '';
 			// get comment post condition rules.
 			$status = APMautic_RulePanel::get_comment_condition( $commentdata, 'CP' );
 

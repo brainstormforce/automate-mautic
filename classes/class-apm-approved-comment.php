@@ -75,7 +75,6 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 			if ( $old_status != $new_status ) {
 				if ( 'approved' == $new_status ) {
 
-					$all_tags = '';
 					$comment_data = array(
 						'comment_post_ID' => $comment->comment_post_ID,
 					);

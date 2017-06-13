@@ -99,6 +99,7 @@
 	 * @return void
 	 */
 	public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
+
 		$status = 'success';
 
 		self::generate_access_token();

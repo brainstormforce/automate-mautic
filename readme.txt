@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/BrainstormForce
 Requires at least: 3.0
 Tags: mautic, email, contacts, marketing, tags
 Stable tag: 1.0.5
-Tested up to: 4.7.5
+Tested up to: 4.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,10 +40,10 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 == Changelog ==
 
 = 1.0.5 =
-* New: Add approved comment users condition in Rule ( Note : contact tracking will not work for this condtions instead new contact will be created. ).
+* New: Add approved comment users condition in Rules ( Note : contact tracking will not work for this condtion, instead new contact will be created if contact with same email not exist in Mautic. ).
 * New: Mautic Addons Compatibility.
-* Fix: Optimize code base and admin file loading.
 * Fix: Change refresh mautic data link position.
+* Fix: Optimize code base and admin file loading time.
 
 = 1.0.4 =
 * Fix: Removed deprecated Mautic v2.6 error messages.

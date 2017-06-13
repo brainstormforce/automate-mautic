@@ -261,7 +261,7 @@ final class APMauticServiceMautic extends APMauticService {
 	public function subscribe( $email, $settings, $actions, $new_contact = false ) {
 
 		$api = $this->get_api();
-
+		$all_tags = '';
 		if ( ! $new_contact ) {
 			$api_data = $api->get_api_method_url( $email );
 			$url = $api_data['url'];

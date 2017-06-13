@@ -60,7 +60,6 @@ if ( ! class_exists( 'APMautic_WP_register' ) ) :
 
 				return;
 			}
-			$all_tags = '';
 
 			// get user registerd condition rules.
 			$status = APMautic_RulePanel::get_wpur_condition();
