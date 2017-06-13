@@ -390,6 +390,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=enable_tracking' );
 				wp_redirect( $redirect );
+				exit();
 			}
 
 			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'delete-rule' . $_GET['rule_id'] ) ) {
