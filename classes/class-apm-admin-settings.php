@@ -214,12 +214,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @param string $type tab type.
 		 */
 		public static function render_page_url( $type = '' ) {
-			$parent = self::get_menu_parent();
-			$admin_url = admin_url( $parent );
-
-			$admin_url = add_query_arg( array(
-			    'page' => 'automate-mautic' . $type,
-			), $admin_url );
+			$admin_url = self::get_render_page_url( $type );
 			echo $admin_url;
 		}
 
