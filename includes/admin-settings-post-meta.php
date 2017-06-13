@@ -38,7 +38,7 @@
 		
 				<div class="ap-mautic-metabox">
 					<div class="conditions">
-						<h4> <?php _e( 'Trigger', 'automateplug-mautic-wp' ) ?> </h4>
+						<h4> <?php _e( 'Trigger', 'automate-mautic' ) ?> </h4>
 						<div id="ap-mautic-sortable-condition" class="ap-mautic-item-wrap">
 					<?php
 					if ( ! empty( $meta_conditions ) ) {
@@ -78,12 +78,12 @@
 					</div>
 					<fieldset class="ap-mautic-add-condition add-new-item">
 						<div>
-							<span class="dashicons dashicons-plus-alt ap-mautic-new-icon"></span><?php _e( ' Add new condition', 'automateplug-mautic-wp' ); ?>
+							<span class="dashicons dashicons-plus-alt ap-mautic-new-icon"></span><?php _e( ' Add new condition', 'automate-mautic' ); ?>
 						</div>
 					</fieldset>
 					</div>
 						<div class="actions">
-							<h4> <?php _e( 'Action', 'automateplug-mautic-wp' ) ?> </h4>
+							<h4> <?php _e( 'Action', 'automate-mautic' ) ?> </h4>
 							<div id="ampw-sortable-action" class="ap-mautic-item-wrap">
 							<?php
 							if ( ! empty( $meta_actions ) ) {
@@ -120,7 +120,7 @@
 							</div>
 							<fieldset class="add-new-item">
 								<div>
-									<span class="dashicons dashicons-plus-alt ap-mautic-add-action ap-mautic-new-icon"></span><span class="ap-mautic-add-action"><?php _e( ' Add new action', 'automateplug-mautic-wp' ); ?></span>
+									<span class="dashicons dashicons-plus-alt ap-mautic-add-action ap-mautic-new-icon"></span><span class="ap-mautic-add-action"><?php _e( ' Add new action', 'automate-mautic' ); ?></span>
 								</div>
 							</fieldset>
 						</div>
@@ -129,8 +129,8 @@
 
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
-				<a href="<?php APMautic_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( '« Back to All Rules', 'automateplug-mautic-wp' ); ?></a>
-				<span class="refresh-mautic-data-wrap"><span class="spinner ap_mautic_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automateplug-mautic-wp' ); ?></a><span>
+				<a href="<?php APMautic_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( '« Back to All Rules', 'automate-mautic' ); ?></a>
+				<span class="refresh-mautic-data-wrap"><span class="spinner ap_mautic_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automate-mautic' ); ?></a><span>
 			</p>
 			<?php wp_nonce_field( 'apmauticpmeta', 'ap-mautic-post-meta-nonce' ); ?>
 				<?php
@@ -141,7 +141,7 @@
 		<div class="ap-mautic-form-content">
 		<div class="ap-mautic-metabox">
 		<div class="conditions">
-			<h4> <?php _e( 'Trigger', 'automateplug-mautic-wp' ) ?> </h4>
+			<h4> <?php _e( 'Trigger', 'automate-mautic' ) ?> </h4>
 			<div id="ap-mautic-sortable-condition" class="ap-mautic-item-wrap">
 				<fieldset class="ui-state-default" id="item-1">
 					<span class="dashicons dashicons-minus remove-item"></span>
@@ -153,12 +153,12 @@
 			</div>
 			<fieldset class="ap-mautic-add-condition add-new-item">
 				<div>
-					<span class="dashicons dashicons-plus-alt ap-mautic-new-icon"></span><?php _e( ' Add new condition', 'automateplug-mautic-wp' ); ?>
+					<span class="dashicons dashicons-plus-alt ap-mautic-new-icon"></span><?php _e( ' Add new condition', 'automate-mautic' ); ?>
 				</div>
 			</fieldset>
 		</div>
 		<div class="actions">
-			<h4> <?php _e( 'Action', 'automateplug-mautic-wp' ) ?> </h4>
+			<h4> <?php _e( 'Action', 'automate-mautic' ) ?> </h4>
 			<div id="ampw-sortable-action" class="ap-mautic-item-wrap">
 				<fieldset class="ui-state-default">
 					<span class="dashicons dashicons-minus remove-item"></span>
@@ -174,7 +174,7 @@
 			</div>
 				<fieldset class="add-new-item">
 					<div>
-						<span class="dashicons dashicons-plus-alt ap-mautic-add-action ap-mautic-new-icon"></span><span class="ap-mautic-add-action"><?php _e( ' Add new action', 'automateplug-mautic-wp' ); ?></span>
+						<span class="dashicons dashicons-plus-alt ap-mautic-add-action ap-mautic-new-icon"></span><span class="ap-mautic-add-action"><?php _e( ' Add new action', 'automate-mautic' ); ?></span>
 					</div>
 				</fieldset>
 		</div>
@@ -183,7 +183,7 @@
 		</div>
 		<p class="submit">
 		<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
-		<span class="refresh-mautic-data-wrap"><span class="spinner ap_mautic_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automateplug-mautic-wp' ); ?></a><span>
+		<span class="refresh-mautic-data-wrap"><span class="spinner ap_mautic_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automate-mautic' ); ?></a><span>
 		</p>
 		<?php wp_nonce_field( 'apmauticpmeta', 'ap-mautic-post-meta-nonce' ); ?>
 		<?php }	?>

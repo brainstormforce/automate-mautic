@@ -29,7 +29,7 @@
 				$response = self::mautic_get_access_token( $grant_type );
 
 				if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
-					echo __( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+					echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
 					$status   = 'error';
 				} else {
 
@@ -128,7 +128,7 @@
 		if ( is_wp_error( $response ) ) {
 			$error_msg = $response->get_error_message();
 			$status = 'error';
-			echo __( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+			echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
 
 		} else {
 
@@ -220,7 +220,7 @@
 			if ( is_wp_error( $response ) ) {
 				$error_msg = $response->get_error_message();
 				$status = 'error';
-				echo __( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+				echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
 			} else {
 
 				$response_body = wp_remote_retrieve_body( $response );
@@ -250,7 +250,7 @@
 			if ( 201 !== $response_code ) {
 				if ( 200 !== $response_code ) {
 					$status = 'error';
-					__( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+					__( 'There appears to be an error with the configuration.', 'automate-mautic' );
 					return;
 				}
 			}
@@ -372,7 +372,7 @@
 			if ( is_wp_error( $response ) ) {
 				$error_msg = $response->get_error_message();
 				$status = 'error';
-				echo __( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+				echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
 			} else {
 				$response_body = wp_remote_retrieve_body( $response );
 				$access_details = json_decode( $response_body );
@@ -403,7 +403,7 @@
 					$ret = false;
 					$status = 'error';
 					$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-					__( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+					__( 'There appears to be an error with the configuration.', 'automate-mautic' );
 					return;
 				}
 			}
@@ -478,7 +478,7 @@
 				if ( is_wp_error( $response ) ) {
 					$error_msg = $response->get_error_message();
 					$status = 'error';
-					echo __( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+					echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
 				} else {
 
 					$response_body = wp_remote_retrieve_body( $response );
@@ -534,7 +534,7 @@
 					$ret = false;
 					$status = 'error';
 					$error_msg = isset( $response['response']['message'] ) ? $response['response']['message'] : '';
-					echo __( 'There appears to be an error with the configuration.', 'automateplug-mautic-wp' );
+					echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
 					return;
 				}
 			}

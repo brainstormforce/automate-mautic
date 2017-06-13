@@ -92,7 +92,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				$func	= __CLASS__ . '::render';
 				$menu_position = apm_get_option( 'apmautic_menu_position' );
 				if ( ! class_exists( 'AMPMauticAddonInit' ) || ! $menu_position ) {
-					add_options_page( 'AutomatePlug Mautic',  __( 'AutomatePlug Mautic', 'automateplug-mautic-wp' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
+					add_options_page( 'AutomatePlug Mautic',  __( 'AutomatePlug Mautic', 'automate-mautic' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
 				}
 			}
 		}
@@ -141,11 +141,11 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			?>
 			<div class="wrap">
 			<h1>
-			<?php _e( 'Mautic Rules', 'automateplug-mautic-wp' ); ?> <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'automateplug-mautic-wp' ); ?> </a>
+			<?php _e( 'Mautic Rules', 'automate-mautic' ); ?> <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'automate-mautic' ); ?> </a>
 		</h1>
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
-			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automateplug-mautic-wp' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
+			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automate-mautic' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
 		}
 		?>
 		<form method="get" action="" >
@@ -178,7 +178,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( ! empty( $icon ) ) {
 				echo '<img class="ap-mautic-heading-icon" src="' . $icon . '" />';
 			}
-			echo '<div class="ap-mautic-heading-config">' . __( 'AutomatePlug Mautic', 'automateplug-mautic-wp' ) . '</div>';
+			echo '<div class="ap-mautic-heading-config">' . __( 'AutomatePlug Mautic', 'automate-mautic' ) . '</div>';
 		}
 
 		/**
@@ -190,7 +190,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function render_update_message() {
 
 			if ( ! empty( $_POST ) ) {
-				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplug-mautic-wp' ) . '</p></div>';
+				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automate-mautic' ) . '</p></div>';
 			}
 		}
 
@@ -427,7 +427,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( ! APMauticServices::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen  ) {
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
-				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automateplug-mautic-wp' ), $redirect );
+				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automate-mautic' ), $redirect );
 			}
 		}
 
@@ -441,7 +441,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function render_messages( $message ) {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 			if ( 'update' == $message && AP_MAUTIC_POSTTYPE == $curr_screen ) {
-				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automateplug-mautic-wp' ) . '</p></div>';
+				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automate-mautic' ) . '</p></div>';
 			}
 		}
 

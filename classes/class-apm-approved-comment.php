@@ -58,7 +58,7 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 		 */
 		public function approve_comment_condition( $conditions ) {
 
-			$conditions['CP_APPROVE']	= __( 'Approved Comment Post', 'automateplug-mautic-wp' );
+			$conditions['CP_APPROVE']	= __( 'Approved Comment Post', 'automate-mautic' );
 			return $conditions;
 		}
 

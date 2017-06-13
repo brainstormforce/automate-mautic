@@ -6,7 +6,7 @@
  * Version: 1.0.5
  * Author: Brainstorm Force
  * Author URI: http://www.brainstormforce.com/
- * Text Domain: automateplug-mautic-wp
+ * Text Domain: automate-mautic
  *
  * @package automate-mautic
  * @author Brainstorm Force
