@@ -37,9 +37,9 @@
 
 					$access_details               = json_decode( $response_body );
 					$expiration                   = time() + $access_details->expires_in;
-					$credentials['access_token']  = $access_details->access_token;
-					$credentials['expires_in']    = $expiration;
-					$credentials['refresh_token'] = $access_details->refresh_token;
+					$credentials['access_token']  = esc_attr( $access_details->access_token );
+					$credentials['expires_in']    = esc_attr( $expiration );
+					$credentials['refresh_token'] = esc_attr( $access_details->refresh_token );
 					update_option( AP_MAUTIC_APIAUTH, $credentials );
 				}
 			}
@@ -173,7 +173,7 @@
 		if ( isset( $_COOKIE['mtc_id'] ) ) {
 
 			// for anonymous contacts.
-			$contact_id = $_COOKIE['mtc_id'];
+			$contact_id = esc_attr( $_COOKIE['mtc_id'] );
 			$contact_id = (int) $contact_id;
 			$data['method'] = 'PATCH';
 			$data['url'] = '/api/contacts/' . $contact_id . '/edit';

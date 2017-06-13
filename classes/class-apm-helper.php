@@ -49,12 +49,14 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 			if ( '' != $id && ! empty( $settings ) ) {
 
-				$row_class = ( isset( $settings['row_class'] ) ) ? $settings['row_class'] : '';
-				$type = ( isset( $settings['type'] ) ) ? $settings['type'] : '';
-				$class = ( isset( $settings['class'] ) ) ? $settings['class'] : '';
-				$label = ( isset( $settings['label'] ) ) ? $settings['label'] : '';
-				$placeholder = ( isset( $settings['placeholder'] ) ) ? $settings['placeholder'] : '';
+				$row_class = ( isset( $settings['row_class'] ) ) ? sanitize_html_class( $settings['row_class'] ) : '';
+				$type = ( isset( $settings['type'] ) ) ? sanitize_text_field( $settings['type'] ) : '';
+				$class = ( isset( $settings['class'] ) ) ? sanitize_html_class( $settings['class'] ) : '';
+				$label = ( isset( $settings['label'] ) ) ?  esc_html( $settings['label'] ) : '';
+				$placeholder = ( isset( $settings['placeholder'] ) ) ? sanitize_text_field( $settings['placeholder'] ) : '';
 				$iswrap = ( isset( $settings['iswrap'] ) ) ? $settings['iswrap'] : true;
+				$id = sanitize_html_class( $id );
+				$help = isset( $settings['help'] ) ? esc_html( $settings['help'] ) : '';
 				$input = '';
 				if ( $iswrap ) {
 					$input .= '<div class="apm-config-fields apm-' . $id . '-wrap ' . $row_class . '">';
@@ -64,8 +66,8 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
 						$input .= '<h4>' . $label . '</h4>';
 
-						if ( isset( $settings['help'] ) && '' != $settings['help'] ) {
-							$input .= '<p class="admin-help">' . $settings['help'] . '</p>';
+						if ( isset( $help ) && '' != $help ) {
+							$input .= '<p class="admin-help">' . $help . '</p>';
 						}
 
 						$input .= '<input type="text" name="' . $id . '" id="' . $id . '" class="regular-text ' . $class . '" placeholder="' . $placeholder . '" value="' . $default_value . '"/>';
@@ -79,8 +81,8 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 					case 'submit':
 						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
 
-						if ( isset( $settings['help'] ) && '' != $settings['help'] ) {
-							$input .= '<p class="admin-help">' . $settings['help'] . '</p>';
+						if ( isset( $help ) && '' != $help ) {
+							$input .= '<p class="admin-help">' . $help . '</p>';
 						}
 
 						$input .= '<p class="submit"><input type="submit" name="' . $id . '" id="' . $id . '" class="button-primary ' . $class . '" value="' . $default_value . '"/>';
@@ -95,8 +97,8 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 					case 'button':
 						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
 
-						if ( isset( $settings['help'] ) && '' != $settings['help'] ) {
-							$input .= '<p class="admin-help">' . $settings['help'] . '</p>';
+						if ( isset( $help ) && '' != $help ) {
+							$input .= '<p class="admin-help">' . $help . '</p>';
 						}
 						$input .= '<p class="submit"><input type="button" name="' . $id . '" id="' . $id . '" class="button-primary ' . $class . '" value="' . $default_value . '"/></p>';
 						if ( isset( $settings['nonce_acion'] ) && '' != $settings['nonce_acion'] ) {
@@ -107,10 +109,10 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 					case 'checkbox':
 						$checked = ( isset( $settings['ischecked'] ) ) ? $settings['ischecked'] : '';
 						$input .= '<h4>' . $label . '</h4>';
-						if ( isset( $settings['help'] ) && '' != $settings['help'] ) {
-							$input .= '<p class="admin-help">' . $settings['help'] . '</p>';
+						if ( isset( $help ) && '' != $help ) {
+							$input .= '<p class="admin-help">' . $help . '</p>';
 						}
-						$input .= '<input type="checkbox" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="" "' . checked( 1, $checked, false ) . '"/>' . $settings['text'];
+						$input .= '<input type="checkbox" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="" "' . checked( 1, $checked, false ) . '"/>' . esc_html( $settings['text'] );
 					break;
 
 					default:
@@ -138,20 +140,25 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 		 */
 		public static function render_settings_field( $id = '', $settings = array() ) {
 
-			$element_id = ( isset( $settings['id'] ) ) ? $settings['id'] : '';
-			$class = ( isset( $settings['class'] ) ) ? $settings['class'] : '';
+			$element_id = ( isset( $settings['id'] ) ) ? esc_attr( $settings['id'] ) : '';
+
+			$class = ( isset( $settings['class'] ) ) ? sanitize_html_class( $settings['class'] ) : '';
+
 			$return = ( isset( $settings['return'] ) ) ? $settings['return'] : false;
+
+			$type = ( isset( $settings['type'] ) ) ? sanitize_text_field( $settings['type'] ) : '';
+
 
 			if ( '' != $id && ! empty( $settings ) ) {
 
 				$input = '';
-				switch ( $settings['type'] ) {
+				switch ( $type ) {
 					case 'select':
-						$input .= '<select id="' . esc_attr( $element_id ) . '" class="' . esc_attr( $class ) . '" name="' . $id . '" >';
+						$input .= '<select id="' .  $element_id . '" class="' . $class . '" name="' . $id . '" >';
 
 						foreach ( $settings['options'] as $option_key => $option_val ) {
 							$selected = selected( $option_key, $settings['selected'], false );
-							$input .= '<option value="' . $option_key . '"' . $selected . '>' . $option_val . '</option>';
+							$input .= '<option value="' . esc_attr( $option_key ) . '"' . $selected . '>' . esc_html( $option_val ) . '</option>';
 						}
 						$input .= '</select>';
 						break;

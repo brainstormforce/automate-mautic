@@ -289,7 +289,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 */
 		public static function make_option( $id, $value, $selected = null ) {
 			$selected = selected( $id, $selected, false );
-			return '<option value="' . $id . '"' . $selected . '>' . $value . '</option>';
+			return '<option value="' . esc_attr( $id ) . '"' . $selected . '>' . esc_html( $value ) . '</option>';
 		}
 
 		/**

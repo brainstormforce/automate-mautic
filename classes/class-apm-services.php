@@ -121,7 +121,6 @@ final class APMauticServices {
 	static public function get_service_instance( $service ) {
 		$services = self::get_services_data();
 		$data     = $services[ $service ];
-
 		// Make sure the base class is loaded.
 		if ( ! class_exists( 'APMauticService' ) ) {
 			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-service.php';
@@ -129,7 +128,7 @@ final class APMauticServices {
 
 		// Make sure the service class is loaded.
 		if ( ! class_exists( $data['class'] ) ) {
-			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-service-' . $service . '.php';
+			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-service-' . sanitize_file_name( $service ) . '.php';
 		}
 
 		return new $data['class']();
