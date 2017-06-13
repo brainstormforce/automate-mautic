@@ -205,6 +205,10 @@ final class APMauticServiceMautic extends APMauticService {
 	public function render_list_field( $select ) {
 
 		$segments_trans = get_transient( 'apm_all_segments' );
+
+		if( isset( $segments_trans->total ) ) {
+			$segments_trans = false;
+		}
 		if ( $segments_trans ) {
 			$segments = $segments_trans;
 		} else {
