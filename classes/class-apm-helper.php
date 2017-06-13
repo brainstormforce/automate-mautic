@@ -49,7 +49,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 			if ( '' != $id && ! empty( $settings ) ) {
 
-				$row_class = ( isset( $settings['row_class'] ) ) ? sanitize_html_class( $settings['row_class'] ) : '';
+				$row_class = ( isset( $settings['row_class'] ) ) ? esc_html( $settings['row_class'] ) : '';
 				$type = ( isset( $settings['type'] ) ) ? sanitize_text_field( $settings['type'] ) : '';
 				$class = ( isset( $settings['class'] ) ) ? sanitize_html_class( $settings['class'] ) : '';
 				$label = ( isset( $settings['label'] ) ) ?  esc_html( $settings['label'] ) : '';
@@ -58,8 +58,9 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 				$id = sanitize_html_class( $id );
 				$help = isset( $settings['help'] ) ? esc_html( $settings['help'] ) : '';
 				$input = '';
+
 				if ( $iswrap ) {
-					$input .= '<div class="apm-config-fields apm-' . $id . '-wrap ' . $row_class . '">';
+					$input .= '<div class="apm-config-fields apm-' . $id . '-wrap  ' . $row_class . '">';
 				}
 				switch ( $type ) {
 					case 'text':
@@ -142,7 +143,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 			$element_id = ( isset( $settings['id'] ) ) ? esc_attr( $settings['id'] ) : '';
 
-			$class = ( isset( $settings['class'] ) ) ? sanitize_html_class( $settings['class'] ) : '';
+			$class = ( isset( $settings['class'] ) ) ? esc_html( $settings['class'] ) : '';
 
 			$return = ( isset( $settings['return'] ) ) ? $settings['return'] : false;
 
