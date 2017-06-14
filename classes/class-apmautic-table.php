@@ -193,7 +193,8 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 */
 		protected function bulk_actions( $which = '' ) {
 			if ( is_null( $this->_actions ) ) {
-				$no_new_actions = $this->_actions = $this->get_bulk_actions();
+				$no_new_actions = $this->get_bulk_actions();
+				$this->_actions = $this->get_bulk_actions();
 				// This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php.
 				$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->id, $this->_actions ); // @codingStandardsIgnoreLine
 				$this->_actions = array_intersect_assoc( $this->_actions, $no_new_actions );

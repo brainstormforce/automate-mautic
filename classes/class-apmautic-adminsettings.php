@@ -274,7 +274,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			}
 
 			if ( isset( $_POST['ap-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-post-meta-nonce'], 'apmauticpmeta' ) ) {
-				$rule_id = $update_conditions = '';
+				$rule_id = '';
+				$update_conditions = '';
 				if ( isset( $_POST['ampw_rule_title'] ) ) {
 					$rule_name = esc_attr( $_POST['ampw_rule_title'] );
 				}
@@ -428,6 +429,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( ! APMautic_Services::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen ) {
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
+				// translators: %s: redirect url.
 				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automate-mautic' ), $redirect );
 			}
 		}

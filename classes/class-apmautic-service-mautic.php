@@ -57,7 +57,9 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 */
 	public function connect( $data ) {
 
-		$mautic_api_url = $apm_public_key = $apm_secret_key = '';
+		$mautic_api_url = '';
+		$apm_public_key = '';
+		$apm_secret_key = '';
 		$cpts_err = false;
 		$lists = null;
 		$ref_list_id = null;
