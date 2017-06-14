@@ -73,7 +73,7 @@ if ( ! class_exists( 'APMautic_Comment' ) ) :
 				'email'		=> $commentdata['comment_author_email'],
 				'website'	=> $commentdata['comment_author_url'],
 			);
-			$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
 			$instance->subscribe( $email, $body, $set_actions );
 		}
 	}

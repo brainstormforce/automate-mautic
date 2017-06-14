@@ -50,7 +50,7 @@
 
 							<?php APMautic_RulePanel::get_all_conditions_list( $meta_condition[0] );
 
-							if ( 'CP' == $meta_condition[0]  ) : ?>
+							if ( 'CP' == $meta_condition[0] ) : ?>
 
 								<div class="first-condition">
 									<?php APMautic_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
@@ -102,7 +102,7 @@
 							?>
 							<div class="second-action">
 								<input type="hidden" name="pm_action[]" value="segment">
-								<?php APMauticServices::select_all_segments( $meta_action[1] ); ?>
+								<?php APMautic_Services::select_all_segments( $meta_action[1] ); ?>
 							</div>
 							<?php } elseif ( 'add_tag' == $meta_action[0] ) { ?>
 									<div class="second-action">
@@ -134,7 +134,7 @@
 			</p>
 			<?php wp_nonce_field( 'apmauticpmeta', 'ap-mautic-post-meta-nonce' ); ?>
 				<?php
-		} // end edit
+		} // End if().
 		else {
 		?>
 		<!-- default fields -->
@@ -168,7 +168,7 @@
 					</div>
 					<div class="second-action">
 						<input type="hidden" name="pm_action[]" value="segment">
-						<?php APMauticServices::select_all_segments(); ?>
+						<?php APMautic_Services::select_all_segments(); ?>
 					</div>
 				</fieldset>
 			</div>

@@ -114,7 +114,9 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			$post_title = "<a href='" . $post_link . "'>" . $item['post_title'] . '</a>';
 
 			$row_actions = array();
-
+			// translators: %1$s: Edit post link.
+			// translators: %2$s: Edit title.
+			// translators: %3$s: Edit label.
 			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'automate-mautic' ), $item['post_title'] ) ), __( 'Edit', 'automate-mautic' ) );
 
 			$wpnonce = wp_create_nonce( 'delete-rule' . $item['ID'] );
@@ -123,6 +125,9 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 
 			$delete_url = $url_base . '&rule_id=' . $item['ID'] . '&_wpnonce=' . $wpnonce;
 
+			// translators: %1$s: Delete post link.
+			// translators: %2$s: Delete title.
+			// translators: %3$s: Delete label.
 			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automate-mautic' ), $item['post_title'] ) ), __( 'Delete', 'automate-mautic' ) );
 
 			return $post_title . $this->row_actions( $row_actions );
@@ -139,9 +144,9 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 */
 		public function get_columns() {
 			 $columns = array(
-			 	'cb'          => '<input type="checkbox" />',
-			    'post_title'  => 'Title',
-			    'post_author' => 'Author',
+				 'cb'          => '<input type="checkbox" />',
+				'post_title'  => 'Title',
+				'post_author' => 'Author',
 			  );
 			  return $columns;
 		}
@@ -173,7 +178,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 */
 		protected function get_bulk_actions() {
 			$actions = [
-			    'bulk-delete' => 'Delete',
+				'bulk-delete' => 'Delete',
 			];
 
 				return $actions;
@@ -209,7 +214,9 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				echo "\t<option value='{$name}'>{$title}</option>\n";
 			}
 			echo "</select>\n";
-			submit_button( __( 'Apply', 'automate-mautic' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
+			submit_button( __( 'Apply', 'automate-mautic' ), 'action', '', false, array(
+				'id' => "doaction{$two}",
+			) );
 			echo "\n";
 		}
 
@@ -285,4 +292,4 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			return $result;
 		}
 	}
-}
+}// End if().

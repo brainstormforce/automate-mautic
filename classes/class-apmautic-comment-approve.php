@@ -95,7 +95,7 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 						'website'	=> $comment->comment_author_url,
 					);
 
-					$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+					$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
 					$instance->subscribe( $email, $body, $set_actions, true );
 				}
 			}
@@ -130,9 +130,9 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 		 *
 		 * @since 1.0.0
 		 * @param array $update_conditions all conditions.
-	  	 * @param array $conditions conditions slug.
-	   	 * @param int   $index condition index.
-	   	 * @param array $post post array.
+		 * @param array $conditions conditions slug.
+		 * @param int   $index condition index.
+		 * @param array $post post array.
 		 * @return array
 		 */
 		public function update_approve_condition( $update_conditions, $conditions, $index, $post ) {
