@@ -7,16 +7,18 @@
  */
 
 	$ap_enabled_track = apm_get_option( 'enable-tracking', 1 );
-	APMautic_helper::render_input_html('enable-tracking', array(
+	APMautic_Helper::render_input_html('enable-tracking', array(
 		'row_class'     => 'apm-service-row',
 		'class'         => 'apm-service-input',
 		'type'          => 'checkbox',
 		'ischecked'		=> $ap_enabled_track,
 		'label'         => __( 'Enable Mautic Tracking', 'automate-mautic' ),
 		'text'         	=> __( 'Enable Tracking', 'automate-mautic' ),
+		// translators: %1$s: opening anchor tag.
+		// translators: %2$s: closing anchor tag.
 		'desc'          => sprintf( __( 'This setting enables you to add Mautic tracking code in your site.<br>Need more information about tracking? Read %1$sthis article%2$s.', 'automate-mautic' ), '<a target="_blank" href="' . esc_url( 'https://mautic.org/docs/en/contacts/contact_monitoring.html' ) . '">', '</a>' ),
 	));
-	APMautic_helper::render_input_html('save-apmw', array(
+	APMautic_Helper::render_input_html('save-apmw', array(
 		'row_class'		=> 'apm-service-row',
 		'class'			=> 'save-amp-settings',
 		'type'			=> 'submit',

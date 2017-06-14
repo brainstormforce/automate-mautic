@@ -11,7 +11,7 @@
  *
  * @since 1.0.5
  */
-final class APMauticServiceMautic extends APMauticService {
+final class APMautic_Service_Mautic extends APMautic_Service {
 
 	/**
 	 * The ID for this service.
@@ -57,7 +57,9 @@ final class APMauticServiceMautic extends APMauticService {
 	 */
 	public function connect( $data ) {
 
-		$mautic_api_url = $apm_public_key = $apm_secret_key = '';
+		$mautic_api_url = '';
+		$apm_public_key = '';
+		$apm_secret_key = '';
 		$cpts_err = false;
 		$lists = null;
 		$ref_list_id = null;
@@ -106,7 +108,7 @@ final class APMauticServiceMautic extends APMauticService {
 
 		$api = $this->get_api();
 		if ( isset( $_GET['code'] ) && AP_MAUTIC_POSTTYPE == $_REQUEST['page'] ) {
-			$credentials = APMautic_helper::get_mautic_credentials();
+			$credentials = APMautic_Helper::get_mautic_credentials();
 			$credentials['access_code'] = sanitize_key( $_GET['code'] );
 			update_option( AP_MAUTIC_APIAUTH, $credentials );
 			$api->get_mautic_data();
@@ -125,7 +127,7 @@ final class APMauticServiceMautic extends APMauticService {
 
 		ob_start();
 
-		APMautic_helper::render_input_html('base-url', array(
+		APMautic_Helper::render_input_html('base-url', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
@@ -134,7 +136,7 @@ final class APMauticServiceMautic extends APMauticService {
 			'help'          => __( 'This setting is required for Mautic Integration.', 'automate-mautic' ),
 		));
 
-		APMautic_helper::render_input_html('ampw-save-authenticate', array(
+		APMautic_Helper::render_input_html('ampw-save-authenticate', array(
 			'row_class'     => 'apm-service-row amp-connected-btn',
 			'class'         => 'apm-service-input',
 			'type'          => 'button',
@@ -157,7 +159,7 @@ final class APMauticServiceMautic extends APMauticService {
 
 		ob_start();
 
-		APMautic_helper::render_input_html('base-url', array(
+		APMautic_Helper::render_input_html('base-url', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
@@ -166,22 +168,24 @@ final class APMauticServiceMautic extends APMauticService {
 			'help'          => __( 'This setting is required for Mautic Integration.', 'automate-mautic' ),
 		));
 
-		APMautic_helper::render_input_html('public-key', array(
+		APMautic_Helper::render_input_html('public-key', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'type'          => 'text',
 			'label'         => __( 'Public Key', 'automate-mautic' ),
 		));
 
-		APMautic_helper::render_input_html('secret-key', array(
+		APMautic_Helper::render_input_html('secret-key', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'apm-service-input',
 			'type'          => 'text',
 			'label'         => __( 'Secret Key', 'automate-mautic' ),
+			// translators: %1$s: helper docs link opening anchor tag.
+			// translators: %2$s: helper docs link closing anchor tag.
 			'desc'          => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automate-mautic' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' ),
 		));
 
-		APMautic_helper::render_input_html('ampw-save-authenticate', array(
+		APMautic_Helper::render_input_html('ampw-save-authenticate', array(
 			'row_class'     => 'apm-service-row',
 			'class'         => 'save-amp-settings',
 			'type'          => 'submit',
@@ -216,15 +220,17 @@ final class APMauticServiceMautic extends APMauticService {
 			$segments = $api->get_all_segments();
 			set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
 		}
-		if ( empty( $segments ) || ! APMauticServices::is_connected() ) {
+		if ( empty( $segments ) || ! APMautic_Services::is_connected() ) {
 			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automate-mautic' );
 			return;
 		}
-		$options = array( '' => __( 'Select Segment', 'automate-mautic' ) );
+		$options = array(
+			'' => __( 'Select Segment', 'automate-mautic' ),
+		);
 		foreach ( $segments as $list ) {
 			$options[ $list->id ] = $list->name;
 		}
-		APMautic_helper::render_settings_field( 'ss_seg_action[]', array(
+		APMautic_Helper::render_settings_field( 'ss_seg_action[]', array(
 			'type'			=> 'select',
 			'id'			=> 'ss-cp-condition',
 			'class'			=> 'root-seg-action',

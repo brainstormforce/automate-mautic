@@ -11,7 +11,7 @@
  *
  * @since 1.0.5
  */
-abstract class APMauticService {
+abstract class APMautic_Service {
 
 	/**
 	 * The ID for this service such as aweber or mailchimp.

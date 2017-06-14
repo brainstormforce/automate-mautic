@@ -23,23 +23,23 @@
 		</div>
 		<div class="second-action" style="display:inline;">
 			<?php
-			APMautic_helper::render_input_html('pm_action[]', array(
+			APMautic_Helper::render_input_html('pm_action[]', array(
 				'def_value'		=> 'segment',
 				'type'          => 'hidden',
 				'iswrap'		=> false,
 			));
-			APMauticServices::select_all_segments(); ?>
+			APMautic_Services::select_all_segments(); ?>
 		</div>
 	<# } #>
 
 	<# if( 'get-all-segments' === data.clas ) { #>
 			<?php
-			APMautic_helper::render_input_html('pm_action[]', array(
+			APMautic_Helper::render_input_html('pm_action[]', array(
 				'def_value'		=> 'segment',
 				'type'          => 'hidden',
 				'iswrap'		=> false,
 			));
-			APMauticServices::select_all_segments(); ?>
+			APMautic_Services::select_all_segments(); ?>
 	<# } #>
 
 	<# if( 'sub-cp-condition' === data.clas ) { #>

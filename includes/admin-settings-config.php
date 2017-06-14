@@ -36,7 +36,7 @@
 		?>
 	</h2>
 	<?php
-	if ( 'all_rules' == $active_tab  ) {
+	if ( 'all_rules' == $active_tab ) {
 		APMautic_AdminSettings::ampw_rules_list();
 	}
 	if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) {

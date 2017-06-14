@@ -11,7 +11,7 @@
  *
  * @since 1.0.4
  */
-final class APMauticServices {
+final class APMautic_Services {
 
 	/**
 	 * Data for working with each supported third party service.
@@ -24,7 +24,7 @@ final class APMauticServices {
 		'mautic'    => array(
 			'type'              => 'autoresponder',
 			'name'              => 'Mautic',
-			'class'             => 'APMauticServiceMautic',
+			'class'             => 'APMautic_Service_Mautic',
 		),
 	);
 
@@ -35,13 +35,13 @@ final class APMauticServices {
 	 * @return void
 	 */
 	static public function render_settings() {
-		$is_connected		= APMautic_helper::is_service_connected();
+		$is_connected		= APMautic_Helper::is_service_connected();
 		$service            = AP_MAUTIC_SERVICE;
 		$response_fields 	= '';
 		// Render the settings to connect a new account.
 		if ( $is_connected ) {
 			$response_fields = self::render_connect_settings( $service );
-		} // Render the settings to select a connected account.
+		} // End if().
 		else {
 			$response_fields = self::render_account_settings( $service );
 		}
@@ -60,7 +60,7 @@ final class APMauticServices {
 	static public function render_connect_settings( $service ) {
 		ob_start();
 
-		$saved_services = APMautic_helper::get_service_data();
+		$saved_services = APMautic_Helper::get_service_data();
 		$instance = self::get_service_instance( $service );
 		echo $instance->render_connect_settings( $saved_services );
 
@@ -74,7 +74,7 @@ final class APMauticServices {
 	 * @param string $service The service id such as "mailchimp".
 	 */
 	static public function render_account_settings( $service ) {
-		$saved_services = APMautic_helper::get_service_data();
+		$saved_services = APMautic_Helper::get_service_data();
 		ob_start();
 		$instance   = self::get_service_instance( $service );
 		echo $instance->render_fields( $saved_services );
@@ -89,7 +89,7 @@ final class APMauticServices {
 	 * @return boolean
 	 */
 	public static function is_connected() {
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 
 		if ( ! isset( $credentials['access_token'] ) ) {
 
@@ -122,13 +122,13 @@ final class APMauticServices {
 		$services = self::get_services_data();
 		$data     = $services[ $service ];
 		// Make sure the base class is loaded.
-		if ( ! class_exists( 'APMauticService' ) ) {
-			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-service.php';
+		if ( ! class_exists( 'APMautic_Service' ) ) {
+			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-service.php';
 		}
 
 		// Make sure the service class is loaded.
 		if ( ! class_exists( $data['class'] ) ) {
-			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-service-' . sanitize_file_name( $service ) . '.php';
+			require_once AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-service-' . sanitize_file_name( $service ) . '.php';
 		}
 
 		return new $data['class']();
@@ -142,7 +142,7 @@ final class APMauticServices {
 	 */
 	public static function select_all_segments( $select = '' ) {
 			// get all segments.
-			$instance   = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance   = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
 			$instance->render_list_field( $select );
 	}
 }
