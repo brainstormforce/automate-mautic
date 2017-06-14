@@ -1,10 +1,11 @@
-.ampw-mautic-metabox fieldset {
+.ap-mautic-metabox fieldset {
     border: 1px solid rgb(221, 221, 221);
     border-width: 1px 1px 0px 1px;
     background: #f5f5f5;
     padding: 8px 0px 8px 4px;
 }
-.ampw-mautic-metabox .remove-item {
+
+.ap-mautic-metabox .remove-item {
     background: #990000;
     border-radius: 50%;
     color: #fff;
@@ -12,54 +13,79 @@
     width: 18px;
     height: 18px;
 }
-.ampw-mautic-metabox span.remove-item, span.sort-items {
+
+.ap-mautic-metabox span.remove-item, span.sort-items {
     margin: 5px 0px 5px 7px;
 }
-.ampw-mautic-metabox select {
+
+.ap-mautic-metabox select {
     border-radius: 4px;
 }
-.ampw-mautic-metabox span.ampw-new-item-icon {
+
+.ap-mautic-metabox span.ap-mautic-new-icon {
     color: #008000;
     margin-left: 5px; 
 }
-.ampw-mautic-metabox fieldset.add-new-item {
+
+.ap-mautic-metabox fieldset.add-new-item {
     background: #fff;
     border-width: 1px;
     border-radius: 0 0 5px 5px;
 }
-.ampw-mautic-metabox fieldset.add-new-item:hover {
+
+.ap-mautic-metabox fieldset.add-new-item:hover {
     background: #f5f5f5;
 }
-.ampw-mautic-metabox fieldset.ampw-add-condition:hover, span.ampw-add-action:hover, a.ampw-disconnect-mautic, a.refresh-mautic-data {
+
+.ap-mautic-metabox fieldset.ap-mautic-add-condition:hover, span.ap-mautic-add-action:hover, a.ap-mautic-disconnect, a.refresh-mautic-data {
     cursor: pointer;
 }
-.ampw-mautic-metabox .refresh-mautic-data {
-    float: left;
+
+.ap-mautic-nav div.amp-connected-btn {
+    display: inline-block;
 }
-#ampw-post-meta .ampw-settings-form-content {
+
+#ap-mautic-post-meta .refresh-mautic-data-wrap {
+    float: right;
+}
+
+#ap-mautic-post-meta .ap-mautic-form-content {
     background: white;
     padding: 1em 2em;
 }
-#ampw-post-meta .ampw_rule_title {
+
+#ap-mautic-post-meta .ampw_rule_title {
     padding: 10px;
     margin: 1em 0;
     font-size: 20px;
     width: 50%;
 }
-.ampw-settings-heading {
+
+.ap-mautic-settings-heading {
     display: inline-block;
 }
-.ampw-settings-heading .ampw-heading-icon {
+
+.ap-mautic-settings-heading .ap-mautic-heading-icon {
     height: 40px;
     width: 40px;
     float:left;
 }
-.ampw-settings-heading .ampw-heading-config {
+
+.ap-mautic-settings-heading .ap-mautic-heading-config {
     float:left;
     margin: 5px;
 }
-.amp_footer_spinner {
+
+.ap_mautic_spinner {
     float: none; 
     margin-bottom: 0.5em;
     font-size: 22px;
+}
+
+form.ap-mautic-post-meta .first-condition, form.ap-mautic-post-meta .second-condition {
+    display:inline;
+}
+
+form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action {
+    display:inline;
 }

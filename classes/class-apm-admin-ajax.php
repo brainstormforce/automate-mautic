@@ -1,19 +1,19 @@
 <?php
 /**
- * AutomatePlus admin ajax.
+ * AutomatePlug admin ajax.
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.0
  */
 
-if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
+if ( ! class_exists( 'APMautic_AdminAjax' ) ) :
 
 	/**
 	 * Initiator
-	 * Create class AutomatePlusAdminAjax
+	 * Create class APMautic_AdminAjax
 	 * Handles Ajax operations
 	 */
-	class AutomatePlusAdminAjax {
+	class APMautic_AdminAjax {
 
 		/**
 		 * Declare a static variable instance.
@@ -30,7 +30,7 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new AutomatePlusAdminAjax();
+				self::$instance = new APMautic_AdminAjax();
 				self::$instance->hooks();
 			}
 			return self::$instance;
@@ -55,7 +55,7 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 		 * @return void
 		 */
 		public static function config_disconnect_mautic() {
-			$result = delete_option( 'ampw_mautic_credentials' );
+			$result = delete_option( AP_MAUTIC_APIAUTH );
 			wp_send_json_success( $result );
 		}
 
@@ -94,5 +94,5 @@ if ( ! class_exists( 'AutomatePlusAdminAjax' ) ) :
 			wp_send_json_success( $result );
 		}
 	}
-	$automateplus_ajax = AutomatePlusAdminAjax::instance();
+	APMautic_AdminAjax::instance();
 endif;

@@ -1,8 +1,8 @@
 <?php
 /**
- * AutomatePlus Table List
+ * AutomatePlug Table List
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.0
  */
 
@@ -10,13 +10,13 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
-if ( ! class_exists( 'APM_Rules_Table' ) ) {
+if ( ! class_exists( 'APMautic_Table' ) ) {
 
 	/**
 	 * Initiator
-	 * Create class APM_Rules_Table
+	 * Create class APMautic_Table
 	 */
-	class APM_Rules_Table extends WP_List_Table {
+	class APMautic_Table extends WP_List_Table {
 
 		/**
 		 * Number of items of the initial data set (before sort, search, and pagination).
@@ -62,7 +62,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 		 * @since 1.0.0
 		 */
 		public function no_items() {
-			_e( 'No rules avaliable.', 'automateplus-mautic-wp' );
+			_e( 'No rules avaliable.', 'automate-mautic' );
 		}
 
 		/**
@@ -87,7 +87,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 		 */
 		public function column_post_author( array $item ) {
 			if ( '' === trim( $item['post_author'] ) ) {
-				$item['post_author'] = __( '(no post_author)', 'automateplus-mautic-wp' );
+				$item['post_author'] = __( '(no post_author)', 'automate-mautic' );
 			}
 
 			$author = get_the_author_meta( 'display_name', $item['post_author'] );
@@ -104,26 +104,26 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 		 */
 		public function column_post_title( array $item ) {
 			if ( '' === trim( $item['post_title'] ) ) {
-				$item['post_title'] = __( '(no post_title)', 'automateplus-mautic-wp' );
+				$item['post_title'] = __( '(no post_title)', 'automate-mautic' );
 			}
 
 			$url = '&action=edit&post=' . $item['ID'];
 
-			$post_link = APM_AdminSettings::get_render_page_url( $url );
+			$post_link = APMautic_AdminSettings::get_render_page_url( $url );
 
 			$post_title = "<a href='" . $post_link . "'>" . $item['post_title'] . '</a>';
 
 			$row_actions = array();
 
-			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Edit', 'automateplus-mautic-wp' ) );
+			$row_actions['edit'] = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>', $post_link, esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'automate-mautic' ), $item['post_title'] ) ), __( 'Edit', 'automate-mautic' ) );
 
 			$wpnonce = wp_create_nonce( 'delete-rule' . $item['ID'] );
 
-			$url_base = APM_AdminSettings::get_render_page_url( '&tab=all_rules&action=delete_rule' );
+			$url_base = APMautic_AdminSettings::get_render_page_url( '&tab=all_rules&action=delete_rule' );
 
 			$delete_url = $url_base . '&rule_id=' . $item['ID'] . '&_wpnonce=' . $wpnonce;
 
-			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automateplus-mautic-wp' ), $item['post_title'] ) ), __( 'Delete', 'automateplus-mautic-wp' ) );
+			$row_actions['delete'] = sprintf( '<a href="%1$s" title="%2$s" class="rule-delete-link">%3$s</a>', $delete_url, esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;', 'automate-mautic' ), $item['post_title'] ) ), __( 'Delete', 'automate-mautic' ) );
 
 			return $post_title . $this->row_actions( $row_actions );
 		}
@@ -202,14 +202,14 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 			}
 
 			$name_id = "bulk-action-{$which}";
-			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'automateplus-mautic-wp' ) . "</label>\n";
+			echo "<label for='{$name_id}' class='screen-reader-text'>" . __( 'Select Bulk Action', 'automate-mautic' ) . "</label>\n";
 			echo "<select name='{$name_id}' id='{$name_id}'>\n";
-			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'automateplus-mautic-wp' ) . "</option>\n";
+			echo "<option value='-1' selected='selected'>" . __( 'Bulk Actions', 'automate-mautic' ) . "</option>\n";
 			foreach ( $this->_actions as $name => $title ) {
 				echo "\t<option value='{$name}'>{$title}</option>\n";
 			}
 			echo "</select>\n";
-			submit_button( __( 'Apply', 'automateplus-mautic-wp' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
+			submit_button( __( 'Apply', 'automate-mautic' ), 'action', '', false, array( 'id' => "doaction{$two}" ) );
 			echo "\n";
 		}
 
@@ -239,9 +239,6 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 
 			global $wpdb;
 			$page_number = $this->get_pagenum();
-
-			$post_type = 'automate-mautic';
-
 			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='%s' && post_status = 'publish'";
 
 			if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) {
@@ -250,7 +247,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 				$query .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
 
-			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, $post_type ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
+			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
 
 			$perpage = 10;
 
@@ -283,7 +280,7 @@ if ( ! class_exists( 'APM_Rules_Table' ) ) {
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
 
-			$result = $wpdb->get_results( $wpdb->prepare( $query, $post_type ), ARRAY_A ); // WPCS: unprepared SQL OK.
+			$result = $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ); // WPCS: unprepared SQL OK.
 
 			return $result;
 		}

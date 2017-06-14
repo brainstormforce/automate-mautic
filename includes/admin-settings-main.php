@@ -2,22 +2,22 @@
 /**
  * Handle config page
  *
- * @package automateplus-mautic
+ * @package automate-mautic
  * @since 1.0.0
  */
 
 ?>
 <div class="wrap">
 
-	<h2 class="ampw-settings-heading">
-		<?php APM_AdminSettings::render_page_heading(); ?>
+	<h2 class="ap-mautic-settings-heading">
+		<?php APMautic_AdminSettings::render_page_heading(); ?>
 	</h2>
-	
-	<?php APM_AdminSettings::render_update_message(); ?>
-	
-	<div class="ampw-settings-nav">
+
+	<?php APMautic_AdminSettings::render_update_message(); ?>
+
+	<div class="ap-mautic-nav">
 		<ul>
-			<?php APM_AdminSettings::render_form( 'config' ); ?>
+			<?php APMautic_AdminSettings::render_form( 'config' ); ?>
 		</ul>
 	</div>
 </div>
