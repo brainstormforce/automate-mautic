@@ -206,7 +206,7 @@ final class APMauticServiceMautic extends APMauticService {
 
 		$segments_trans = get_transient( 'apm_all_segments' );
 
-		if( isset( $segments_trans->total ) ) {
+		if ( isset( $segments_trans->total ) ) {
 			$segments_trans = false;
 		}
 		if ( $segments_trans ) {

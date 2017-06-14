@@ -149,13 +149,12 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 			$type = ( isset( $settings['type'] ) ) ? sanitize_text_field( $settings['type'] ) : '';
 
-
 			if ( '' != $id && ! empty( $settings ) ) {
 
 				$input = '';
 				switch ( $type ) {
 					case 'select':
-						$input .= '<select id="' .  $element_id . '" class="' . $class . '" name="' . $id . '" >';
+						$input .= '<select id="' . $element_id . '" class="' . $class . '" name="' . $id . '" >';
 
 						foreach ( $settings['options'] as $option_key => $option_val ) {
 							$selected = selected( $option_key, $settings['selected'], false );
