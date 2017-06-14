@@ -134,7 +134,9 @@
 
 			<p class="submit">
 				<input type="submit" value="Update Rule" class="button button-primary button-large" name="edit_the_rule">
+				<button class="button-secondary ampw-back-btn"> 
 				<a href="<?php APMautic_AdminSettings::render_page_url( '&tab=all_rules' ) ?>" ><?php _e( '« Back to All Rules', 'automate-mautic' ); ?></a>
+				</button>
 				<span class="refresh-mautic-data-wrap"><span class="spinner ap_mautic_spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automate-mautic' ); ?></a><span>
 			</p>
 			<?php wp_nonce_field( 'apmauticpmeta', 'ap-mautic-post-meta-nonce' ); ?>

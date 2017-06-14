@@ -106,3 +106,13 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
     padding: 1em 2em;
     border-bottom: 1px solid #eee;
 }
+
+.ampw-back-btn > a {
+    color: #555;
+    text-decoration: none;
+}
+
+.ampw-back-btn > a:focus {
+    outline: none;
+    box-shadow: none;
+}
