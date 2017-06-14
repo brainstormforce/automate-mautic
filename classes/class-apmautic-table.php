@@ -177,11 +177,10 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 * @return array Bulk actions for this table.
 		 */
 		protected function get_bulk_actions() {
-			$actions = [
+			$actions = array(
 				'bulk-delete' => 'Delete',
-			];
-
-				return $actions;
+			);
+			return $actions;
 		}
 
 		/**
