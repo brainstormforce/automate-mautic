@@ -24,6 +24,9 @@
 				'all_rules' => array(
 					'label' => 'All Rules',
 				),
+				'add_new_rule' => array(
+					'label' => 'Add New',
+				),
 				'auth_mautic' => array(
 					'label' => 'Authenticate',
 				),

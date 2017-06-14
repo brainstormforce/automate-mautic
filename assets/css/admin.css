@@ -55,9 +55,7 @@
 }
 
 #ap-mautic-post-meta .ampw_rule_title {
-    padding: 10px;
-    margin: 1em 0;
-    font-size: 20px;
+    padding: 7px;
     width: 50%;
 }
 
@@ -88,4 +86,23 @@ form.ap-mautic-post-meta .first-condition, form.ap-mautic-post-meta .second-cond
 
 form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action {
     display:inline;
+}
+
+.ampw_head {
+    background: #fff;
+    margin: 10px 0 0;
+}
+
+.hndle.ui-sortable-handle.ampw_rule_heading {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 1em 2em;
+    margin: 0;
+    line-height: 1.4;
+    border-bottom: 1px solid #eee;
+}
+
+.ampw-input-wrap {
+    padding: 1em 2em;
+    border-bottom: 1px solid #eee;
 }

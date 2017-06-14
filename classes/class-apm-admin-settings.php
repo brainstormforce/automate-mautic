@@ -140,9 +140,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			$new_post_url = APMautic_AdminSettings::get_render_page_url( '&tab=add_new_rule' );
 			?>
 			<div class="wrap">
-			<h1>
-			<?php _e( 'Mautic Rules', 'automate-mautic' ); ?> <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'automate-mautic' ); ?> </a>
-		</h1>
+			
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
 			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automate-mautic' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
