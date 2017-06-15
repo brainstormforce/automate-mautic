@@ -16,4 +16,4 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit();
 }
-require_once 'classes/class-amp-loader.php';
+require_once 'classes/class-apmautic-loader.php';

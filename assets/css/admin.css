@@ -150,3 +150,7 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
     outline: none;
     box-shadow: none;
 }
+
+.apm-config-fields > h4 {
+    font-weight: 400;
+}

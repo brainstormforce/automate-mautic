@@ -6,13 +6,13 @@
  * @since 1.0.0
  */
 
-if ( ! class_exists( 'APMautic_WP_register' ) ) :
+if ( ! class_exists( 'APMautic_WP_Register' ) ) :
 
 	/**
-	 * Create class APMautic_WP_register
+	 * Create class APMautic_WP_Register
 	 * Handles register post type, trigger actions
 	 */
-	class APMautic_WP_register {
+	class APMautic_WP_Register {
 
 		/**
 		 * Declare a static variable instance.
@@ -29,7 +29,7 @@ if ( ! class_exists( 'APMautic_WP_register' ) ) :
 		 */
 		public static function instance() {
 			if ( ! isset( self::$instance ) ) {
-				self::$instance = new APMautic_WP_register();
+				self::$instance = new APMautic_WP_Register();
 				self::$instance->hooks();
 			}
 			return self::$instance;
@@ -82,9 +82,9 @@ if ( ! class_exists( 'APMautic_WP_register' ) ) :
 				'website'	=> $user_info->user_url,
 			);
 
-			$instance = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
 			$instance->subscribe( $email, $body, $set_actions );
 		}
 	}
-	APMautic_WP_register::instance();
+	APMautic_WP_Register::instance();
 endif;

@@ -91,7 +91,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( current_user_can( 'delete_users' ) ) {
 				$func	= __CLASS__ . '::render';
 				$menu_position = apm_get_option( 'apmautic_menu_position' );
-				if ( ! class_exists( 'AMPMauticAddonInit' ) || ! $menu_position ) {
+				if ( ! class_exists( 'AMPMautic_Addon_Init' ) || ! $menu_position ) {
 					add_options_page( 'AutomatePlug Mautic',  __( 'AutomatePlug Mautic', 'automate-mautic' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
 				}
 			}
@@ -125,7 +125,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @return void
 		 */
 		public static function render() {
-			include AP_MAUTIC_PLUGIN_DIR . 'classes/class-rules-table.php';
+			include AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-table.php';
 			include AP_MAUTIC_PLUGIN_DIR . 'includes/admin-settings-main.php';
 		}
 
@@ -143,6 +143,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
+			// translators: %&#8220: left double quotation mark.
+			// translators: %&#8221: right double quotation mark.
 			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automate-mautic' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
 		}
 		?>
@@ -226,7 +228,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			$parent = self::get_menu_parent();
 			$admin_url = admin_url( $parent );
 			$admin_url = add_query_arg( array(
-			    'page' => 'automate-mautic' . $type,
+				'page' => 'automate-mautic' . $type,
 			), $admin_url );
 			return $admin_url;
 		}
@@ -270,7 +272,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			}
 
 			if ( isset( $_POST['ap-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-post-meta-nonce'], 'apmauticpmeta' ) ) {
-				$rule_id = $update_conditions = '';
+				$rule_id = '';
+				$update_conditions = '';
 				if ( isset( $_POST['ampw_rule_title'] ) ) {
 					$rule_name = esc_attr( $_POST['ampw_rule_title'] );
 				}
@@ -348,11 +351,11 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 					$redirect = APMautic_AdminSettings::get_render_page_url( "&action=edit&post=$post_id" );
 					wp_redirect( $redirect );
 					exit();
-			}
+			}// End if().
 
 			if ( isset( $_POST['ap-mautic-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-nonce'], 'apmwmautic' ) ) {
 
-				$amp_options = APMautic_helper::get_amp_options();
+				$amp_options = APMautic_Helper::get_amp_options();
 
 				$amp_options['base-url'] = isset( $_POST['base-url'] ) ? esc_url( $_POST['base-url'] ) : '';
 
@@ -369,7 +372,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			}
 			if ( isset( $_POST['ap-mautic-nonce-tracking'] ) && wp_verify_nonce( $_POST['ap-mautic-nonce-tracking'], 'apmautictrack' ) ) {
 
-				$amp_options = APMautic_helper::get_amp_options();
+				$amp_options = APMautic_Helper::get_amp_options();
 
 				$amp_options['enable-tracking'] = false;
 
@@ -408,7 +411,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 			if ( isset( $_POST['ampw-save-authenticate'] ) && 'Save and Authenticate' == esc_attr( $_POST['ampw-save-authenticate'] ) ) {
 				$post_data = $_POST;
-				$instance   = APMauticServices::get_service_instance( AP_MAUTIC_SERVICE );
+				$instance   = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
 				$instance->connect( $post_data );
 			}
 		}
@@ -421,9 +424,10 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function ap_mautic_notices() {
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
-			if ( ! APMauticServices::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen  ) {
+			if ( ! APMautic_Services::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen ) {
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
+				// translators: %s: redirect url.
 				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automate-mautic' ), $redirect );
 			}
 		}

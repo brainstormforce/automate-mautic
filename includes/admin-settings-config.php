@@ -39,7 +39,7 @@
 		?>
 	</h2>
 	<?php
-	if ( 'all_rules' == $active_tab  ) {
+	if ( 'all_rules' == $active_tab ) {
 		APMautic_AdminSettings::ampw_rules_list();
 	}
 	if ( 'add_new_rule' == $active_tab || 'edit' == $current_action ) {
@@ -51,7 +51,7 @@
 			<?php
 			$active_path = str_replace( '_', '-', $active_tab );
 			$active_path = 'admin-settings-' . $active_path;
-			$tab_file = AP_MAUTIC_PLUGIN_DIR . 'includes/' . sanitize_file_name( $active_path  ) . '.php';
+			$tab_file = AP_MAUTIC_PLUGIN_DIR . 'includes/' . sanitize_file_name( $active_path ) . '.php';
 
 			if ( file_exists( $tab_file ) ) {
 				require_once $tab_file;

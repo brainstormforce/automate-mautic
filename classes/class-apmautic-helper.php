@@ -6,13 +6,13 @@
  * @since 1.0.5
  */
 
-if ( ! class_exists( 'APMautic_helper' ) ) :
+if ( ! class_exists( 'APMautic_Helper' ) ) :
 
 	/**
-	 * Create class APMautic_helper
+	 * Create class APMautic_Helper
 	 * load text domain, get options
 	 */
-	class APMautic_helper {
+	class APMautic_Helper {
 
 		/**
 		 * Get config option
@@ -119,7 +119,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 					default:
 						$input .= '';
 						break;
-				}
+				}// End switch().
 
 				if ( isset( $settings['desc'] ) && '' != $settings['desc'] ) {
 					$input .= '<p class="admin-help admin-field-desc">' . $settings['desc'] . '</p>';
@@ -127,7 +127,7 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 				if ( $iswrap ) {
 					$input .= '</div>';
 				}
-			}
+			}// End if().
 
 			echo $input;
 		}
@@ -149,13 +149,12 @@ if ( ! class_exists( 'APMautic_helper' ) ) :
 
 			$type = ( isset( $settings['type'] ) ) ? sanitize_text_field( $settings['type'] ) : '';
 
-
 			if ( '' != $id && ! empty( $settings ) ) {
 
 				$input = '';
 				switch ( $type ) {
 					case 'select':
-						$input .= '<select id="' .  $element_id . '" class="' . $class . '" name="' . $id . '" >';
+						$input .= '<select id="' . $element_id . '" class="' . $class . '" name="' . $id . '" >';
 
 						foreach ( $settings['options'] as $option_key => $option_val ) {
 							$selected = selected( $option_key, $settings['selected'], false );

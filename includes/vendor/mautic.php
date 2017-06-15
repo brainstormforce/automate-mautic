@@ -21,7 +21,7 @@
 	 * @return void
 	 */
 	public function get_mautic_data() {
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 		// If not authorized.
 		if ( ! isset( $credentials['access_token'] ) ) {
 			if ( isset( $credentials['access_code'] ) ) {
@@ -54,7 +54,7 @@
 	 * @return array
 	 */
 	public static function mautic_get_access_token( $grant_type ) {
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 
 		if ( ! isset( $credentials['baseUrl'] ) ) {
 
@@ -104,7 +104,7 @@
 
 		self::generate_access_token();
 		// add contacts.
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 
 		if ( ! isset( $credentials['access_token'] ) ) {
 			return;
@@ -166,7 +166,7 @@
 	 */
 	public static function get_api_method_url( $email ) {
 
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 		$data = array();
 		$contact_id = $email_cid = '';
 
@@ -212,7 +212,7 @@
 	 */
 	public static function is_contact_published( $id ) {
 
-		$mautic_credentials = APMautic_helper::get_mautic_credentials();
+		$mautic_credentials = APMautic_Helper::get_mautic_credentials();
 
 		if ( $mautic_credentials['expires_in'] < time() ) {
 			$grant_type = 'refresh_token';
@@ -437,7 +437,7 @@
 
 		$segments = self::mautic_api_get_data( $url, $body );
 
-		if ( ! APMauticServices::is_connected() || isset( $segments->errors ) ) {
+		if ( ! APMautic_Services::is_connected() || isset( $segments->errors ) ) {
 			return;
 		}
 		return $segments->lists;
@@ -454,7 +454,7 @@
 		$url = '/api/contacts/list/fields';
 		$mautic_cfields = self::mautic_api_get_data( $url );
 
-		if ( ! APMauticServices::is_connected() || isset( $mautic_cfields->errors ) ) {
+		if ( ! APMautic_Services::is_connected() || isset( $mautic_cfields->errors ) ) {
 
 			return;
 		}
@@ -469,7 +469,7 @@
 	 */
 	public static function generate_access_token() {
 
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 		if ( isset( $credentials['access_code'] ) && ! empty( $credentials['access_code'] )  ) {
 			// if token expired, get new access token.
 			if ( $credentials['expires_in'] < time() ) {
@@ -505,7 +505,7 @@
 		$status = 'success';
 		// add contacts.
 		self::generate_access_token();
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 
 		if ( ! isset( $credentials['access_token'] ) ) {
 			return;
@@ -560,7 +560,7 @@
 
 			$segments = self::ampw_mautic_api_call( $url, $method );
 
-			$credentials = APMautic_helper::get_mautic_credentials();
+			$credentials = APMautic_Helper::get_mautic_credentials();
 
 			if ( empty( $segments ) ) {
 
@@ -586,7 +586,7 @@
 	*/
 	public static function get_mautic_contact_id( $email ) {
 
-		$credentials = APMautic_helper::get_mautic_credentials();
+		$credentials = APMautic_Helper::get_mautic_credentials();
 
 		if ( isset( $_COOKIE['mtc_id'] ) ) {
 

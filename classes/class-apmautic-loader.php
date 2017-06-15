@@ -62,17 +62,17 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 		 * @return void
 		 */
 		public function includes() {
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-helper.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-helper.php' );
 
 			if ( is_admin() ) {
-				require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-admin-settings.php' );
+				require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-adminsettings.php' );
 			}
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-rulepanel.php' );
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-amp-wp-hooks.php' );
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-services.php' );
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-wp-register.php' );
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-comment.php' );
-			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apm-approved-comment.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-rulepanel.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-wp-hooks.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-services.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-wp-register.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-comment.php' );
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-comment-approve.php' );
 		}
 	}
 	APMautic_Loader::instance();
