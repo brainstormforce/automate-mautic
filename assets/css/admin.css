@@ -158,3 +158,15 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
 .inside.hide {
     display: none;
 }
+
+.ampw-setting-wrap {
+    padding: 1em 2em;
+}
+
+.ampw-setting-wrap label {
+    font-weight: 400;
+}
+
+.ampw-setting-wrap .form-table th {
+    padding: 13px 10px 20px 0;
+}
