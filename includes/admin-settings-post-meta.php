@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * Handle rules panel
  *
@@ -15,18 +15,18 @@
 			$rule_title = get_the_title( $post_id );
 		} else {
 			$rule_title = '';
+			$post_id = '';
 		}
 		?>
 		<div class="wrap apm-newrule-head">
 			<h2 class="hndle ui-sortable-handle apm-rule-heading">
 			<span>
-			<?php 
-				if( $post_id ) {
-					_e( 'Update Rule', 'automate-mautic' );
-				}
-				else {
-					_e( 'Add New Rule', 'automate-mautic' );
-				}
+			<?php
+			if ( $post_id ) {
+				_e( 'Update Rule', 'automate-mautic' );
+			} else {
+				_e( 'Add New Rule', 'automate-mautic' );
+			}
 			?>
 			</span></h2>
 			<div class="ampw-input-wrap form-wrap">
