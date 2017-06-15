@@ -1,11 +1,11 @@
-.ap-mautic-metabox fieldset {
+.apm-metabox fieldset {
     border: 1px solid rgb(221, 221, 221);
     border-width: 1px 1px 0px 1px;
     background: #f5f5f5;
     padding: 8px 0px 8px 4px;
 }
 
-.ap-mautic-metabox .remove-item {
+.apm-metabox .remove-item {
     background: #990000;
     border-radius: 50%;
     color: #fff;
@@ -14,34 +14,34 @@
     height: 18px;
 }
 
-.ap-mautic-metabox span.remove-item, span.sort-items {
+.apm-metabox span.remove-item, span.sort-items {
     margin: 5px 0px 5px 7px;
 }
 
-.ap-mautic-metabox select {
+.apm-metabox select {
     border-radius: 4px;
 }
 
-.ap-mautic-metabox span.ap-mautic-new-icon {
+.apm-metabox span.apm-new-icon {
     color: #008000;
     margin-left: 5px; 
 }
 
-.ap-mautic-metabox fieldset.add-new-item {
+.apm-metabox fieldset.add-new-item {
     background: #fff;
     border-width: 1px;
     border-radius: 0 0 5px 5px;
 }
 
-.ap-mautic-metabox fieldset.add-new-item:hover {
+.apm-metabox fieldset.add-new-item:hover {
     background: #f5f5f5;
 }
 
-.ap-mautic-metabox fieldset.ap-mautic-add-condition:hover, span.ap-mautic-add-action:hover, .ap-mautic-disconnect, a.refresh-mautic-data {
+.apm-metabox fieldset.apm-add-condition:hover, span.apm-add-action:hover, .apm-disconnect, a.refresh-mautic-data {
     cursor: pointer;
 }
 
-.ap-mautic-disconnect {
+.apm-disconnect {
     color: #555;
     cursor: pointer;
     border: 1px solid;
@@ -53,65 +53,65 @@
     box-shadow: 0 1px 0 #ccc;
 }
 
-.ap-mautic-disconnect:hover {
+.apm-disconnect:hover {
     background: #fafafa;
     border-color: #999;
     color: #23282d;
 }
 
-.ap-mautic-nav div.amp-connected-btn {
+.apm-config-tab div.amp-connected-btn {
     display: inline-block;
 }
 
-#ap-mautic-post-meta .refresh-mautic-data-wrap {
+#apm-post-meta .refresh-mautic-data-wrap {
     float: right;
 }
 
-#ap-mautic-post-meta .ap-mautic-form-content {
+#apm-post-meta .amp-form-content {
     background: white;
     padding: 1em 2em;
 }
 
-#ap-mautic-post-meta .ampw_rule_title, .apm-service-input {
+#apm-post-meta .ampw-rule-title, .apm-service-input {
     padding: 7px;
     width: 50%;
 }
 
-.ap-mautic-settings-heading {
+.apm-settings-heading {
     display: inline-block;
 }
 
-.ap-mautic-settings-heading .ap-mautic-heading-icon {
+.apm-settings-heading .apm-heading-icon {
     height: 40px;
     width: 40px;
     float:left;
 }
 
-.ap-mautic-settings-heading .ap-mautic-heading-config {
+.apm-settings-heading .amp-heading-config {
     float:left;
     margin: 5px;
 }
 
-.ap_mautic_spinner {
+.apm-wp-spinner {
     float: none; 
     margin-bottom: 0.5em;
     font-size: 22px;
 }
 
-form.ap-mautic-post-meta .first-condition, form.ap-mautic-post-meta .second-condition {
+form.apm-post-meta .first-condition, form.apm-post-meta .second-condition {
     display:inline;
 }
 
-form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action {
+form.apm-post-meta .first-action, form.apm-post-meta .second-action {
     display:inline;
 }
 
-.ampw_head {
+.apm-newrule-head {
     background: #fff;
     margin: 10px 0 0;
 }
 
-.hndle.ui-sortable-handle.ampw_rule_heading {
+.hndle.ui-sortable-handle.apm-rule-heading {
     font-size: 14px;
     font-weight: 600;
     padding: 1em 2em;
@@ -125,12 +125,12 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
     border-bottom: 1px solid #eee;
 }
 
-.ampw-back-btn > a {
+.amp-back-btn > a {
     color: #555;
     text-decoration: none;
 }
 
-.ampw-back-btn > a:focus {
+.amp-back-btn > a:focus {
     outline: none;
     box-shadow: none;
 }
@@ -146,7 +146,7 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
     padding: 0 2em;
 }
 
-.ap-sidebar-link a:focus {
+.apm-sidebar-link a:focus {
     outline: none;
     box-shadow: none;
 }
@@ -157,16 +157,4 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
 
 .inside.hide {
     display: none;
-}
-
-.ampw-setting-wrap {
-    padding: 1em 2em;
-}
-
-.ampw-setting-wrap label {
-    font-weight: 400;
-}
-
-.ampw-setting-wrap .form-table th {
-    padding: 13px 10px 20px 0;
 }

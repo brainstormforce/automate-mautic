@@ -10,7 +10,7 @@
 <div id="poststuff">
 	<div id="post-body" class="metabox-holder columns-2">
 		<div id="postbox-container-2" class="postbox-container postbox ampw-authenti-container">
-			<h2 class="hndle ui-sortable-handle ampw_rule_heading" style="padding: 1em 2em;"><span><?php _e( ' Mautic Tracking', 'automate-mautic' ) ?></span></h2>
+			<h2 class="hndle ui-sortable-handle apm-rule-heading" style="padding: 1em 2em;"><span><?php _e( ' Mautic Tracking', 'automate-mautic' ) ?></span></h2>
 <?php
 
 	$ap_enabled_track = apm_get_option( 'enable-tracking', 1 );
@@ -19,7 +19,6 @@
 		'class'         => 'apm-service-input',
 		'type'          => 'checkbox',
 		'ischecked'		=> $ap_enabled_track,
-		//'label'         => __( 'Enable Mautic Tracking', 'automate-mautic' ),
 		'text'         	=> __( 'Enable Tracking', 'automate-mautic' ),
 		// translators: %1$s: opening anchor tag.
 		// translators: %2$s: closing anchor tag.
@@ -43,7 +42,7 @@
 				<div class="postbox">
 					<button type="button" class="handlediv button-link ap-toogle-option" aria-expanded="true"><span class="screen-reader-text">Toggle panel: Information</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class="hndle ui-sortable-handle"><span>Information</span></h2>
 					<div class="inside">
-						<ul class="ap-sidebar-link">
+						<ul class="apm-sidebar-link">
 							<li><a href="https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/" target="_blank">Docs</a></li>
 							<li><a href="#">FAQ</a></li>
 							<li><a href="https://wordpress.org/support/plugin/automate-mautic" target="_blank">Support</a></li>

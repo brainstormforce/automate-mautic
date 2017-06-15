@@ -164,7 +164,6 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
 			'type'          => 'text',
-			//'label'         => __( 'Base URL', 'automate-mautic' ),
 			'label'          => __( 'Enter Base URL', 'automate-mautic' ),
 		));
 

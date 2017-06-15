@@ -176,9 +176,9 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function render_page_heading() {
 			$icon = AP_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
 			if ( ! empty( $icon ) ) {
-				echo '<img class="ap-mautic-heading-icon" src="' . esc_url( $icon ) . '" />';
+				echo '<img class="apm-heading-icon" src="' . esc_url( $icon ) . '" />';
 			}
-			echo '<div class="ap-mautic-heading-config">' . __( 'AutomatePlug Mautic', 'automate-mautic' ) . '</div>';
+			echo '<div class="amp-heading-config">' . __( 'AutomatePlug Mautic', 'automate-mautic' ) . '</div>';
 		}
 
 		/**
@@ -271,7 +271,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				return;
 			}
 
-			if ( isset( $_POST['ap-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-post-meta-nonce'], 'apmauticpmeta' ) ) {
+			if ( isset( $_POST['apm-post-meta-nonce'] ) && wp_verify_nonce( $_POST['apm-post-meta-nonce'], 'apmauticpmeta' ) ) {
 				$rule_id = '';
 				$update_conditions = '';
 				if ( isset( $_POST['ampw_rule_title'] ) ) {
