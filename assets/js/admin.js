@@ -143,7 +143,8 @@
 		_refreshMautic: function() {
 			$( '.ap_mautic_spinner' ).css( 'visibility', 'visible' );
 			var data= {
-				action:'clean_mautic_transient'
+				action:'clean_mautic_transient',
+				nonce : ApmAdminScript.ajax_nonce
 			};
 			$.post(ajaxurl, data, function(){
 
@@ -156,7 +157,8 @@
 		_disconnectMautic: function() {
 			if( confirm('Are you sure you wish to disconnect from Mautic?') ) {
 				var data= {
-					action:'config_disconnect_mautic'
+					action:'config_disconnect_mautic',
+					nonce : ApmAdminScript.ajax_nonce
 				};
 				$.post(ajaxurl, data, function(selHtml) {
 					location.reload();

@@ -114,6 +114,10 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				wp_enqueue_script( 'apm-select2-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js' , array( 'jquery' ) );
 				wp_enqueue_style( 'apm-select2-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/select2.min.css' );
 
+				$options = array(
+					'ajax_nonce' => wp_create_nonce( 'apm_mautic_admin_nonce' ),
+				);
+				wp_localize_script( 'apm-admin-script', 'ApmAdminScript', $options );
 				do_action( 'amp_admin_scripts' );
 			}
 		}
