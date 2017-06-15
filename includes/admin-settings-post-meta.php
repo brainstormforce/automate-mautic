@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * Handle rules panel
  *
@@ -18,7 +18,17 @@
 		}
 		?>
 		<div class="wrap ampw_head">
-			<h2 class="hndle ui-sortable-handle ampw_rule_heading"><span><?php _e( 'Add New Rule', 'automate-mautic' ) ?></span></h2>
+			<h2 class="hndle ui-sortable-handle ampw_rule_heading">
+			<span>
+			<?php 
+				if( $post_id ) {
+					_e( 'Update Rule', 'automate-mautic' );
+				}
+				else {
+					_e( 'Add New Rule', 'automate-mautic' );
+				}
+			?>
+			</span></h2>
 			<div class="ampw-input-wrap form-wrap">
 				<label for="table-name"><?php _e( 'Rule Name:', 'automate-mautic' ) ?></label>
 				<input type="text" name="ampw_rule_title" class="ampw_rule_title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title Here">
