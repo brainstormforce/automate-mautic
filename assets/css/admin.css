@@ -154,3 +154,7 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
 .apm-config-fields > h4 {
     font-weight: 400;
 }
+
+.inside.hide {
+    display: none;
+}

@@ -25,8 +25,8 @@
 		</div>
 		<div id="postbox-container-1" class="postbox-container">
 			<div id="side-sortables" class="meta-box-sortables ui-sortable">
-				<div class="postbox ">
-					<button type="button" class="handlediv button-link" aria-expanded="true"><span class="screen-reader-text">Toggle panel: Information</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class="hndle ui-sortable-handle"><span>Information</span></h2>
+				<div class="postbox">
+					<button type="button" class="handlediv button-link ap-toogle-option" aria-expanded="true"><span class="screen-reader-text">Toggle panel: Information</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class="hndle ui-sortable-handle"><span>Information</span></h2>
 					<div class="inside">
 						<ul class="ap-sidebar-link">
 							<li><a href="https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/" target="_blank">Docs</a></li>

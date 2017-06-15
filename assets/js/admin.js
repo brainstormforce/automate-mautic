@@ -29,6 +29,7 @@
 			$( document ).on( 'change', '.select-action', this._selectAction );
 			$( document ).on( 'change', '.sub-seg-action', this._subAction );
 			$( document ).on( 'click', '#refresh-mautic', this._refreshMautic );
+			$( document ).on( 'click', '.ap-toogle-option', this._toggleMautic );
 			$( document ).on( 'click', '.ap-mautic-disconnect', this._disconnectMautic );
 			$( '.ap-mautic-config-form' ).on( 'click', '.save-amp-settings', this._saveSettings );
 			$( '.ap-mautic-config-form' ).on( 'click', '.rule-delete-link', this._deleteRule );
@@ -175,6 +176,10 @@
 		_saveSettings: function() {
 			$( '.ap_mautic_spinner' ).css( 'visibility', 'visible' );
 		},
+
+		_toggleMautic: function() {
+			$( '.inside' ).toggleClass('hide');
+		}
 	};
 
 	$( function() {
