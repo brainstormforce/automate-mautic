@@ -37,8 +37,26 @@
     background: #f5f5f5;
 }
 
-.ap-mautic-metabox fieldset.ap-mautic-add-condition:hover, span.ap-mautic-add-action:hover, a.ap-mautic-disconnect, a.refresh-mautic-data {
+.ap-mautic-metabox fieldset.ap-mautic-add-condition:hover, span.ap-mautic-add-action:hover, .ap-mautic-disconnect, a.refresh-mautic-data {
     cursor: pointer;
+}
+
+.ap-mautic-disconnect {
+    color: #555;
+    cursor: pointer;
+    border: 1px solid;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border-color: #ccc;
+    background: #f7f7f7;
+    -webkit-box-shadow: 0 1px 0 #ccc;
+    box-shadow: 0 1px 0 #ccc;
+}
+
+.ap-mautic-disconnect:hover {
+    background: #fafafa;
+    border-color: #999;
+    color: #23282d;
 }
 
 .ap-mautic-nav div.amp-connected-btn {
@@ -54,7 +72,7 @@
     padding: 1em 2em;
 }
 
-#ap-mautic-post-meta .ampw_rule_title {
+#ap-mautic-post-meta .ampw_rule_title, .apm-service-input {
     padding: 7px;
     width: 50%;
 }
@@ -113,6 +131,22 @@ form.ap-mautic-post-meta .first-action, form.ap-mautic-post-meta .second-action 
 }
 
 .ampw-back-btn > a:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#automate-config-form .button-primary {
+    margin-left: 0;
+    width: 160px;
+}
+
+/* Authentication screen */
+
+.apm-service-row {
+    padding: 0 2em;
+}
+
+.ap-sidebar-link a:focus {
     outline: none;
     box-shadow: none;
 }

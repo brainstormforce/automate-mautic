@@ -47,7 +47,7 @@
 	}
 	?>
 	<form id="ap-mautic-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
-		<div class="ap-mautic-form-content">
+		<div class="ap-mautic-form-content ampw-authenticate-cont-70">
 			<?php
 			$active_path = str_replace( '_', '-', $active_tab );
 			$active_path = 'admin-settings-' . $active_path;
@@ -59,5 +59,6 @@
 			do_action( 'amp_options_tab_content', $active_tab );
 		?>
 		</div>
+		
 	</form>
 </div>
