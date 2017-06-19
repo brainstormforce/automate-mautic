@@ -164,8 +164,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			'class'         => 'apm-service-input',
 			'def_value'		=> $base_url,
 			'type'          => 'text',
-			'label'         => __( 'Base URL', 'automate-mautic' ),
-			'help'          => __( 'This setting is required for Mautic Integration.', 'automate-mautic' ),
+			'label'          => __( 'Enter Base URL', 'automate-mautic' ),
 		));
 
 		APMautic_Helper::render_input_html('public-key', array(
