@@ -483,11 +483,13 @@
 
 					$response_body = wp_remote_retrieve_body( $response );
 					$access_details = json_decode( $response_body );
-					$expiration = time() + $access_details->expires_in;
-					$credentials['access_token'] = $access_details->access_token;
-					$credentials['expires_in'] = $expiration;
-					$credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( AP_MAUTIC_APIAUTH, $credentials );
+					if ( ! isset( $access_details->errors ) ) {
+						$expiration = time() + $access_details->expires_in;
+						$credentials['access_token'] = $access_details->access_token;
+						$credentials['expires_in'] = $expiration;
+						$credentials['refresh_token'] = $access_details->refresh_token;
+						update_option( AP_MAUTIC_APIAUTH, $credentials );
+					}
 				}
 			} // refresh code token ends.
 		}
