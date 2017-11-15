@@ -315,7 +315,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	public function is_contact_published( $id ) {
 
 		$api = $this->get_api();
-		$status = $api->is_contact_published( $email );
+		$status = $api->is_contact_published( $id );
 		return $status;
 	}
 
