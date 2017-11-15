@@ -9,13 +9,13 @@
 ?>
 <div class="wrap">
 
-	<h2 class="ap-mautic-settings-heading">
+	<h2 class="apm-settings-heading">
 		<?php APMautic_AdminSettings::render_page_heading(); ?>
 	</h2>
 
 	<?php APMautic_AdminSettings::render_update_message(); ?>
 
-	<div class="ap-mautic-nav">
+	<div class="apm-config-tab">
 		<ul>
 			<?php APMautic_AdminSettings::render_form( 'config' ); ?>
 		</ul>

@@ -34,13 +34,15 @@
 				} else {
 
 					$response_body = wp_remote_retrieve_body( $response );
-
 					$access_details               = json_decode( $response_body );
-					$expiration                   = time() + $access_details->expires_in;
-					$credentials['access_token']  = esc_attr( $access_details->access_token );
-					$credentials['expires_in']    = esc_attr( $expiration );
-					$credentials['refresh_token'] = esc_attr( $access_details->refresh_token );
-					update_option( AP_MAUTIC_APIAUTH, $credentials );
+					// Check mautic errors array.
+					if ( ! isset( $access_details->errors ) ) {
+						$expiration                   = time() + $access_details->expires_in;
+						$credentials['access_token']  = esc_attr( $access_details->access_token );
+						$credentials['expires_in']    = esc_attr( $expiration );
+						$credentials['refresh_token'] = esc_attr( $access_details->refresh_token );
+						update_option( AP_MAUTIC_APIAUTH, $credentials );
+					}
 				}
 			}
 		}
@@ -226,10 +228,13 @@
 				$response_body = wp_remote_retrieve_body( $response );
 
 				$access_details = json_decode( $response_body );
-				$expiration = time() + $access_details->expires_in;
-				$mautic_credentials['access_token'] = $access_details->access_token;
-				$mautic_credentials['expires_in'] = $expiration;
-				$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+				// Check mautic errors array.
+				if ( ! isset( $access_details->errors ) ) {
+					$expiration = time() + $access_details->expires_in;
+					$mautic_credentials['access_token'] = $access_details->access_token;
+					$mautic_credentials['expires_in'] = $expiration;
+					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+				}
 				update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
 			}
 		}
@@ -376,11 +381,14 @@
 			} else {
 				$response_body = wp_remote_retrieve_body( $response );
 				$access_details = json_decode( $response_body );
-				$expiration = time() + $access_details->expires_in;
-				$mautic_credentials['access_token'] = $access_details->access_token;
-				$mautic_credentials['expires_in'] = $expiration;
-				$mautic_credentials['refresh_token'] = $access_details->refresh_token;
-				update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
+				// Check mautic errors array.
+				if ( ! isset( $access_details->errors ) ) {
+					$expiration = time() + $access_details->expires_in;
+					$mautic_credentials['access_token'] = $access_details->access_token;
+					$mautic_credentials['expires_in'] = $expiration;
+					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+					update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
+				}
 			}
 		}
 
@@ -483,11 +491,14 @@
 
 					$response_body = wp_remote_retrieve_body( $response );
 					$access_details = json_decode( $response_body );
-					$expiration = time() + $access_details->expires_in;
-					$credentials['access_token'] = $access_details->access_token;
-					$credentials['expires_in'] = $expiration;
-					$credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( AP_MAUTIC_APIAUTH, $credentials );
+					// Check mautic errors array.
+					if ( ! isset( $access_details->errors ) ) {
+						$expiration = time() + $access_details->expires_in;
+						$credentials['access_token'] = $access_details->access_token;
+						$credentials['expires_in'] = $expiration;
+						$credentials['refresh_token'] = $access_details->refresh_token;
+						update_option( AP_MAUTIC_APIAUTH, $credentials );
+					}
 				}
 			} // refresh code token ends.
 		}
