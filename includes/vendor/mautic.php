@@ -563,18 +563,52 @@
 	public static function remove_from_all_segments( $email ) {
 
 		$contact_id = self::get_mautic_contact_id( $email );
-
 		if ( isset( $contact_id ) ) {
 			// get all segments contact_id is member of.
 			$url = '/api/contacts/' . $contact_id . '/segments';
 			$method = 'GET';
 
-			$segments = self::ampw_mautic_api_call( $url, $method );
-
+			self::generate_access_token();
+			// add contacts.
 			$credentials = APMautic_Helper::get_mautic_credentials();
 
-			if ( empty( $segments ) ) {
+			if ( ! isset( $credentials['access_token'] ) ) {
+				return;
+			}
+			$access_token = $credentials['access_token'];
+			$param['access_token'] = $access_token;
 
+			$url = $credentials['baseUrl'] . $url;
+
+			$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+			$response = wp_remote_post( $url, array(
+				'method' => $method,
+				'timeout' => 45,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'blocking' => true,
+				'headers' => array(),
+				'body' => $param,
+				'cookies' => array(),
+			));
+
+			$segments = array();
+			if ( !is_wp_error( $response ) ) {
+
+				if ( is_array( $response ) ) {
+
+					$response_code = wp_remote_retrieve_response_code( $response );
+
+					if ( 200 === $response_code || 201 === $response_code ) {
+
+						$response_body = wp_remote_retrieve_body( $response );
+						$segments = json_decode( $response_body );
+						
+					}
+				}
+			}
+			
+			if ( empty( $segments ) ) {
 				return;
 			}
 
