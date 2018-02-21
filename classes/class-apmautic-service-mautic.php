@@ -206,7 +206,11 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 * @param object $select Saved list.
 	 * @return string The markup for the list field.
 	 */
-	public function render_list_field( $select, $name = 'ss_seg_action[]' ) {
+	public function render_list_field( $select, $field_name = '' ) {
+
+		if ( '' == $field_name ) {
+			$field_name = 'ss_seg_action[]';
+		}
 
 		$segments_trans = get_transient( 'apm_all_segments' );
 
@@ -231,7 +235,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			$options[ $list->id ] = $list->name;
 		}
 
-		APMautic_Helper::render_settings_field( $name, array(
+		APMautic_Helper::render_settings_field( $field_name, array(
 			'type'			=> 'select',
 			'id'			=> 'ss-cp-condition',
 			'class'			=> 'root-seg-action',
