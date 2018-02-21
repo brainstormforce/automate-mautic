@@ -140,9 +140,10 @@ final class APMautic_Services {
 	 * @since 1.0.5
 	 * @param string $select selected segment.
 	 */
-	public static function select_all_segments( $select = '' ) {
+	public static function select_all_segments( $select = '', $name = ''  ) {
+
 			// get all segments.
 			$instance   = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
-			$instance->render_list_field( $select );
+			$instance->render_list_field( $select, $name );
 	}
 }
