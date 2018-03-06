@@ -89,10 +89,10 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function menu() {
 			if ( current_user_can( 'delete_users' ) ) {
-				$func	= __CLASS__ . '::render';
+				$func          = __CLASS__ . '::render';
 				$menu_position = apm_get_option( 'apmautic_menu_position' );
 				if ( ! class_exists( 'APMautic_Addon_Init' ) || ! $menu_position ) {
-					add_options_page( 'AutomatePlug Mautic',  __( 'AutomatePlug Mautic', 'automate-mautic' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
+					add_options_page( 'AutomatePlug Mautic', __( 'AutomatePlug Mautic', 'automate-mautic' ), 'access_automate_mautic', AP_MAUTIC_POSTTYPE, $func );
 				}
 			}
 		}
@@ -109,9 +109,9 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( AP_MAUTIC_POSTTYPE == $curr_screen ) {
 				wp_enqueue_script( 'jquery' );
 				wp_enqueue_script( 'jquery-ui-sortable' );
-				wp_enqueue_script( 'apm-admin-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/admin.js' , array( 'jquery', 'jquery-ui-sortable', 'wp-util' ) );
+				wp_enqueue_script( 'apm-admin-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util' ) );
 				wp_enqueue_style( 'apm-admin-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/admin.css' );
-				wp_enqueue_script( 'apm-select2-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js' , array( 'jquery' ) );
+				wp_enqueue_script( 'apm-select2-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js', array( 'jquery' ) );
 				wp_enqueue_style( 'apm-select2-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/select2.min.css' );
 
 				$options = array(
@@ -144,29 +144,28 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			$new_post_url = APMautic_AdminSettings::get_render_page_url( '&tab=add_new_rule' );
 			?>
 			<div class="wrap">
-			
-		<?php
-		if ( ! empty( $_GET['s'] ) ) {
-			// translators: %&#8220: left double quotation mark.
-			// translators: %&#8221: right double quotation mark.
-			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automate-mautic' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
-		}
-		?>
-		<form method="get" action="" >
+				<?php
+				if ( ! empty( $_GET['s'] ) ) {
+					// translators: %&#8220: left double quotation mark.
+					// translators: %&#8221: right double quotation mark.
+					printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automate-mautic' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
+				}
+				?>
+				<form method="get" action="" >
 
-			<?php
-			if ( isset( $_GET['page'] ) ) {
-				echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
-			}
-			$list_table = new APMautic_Table();
-			$list_table->prepare_items();
-			$list_table->search_box( 'search', 'apm_rule_search' );
-			?>
-			</form>
-			<form action="<?php echo admin_url( 'admin-post.php' ); ?>" method="post">
-			<input type="hidden" name="action" value="apm_rule_list" />
-			<?php $list_table->display(); ?>
-			</form>
+					<?php
+					if ( isset( $_GET['page'] ) ) {
+						echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
+					}
+					$list_table = new APMautic_Table();
+					$list_table->prepare_items();
+					$list_table->search_box( 'search', 'apm_rule_search' );
+					?>
+				</form>
+				<form action="<?php echo admin_url( 'admin-post.php' ); ?>" method="post">
+					<input type="hidden" name="action" value="apm_rule_list" />
+					<?php $list_table->display(); ?>
+				</form>
 			</div>
 			<?php
 		}
@@ -229,11 +228,13 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @param string $type tab type.
 		 */
 		public static function get_render_page_url( $type = '' ) {
-			$parent = self::get_menu_parent();
+			$parent    = self::get_menu_parent();
 			$admin_url = admin_url( $parent );
-			$admin_url = add_query_arg( array(
-				'page' => 'automate-mautic' . $type,
-			), $admin_url );
+			$admin_url = add_query_arg(
+				array(
+					'page' => 'automate-mautic' . $type,
+				), $admin_url
+			);
 			return $admin_url;
 		}
 
@@ -244,7 +245,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function get_menu_parent() {
 
-			$parent = ! (apm_get_option( 'apmautic_menu_position' )) ? 'options-general.php' : apm_get_option( 'apmautic_menu_position' );
+			$parent            = ! ( apm_get_option( 'apmautic_menu_position' ) ) ? 'options-general.php' : apm_get_option( 'apmautic_menu_position' );
 			$is_top_level_page = in_array( $parent, array( 'top', 'middle', 'bottom' ), true );
 			if ( $is_top_level_page ) {
 				$parent = 'admin.php';
@@ -276,7 +277,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			}
 
 			if ( isset( $_POST['apm-post-meta-nonce'] ) && wp_verify_nonce( $_POST['apm-post-meta-nonce'], 'apmauticpmeta' ) ) {
-				$rule_id = '';
+				$rule_id           = '';
 				$update_conditions = '';
 				if ( isset( $_POST['ampw_rule_title'] ) ) {
 					$rule_name = esc_attr( $_POST['ampw_rule_title'] );
@@ -284,13 +285,13 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 				// Gather post data.
 				$rule_post_type = array(
-				'post_title'    => $rule_name,
-				'post_content'  => '',
-				'post_status'   => 'publish',
-				'post_type'     => AP_MAUTIC_POSTTYPE,
+					'post_title'   => $rule_name,
+					'post_content' => '',
+					'post_status'  => 'publish',
+					'post_type'    => AP_MAUTIC_POSTTYPE,
 				);
 
-				if ( isset( $_GET['action'] ) &&  'edit' == $_GET['action'] ) {
+				if ( isset( $_GET['action'] ) && 'edit' == $_GET['action'] ) {
 					$rule_id = esc_attr( $_GET['post'] );
 				}
 
@@ -304,27 +305,27 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				// update post meta.
 				if ( isset( $_POST['pm_condition'] ) ) {
 					$conditions = $_POST['pm_condition'];
-					$cp_keys = array_keys( $conditions, 'CP' );
+					$cp_keys    = array_keys( $conditions, 'CP' );
 
 					$condition_cnt = sizeof( $conditions );
 
 					for ( $i = 0; $i < $condition_cnt; $i++ ) {
 						if ( 'UR' == $conditions[ $i ] ) {
-							$base = sanitize_text_field( $conditions[ $i ] );
+							$base                    = sanitize_text_field( $conditions[ $i ] );
 							$update_conditions[ $i ] = array( $base );
 						}
 						if ( 'CP' == $conditions[ $i ] ) {
-							$sub_key = array_search( $i, $cp_keys );
-							$ss_cp_condition = isset( $_POST['ss_cp_condition'][ $sub_key ] ) ? sanitize_text_field( $_POST['ss_cp_condition'][ $sub_key ] ) : '';
-							$base = sanitize_text_field( $conditions[ $i ] );
-							$sub_cp_condition = sanitize_text_field( $_POST['sub_cp_condition'][ $sub_key ] );
+							$sub_key                 = array_search( $i, $cp_keys );
+							$ss_cp_condition         = isset( $_POST['ss_cp_condition'][ $sub_key ] ) ? sanitize_text_field( $_POST['ss_cp_condition'][ $sub_key ] ) : '';
+							$base                    = sanitize_text_field( $conditions[ $i ] );
+							$sub_cp_condition        = sanitize_text_field( $_POST['sub_cp_condition'][ $sub_key ] );
 							$update_conditions[ $i ] = array(
-							$base,
-							$sub_cp_condition,
-							$ss_cp_condition,
+								$base,
+								$sub_cp_condition,
+								$ss_cp_condition,
 							);
 						}
-						$action = 'update_condition_' . $conditions[ $i ];
+						$action            = 'update_condition_' . $conditions[ $i ];
 						$update_conditions = apply_filters( $action, $update_conditions, $conditions, $i, $_POST );
 					}
 					$update_conditions = serialize( $update_conditions );
@@ -339,14 +340,14 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 					for ( $i = 0; $i < $action_cnt; $i++ ) {
 
-						$sub_seg_action = sanitize_text_field( $_POST['sub_seg_action'][ $i ] );
-						$ss_seg_action = sanitize_text_field( $_POST['ss_seg_action'][ $i ] );
+						$sub_seg_action       = sanitize_text_field( $_POST['sub_seg_action'][ $i ] );
+						$ss_seg_action        = sanitize_text_field( $_POST['ss_seg_action'][ $i ] );
 						$update_actions[ $i ] = array(
 							$sub_seg_action,
 							$ss_seg_action,
-							);
-						$action = 'update_action_' . $actions[ $i ];
-						$update_action = apply_filters( $action, $update_actions, $actions, $i, $_POST );
+						);
+						$action               = 'update_action_' . $actions[ $i ];
+						$update_action        = apply_filters( $action, $update_actions, $actions, $i, $_POST );
 					}
 
 					$update_actions = serialize( $update_actions );
@@ -355,7 +356,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 					$redirect = APMautic_AdminSettings::get_render_page_url( "&action=edit&post=$post_id" );
 					wp_redirect( $redirect );
 					exit();
-			}// End if().
+			}
 
 			if ( isset( $_POST['ap-mautic-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-nonce'], 'apmwmautic' ) ) {
 
@@ -369,8 +370,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 				$amp_options['callback-uri'] = isset( $_POST['callback-uri'] ) ? esc_attr( $_POST['callback-uri'] ) : '';
 
-				$mautic_api_url = $amp_options['base-url'];
-				$amp_options['base-url'] = rtrim( $mautic_api_url ,'/' );
+				$mautic_api_url          = $amp_options['base-url'];
+				$amp_options['base-url'] = rtrim( $mautic_api_url, '/' );
 
 				update_option( AP_MAUTIC_PLUGIN_CONFIG, $amp_options );
 			}
@@ -415,7 +416,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 			if ( isset( $_POST['ampw-save-authenticate'] ) && 'Save and Authenticate' == esc_attr( $_POST['ampw-save-authenticate'] ) ) {
 				$post_data = $_POST;
-				$instance   = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
+				$instance  = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
 				$instance->connect( $post_data );
 			}
 		}
@@ -461,10 +462,10 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function render_tab_items( $items, $active ) {
 			$output = '';
 			foreach ( $items as $slug => $data ) {
-				$page_slug = '&tab=' . $slug;
+				$page_slug  = '&tab=' . $slug;
 				$active_tab = ( $slug == $active ) ? 'nav-tab-active' : '';
-				$url = APMautic_AdminSettings::get_render_page_url( $page_slug );
-				$output .= "<a class='nav-tab " . esc_attr( $active_tab ) . "' href='" . esc_url( $url ) . "'>" . esc_attr( $data['label'] ) . '</a>';
+				$url        = APMautic_AdminSettings::get_render_page_url( $page_slug );
+				$output    .= "<a class='nav-tab " . esc_attr( $active_tab ) . "' href='" . esc_url( $url ) . "'>" . esc_attr( $data['label'] ) . '</a>';
 			}
 			echo $output;
 		}
@@ -481,7 +482,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 					global $wp_roles;
 					$wp_roles_data = $wp_roles->get_names();
-					$roles = false;
+					$roles         = false;
 
 					$roles = apm_get_option( 'apmautic_access_role' );
 

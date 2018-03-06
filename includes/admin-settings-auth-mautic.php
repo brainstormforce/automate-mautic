@@ -10,7 +10,7 @@
 <div id="poststuff">
 	<div id="post-body" class="metabox-holder columns-2">
 		<div id="postbox-container-2" class="postbox-container postbox ampw-authenti-container">
-			<h2 class="hndle ui-sortable-handle apm-rule-heading" style="padding: 1em 2em;"><span><?php _e( 'Authenticate Mautic', 'automate-mautic' ) ?></span></h2>
+			<h2 class="hndle ui-sortable-handle apm-rule-heading" style="padding: 1em 2em;"><span><?php _e( 'Authenticate Mautic', 'automate-mautic' ); ?></span></h2>
 <?php
 
 	APMautic_Services::render_settings();
@@ -21,7 +21,6 @@ if ( APMautic_Helper::is_service_connected() ) {
 	<?php
 }
 ?>
-	
 		</div>
 		<div id="postbox-container-1" class="postbox-container">
 			<div id="side-sortables" class="meta-box-sortables ui-sortable">

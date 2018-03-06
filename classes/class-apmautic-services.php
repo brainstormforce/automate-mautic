@@ -21,10 +21,10 @@ final class APMautic_Services {
 	 * @var array $services_data
 	 */
 	static private $services_data = array(
-		'mautic'    => array(
-			'type'              => 'autoresponder',
-			'name'              => 'Mautic',
-			'class'             => 'APMautic_Service_Mautic',
+		'mautic' => array(
+			'type'  => 'autoresponder',
+			'name'  => 'Mautic',
+			'class' => 'APMautic_Service_Mautic',
 		),
 	);
 
@@ -35,14 +35,13 @@ final class APMautic_Services {
 	 * @return void
 	 */
 	static public function render_settings() {
-		$is_connected		= APMautic_Helper::is_service_connected();
-		$service            = AP_MAUTIC_SERVICE;
-		$response_fields 	= '';
+		$is_connected    = APMautic_Helper::is_service_connected();
+		$service         = AP_MAUTIC_SERVICE;
+		$response_fields = '';
 		// Render the settings to connect a new account.
 		if ( $is_connected ) {
 			$response_fields = self::render_connect_settings( $service );
-		} // End if().
-		else {
+		} else {
 			$response_fields = self::render_account_settings( $service );
 		}
 
@@ -61,7 +60,7 @@ final class APMautic_Services {
 		ob_start();
 
 		$saved_services = APMautic_Helper::get_service_data();
-		$instance = self::get_service_instance( $service );
+		$instance       = self::get_service_instance( $service );
 		echo $instance->render_connect_settings( $saved_services );
 
 		return ob_get_clean();
@@ -76,7 +75,7 @@ final class APMautic_Services {
 	static public function render_account_settings( $service ) {
 		$saved_services = APMautic_Helper::get_service_data();
 		ob_start();
-		$instance   = self::get_service_instance( $service );
+		$instance = self::get_service_instance( $service );
 		echo $instance->render_fields( $saved_services );
 
 		return ob_get_clean();
@@ -138,11 +137,15 @@ final class APMautic_Services {
 	 * Get an instance of a service helper class.
 	 *
 	 * @since 1.0.5
-	 * @param string $select selected segment.
+	 * @since 1.0.x $name is introduced.
+	 *
+	 * @param String $select selected segment.
+	 * @param String $name HTML name of the select field.
 	 */
-	public static function select_all_segments( $select = '' ) {
+	public static function select_all_segments( $select = '', $name = '' ) {
+
 			// get all segments.
-			$instance   = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
-			$instance->render_list_field( $select );
+			$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance->render_list_field( $select, $name );
 	}
 }

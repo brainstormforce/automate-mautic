@@ -58,7 +58,7 @@ class APMautic_WP_Hooks {
 	 * @return void
 	 */
 	public static function update_access_token() {
-		$instance   = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
+		$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
 		$instance->update_token();
 	}
 
@@ -124,13 +124,13 @@ class APMautic_WP_Hooks {
 			'not_found'          => __( 'No rules found.', 'automate-mautic' ),
 			'not_found_in_trash' => __( 'No rules found in Trash.', 'automate-mautic' ),
 		);
-		$args = array(
+		$args   = array(
 			'labels'             => $labels,
 			'description'        => __( 'Description.', 'automate-mautic' ),
 			'public'             => false,
 			'publicly_queryable' => false,
 			'show_ui'            => false,
-			'show_in_menu'       => ! (apm_get_option( 'apmautic_menu_position' )) ? 'options-general.php' : apm_get_option( 'apmautic_menu_position' ),
+			'show_in_menu'       => ! ( apm_get_option( 'apmautic_menu_position' ) ) ? 'options-general.php' : apm_get_option( 'apmautic_menu_position' ),
 			'query_var'          => true,
 			'rewrite'            => array(
 				'slug' => AP_MAUTIC_POSTTYPE,
@@ -139,7 +139,7 @@ class APMautic_WP_Hooks {
 			'has_archive'        => true,
 			'hierarchical'       => false,
 			'menu_position'      => null,
-			'menu_icon'			 => 'dashicons-chart-line',
+			'menu_icon'          => 'dashicons-chart-line',
 			'supports'           => array( 'title' ),
 		);
 		register_post_type( AP_MAUTIC_POSTTYPE, $args );
