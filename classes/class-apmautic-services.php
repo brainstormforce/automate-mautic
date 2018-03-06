@@ -41,8 +41,7 @@ final class APMautic_Services {
 		// Render the settings to connect a new account.
 		if ( $is_connected ) {
 			$response_fields = self::render_connect_settings( $service );
-		} // End if().
-		else {
+		} else {
 			$response_fields = self::render_account_settings( $service );
 		}
 
@@ -138,7 +137,10 @@ final class APMautic_Services {
 	 * Get an instance of a service helper class.
 	 *
 	 * @since 1.0.5
-	 * @param string $select selected segment.
+	 * @since 1.0.x $name is introduced.
+	 *
+	 * @param String $select selected segment.
+	 * @param String $name HTML name of the select field.
 	 */
 	public static function select_all_segments( $select = '', $name = '' ) {
 

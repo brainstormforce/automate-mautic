@@ -144,29 +144,28 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			$new_post_url = APMautic_AdminSettings::get_render_page_url( '&tab=add_new_rule' );
 			?>
 			<div class="wrap">
-			
-		<?php
-		if ( ! empty( $_GET['s'] ) ) {
-			// translators: %&#8220: left double quotation mark.
-			// translators: %&#8221: right double quotation mark.
-			printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automate-mautic' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
-		}
-		?>
-		<form method="get" action="" >
+				<?php
+				if ( ! empty( $_GET['s'] ) ) {
+					// translators: %&#8220: left double quotation mark.
+					// translators: %&#8221: right double quotation mark.
+					printf( '<span >' . __( 'Search results for &#8220;%s&#8221;', 'automate-mautic' ) . '</span>', esc_html( wp_unslash( $_GET['s'] ) ) );
+				}
+				?>
+				<form method="get" action="" >
 
-			<?php
-			if ( isset( $_GET['page'] ) ) {
-				echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
-			}
-			$list_table = new APMautic_Table();
-			$list_table->prepare_items();
-			$list_table->search_box( 'search', 'apm_rule_search' );
-			?>
-			</form>
-			<form action="<?php echo admin_url( 'admin-post.php' ); ?>" method="post">
-			<input type="hidden" name="action" value="apm_rule_list" />
-			<?php $list_table->display(); ?>
-			</form>
+					<?php
+					if ( isset( $_GET['page'] ) ) {
+						echo '<input type="hidden" name="page" value="' . esc_attr( $_GET['page'] ) . '" />' . "\n";
+					}
+					$list_table = new APMautic_Table();
+					$list_table->prepare_items();
+					$list_table->search_box( 'search', 'apm_rule_search' );
+					?>
+				</form>
+				<form action="<?php echo admin_url( 'admin-post.php' ); ?>" method="post">
+					<input type="hidden" name="action" value="apm_rule_list" />
+					<?php $list_table->display(); ?>
+				</form>
 			</div>
 			<?php
 		}
@@ -357,7 +356,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 					$redirect = APMautic_AdminSettings::get_render_page_url( "&action=edit&post=$post_id" );
 					wp_redirect( $redirect );
 					exit();
-			}// End if().
+			}
 
 			if ( isset( $_POST['ap-mautic-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-nonce'], 'apmwmautic' ) ) {
 

@@ -145,12 +145,13 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 * @return array List of columns in this List Table.
 		 */
 		public function get_columns() {
-			 $columns = array(
-				 'cb'          => '<input type="checkbox" />',
-				 'post_title'  => 'Title',
-				 'post_author' => 'Author',
-			 );
-			  return $columns;
+			$columns = array(
+				'cb'          => '<input type="checkbox" />',
+				'post_title'  => 'Title',
+				'post_author' => 'Author',
+			);
+
+			return $columns;
 		}
 
 		/**
@@ -298,4 +299,4 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			return $result;
 		}
 	}
-}// End if().
+}

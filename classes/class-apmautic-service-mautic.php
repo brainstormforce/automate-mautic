@@ -214,7 +214,11 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 * Render markup for the list field.
 	 *
 	 * @since 1.0.5
+	 * @since  1.0.x $field_name introduced.
+	 *
 	 * @param object $select Saved list.
+	 * @param String $field_name HTML name of the field.
+	 *
 	 * @return string The markup for the list field.
 	 */
 	public function render_list_field( $select, $field_name = '' ) {

@@ -59,6 +59,5 @@
 			do_action( 'amp_options_tab_content', $active_tab );
 		?>
 		</div>
-		
 	</form>
 </div>

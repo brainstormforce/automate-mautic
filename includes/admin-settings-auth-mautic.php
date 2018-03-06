@@ -21,7 +21,6 @@ if ( APMautic_Helper::is_service_connected() ) {
 	<?php
 }
 ?>
-	
 		</div>
 		<div id="postbox-container-1" class="postbox-container">
 			<div id="side-sortables" class="meta-box-sortables ui-sortable">

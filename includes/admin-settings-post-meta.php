@@ -50,7 +50,6 @@
 			}
 		?>
 		<div class="amp-form-content">
-		
 				<div class="apm-metabox">
 					<div class="conditions">
 						<h4> <?php _e( 'Trigger', 'automate-mautic' ); ?> </h4>
@@ -110,7 +109,6 @@
 								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
-						
 									<div class="first-action">
 										<?php APMautic_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
 									</div>
@@ -153,8 +151,7 @@
 			</p>
 			<?php wp_nonce_field( 'apmauticpmeta', 'apm-post-meta-nonce' ); ?>
 				<?php
-		} // End if().
-		else {
+		} else {
 		?>
 		<!-- default fields -->
 		<div class="amp-form-content">

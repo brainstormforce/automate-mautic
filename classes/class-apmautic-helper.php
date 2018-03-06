@@ -119,7 +119,7 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 					default:
 						$input .= '';
 						break;
-				}// End switch().
+				}
 
 				if ( isset( $settings['desc'] ) && '' != $settings['desc'] ) {
 					$input .= '<p class="admin-help admin-field-desc">' . $settings['desc'] . '</p>';
@@ -127,7 +127,7 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 				if ( $iswrap ) {
 					$input .= '</div>';
 				}
-			}// End if().
+			}
 
 			echo $input;
 		}
