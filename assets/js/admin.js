@@ -22,21 +22,22 @@
 			var $ = jQuery.noConflict();
 
 			$( document ).on( 'click', '.remove-item', this._removeItem );
-			$( document ).on( 'click', '.ap-mautic-add-condition', this._ApendCondition );
-			$( document ).on( 'click', '.ap-mautic-add-action', this._AddAction );
+			$( document ).on( 'click', '.apm-add-condition', this._ApendCondition );
+			$( document ).on( 'click', '.apm-add-action', this._AddAction );
 			$( document ).on( 'change', '.select-condition', this._selectCondition );
 			$( document ).on( 'change', '.sub-cp-condition', this._subCondition );
 			$( document ).on( 'change', '.select-action', this._selectAction );
 			$( document ).on( 'change', '.sub-seg-action', this._subAction );
 			$( document ).on( 'click', '#refresh-mautic', this._refreshMautic );
-			$( document ).on( 'click', '.ap-mautic-disconnect', this._disconnectMautic );
-			$( '.ap-mautic-config-form' ).on( 'click', '.save-amp-settings', this._saveSettings );
-			$( '.ap-mautic-config-form' ).on( 'click', '.rule-delete-link', this._deleteRule );
-			$( '#ampw-sortable-condition' ).sortable();
-			$( '#ampw-sortable-condition' ).disableSelection();
-			$( '#ampw-sortable-action' ).sortable();
-			$( '#ampw-sortable-action' ).disableSelection();
-			$('.ap-mautic-metabox').find('select').select2();
+			$( document ).on( 'click', '.ap-toogle-option', this._toggleMautic );
+			$( document ).on( 'click', '.apm-disconnect', this._disconnectMautic );
+			$( '.apm-config-form' ).on( 'click', '.save-amp-settings', this._saveSettings );
+			$( '.apm-config-form' ).on( 'click', '.rule-delete-link', this._deleteRule );
+			$( '#apm-sortable-condition' ).sortable();
+			$( '#apm-sortable-condition' ).disableSelection();
+			$( '#apm-sortable-action' ).sortable();
+			$( '#apm-sortable-action' ).disableSelection();
+			$('.apm-metabox').find('select').select2();
 			$('#automate-config-form').find('select').select2();
 		},
 
@@ -49,17 +50,17 @@
 
 		_ApendCondition: function() {
 					var conditionField = mbTemplate( { clas: 'condition-field' } );
-				var n = $( '#ap-mautic-sortable-condition fieldset' ).length;
+				var n = $( '#apm-sortable-condition fieldset' ).length;
 				n++;
-				$( '#ap-mautic-sortable-condition' ).append('<fieldset class="ui-state-new" id="item-'+ n +'">'+ conditionField +'</fieldset>');
+				$( '#apm-sortable-condition' ).append('<fieldset class="ui-state-new" id="item-'+ n +'">'+ conditionField +'</fieldset>');
 				$( '.select-condition' ).select2();
 		},
 
 		_AddAction: function() {
 				var actionField = mbTemplate( { clas: "action-field" } );
-				var m = $( '#ampw-sortable-action fieldset' ).length;
+				var m = $( '#apm-sortable-action fieldset' ).length;
 				m++;
-				$( '#ampw-sortable-action' ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
+				$( '#apm-sortable-action' ).append('<fieldset class="ui-state-new" id="item-'+ m +'">'+ actionField + '</fieldset>');
 				$( '.select-action' ).select2();
 				$( '.select-action' ).select2();
 				$( '.root-seg-action' ).select2();
@@ -141,14 +142,15 @@
 		},
 
 		_refreshMautic: function() {
-			$( '.ap_mautic_spinner' ).css( 'visibility', 'visible' );
+			$( '.apm-wp-spinner' ).css( 'visibility', 'visible' );
 			var data= {
-				action:'clean_mautic_transient'
+				action:'clean_mautic_transient',
+				nonce : ApmAdminScript.ajax_nonce
 			};
 			$.post(ajaxurl, data, function(){
 
-				$( '.ap_mautic_spinner' ).removeClass('spinner');
-				$( '.ap_mautic_spinner' ).addClass('dashicons dashicons-yes');
+				$( '.apm-wp-spinner' ).removeClass('spinner');
+				$( '.apm-wp-spinner' ).addClass('dashicons dashicons-yes');
 				location.reload();
 			});
 		},
@@ -156,7 +158,8 @@
 		_disconnectMautic: function() {
 			if( confirm('Are you sure you wish to disconnect from Mautic?') ) {
 				var data= {
-					action:'config_disconnect_mautic'
+					action:'config_disconnect_mautic',
+					nonce : ApmAdminScript.ajax_nonce
 				};
 				$.post(ajaxurl, data, function(selHtml) {
 					location.reload();
@@ -173,8 +176,12 @@
 			}
 		},
 		_saveSettings: function() {
-			$( '.ap_mautic_spinner' ).css( 'visibility', 'visible' );
+			$( '.apm-wp-spinner' ).css( 'visibility', 'visible' );
 		},
+
+		_toggleMautic: function() {
+			$( '.inside' ).toggleClass('hide');
+		}
 	};
 
 	$( function() {
