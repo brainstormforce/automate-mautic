@@ -88,7 +88,7 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 
 						$input .= '<p class="submit"><input type="submit" name="' . $id . '" id="' . $id . '" class="button-primary ' . $class . '" value="' . $default_value . '"/>';
 						if ( isset( $settings['spinner'] ) && $settings['spinner'] ) {
-							$input .= '<span class="spinner ap_mautic_spinner" style=""></span></p>';
+							$input .= '<span class="spinner apm-wp-spinner" style=""></span></p>';
 						}
 						if ( isset( $settings['nonce_acion'] ) && '' != $settings['nonce_acion'] ) {
 							$input .= wp_nonce_field( $settings['nonce_acion'], $settings['nonce_name'] );

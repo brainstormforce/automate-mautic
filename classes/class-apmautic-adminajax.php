@@ -55,6 +55,7 @@ if ( ! class_exists( 'APMautic_AdminAjax' ) ) :
 		 * @return void
 		 */
 		public static function config_disconnect_mautic() {
+			check_ajax_referer( 'apm_mautic_admin_nonce', 'nonce' );
 			$result = delete_option( AP_MAUTIC_APIAUTH );
 			wp_send_json_success( $result );
 		}
@@ -66,6 +67,7 @@ if ( ! class_exists( 'APMautic_AdminAjax' ) ) :
 		 * @return void
 		 */
 		public static function clean_mautic_transient() {
+			check_ajax_referer( 'apm_mautic_admin_nonce', 'nonce' );
 			$result = delete_transient( 'apm_all_segments' );
 			wp_send_json_success( $result );
 		}

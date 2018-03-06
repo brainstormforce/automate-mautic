@@ -114,6 +114,10 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				wp_enqueue_script( 'apm-select2-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js' , array( 'jquery' ) );
 				wp_enqueue_style( 'apm-select2-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/select2.min.css' );
 
+				$options = array(
+					'ajax_nonce' => wp_create_nonce( 'apm_mautic_admin_nonce' ),
+				);
+				wp_localize_script( 'apm-admin-script', 'ApmAdminScript', $options );
 				do_action( 'amp_admin_scripts' );
 			}
 		}
@@ -140,9 +144,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			$new_post_url = APMautic_AdminSettings::get_render_page_url( '&tab=add_new_rule' );
 			?>
 			<div class="wrap">
-			<h1>
-			<?php _e( 'Mautic Rules', 'automate-mautic' ); ?> <a class="page-title-action" href="<?php echo $new_post_url; ?>" ><?php _e( 'Add New', 'automate-mautic' ); ?> </a>
-		</h1>
+			
 		<?php
 		if ( ! empty( $_GET['s'] ) ) {
 			// translators: %&#8220: left double quotation mark.
@@ -178,9 +180,9 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		public static function render_page_heading() {
 			$icon = AP_MAUTIC_PLUGIN_URL . '/assets/icon/mt.png';
 			if ( ! empty( $icon ) ) {
-				echo '<img class="ap-mautic-heading-icon" src="' . esc_url( $icon ) . '" />';
+				echo '<img class="apm-heading-icon" src="' . esc_url( $icon ) . '" />';
 			}
-			echo '<div class="ap-mautic-heading-config">' . __( 'AutomatePlug Mautic', 'automate-mautic' ) . '</div>';
+			echo '<div class="amp-heading-config">' . __( 'AutomatePlug Mautic', 'automate-mautic' ) . '</div>';
 		}
 
 		/**
@@ -273,7 +275,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				return;
 			}
 
-			if ( isset( $_POST['ap-mautic-post-meta-nonce'] ) && wp_verify_nonce( $_POST['ap-mautic-post-meta-nonce'], 'apmauticpmeta' ) ) {
+			if ( isset( $_POST['apm-post-meta-nonce'] ) && wp_verify_nonce( $_POST['apm-post-meta-nonce'], 'apmauticpmeta' ) ) {
 				$rule_id = '';
 				$update_conditions = '';
 				if ( isset( $_POST['ampw_rule_title'] ) ) {

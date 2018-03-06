@@ -7,7 +7,7 @@
  */
 
 ?>
-<div id="automate-config-form" class="ap-settings-form ap-mautic-config-form">
+<div id="automate-config-form" class="ap-settings-form apm-config-form">
 	<?php
 		$active_tab = isset( $_GET['tab'] ) ?  esc_attr( $_GET['tab'] ) : 'all_rules';
 	if ( isset( $_GET['action'] ) ) {
@@ -23,6 +23,9 @@
 			$items  = array(
 				'all_rules' => array(
 					'label' => 'All Rules',
+				),
+				'add_new_rule' => array(
+					'label' => 'Add New',
 				),
 				'auth_mautic' => array(
 					'label' => 'Authenticate',
@@ -43,8 +46,8 @@
 		APMautic_RulePanel::ap_mautic_metabox_view();
 	}
 	?>
-	<form id="ap-mautic-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
-		<div class="ap-mautic-form-content">
+	<form id="apm-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
+		<div class="amp-form-content ampw-authenticate-cont-70">
 			<?php
 			$active_path = str_replace( '_', '-', $active_tab );
 			$active_path = 'admin-settings-' . $active_path;
@@ -56,5 +59,6 @@
 			do_action( 'amp_options_tab_content', $active_tab );
 		?>
 		</div>
+		
 	</form>
 </div>
