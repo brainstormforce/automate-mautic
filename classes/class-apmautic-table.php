@@ -32,11 +32,13 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 * @since 1.0.0
 		 */
 		public function __construct() {
-			parent::__construct( array(
-				'singular'	=> 'rule',
-				'plural'	=> 'rules',
-				'ajax'		=> false,
-			) );
+			parent::__construct(
+				array(
+					'singular' => 'rule',
+					'plural'   => 'rules',
+					'ajax'     => false,
+				)
+			);
 		}
 
 		/**
@@ -50,9 +52,9 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			switch ( $column_name ) {
 				case 'post_title':
 				case 'post_author':
-				  return $item[ $column_name ];
+					return $item[ $column_name ];
 				default:
-				  return print_r( $item, true ); // Show the whole array for troubleshooting purposes.
+					return print_r( $item, true ); // Show the whole array for troubleshooting purposes.
 			}
 		}
 
@@ -145,9 +147,9 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		public function get_columns() {
 			 $columns = array(
 				 'cb'          => '<input type="checkbox" />',
-				'post_title'  => 'Title',
-				'post_author' => 'Author',
-			  );
+				 'post_title'  => 'Title',
+				 'post_author' => 'Author',
+			 );
 			  return $columns;
 		}
 
@@ -163,7 +165,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		protected function get_sortable_columns() {
 
 			$sortable_columns = array(
-				'post_title' => array( 'post_title', true ),
+				'post_title'  => array( 'post_title', true ),
 				'post_author' => array( 'post_author', false ),
 			);
 			return $sortable_columns;
@@ -197,7 +199,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				// This filter is documented in the WordPress function WP_List_Table::bulk_actions() in wp-admin/includes/class-wp-list-table.php.
 				$this->_actions = apply_filters( 'bulk_actions-' . $this->screen->id, $this->_actions ); // @codingStandardsIgnoreLine
 				$this->_actions = array_intersect_assoc( $this->_actions, $no_new_actions );
-				$two = '';
+				$two            = '';
 			} else {
 				$two = '2';
 			}
@@ -214,9 +216,11 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				echo "\t<option value='{$name}'>{$title}</option>\n";
 			}
 			echo "</select>\n";
-			submit_button( __( 'Apply', 'automate-mautic' ), 'action', '', false, array(
-				'id' => "doaction{$two}",
-			) );
+			submit_button(
+				__( 'Apply', 'automate-mautic' ), 'action', '', false, array(
+					'id' => "doaction{$two}",
+				)
+			);
 			echo "\n";
 		}
 
@@ -230,10 +234,10 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			$columns = $this->get_columns();
 
 			$this->process_bulk_action();
-			$hidden = array();
-			$sortable = $this->get_sortable_columns();
+			$hidden                = array();
+			$sortable              = $this->get_sortable_columns();
 			$this->_column_headers = array( $columns, $hidden, $sortable );
-			$this->items = $this->get_rules();
+			$this->items           = $this->get_rules();
 		}
 
 		/**
@@ -246,12 +250,12 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 
 			global $wpdb;
 			$page_number = $this->get_pagenum();
-			$query = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='%s' && post_status = 'publish'";
+			$query       = "SELECT ID,post_title,post_author,post_modified_gmt FROM {$wpdb->prefix}posts where post_type='%s' && post_status = 'publish'";
 
 			if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) {
-				$seachkey  = trim( $_GET['s'] );
+				$seachkey = trim( $_GET['s'] );
 				$seachkey = esc_attr( $seachkey );
-				$query .= " && post_title LIKE '%" . $seachkey . "%'";
+				$query   .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
 
 			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
@@ -261,11 +265,13 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			// How many pages do we have in total ?
 			$totalpages = ceil( $total_items / $perpage );
 
-			$this->set_pagination_args( array(
-				'total_items' => $total_items,
-				'total_pages' => $totalpages,
-				'per_page' => $perpage,
-			) );
+			$this->set_pagination_args(
+				array(
+					'total_items' => $total_items,
+					'total_pages' => $totalpages,
+					'per_page'    => $perpage,
+				)
+			);
 
 			$orderby = ! empty( $_GET['orderby'] ) ? esc_attr( $_GET['orderby'] ) : 'ASC';
 
@@ -283,7 +289,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 
 			// adjust the query to take pagination into account.
 			if ( ! empty( $paged ) && ! empty( $perpage ) ) {
-				$offset = ( $paged -1 ) * $perpage;
+				$offset = ( $paged - 1 ) * $perpage;
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
 

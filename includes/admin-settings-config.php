@@ -9,10 +9,10 @@
 ?>
 <div id="automate-config-form" class="ap-settings-form apm-config-form">
 	<?php
-		$active_tab = isset( $_GET['tab'] ) ?  esc_attr( $_GET['tab'] ) : 'all_rules';
+		$active_tab = isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : 'all_rules';
 	if ( isset( $_GET['action'] ) ) {
 		$current_action = esc_attr( $_GET['action'] );
-		$active_tab = '';
+		$active_tab     = '';
 	} else {
 		$current_action = '';
 	}
@@ -20,14 +20,14 @@
 	?>
 	<h2 class="nav-tab-wrapper">
 		<?php
-			$items  = array(
-				'all_rules' => array(
+			$items = array(
+				'all_rules'       => array(
 					'label' => 'All Rules',
 				),
-				'add_new_rule' => array(
+				'add_new_rule'    => array(
 					'label' => 'Add New',
 				),
-				'auth_mautic' => array(
+				'auth_mautic'     => array(
 					'label' => 'Authenticate',
 				),
 				'enable_tracking' => array(
@@ -51,7 +51,7 @@
 			<?php
 			$active_path = str_replace( '_', '-', $active_tab );
 			$active_path = 'admin-settings-' . $active_path;
-			$tab_file = AP_MAUTIC_PLUGIN_DIR . 'includes/' . sanitize_file_name( $active_path ) . '.php';
+			$tab_file    = AP_MAUTIC_PLUGIN_DIR . 'includes/' . sanitize_file_name( $active_path ) . '.php';
 
 			if ( file_exists( $tab_file ) ) {
 				require_once $tab_file;

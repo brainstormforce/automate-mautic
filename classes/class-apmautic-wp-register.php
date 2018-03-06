@@ -76,10 +76,10 @@ if ( ! class_exists( 'APMautic_WP_Register' ) ) :
 			$email = $user_info->user_email;
 
 			$body = array(
-				'firstname'	=> $user_info->first_name,
-				'lastname'	=> $user_info->last_name,
-				'email'		=> $user_info->user_email,
-				'website'	=> $user_info->user_url,
+				'firstname' => $user_info->first_name,
+				'lastname'  => $user_info->last_name,
+				'email'     => $user_info->user_email,
+				'website'   => $user_info->user_url,
 			);
 
 			$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );

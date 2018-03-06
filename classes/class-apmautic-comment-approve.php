@@ -58,7 +58,7 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 		 */
 		public function approve_comment_condition( $conditions ) {
 
-			$conditions['CP_APPROVE']	= __( 'Approved Comment Post', 'automate-mautic' );
+			$conditions['CP_APPROVE'] = __( 'Approved Comment Post', 'automate-mautic' );
 			return $conditions;
 		}
 
@@ -87,12 +87,12 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 					}
 
 					$set_actions = APMautic_RulePanel::get_all_actions( $status );
-					$email = $comment->comment_author_email;
+					$email       = $comment->comment_author_email;
 
 					$body = array(
-						'firstname'	=> $comment->comment_author,
-						'email'		=> $comment->comment_author_email,
-						'website'	=> $comment->comment_author_url,
+						'firstname' => $comment->comment_author,
+						'email'     => $comment->comment_author_email,
+						'website'   => $comment->comment_author_url,
 					);
 
 					$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
@@ -137,12 +137,12 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 		 */
 		public function update_approve_condition( $update_conditions, $conditions, $index, $post ) {
 
-			$cp_keys = array_keys( $conditions, 'CP_APPROVE' );
-			$sub_key = array_search( $index, $cp_keys );
-			$ss_cp_condition = isset( $post['ss_cp_condition'][ $sub_key ] ) ? $post['ss_cp_condition'][ $sub_key ] : '';
-			$base = sanitize_text_field( $conditions[ $index ] );
+			$cp_keys          = array_keys( $conditions, 'CP_APPROVE' );
+			$sub_key          = array_search( $index, $cp_keys );
+			$ss_cp_condition  = isset( $post['ss_cp_condition'][ $sub_key ] ) ? $post['ss_cp_condition'][ $sub_key ] : '';
+			$base             = sanitize_text_field( $conditions[ $index ] );
 			$sub_cp_condition = sanitize_text_field( $post['sub_cp_condition'][ $sub_key ] );
-			$ss_cp_condition = sanitize_text_field( $ss_cp_condition );
+			$ss_cp_condition  = sanitize_text_field( $ss_cp_condition );
 
 			$update_conditions[ $index ] = array(
 				$base,

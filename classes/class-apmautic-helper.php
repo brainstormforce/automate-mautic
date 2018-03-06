@@ -49,15 +49,15 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 
 			if ( '' != $id && ! empty( $settings ) ) {
 
-				$row_class = ( isset( $settings['row_class'] ) ) ? esc_html( $settings['row_class'] ) : '';
-				$type = ( isset( $settings['type'] ) ) ? sanitize_text_field( $settings['type'] ) : '';
-				$class = ( isset( $settings['class'] ) ) ? sanitize_html_class( $settings['class'] ) : '';
-				$label = ( isset( $settings['label'] ) ) ?  esc_html( $settings['label'] ) : '';
+				$row_class   = ( isset( $settings['row_class'] ) ) ? esc_html( $settings['row_class'] ) : '';
+				$type        = ( isset( $settings['type'] ) ) ? sanitize_text_field( $settings['type'] ) : '';
+				$class       = ( isset( $settings['class'] ) ) ? sanitize_html_class( $settings['class'] ) : '';
+				$label       = ( isset( $settings['label'] ) ) ? esc_html( $settings['label'] ) : '';
 				$placeholder = ( isset( $settings['placeholder'] ) ) ? sanitize_text_field( $settings['placeholder'] ) : '';
-				$iswrap = ( isset( $settings['iswrap'] ) ) ? $settings['iswrap'] : true;
-				$id = sanitize_html_class( $id );
-				$help = isset( $settings['help'] ) ? esc_html( $settings['help'] ) : '';
-				$input = '';
+				$iswrap      = ( isset( $settings['iswrap'] ) ) ? $settings['iswrap'] : true;
+				$id          = sanitize_html_class( $id );
+				$help        = isset( $settings['help'] ) ? esc_html( $settings['help'] ) : '';
+				$input       = '';
 
 				if ( $iswrap ) {
 					$input .= '<div class="apm-config-fields apm-' . $id . '-wrap  ' . $row_class . '">';
@@ -65,7 +65,7 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 				switch ( $type ) {
 					case 'text':
 						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
-						$input .= '<h4>' . $label . '</h4>';
+						$input        .= '<h4>' . $label . '</h4>';
 
 						if ( isset( $help ) && '' != $help ) {
 							$input .= '<p class="admin-help">' . $help . '</p>';
@@ -76,7 +76,7 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 
 					case 'hidden':
 						$default_value = ( isset( $settings['def_value'] ) ) ? $settings['def_value'] : '';
-						$input .= '<input type="hidden" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="' . $default_value . '"/>';
+						$input        .= '<input type="hidden" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="' . $default_value . '"/>';
 						break;
 
 					case 'submit':
@@ -105,16 +105,16 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 						if ( isset( $settings['nonce_acion'] ) && '' != $settings['nonce_acion'] ) {
 							$input .= wp_nonce_field( $settings['nonce_acion'], $settings['nonce_name'] );
 						}
-					break;
+						break;
 
 					case 'checkbox':
 						$checked = ( isset( $settings['ischecked'] ) ) ? $settings['ischecked'] : '';
-						$input .= '<h4>' . $label . '</h4>';
+						$input  .= '<h4>' . $label . '</h4>';
 						if ( isset( $help ) && '' != $help ) {
 							$input .= '<p class="admin-help">' . $help . '</p>';
 						}
 						$input .= '<input type="checkbox" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="" "' . checked( 1, $checked, false ) . '"/>' . esc_html( $settings['text'] );
-					break;
+						break;
 
 					default:
 						$input .= '';
@@ -158,7 +158,7 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 
 						foreach ( $settings['options'] as $option_key => $option_val ) {
 							$selected = selected( $option_key, $settings['selected'], false );
-							$input .= '<option value="' . esc_attr( $option_key ) . '"' . $selected . '>' . esc_html( $option_val ) . '</option>';
+							$input   .= '<option value="' . esc_attr( $option_key ) . '"' . $selected . '>' . esc_html( $option_val ) . '</option>';
 						}
 						$input .= '</select>';
 						break;
@@ -180,7 +180,7 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 		 * @return array Service Data.
 		 */
 		public static function get_service_data() {
-			$config = get_option( AP_MAUTIC_PLUGIN_CONFIG );
+			$config      = get_option( AP_MAUTIC_PLUGIN_CONFIG );
 			$credentials = get_option( 'ampw_mautic_credentials' );
 
 			if ( is_array( $credentials ) ) {

@@ -60,32 +60,32 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		$mautic_api_url = '';
 		$apm_public_key = '';
 		$apm_secret_key = '';
-		$cpts_err = false;
-		$lists = null;
-		$ref_list_id = null;
+		$cpts_err       = false;
+		$lists          = null;
+		$ref_list_id    = null;
 
 		$mautic_api_url = isset( $data['base-url'] ) ? esc_url( $data['base-url'] ) : '';
 		$apm_public_key = isset( $data['public-key'] ) ? sanitize_key( $data['public-key'] ) : '';
 		$apm_secret_key = isset( $data['secret-key'] ) ? sanitize_key( $data['secret-key'] ) : '';
 
-		$mautic_api_url = rtrim( $mautic_api_url ,'/' );
+		$mautic_api_url = rtrim( $mautic_api_url, '/' );
 		if ( empty( $mautic_api_url ) ) {
-			$status = 'error';
-			$message = 'API URL is missing.';
+			$status   = 'error';
+			$message  = 'API URL is missing.';
 			$cpts_err = true;
 		}
 		if ( empty( $apm_secret_key ) ) {
-			$status = 'error';
-			$message = 'Secret Key is missing.';
+			$status   = 'error';
+			$message  = 'Secret Key is missing.';
 			$cpts_err = true;
 		}
 		$settings = array(
-		'baseUrl'		=> $mautic_api_url,
-		'version'		=> 'OAuth2',
-		'clientKey'		=> $apm_public_key,
-		'clientSecret'	=> $apm_secret_key,
-		'callback'		=> APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
-		'response_type'	=> 'code',
+			'baseUrl'       => $mautic_api_url,
+			'version'       => 'OAuth2',
+			'clientKey'     => $apm_public_key,
+			'clientSecret'  => $apm_secret_key,
+			'callback'      => APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
+			'response_type' => 'code',
 		);
 
 		update_option( AP_MAUTIC_APIAUTH, $settings );
@@ -108,7 +108,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 
 		$api = $this->get_api();
 		if ( isset( $_GET['code'] ) && AP_MAUTIC_POSTTYPE == $_REQUEST['page'] ) {
-			$credentials = APMautic_Helper::get_mautic_credentials();
+			$credentials                = APMautic_Helper::get_mautic_credentials();
 			$credentials['access_code'] = sanitize_key( $_GET['code'] );
 			update_option( AP_MAUTIC_APIAUTH, $credentials );
 			$api->get_mautic_data();
@@ -123,27 +123,31 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 * @return string The connection settings markup.
 	 */
 	public function render_connect_settings( $service_data ) {
-		$base_url  = isset( $service_data['base-url'] ) ? $service_data['base-url'] : '';
+		$base_url = isset( $service_data['base-url'] ) ? $service_data['base-url'] : '';
 
 		ob_start();
 
-		APMautic_Helper::render_input_html('base-url', array(
-			'row_class'     => 'apm-service-row',
-			'class'         => 'apm-service-input',
-			'def_value'		=> $base_url,
-			'type'          => 'text',
-			'label'         => __( 'Base URL', 'automate-mautic' ),
-			'help'          => __( 'This setting is required for Mautic Integration.', 'automate-mautic' ),
-		));
+		APMautic_Helper::render_input_html(
+			'base-url', array(
+				'row_class' => 'apm-service-row',
+				'class'     => 'apm-service-input',
+				'def_value' => $base_url,
+				'type'      => 'text',
+				'label'     => __( 'Base URL', 'automate-mautic' ),
+				'help'      => __( 'This setting is required for Mautic Integration.', 'automate-mautic' ),
+			)
+		);
 
-		APMautic_Helper::render_input_html('ampw-save-authenticate', array(
-			'row_class'     => 'apm-service-row amp-connected-btn',
-			'class'         => 'apm-service-input',
-			'type'          => 'button',
-			'def_value'		=> 'Connected',
-			'nonce_acion'	=> 'apmwmautic',
-			'nonce_name'	=> 'ap-mautic-nonce',
-		));
+		APMautic_Helper::render_input_html(
+			'ampw-save-authenticate', array(
+				'row_class'   => 'apm-service-row amp-connected-btn',
+				'class'       => 'apm-service-input',
+				'type'        => 'button',
+				'def_value'   => 'Connected',
+				'nonce_acion' => 'apmwmautic',
+				'nonce_name'  => 'ap-mautic-nonce',
+			)
+		);
 		return ob_get_clean();
 	}
 
@@ -155,45 +159,53 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 * @return string html data
 	 */
 	public function render_fields( $service_data ) {
-		$base_url  = isset( $service_data['base-url'] ) ? $service_data['base-url'] : '';
+		$base_url = isset( $service_data['base-url'] ) ? $service_data['base-url'] : '';
 
 		ob_start();
 
-		APMautic_Helper::render_input_html('base-url', array(
-			'row_class'     => 'apm-service-row',
-			'class'         => 'apm-service-input',
-			'def_value'		=> $base_url,
-			'type'          => 'text',
-			'label'          => __( 'Enter Base URL', 'automate-mautic' ),
-		));
+		APMautic_Helper::render_input_html(
+			'base-url', array(
+				'row_class' => 'apm-service-row',
+				'class'     => 'apm-service-input',
+				'def_value' => $base_url,
+				'type'      => 'text',
+				'label'     => __( 'Enter Base URL', 'automate-mautic' ),
+			)
+		);
 
-		APMautic_Helper::render_input_html('public-key', array(
-			'row_class'     => 'apm-service-row',
-			'class'         => 'apm-service-input',
-			'type'          => 'text',
-			'label'         => __( 'Public Key', 'automate-mautic' ),
-		));
+		APMautic_Helper::render_input_html(
+			'public-key', array(
+				'row_class' => 'apm-service-row',
+				'class'     => 'apm-service-input',
+				'type'      => 'text',
+				'label'     => __( 'Public Key', 'automate-mautic' ),
+			)
+		);
 
-		APMautic_Helper::render_input_html('secret-key', array(
-			'row_class'     => 'apm-service-row',
-			'class'         => 'apm-service-input',
-			'type'          => 'text',
-			'label'         => __( 'Secret Key', 'automate-mautic' ),
-			// translators: %1$s: helper docs link opening anchor tag.
-			// translators: %2$s: helper docs link closing anchor tag.
-			'desc'          => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automate-mautic' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' ),
-		));
+		APMautic_Helper::render_input_html(
+			'secret-key', array(
+				'row_class' => 'apm-service-row',
+				'class'     => 'apm-service-input',
+				'type'      => 'text',
+				'label'     => __( 'Secret Key', 'automate-mautic' ),
+				// translators: %1$s: helper docs link opening anchor tag.
+				// translators: %2$s: helper docs link closing anchor tag.
+				'desc'      => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>Need help to get Mautic API public and secret key? Read %1$sthis article%2$s.', 'automate-mautic' ), '<a target="_blank" href="' . esc_url( 'https://docs.brainstormforce.com/how-to-get-mautic-api-credentials/' ) . '">', '</a>' ),
+			)
+		);
 
-		APMautic_Helper::render_input_html('ampw-save-authenticate', array(
-			'row_class'     => 'apm-service-row',
-			'class'         => 'save-amp-settings',
-			'type'          => 'submit',
-			'def_value'		=> 'Save and Authenticate',
-			'spinner'		=> true,
-			'nonce_acion'	=> 'apmwmautic',
-			'nonce_name'	=> 'ap-mautic-nonce',
-			'label'         => __( 'Save and Authenticate', 'automate-mautic' ),
-		));
+		APMautic_Helper::render_input_html(
+			'ampw-save-authenticate', array(
+				'row_class'   => 'apm-service-row',
+				'class'       => 'save-amp-settings',
+				'type'        => 'submit',
+				'def_value'   => 'Save and Authenticate',
+				'spinner'     => true,
+				'nonce_acion' => 'apmwmautic',
+				'nonce_name'  => 'ap-mautic-nonce',
+				'label'       => __( 'Save and Authenticate', 'automate-mautic' ),
+			)
+		);
 
 		return ob_get_clean();
 	}
@@ -219,9 +231,9 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		if ( $segments_trans ) {
 			$segments = $segments_trans;
 		} else {
-			$api = $this->get_api();
+			$api      = $this->get_api();
 			$segments = $api->get_all_segments();
-			set_transient( 'apm_all_segments', $segments , DAY_IN_SECONDS );
+			set_transient( 'apm_all_segments', $segments, DAY_IN_SECONDS );
 		}
 		if ( empty( $segments ) || ! APMautic_Services::is_connected() ) {
 			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automate-mautic' );
@@ -234,13 +246,15 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			$options[ $list->id ] = $list->name;
 		}
 
-		APMautic_Helper::render_settings_field( $field_name, array(
-			'type'			=> 'select',
-			'id'			=> 'ss-cp-condition',
-			'class'			=> 'root-seg-action',
-			'options'		=> $options,
-			'selected'		=> $select,
-		));
+		APMautic_Helper::render_settings_field(
+			$field_name, array(
+				'type'     => 'select',
+				'id'       => 'ss-cp-condition',
+				'class'    => 'root-seg-action',
+				'options'  => $options,
+				'selected' => $select,
+			)
+		);
 	}
 
 	/**
@@ -255,7 +269,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		if ( $mautic_cfields_trans ) {
 			$mautic_cfields = $mautic_cfields_trans;
 		} else {
-			$api = $this->get_api();
+			$api            = $this->get_api();
 			$mautic_cfields = $api->get_all_contact_fields();
 			set_transient( 'mautic_all_cfields', $mautic_cfields, DAY_IN_SECONDS );
 		}
@@ -274,15 +288,15 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 */
 	public function subscribe( $email, $settings, $actions, $new_contact = false ) {
 
-		$api = $this->get_api();
+		$api      = $this->get_api();
 		$all_tags = '';
 		if ( ! $new_contact ) {
 			$api_data = $api->get_api_method_url( $email );
-			$url = $api_data['url'];
-			$method = $api_data['method'];
+			$url      = $api_data['url'];
+			$method   = $api_data['method'];
 		} else {
 			$method = 'POST';
-			$url = '/api/contacts/new';
+			$url    = '/api/contacts/new';
 		}
 		// add tags set in actions.
 		if ( ! empty( $actions['add_tag'] ) ) {
@@ -291,7 +305,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 				$all_tags .= $tags . ',';
 			}
 
-			$all_tags = rtrim( $all_tags ,',' );
+			$all_tags         = rtrim( $all_tags, ',' );
 			$settings['tags'] = $all_tags;
 		}
 		$api->ampw_mautic_api_call( $url, $method, $settings, $actions );
@@ -319,7 +333,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 */
 	public function is_contact_published( $id ) {
 
-		$api = $this->get_api();
+		$api    = $this->get_api();
 		$status = $api->is_contact_published( $id );
 		return $status;
 	}
@@ -336,7 +350,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 	 */
 	public function mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act ) {
 
-		$api = $this->get_api();
+		$api      = $this->get_api();
 		$response = $api->mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act );
 		return $response;
 	}

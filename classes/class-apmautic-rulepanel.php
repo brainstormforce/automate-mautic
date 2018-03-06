@@ -75,7 +75,7 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 */
 		public static function select_all_pages( $select = null ) {
 
-			$pages = get_pages();
+			$pages   = get_pages();
 			$options = array(
 				'' => __( 'Select Page', 'automate-mautic' ),
 			);
@@ -83,13 +83,15 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				$options[ $page->ID ] = $page->post_title;
 			}
 
-			APMautic_Helper::render_settings_field( 'ss_cp_condition[]', array(
-				'type'			=> 'select',
-				'id'			=> 'sub-sub-condition',
-				'class'			=> 'root-cp-condition form-control',
-				'options'		=> $options,
-				'selected'		=> $select,
-			));
+			APMautic_Helper::render_settings_field(
+				'ss_cp_condition[]', array(
+					'type'     => 'select',
+					'id'       => 'sub-sub-condition',
+					'class'    => 'root-cp-condition form-control',
+					'options'  => $options,
+					'selected' => $select,
+				)
+			);
 		}
 
 		/**
@@ -101,24 +103,27 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 */
 		public static function select_all_posts( $select = null ) {
 			// get all posts.
-			$args = array(
+			$args    = array(
 				'posts_per_page' => -1,
 			);
-			$posts = get_posts( $args );
+			$posts   = get_posts( $args );
 			$options = array(
 				'' => __( 'Select Post', 'automate-mautic' ),
 			);
-			foreach ( $posts as $post ) : setup_postdata( $post );
+			foreach ( $posts as $post ) :
+				setup_postdata( $post );
 				$options[ $post->ID ] = $post->post_title;
 			endforeach;
 
-			APMautic_Helper::render_settings_field( 'ss_cp_condition[]', array(
-				'type'			=> 'select',
-				'id'			=> 'ss-cp-condition',
-				'class'			=> 'root-cp-condition form-control',
-				'options'		=> $options,
-				'selected'		=> $select,
-			));
+			APMautic_Helper::render_settings_field(
+				'ss_cp_condition[]', array(
+					'type'     => 'select',
+					'id'       => 'ss-cp-condition',
+					'class'    => 'root-cp-condition form-control',
+					'options'  => $options,
+					'selected' => $select,
+				)
+			);
 			wp_reset_postdata();
 		}
 
@@ -146,15 +151,16 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @return rule id array
 		 */
 		public static function get_comment_condition( $comment_data = array(), $condition ) {
-			$args = array(
+			$args      = array(
 				'posts_per_page' => -1,
-				'post_status' => 'publish',
-				'post_type' => AP_MAUTIC_POSTTYPE,
+				'post_status'    => 'publish',
+				'post_type'      => AP_MAUTIC_POSTTYPE,
 			);
-			$posts = get_posts( $args );
+			$posts     = get_posts( $args );
 			$set_rules = array();
-			foreach ( $posts as $post ) : setup_postdata( $post );
-				$rule_id = $post->ID;
+			foreach ( $posts as $post ) :
+				setup_postdata( $post );
+				$rule_id         = $post->ID;
 				$meta_conditions = get_post_meta( $rule_id, 'ampw_rule_condition' );
 				$meta_conditions = unserialize( $meta_conditions[0] );
 				foreach ( $meta_conditions as $order => $meta_condition ) :
@@ -181,17 +187,18 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		 * @return array
 		 */
 		public static function get_wpur_condition() {
-			$args = array(
+			$args     = array(
 				'posts_per_page' => -1,
-				'post_status' => 'publish',
-				'post_type' => AP_MAUTIC_POSTTYPE,
+				'post_status'    => 'publish',
+				'post_type'      => AP_MAUTIC_POSTTYPE,
 			);
-			$posts = get_posts( $args );
+			$posts    = get_posts( $args );
 			$ur_rules = array();
-			foreach ( $posts as $post ) : setup_postdata( $post );
-				$rule_id = $post->ID;
+			foreach ( $posts as $post ) :
+				setup_postdata( $post );
+				$rule_id         = $post->ID;
 				$meta_conditions = get_post_meta( $rule_id, 'ampw_rule_condition' );
-				$all_conditions = unserialize( $meta_conditions[0] );
+				$all_conditions  = unserialize( $meta_conditions[0] );
 				foreach ( $all_conditions as $meta_condition ) :
 					if ( 'UR' == $meta_condition[0] ) {
 						// add rule_id into array.
@@ -211,13 +218,13 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_actions( $rules = array() ) {
 
 			$all_actions = array(
-				'add_segment' => array(),
+				'add_segment'    => array(),
 				'remove_segment' => array(),
-				'add_tag' => array(),
+				'add_tag'        => array(),
 			);
 
 			foreach ( $rules as $rule ) :
-				$rule_id = $rule;
+				$rule_id      = $rule;
 				$meta_actions = get_post_meta( $rule_id, 'ampw_rule_action' );
 				$meta_actions = unserialize( $meta_actions[0] );
 
@@ -250,20 +257,22 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_conditions_list( $select = '' ) {
 
 			$options = array(
-				'Default'		=> __( 'Select Condition', 'automate-mautic' ),
-				'UR'	=> __( 'User Register on WordPress', 'automate-mautic' ),
-				'CP'	=> __( 'User Post a Comment', 'automate-mautic' ),
+				'Default' => __( 'Select Condition', 'automate-mautic' ),
+				'UR'      => __( 'User Register on WordPress', 'automate-mautic' ),
+				'CP'      => __( 'User Post a Comment', 'automate-mautic' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_conditions_list', $options );
 
-			APMautic_Helper::render_settings_field( 'pm_condition[]', array(
-				'type'			=> 'select',
-				'id'			=> 'selct-condition-list',
-				'class'			=> 'select-condition form-control',
-				'options'		=> $options,
-				'selected'		=> $select,
-			));
+			APMautic_Helper::render_settings_field(
+				'pm_condition[]', array(
+					'type'     => 'select',
+					'id'       => 'selct-condition-list',
+					'class'    => 'select-condition form-control',
+					'options'  => $options,
+					'selected' => $select,
+				)
+			);
 		}
 
 		/**
@@ -275,20 +284,22 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_actions_list( $select = '' ) {
 
 			$options = array(
-				'add_segment'		=> __( 'Add to segment', 'automate-mautic' ),
-				'remove_segment'	=> __( 'Remove from segment', 'automate-mautic' ),
-				'add_tag'			=> __( 'Add Tags', 'automate-mautic' ),
+				'add_segment'    => __( 'Add to segment', 'automate-mautic' ),
+				'remove_segment' => __( 'Remove from segment', 'automate-mautic' ),
+				'add_tag'        => __( 'Add Tags', 'automate-mautic' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_actions_list', $options );
 
-			APMautic_Helper::render_settings_field( 'sub_seg_action[]', array(
-				'type'			=> 'select',
-				'id'			=> 'sub-seg-action',
-				'class'			=> 'sub-seg-action form-control',
-				'options'		=> $options,
-				'selected'		=> $select,
-			));
+			APMautic_Helper::render_settings_field(
+				'sub_seg_action[]', array(
+					'type'     => 'select',
+					'id'       => 'sub-seg-action',
+					'class'    => 'sub-seg-action form-control',
+					'options'  => $options,
+					'selected' => $select,
+				)
+			);
 
 		}
 
@@ -315,20 +326,22 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_comment_condition_sublist( $select = '' ) {
 
 			$options = array(
-				'ao_website'	=> __( 'Anywhere On Website', 'automate-mautic' ),
-				'os_page'		=> __( 'On Specific Page', 'automate-mautic' ),
-				'os_post'		=> __( 'On Specific Post', 'automate-mautic' ),
+				'ao_website' => __( 'Anywhere On Website', 'automate-mautic' ),
+				'os_page'    => __( 'On Specific Page', 'automate-mautic' ),
+				'os_post'    => __( 'On Specific Post', 'automate-mautic' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_comment_condition_sublist', $options );
 
-			APMautic_Helper::render_settings_field( 'sub_cp_condition[]', array(
-				'type'			=> 'select',
-				'id'			=> 'sub-cp-condition',
-				'class'			=> 'sub-cp-condition form-control',
-				'options'		=> $options,
-				'selected'		=> $select,
-			));
+			APMautic_Helper::render_settings_field(
+				'sub_cp_condition[]', array(
+					'type'     => 'select',
+					'id'       => 'sub-cp-condition',
+					'class'    => 'sub-cp-condition form-control',
+					'options'  => $options,
+					'selected' => $select,
+				)
+			);
 		}
 
 
