@@ -1,10 +1,10 @@
 === AutomatePlug - Mautic for WordPress ===
 Contributors: brainstormforce, rahulwalunje-1
 Donate link: https://www.paypal.me/BrainstormForce
-Requires at least: 3.0
+Requires at least: 4.4
 Tags: mautic, email, contacts, marketing, tags
 Stable tag: 1.0.5
-Tested up to: 4.8
+Tested up to: 4.9.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 

@@ -1,0 +1,11 @@
+{
+  "name": "automate-mautic",
+  "version": "1.0.5",
+  "main": "Gruntfile.js",
+  "author": "Brainstorm Force",
+  "devDependencies": {
+    "grunt": "~1.0.2",
+    "grunt-wp-i18n": "~1.0.2",
+    "grunt-wp-readme-to-markdown": "~2.0.1"
+  }
+}
