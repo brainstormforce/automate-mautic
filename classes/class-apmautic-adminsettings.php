@@ -325,6 +325,17 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 								$ss_cp_condition,
 							) );
 						}
+						if ( 'CP_APPROVE' == $conditions[ $i ] ) {
+							$sub_key                 = array_search( $i, $cp_keys );
+							$ss_cp_condition         = isset( $_POST['ss_cp_condition'][ $sub_key ] ) ? sanitize_text_field( $_POST['ss_cp_condition'][ $sub_key ] ) : '';
+							$base                    = sanitize_text_field( $conditions[ $i ] );
+							$sub_cp_condition        = sanitize_text_field( $_POST['sub_cp_condition'][ $sub_key ] );
+							$update_conditions		 = array( $i => array(
+								$base,
+								$sub_cp_condition,
+								$ss_cp_condition,
+							) );
+						}
 						$action            = 'update_condition_' . $conditions[ $i ];
 						$update_conditions = apply_filters( $action, $update_conditions, $conditions, $i, $_POST );
 					}
