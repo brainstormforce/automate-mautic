@@ -257,10 +257,10 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 		public static function get_all_conditions_list( $select = '' ) {
 
 			$options = array(
-				'Default' 		=> __( 'Select Condition', 'automate-mautic' ),
-				'UR'      		=> __( 'User Register on WordPress', 'automate-mautic' ),
-				'CP'      		=> __( 'User Post a Comment', 'automate-mautic' ),
-				'CP_APPROVE'    => __( 'Approved Comment Post', 'automate-mautic' ),
+				'Default'    => __( 'Select Condition', 'automate-mautic' ),
+				'UR'         => __( 'User Register on WordPress', 'automate-mautic' ),
+				'CP'         => __( 'User Post a Comment', 'automate-mautic' ),
+				'CP_APPROVE' => __( 'Approved Comment Post', 'automate-mautic' ),
 			);
 
 			$options = apply_filters( 'amp_mautic_conditions_list', $options );
