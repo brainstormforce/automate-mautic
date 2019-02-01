@@ -1,5 +1,5 @@
 # AutomatePlug - Mautic for WordPress #
-**Contributors:** [brainstormforce](https://profiles.wordpress.org/brainstormforce), [rahulwalunje-1](https://profiles.wordpress.org/rahulwalunje-1)  
+**Contributors:** [brainstormforce](https://profiles.wordpress.org/brainstormforce)
 **Donate link:** https://www.paypal.me/BrainstormForce  
 **Requires at least:** 4.4  
 **Tags:** mautic, email, contacts, marketing, tags  
