@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/BrainstormForce
 Requires at least: 4.4
 Tags: mautic, email, contacts, marketing, tags
 Stable tag: 1.0.6
-Tested up to: 4.9.4
+Tested up to: 5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
