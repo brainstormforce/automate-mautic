@@ -338,7 +338,7 @@
 	 * @return array
 	 */
 	public static function contact_segment_subscribe( $contact_id, $credentials, $segments ) {
-
+		$result = array();
 		// add contact to segment.
 		$add_segment = $segments['add_segment'];
 		if ( is_array( $add_segment ) ) {
