@@ -148,7 +148,7 @@
 
 						$contact_id = (int) $contact->id;
 						$res = self::contact_segment_subscribe( $contact_id, $credentials, $segments );
-						$status = $res['status'];
+						$status = isset( $res['status'] ) ? $res['status'] : false;
 					}
 				} else {
 					$ret = false;
