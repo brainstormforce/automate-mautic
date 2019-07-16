@@ -120,9 +120,7 @@
 		$response = wp_remote_post( $url, array(
 			'method' => $method,
 			'timeout' => 45,
-			'redirection' => 5,
-			'httpversion' => '1.0',
-			'blocking' => true,
+			'blocking' => false,
 			'headers' => array(),
 			'body' => $param,
 			'cookies' => array(),
