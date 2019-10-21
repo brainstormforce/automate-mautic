@@ -116,6 +116,20 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 						$input .= '<input type="checkbox" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="" "' . checked( 1, $checked, false ) . '"/>' . esc_html( $settings['text'] );
 						break;
 
+					case 'radio':
+						$input  .= '<h4>' . $label . '</h4>';
+						if ( isset( $help ) && '' != $help ) {
+							$input .= '<p class="admin-help">' . $help . '</p>';
+						}
+						foreach ( $settings['def_value'] as $key => $value ) {
+							if ( 'mautic_api' === $key ) {
+								$input .= '<input type="radio" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="'.$key.'" checked />' . esc_html( $value );
+							} else {
+								$input .= '<input type="radio" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="'.$key.'" />' . esc_html( $value );
+							}
+						}
+						break;
+
 					default:
 						$input .= '';
 						break;
@@ -199,11 +213,21 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 		public static function is_service_connected() {
 			$credentials = self::get_mautic_credentials();
 
-			if ( ! isset( $credentials['access_token'] ) ) {
+			$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
 
-				return false;
+			if ( 'mautic_up' === $mautic_connect_type ) {
+				$mautic_connect_error = get_option( 'ap_mautic_up_error_msg' );
+
+				if ( !empty( $mautic_connect_error ) || ''!== $mautic_connect_error ) {
+					return false;
+				}
+
+			} else {
+				if ( ! isset( $credentials['access_token'] ) ) {
+
+					return false;
+				}
 			}
-
 			return true;
 		}
 	}

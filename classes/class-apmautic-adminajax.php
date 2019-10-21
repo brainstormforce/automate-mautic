@@ -57,6 +57,9 @@ if ( ! class_exists( 'APMautic_AdminAjax' ) ) :
 		public static function config_disconnect_mautic() {
 			check_ajax_referer( 'apm_mautic_admin_nonce', 'nonce' );
 			$result = delete_option( AP_MAUTIC_APIAUTH );
+			// After deletion set the connection type to default i.e. mautic API.
+			update_option( 'ap_mautic_connection_type', 'mautic_api' );
+
 			wp_send_json_success( $result );
 		}
 

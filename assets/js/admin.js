@@ -28,6 +28,7 @@
 			$( document ).on( 'change', '.sub-cp-condition', this._subCondition );
 			$( document ).on( 'change', '.select-action', this._selectAction );
 			$( document ).on( 'change', '.sub-seg-action', this._subAction );
+			$( document ).on( 'change', '#mautic_connection_type', this._selectMauticType );
 			$( document ).on( 'click', '#refresh-mautic', this._refreshMautic );
 			$( document ).on( 'click', '.ap-toogle-option', this._toggleMautic );
 			$( document ).on( 'click', '.apm-disconnect', this._disconnectMautic );
@@ -39,6 +40,24 @@
 			$( '#apm-sortable-action' ).disableSelection();
 			$('.apm-metabox').find('select').select2();
 			$('#automate-config-form').find('select').select2();
+		},
+
+		_selectMauticType: function() {
+			var val = $( this ).val();
+//			console.log(val);
+			if( val != 'mautic_api' ) {
+				$( '.apm-mautic-username-wrap' ).show();
+				$( '.apm-mautic-password-wrap' ).show();
+
+				$( '.apm-public-key-wrap' ).hide();
+				$( '.apm-secret-key-wrap' ).hide();
+			} else {
+				$( '.apm-mautic-username-wrap' ).hide();
+				$( '.apm-mautic-password-wrap' ).hide();
+
+				$( '.apm-public-key-wrap' ).show();
+				$( '.apm-secret-key-wrap' ).show();
+			}
 		},
 
 		_removeItem: function() {

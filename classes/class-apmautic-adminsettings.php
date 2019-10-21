@@ -192,8 +192,19 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 */
 		public static function render_update_message() {
 
-			if ( ! empty( $_POST ) ) {
-				echo '<div class="updated"><p>' . __( 'Settings updated!', 'automate-mautic' ) . '</p></div>';
+			$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
+
+			if ( 'mautic_up' === $mautic_connect_type ) {
+				$mautic_connect_error = get_option( 'ap_mautic_up_error_msg' );
+
+				if ( !empty( $mautic_connect_error ) || ''!== $mautic_connect_error ) {
+					echo '<div class="warning notice notice-error is-dismissible"><p>' . __( $mautic_connect_error, 'automate-mautic' ) . '</p></div>';
+				}
+			} else {
+
+				if ( ! empty( $_POST ) ) {
+					echo '<div class="updated"><p>' . __( 'Settings updated!', 'automate-mautic' ) . '</p></div>';
+				}
 			}
 		}
 
@@ -385,6 +396,9 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				$amp_options['secret-key'] = isset( $_POST['secret-key'] ) ? esc_attr( $_POST['secret-key'] ) : '';
 
 				$amp_options['callback-uri'] = isset( $_POST['callback-uri'] ) ? esc_attr( $_POST['callback-uri'] ) : '';
+				$amp_options['apm_username'] = isset( $_POST['mautic-username'] ) ? esc_attr( $_POST['mautic-username'] ) : '';
+
+				$amp_options['apm_password'] = isset( $_POST['mautic-password'] ) ? esc_attr( $_POST['mautic-password'] ) : '';
 
 				$mautic_api_url          = $amp_options['base-url'];
 				$amp_options['base-url'] = rtrim( $mautic_api_url, '/' );
