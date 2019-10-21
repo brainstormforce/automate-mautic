@@ -377,6 +377,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			$all_tags         = rtrim( $all_tags, ',' );
 			$settings['tags'] = $all_tags;
 		}
+		$settings = apply_filters( 'apm_mautic_user_data', $settings );
 		$api->ampw_mautic_api_call( $url, $method, $settings, $actions );
 	}
 
