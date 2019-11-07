@@ -74,7 +74,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 
 		if ( 'mautic_up' === $mautic_connect_type ) {
 
-			$apm_username = isset( $data['mautic-username'] ) ? sanitize_key( $data['mautic-username'] ) : '';
+			$apm_username = isset( $data['mautic-username'] ) ? sanitize_user( $data['mautic-username'] ) : '';
 			$apm_password = isset( $data['mautic-password'] ) ? $data['mautic-password'] : '';
 			$settings     = array(
 				'baseUrl'      => $mautic_api_url,
@@ -305,7 +305,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			set_transient( 'apm_all_segments', $segments, DAY_IN_SECONDS );
 		}
 		if ( empty( $segments ) || ! APMautic_Services::is_connected() ) {
-			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automate-mautic' );
+			echo __( 'It seems like Authentication is not done. Please Authenticate it first.', 'automate-mautic' );
 			return;
 		}
 		$options = array(

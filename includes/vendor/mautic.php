@@ -821,25 +821,31 @@
 
 		$body = json_decode( wp_remote_retrieve_body( $response ) );
 
-		if( isset( $body->errors ) ) {
+		if( NULL === $body ) {
+			$mautic_response['error'] = __( 'It Looks like your trial period has expired! Please Contact to restore access.', 'automate-mautic' );
 
-			if( $body->errors[0]->code == 404 ) {
-				/* translators: %s Error Message */
-				$mautic_response['error'] = sprintf( __( '404 error. This sometimes happens when you\'ve just enabled the API, and your cache needs to be rebuilt. See <a href="https://mautic.org/docs/en/tips/troubleshooting.html" target="_blank">here for more info</a> - %s', 'automate-mautic' ), $body->errors[0]->message );
+			return $mautic_response;
+		} else {
+			if( isset( $body->errors ) ) {
 
-				return $mautic_response;
+				if( $body->errors[0]->code == 404 ) {
+					/* translators: %s Error Message */
+					$mautic_response['error'] = sprintf( __( '404 error. This sometimes happens when you\'ve just enabled the API, and your cache needs to be rebuilt. See <a href="https://mautic.org/docs/en/tips/troubleshooting.html" target="_blank">here for more info</a> - %s', 'automate-mautic' ), $body->errors[0]->message );
 
-			} elseif( $body->errors[0]->code == 403 ) {
-				/* translators: %s Error Message */
-				$mautic_response['error'] = sprintf( __( '403 error. You need to enable the API from within Mautic\'s configuration settings to connect. - %s', 'automate-mautic' ), $body->errors[0]->message );
+					return $mautic_response;
 
-				return $mautic_response;
+				} elseif( $body->errors[0]->code == 403 ) {
+					/* translators: %s Error Message */
+					$mautic_response['error'] = sprintf( __( '403 error. You need to enable the API from within Mautic\'s configuration settings to connect. - %s', 'automate-mautic' ), $body->errors[0]->message );
 
-			} else {
-				/* translators: %s Error Message */
-				$mautic_response['error'] = sprintf( __( '%s - %s', 'automate-mautic' ), $body->errors[0]->code, $body->errors[0]->message );
+					return $mautic_response;
 
-				return $mautic_response;
+				} else {
+					/* translators: %s Error Message */
+					$mautic_response['error'] = sprintf( __( '%s - %s', 'automate-mautic' ), $body->errors[0]->code, $body->errors[0]->message );
+
+					return $mautic_response;
+				}
 			}
 		}
 		$mautic_response['body'] = $body;
