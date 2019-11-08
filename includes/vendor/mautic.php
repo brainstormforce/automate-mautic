@@ -114,7 +114,7 @@
 			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
 			$url      = $credentials['baseUrl'] . $url;
-			$ip       = self->_get_ip();
+			$ip       = self::_get_ip();
 			$body     = array(  
 				"ipAddress" => $_SERVER['REMOTE_ADDR']
 			);
@@ -329,7 +329,7 @@
 				$body     = array(  
 					"ipAddress" => $_SERVER['REMOTE_ADDR']
 				);
-				$ip       = $this->_get_ip();
+				$ip       = self::_get_ip();
 				$response = wp_remote_post( $url, array(
 						'method' => 'POST',
 						'timeout' => 45,
@@ -681,7 +681,7 @@
 				$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
 				$url      = $credentials['baseUrl'] . $url;
-				$ip       = $this->_get_ip();
+				$ip       = self::_get_ip();
 				$body     = array(  
 					"ipAddress" => $_SERVER['REMOTE_ADDR']
 				);
