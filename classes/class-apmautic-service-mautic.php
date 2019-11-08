@@ -60,43 +60,74 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		$mautic_api_url = '';
 		$apm_public_key = '';
 		$apm_secret_key = '';
+		$apm_username   = '';
+		$apm_password   = '';
 		$cpts_err       = false;
 		$lists          = null;
 		$ref_list_id    = null;
 
 		$mautic_api_url = isset( $data['base-url'] ) ? esc_url( $data['base-url'] ) : '';
-		$apm_public_key = isset( $data['public-key'] ) ? sanitize_key( $data['public-key'] ) : '';
-		$apm_secret_key = isset( $data['secret-key'] ) ? sanitize_key( $data['secret-key'] ) : '';
+
+		$mautic_connect_type = isset( $data['mautic_connection_type'] ) ? $data['mautic_connection_type'] : '';
 
 		$mautic_api_url = rtrim( $mautic_api_url, '/' );
-		if ( empty( $mautic_api_url ) ) {
-			$status   = 'error';
-			$message  = 'API URL is missing.';
-			$cpts_err = true;
-		}
-		if ( empty( $apm_secret_key ) ) {
-			$status   = 'error';
-			$message  = 'Secret Key is missing.';
-			$cpts_err = true;
-		}
-		$settings = array(
-			'baseUrl'       => $mautic_api_url,
-			'version'       => 'OAuth2',
-			'clientKey'     => $apm_public_key,
-			'clientSecret'  => $apm_secret_key,
-			'callback'      => APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
-			'response_type' => 'code',
-		);
 
-		update_option( AP_MAUTIC_APIAUTH, $settings );
-		$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
-		// OAuth 2.0.
-		$authurl .= '?client_id=' . $settings['clientKey'] . '&redirect_uri=' . urlencode( $settings['callback'] );
-		$state    = md5( time() . mt_rand() );
-		$authurl .= '&state=' . $state;
-		$authurl .= '&response_type=' . $settings['response_type'];
-		wp_redirect( $authurl );
-		exit;
+		if ( 'mautic_up' === $mautic_connect_type ) {
+
+			$apm_username = isset( $data['mautic-username'] ) ? sanitize_user( $data['mautic-username'] ) : '';
+			$apm_password = isset( $data['mautic-password'] ) ? $data['mautic-password'] : '';
+			$settings     = array(
+				'baseUrl'      => $mautic_api_url,
+				'apm_username' => $apm_username,
+				'apm_password' => $apm_password,
+			);
+
+			$api      = $this->get_api();
+			$response = $api->ap_mautic_connect_username_password( $settings );
+
+			update_option( 'ap_mautic_connection_type', $mautic_connect_type );
+
+			if ( '' !== $response['error'] || ! empty( $response['error'] ) ) {
+				update_option( 'ap_mautic_up_error_msg', $response['error'] );
+			} else {
+				update_option( 'ap_mautic_up_error_msg', $response['error'] );
+				update_option( AP_MAUTIC_APIAUTH, $settings );
+			}
+		} else {
+			$apm_public_key = isset( $data['public-key'] ) ? sanitize_key( $data['public-key'] ) : '';
+			$apm_secret_key = isset( $data['secret-key'] ) ? sanitize_key( $data['secret-key'] ) : '';
+
+			if ( empty( $mautic_api_url ) ) {
+				$status   = 'error';
+				$message  = 'API URL is missing.';
+				$cpts_err = true;
+			}
+			if ( empty( $apm_secret_key ) ) {
+				$status   = 'error';
+				$message  = 'Secret Key is missing.';
+				$cpts_err = true;
+			}
+			$settings = array(
+				'baseUrl'       => $mautic_api_url,
+				'version'       => 'OAuth2',
+				'clientKey'     => $apm_public_key,
+				'clientSecret'  => $apm_secret_key,
+				'callback'      => APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' ),
+				'response_type' => 'code',
+			);
+
+			update_option( 'ap_mautic_connection_type', $mautic_connect_type );
+			update_option( 'ap_mautic_up_error_msg', '' );
+			update_option( AP_MAUTIC_APIAUTH, $settings );
+			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
+			// OAuth 2.0.
+			$authurl .= '?client_id=' . $settings['clientKey'] . '&redirect_uri=' . urlencode( $settings['callback'] );
+			$state    = md5( time() . mt_rand() );
+			$authurl .= '&state=' . $state;
+			$authurl .= '&response_type=' . $settings['response_type'];
+			wp_redirect( $authurl );
+			exit;
+		}
 	}
 
 	/**
@@ -128,7 +159,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		ob_start();
 
 		APMautic_Helper::render_input_html(
-			'base-url', array(
+			'base-url',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'def_value' => $base_url,
@@ -139,7 +171,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'ampw-save-authenticate', array(
+			'ampw-save-authenticate',
+			array(
 				'row_class'   => 'apm-service-row amp-connected-btn',
 				'class'       => 'apm-service-input',
 				'type'        => 'button',
@@ -164,7 +197,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		ob_start();
 
 		APMautic_Helper::render_input_html(
-			'base-url', array(
+			'base-url',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'def_value' => $base_url,
@@ -172,9 +206,24 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 				'label'     => __( 'Enter Base URL', 'automate-mautic' ),
 			)
 		);
+		$mautic_connection_type = array(
+			'mautic_api' => 'Mautic API',
+			'mautic_up'  => 'Mautic Username and Password',
+		);
+		APMautic_Helper::render_input_html(
+			'mautic_connection_type',
+			array(
+				'row_class' => 'apm-service-row',
+				'class'     => 'apm-service-input',
+				'def_value' => $mautic_connection_type,
+				'type'      => 'radio',
+				'label'     => __( 'Type of Connection', 'automate-mautic' ),
+			)
+		);
 
 		APMautic_Helper::render_input_html(
-			'public-key', array(
+			'public-key',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'type'      => 'text',
@@ -183,7 +232,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'secret-key', array(
+			'secret-key',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'type'      => 'text',
@@ -195,7 +245,30 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'ampw-save-authenticate', array(
+			'mautic-username',
+			array(
+				'row_class' => 'apm-service-row',
+				'class'     => 'apm-service-input',
+				'type'      => 'text',
+				'label'     => __( 'Mautic Username', 'automate-mautic' ),
+			)
+		);
+
+		APMautic_Helper::render_input_html(
+			'mautic-password',
+			array(
+				'row_class' => 'apm-service-row',
+				'class'     => 'apm-service-input',
+				'type'      => 'text',
+				'label'     => __( 'Mautic Password', 'automate-mautic' ),
+				// translators: Display message below the Username and Password Settings.
+				'desc'      => sprintf( __( 'This setting is required to integrate Mautic in your website.<br>For this type you will need your Mautic Username and Password to integrate.', 'automate-mautic' ) ),
+			)
+		);
+
+		APMautic_Helper::render_input_html(
+			'ampw-save-authenticate',
+			array(
 				'row_class'   => 'apm-service-row',
 				'class'       => 'save-amp-settings',
 				'type'        => 'submit',
@@ -240,7 +313,9 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			set_transient( 'apm_all_segments', $segments, DAY_IN_SECONDS );
 		}
 		if ( empty( $segments ) || ! APMautic_Services::is_connected() ) {
-			echo __( 'THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION.', 'automate-mautic' );
+			$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
+			// translators: %s: redirect url.
+			printf( __( 'It seems like Authentication is not done. Please <i><a href="%s">click here</a></i> to Authenticate it first.', 'automate-mautic' ), $redirect );
 			return;
 		}
 		$options = array(
@@ -251,7 +326,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		}
 
 		APMautic_Helper::render_settings_field(
-			$field_name, array(
+			$field_name,
+			array(
 				'type'     => 'select',
 				'id'       => 'ss-cp-condition',
 				'class'    => 'root-seg-action',
@@ -294,7 +370,6 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 
 		$api      = $this->get_api();
 		$all_tags = '';
-
 		if ( ! $new_contact ) {
 			$api_data = $api->get_api_method_url( $email );
 			$url      = $api_data['url'];
@@ -303,7 +378,6 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			$method = 'POST';
 			$url    = '/api/contacts/new';
 		}
-
 		// add tags set in actions.
 		if ( ! empty( $actions['add_tag'] ) ) {
 
@@ -314,9 +388,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			$all_tags         = rtrim( $all_tags, ',' );
 			$settings['tags'] = $all_tags;
 		}
-
 		$settings = apply_filters( 'apm_mautic_user_data', $settings );
-
 		$api->ampw_mautic_api_call( $url, $method, $settings, $actions );
 	}
 

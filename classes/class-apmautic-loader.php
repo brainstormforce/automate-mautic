@@ -53,6 +53,7 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 			define( 'AP_MAUTIC_APIAUTH', 'ampw_mautic_credentials' );
 			define( 'AP_MAUTIC_POSTTYPE', 'automate-mautic' );
 			define( 'AP_MAUTIC_SERVICE', 'mautic' );
+			define( 'AP_MAUTIC_VERSION', '1.0.6' );
 		}
 
 		/**
@@ -62,6 +63,7 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 		 * @return void
 		 */
 		public function includes() {
+			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-auto-update.php' );
 			require_once( AP_MAUTIC_PLUGIN_DIR . 'classes/class-apmautic-helper.php' );
 
 			if ( is_admin() ) {

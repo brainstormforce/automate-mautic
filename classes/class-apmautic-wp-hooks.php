@@ -58,8 +58,12 @@ class APMautic_WP_Hooks {
 	 * @return void
 	 */
 	public static function update_access_token() {
-		$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
-		$instance->update_token();
+		$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
+
+		if ( 'mautic_api' === $mautic_connect_type ) {
+			$instance = APMautic_Services::get_service_instance( AP_MAUTIC_SERVICE );
+			$instance->update_token();
+		}
 	}
 
 	/**

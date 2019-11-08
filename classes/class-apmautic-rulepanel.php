@@ -84,7 +84,8 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 			}
 
 			APMautic_Helper::render_settings_field(
-				'ss_cp_condition[]', array(
+				'ss_cp_condition[]',
+				array(
 					'type'     => 'select',
 					'id'       => 'sub-sub-condition',
 					'class'    => 'root-cp-condition form-control',
@@ -116,7 +117,8 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 			endforeach;
 
 			APMautic_Helper::render_settings_field(
-				'ss_cp_condition[]', array(
+				'ss_cp_condition[]',
+				array(
 					'type'     => 'select',
 					'id'       => 'ss-cp-condition',
 					'class'    => 'root-cp-condition form-control',
@@ -266,7 +268,8 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 			$options = apply_filters( 'amp_mautic_conditions_list', $options );
 
 			APMautic_Helper::render_settings_field(
-				'pm_condition[]', array(
+				'pm_condition[]',
+				array(
 					'type'     => 'select',
 					'id'       => 'selct-condition-list',
 					'class'    => 'select-condition form-control',
@@ -293,7 +296,8 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 			$options = apply_filters( 'amp_mautic_actions_list', $options );
 
 			APMautic_Helper::render_settings_field(
-				'sub_seg_action[]', array(
+				'sub_seg_action[]',
+				array(
 					'type'     => 'select',
 					'id'       => 'sub-seg-action',
 					'class'    => 'sub-seg-action form-control',
@@ -335,7 +339,8 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 			$options = apply_filters( 'amp_mautic_comment_condition_sublist', $options );
 
 			APMautic_Helper::render_settings_field(
-				'sub_cp_condition[]', array(
+				'sub_cp_condition[]',
+				array(
 					'type'     => 'select',
 					'id'       => 'sub-cp-condition',
 					'class'    => 'sub-cp-condition form-control',

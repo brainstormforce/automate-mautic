@@ -158,3 +158,11 @@ form.apm-post-meta .first-action, form.apm-post-meta .second-action {
 .inside.hide {
     display: none;
 }
+
+.apm-mautic-username-wrap, .apm-mautic-password-wrap {
+    display: none;
+}
+
+.apm-mautic_connection_type-wrap input[type="radio"]{
+    margin: 10px 6px 12px 15px;
+}

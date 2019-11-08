@@ -37,5 +37,4 @@ if ( APMautic_Helper::is_service_connected() ) {
 			</div>
 		</div>
 	</div>
-</div>
-	
+</div>	

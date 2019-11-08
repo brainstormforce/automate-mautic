@@ -15,7 +15,8 @@
 
 	$ap_enabled_track = apm_get_option( 'enable-tracking', 1 );
 	APMautic_Helper::render_input_html(
-		'enable-tracking', array(
+		'enable-tracking',
+		array(
 			'row_class' => 'apm-service-row',
 			'class'     => 'apm-service-input',
 			'type'      => 'checkbox',
@@ -27,7 +28,8 @@
 		)
 	);
 	APMautic_Helper::render_input_html(
-		'save-apmw', array(
+		'save-apmw',
+		array(
 			'row_class'   => 'apm-service-row',
 			'class'       => 'save-amp-settings',
 			'type'        => 'submit',
@@ -39,7 +41,6 @@
 	);
 
 	?>
-
 </div>
 		<div id="postbox-container-1" class="postbox-container">
 			<div id="side-sortables" class="meta-box-sortables ui-sortable">

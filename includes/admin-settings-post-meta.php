@@ -125,8 +125,8 @@
 										<input type="text" name="ss_seg_action[]" value="<?php echo $meta_action[1]; ?>">
 									</div>
 										<?php
-}
-?>
+							}
+							?>
 								</fieldset>
 									<?php
 							endforeach;

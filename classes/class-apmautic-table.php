@@ -76,7 +76,8 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 */
 		public function column_cb( $item ) {
 			return sprintf(
-				'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
+				'<input type="checkbox" name="bulk-delete[]" value="%s" />',
+				$item['ID']
 			);
 		}
 
@@ -218,7 +219,11 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			}
 			echo "</select>\n";
 			submit_button(
-				__( 'Apply', 'automate-mautic' ), 'action', '', false, array(
+				__( 'Apply', 'automate-mautic' ),
+				'action',
+				'',
+				false,
+				array(
 					'id' => "doaction{$two}",
 				)
 			);
@@ -259,7 +264,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				$query   .= " && post_title LIKE '%" . $seachkey . "%'";
 			}
 
-			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ) ); // WPCS: unprepared SQL OK.
+			$total_items = count( $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ) ); // @codingStandardsIgnoreLine WordPress.VIP.QueryNotAllowed.query
 
 			$perpage = 10;
 
@@ -294,7 +299,7 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 				$query .= ' LIMIT ' . (int) $offset . ',' . (int) $perpage;
 			}
 
-			$result = $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ); // WPCS: unprepared SQL OK.
+			$result = $wpdb->get_results( $wpdb->prepare( $query, AP_MAUTIC_POSTTYPE ), ARRAY_A ); // @codingStandardsIgnoreLine WordPress.VIP.QueryNotAllowed.query
 
 			return $result;
 		}

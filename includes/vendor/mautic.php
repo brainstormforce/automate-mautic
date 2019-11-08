@@ -102,29 +102,59 @@
 	 */
 	public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 
-		$status = 'success';
-
-		self::generate_access_token();
 		// add contacts.
-		$credentials = APMautic_Helper::get_mautic_credentials();
+		$status              = 'success';
+		$credentials         = APMautic_Helper::get_mautic_credentials();
+		$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
 
-		if ( ! isset( $credentials['access_token'] ) ) {
-			return;
+		if ( 'mautic_up' === $mautic_connect_type ) {
+			$mautic_username = $credentials['apm_username'];
+			$mautic_password = wp_unslash( $credentials['apm_password'] );
+
+			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
+
+			$url                    = $credentials['baseUrl'] . $url;
+			$ip                     = self::_get_ip();
+			$param['ipAddress']     = $_SERVER['REMOTE_ADDR'];
+
+			$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(
+						'Authorization' => 'Basic ' . $auth_key,
+						'X-Forwarded-For' => $ip,
+					),
+					'body' => $param,
+					'cookies' => array()
+				)
+			);
+
+		} else {
+			self::generate_access_token();
+			if ( ! isset( $credentials['access_token'] ) ) {
+				return;
+			}
+			$access_token = $credentials['access_token'];
+			$param['access_token'] = $access_token;
+
+			$url = $credentials['baseUrl'] . $url;
+
+			$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+			$response = wp_remote_post( $url, array(
+				'method' => $method,
+				'timeout' => 45,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'blocking' => true,
+				'headers' => array(),
+				'body' => $param,
+				'cookies' => array(),
+			));
 		}
-		$access_token = $credentials['access_token'];
-		$param['access_token'] = $access_token;
 
-		$url = $credentials['baseUrl'] . $url;
-
-		$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-		$response = wp_remote_post( $url, array(
-			'method' => $method,
-			'timeout' => 45,
-			'blocking' => false,
-			'headers' => array(),
-			'body' => $param,
-			'cookies' => array(),
-		));
 		if ( is_wp_error( $response ) ) {
 			$error_msg = $response->get_error_message();
 			$status = 'error';
@@ -284,23 +314,53 @@
 	public static function mautic_contact_to_segment( $segment_id, $contact_id, $mautic_credentials, $act ) {
 		$error_msg = '';
 		$status = 'error';
+
+		$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
+
 		if ( is_int( $segment_id ) && is_int( $contact_id ) ) {
-			$url = $mautic_credentials['baseUrl'] . '/api/segments/' . $segment_id . '/contact/' . $act . '/' . $contact_id;
-			$access_token = $mautic_credentials['access_token'];
-			$body = array(
-			'access_token' => $access_token,
-			);
-			$response = wp_remote_post( $url, array(
-				'method' => 'POST',
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking' => true,
-				'headers' => array(),
-				'body' => $body,
-				'cookies' => array(),
-				)
-			);
+			if ( 'mautic_up' === $mautic_connect_type ) {
+				$mautic_username = $mautic_credentials['apm_username'];
+				$mautic_password = wp_unslash( $mautic_credentials['apm_password'] );
+
+				$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
+
+				$url                = $mautic_credentials['baseUrl'] . '/api/segments/' . $segment_id . '/contact/' . $act . '/' . $contact_id;
+				$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+				$ip                 = self::_get_ip();
+
+				$response = wp_remote_post( $url, array(
+						'method' => 'POST',
+						'timeout' => 45,
+						'redirection' => 5,
+						'httpversion' => '1.0',
+						'blocking' => true,
+						'headers' => array(
+							'Authorization' => 'Basic ' . $auth_key,
+							'X-Forwarded-For' => $ip,
+						),
+						'body' => $param,
+						'cookies' => array()
+					)
+				);
+
+			} else {
+				$url = $mautic_credentials['baseUrl'] . '/api/segments/' . $segment_id . '/contact/' . $act . '/' . $contact_id;
+				$access_token = $mautic_credentials['access_token'];
+				$body = array(
+					'access_token' => $access_token,
+				);
+				$response = wp_remote_post( $url, array(
+					'method' => 'POST',
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => $body,
+					'cookies' => array(),
+					)
+				);
+			}
 
 			if ( is_wp_error( $response ) ) {
 					$error_msg = $response->get_error_message();
@@ -319,6 +379,7 @@
 				}
 			}
 		}
+
 		$response = array(
 		'status' => $status,
 		'error_message' => $error_msg,
@@ -369,34 +430,55 @@
 	 * @return int
 	 */
 	public static function mautic_get_contact_by_email( $email, $mautic_credentials ) {
-		if ( $mautic_credentials['expires_in'] < time() ) {
-			$grant_type = 'refresh_token';
-			$response = self::mautic_get_access_token( $grant_type );
-			if ( is_wp_error( $response ) ) {
-				$error_msg = $response->get_error_message();
-				$status = 'error';
-				echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
-			} else {
-				$response_body = wp_remote_retrieve_body( $response );
-				$access_details = json_decode( $response_body );
+
+		$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
+
+		if ( 'mautic_up' === $mautic_connect_type ) {
+			$mautic_username = $mautic_credentials['apm_username'];
+			$mautic_password = wp_unslash( $mautic_credentials['apm_password'] );
+
+			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
+			$params = array(
+				'timeout'     => 30,
+				'httpversion' => '1.1',
+				'headers'     => array(
+					'Authorization' => 'Basic ' . $auth_key
+				)
+			);
+			$url      = $mautic_credentials['baseUrl'] . '/api/contacts/?search=' . $email;
+			$response = wp_remote_get( $url, $params );
+
+		} else {
+
+			if ( $mautic_credentials['expires_in'] < time() ) {
+				$grant_type = 'refresh_token';
+				$response = self::mautic_get_access_token( $grant_type );
+				if ( is_wp_error( $response ) ) {
+					$error_msg = $response->get_error_message();
+					$status = 'error';
+					echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
+				} else {
+					$response_body = wp_remote_retrieve_body( $response );
+					$access_details = json_decode( $response_body );
 				// Check mautic errors array.
-				if ( ! isset( $access_details->errors ) ) {
-					$expiration = time() + $access_details->expires_in;
-					$mautic_credentials['access_token'] = $access_details->access_token;
-					$mautic_credentials['expires_in'] = $expiration;
-					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
-					update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
+					if ( ! isset( $access_details->errors ) ) {
+						$expiration = time() + $access_details->expires_in;
+						$mautic_credentials['access_token'] = $access_details->access_token;
+						$mautic_credentials['expires_in'] = $expiration;
+						$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+						update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
+					}
 				}
 			}
+			$access_token = $mautic_credentials['access_token'];
+			$access_token = esc_attr( $access_token );
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=' . $email . '&access_token=' . $access_token;
+			$response = wp_remote_get( $url );
+
 		}
 
 		$error_msg = $contact_id = '';
-		$contacts = array();
-		$access_token = $mautic_credentials['access_token'];
-		$access_token = esc_attr( $access_token );
-		$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=' . $email . '&access_token=' . $access_token;
-
-		$response = wp_remote_get( $url );
+		$contacts  = array();
 
 		if ( ! is_wp_error( $response ) && is_array( $response ) ) {
 			$response_body = wp_remote_retrieve_body( $response );
@@ -438,7 +520,7 @@
 	 * @return array
 	 */
 	public static function get_all_segments() {
-		$url = '/api/segments/';
+		$url = '/api/segments';
 		$body['limit'] = 100000;
 
 		$segments = self::mautic_api_get_data( $url, $body );
@@ -513,24 +595,46 @@
 	public static function mautic_api_get_data( $url, $param = array() ) {
 		$status = 'success';
 		// add contacts.
-		self::generate_access_token();
-		$credentials = APMautic_Helper::get_mautic_credentials();
 
-		if ( ! isset( $credentials['access_token'] ) ) {
-			return;
-		}
-		$access_token = $credentials['access_token'];
-		$param['access_token'] = $access_token;
+		$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
+		$mautic_credentials  = APMautic_Helper::get_mautic_credentials();
 
-		$url = $credentials['baseUrl'] . $url;
+		if ( 'mautic_up' === $mautic_connect_type ) {
+			$mautic_username = $mautic_credentials['apm_username'];
+			$mautic_password = wp_unslash( $mautic_credentials['apm_password'] );
 
-		$url = $url . '?access_token=' . $access_token;
+			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
-		if ( isset( $param['limit'] ) ) {
+			$params = array(
+				'timeout'     => 30,
+				'httpversion' => '1.1',
+				'headers'     => array(
+					'Authorization' => 'Basic ' . $auth_key
+				)
+			);
+			$url      = $mautic_credentials['baseUrl'] . $url .'?limit=100000';
+
+			$response = wp_remote_get( $url, $params );
+
+		} else {
+			self::generate_access_token();
+
+			if ( ! isset( $credentials['access_token'] ) ) {
+				return;
+			}
+			$access_token = $credentials['access_token'];
+			$param['access_token'] = $access_token;
+
+			$url = $credentials['baseUrl'] . $url;
+
+			$url = $url . '?access_token=' . $access_token;
+
+			if ( isset( $param['limit'] ) ) {
 			// make sure segments are not limited to 10.
-			$url .= '&limit=' . $param['limit'];
+				$url .= '&limit=' . $param['limit'];
+			}
+			$response = wp_remote_get( $url );
 		}
-		$response = wp_remote_get( $url );
 
 		if ( is_array( $response ) ) {
 			$response_body = wp_remote_retrieve_body( $response );
@@ -566,29 +670,57 @@
 			$url = '/api/contacts/' . $contact_id . '/segments';
 			$method = 'GET';
 
-			self::generate_access_token();
-			// add contacts.
 			$credentials = APMautic_Helper::get_mautic_credentials();
 
-			if ( ! isset( $credentials['access_token'] ) ) {
-				return;
+			if ( 'mautic_up' === $mautic_connect_type ) {
+				$mautic_username = $credentials['apm_username'];
+				$mautic_password = wp_unslash( $credentials['apm_password'] );
+
+				$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
+
+				$url                = $credentials['baseUrl'] . $url;
+				$ip                 = self::_get_ip();
+				$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+
+				$response = wp_remote_post( $url, array(
+						'method' => 'POST',
+						'timeout' => 45,
+						'redirection' => 5,
+						'httpversion' => '1.0',
+						'blocking' => true,
+						'headers' => array(
+							'Authorization' => 'Basic ' . $auth_key,
+							'X-Forwarded-For' => $ip,
+						),
+						'body' => $param,
+						'cookies' => array()
+					)
+				);
+
+			} else {
+				self::generate_access_token();
+			// add contacts.
+
+				if ( ! isset( $credentials['access_token'] ) ) {
+					return;
+				}
+				$access_token = $credentials['access_token'];
+				$param['access_token'] = $access_token;
+
+				$url = $credentials['baseUrl'] . $url;
+
+				$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+				$response = wp_remote_post( $url, array(
+					'method' => $method,
+					'timeout' => 45,
+					'redirection' => 5,
+					'httpversion' => '1.0',
+					'blocking' => true,
+					'headers' => array(),
+					'body' => $param,
+					'cookies' => array(),
+				));
 			}
-			$access_token = $credentials['access_token'];
-			$param['access_token'] = $access_token;
-
-			$url = $credentials['baseUrl'] . $url;
-
-			$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
-			$response = wp_remote_post( $url, array(
-				'method' => $method,
-				'timeout' => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking' => true,
-				'headers' => array(),
-				'body' => $param,
-				'cookies' => array(),
-			));
 
 			$segments = array();
 			if ( !is_wp_error( $response ) ) {
@@ -646,5 +778,110 @@
 		}
 
 		return $contact_id;
+	}
+
+	/**
+	 * Connect BSF Automate plugin Mautic with Username and Password
+	 *
+	 * @param array $data form data
+	 * @return array
+	 * @since 1.0.6
+	 */
+	function ap_mautic_connect_username_password( $data , $anonymous = 'off') {
+
+		$mautic_response = array( 'error' => '', 'body' => '' );
+
+		$mautic_base_url = $data['baseUrl'];
+		$mautic_username = $data['apm_username'];
+		$mautic_password = wp_unslash( $data['apm_password'] );
+
+		$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
+
+		$params = array(
+			'timeout'     => 30,
+			'httpversion' => '1.1',
+			'headers'     => array(
+				'Authorization' => 'Basic ' . $auth_key
+			)
+		);
+
+		if ( 'on' === $anonymous ) {
+			$request  = $mautic_base_url.'/api/contacts';
+		} else {
+			$request  = $mautic_base_url.'/api/contacts?search=!is:anonymous';
+		}
+		$response = wp_remote_get( $request, $params );
+
+		if( is_wp_error( $response ) ) {
+			$mautic_response['error'] = __( 'There appears to be an error with the configuration.', 'automate-mautic' );
+			return $mautic_response;
+		}
+
+		$body = json_decode( wp_remote_retrieve_body( $response ) );
+
+		if( NULL === $body ) {
+			$mautic_response['error'] = __( 'It Looks like your trial period has expired! Please Contact to restore access.', 'automate-mautic' );
+
+			return $mautic_response;
+		} else {
+			if( isset( $body->errors ) ) {
+
+				if( $body->errors[0]->code == 404 ) {
+					/* translators: %s Error Message */
+					$mautic_response['error'] = sprintf( __( '404 error. This sometimes happens when you\'ve just enabled the API, and your cache needs to be rebuilt. See <a href="https://mautic.org/docs/en/tips/troubleshooting.html" target="_blank">here for more info</a> - %s', 'automate-mautic' ), $body->errors[0]->message );
+
+					return $mautic_response;
+
+				} elseif( $body->errors[0]->code == 403 ) {
+					/* translators: %s Error Message */
+					$mautic_response['error'] = sprintf( __( '403 error. You need to enable the API from within Mautic\'s configuration settings to connect. - %s', 'automate-mautic' ), $body->errors[0]->message );
+
+					return $mautic_response;
+
+				} else {
+					/* translators: %s Error Message */
+					$mautic_response['error'] = sprintf( __( '%s - %s', 'automate-mautic' ), $body->errors[0]->code, $body->errors[0]->message );
+
+					return $mautic_response;
+				}
+			}
+		}
+		$mautic_response['body'] = $body;
+
+		return $mautic_response;
+	}
+
+	/**
+	 * Get User's IP
+	 *
+	 * @return string
+	 * @since 1.0.6
+	 */
+	private static function _get_ip() {
+		$ip      = '';
+		$ip_list = array(
+			'HTTP_CLIENT_IP',
+			'HTTP_X_FORWARDED_FOR',
+			'HTTP_X_FORWARDED',
+			'HTTP_X_CLUSTER_CLIENT_IP',
+			'HTTP_FORWARDED_FOR',
+			'HTTP_FORWARDED',
+		);
+		foreach ( $ip_list as $key ) {
+			if ( ! isset( $_SERVER[ $key ] ) ) {
+				continue;
+			}
+			$ip = esc_attr( $_SERVER[ $key ] );
+			if ( ! strpos( $ip, ',' ) ) {
+				$ips = explode( ',', $ip );
+				foreach ( $ips as &$val ) {
+					$val = trim( $val );
+				}
+				$ip = end( $ips );
+			}
+			$ip = trim( $ip );
+			break;
+		}
+		return $ip;
 	}
 }
