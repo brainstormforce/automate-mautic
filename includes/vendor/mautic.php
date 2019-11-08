@@ -113,13 +113,9 @@
 
 			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
-			$url      = $credentials['baseUrl'] . $url;
-			$ip       = self::_get_ip();
-			$body     = array(  
-				"ipAddress" => $_SERVER['REMOTE_ADDR']
-			);
-			
-			$body = array_merge( $param, $body );
+			$url                    = $credentials['baseUrl'] . $url;
+			$ip                     = self::_get_ip();
+			$param['ipAddress']     = $_SERVER['REMOTE_ADDR'];
 
 			$response = wp_remote_post( $url, array(
 					'method' => 'POST',
@@ -131,7 +127,7 @@
 						'Authorization' => 'Basic ' . $auth_key,
 						'X-Forwarded-For' => $ip,
 					),
-					'body' => $body,
+					'body' => $param,
 					'cookies' => array()
 				)
 			);
@@ -328,11 +324,10 @@
 
 				$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
-				$url      = $mautic_credentials['baseUrl'] . '/api/segments/' . $segment_id . '/contact/' . $act . '/' . $contact_id;
-				$body     = array(  
-					"ipAddress" => $_SERVER['REMOTE_ADDR']
-				);
-				$ip       = self::_get_ip();
+				$url                = $mautic_credentials['baseUrl'] . '/api/segments/' . $segment_id . '/contact/' . $act . '/' . $contact_id;
+				$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+				$ip                 = self::_get_ip();
+
 				$response = wp_remote_post( $url, array(
 						'method' => 'POST',
 						'timeout' => 45,
@@ -343,7 +338,7 @@
 							'Authorization' => 'Basic ' . $auth_key,
 							'X-Forwarded-For' => $ip,
 						),
-						'body' => $body,
+						'body' => $param,
 						'cookies' => array()
 					)
 				);
@@ -683,11 +678,10 @@
 
 				$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
-				$url      = $credentials['baseUrl'] . $url;
-				$ip       = self::_get_ip();
-				$body     = array(  
-					"ipAddress" => $_SERVER['REMOTE_ADDR']
-				);
+				$url                = $credentials['baseUrl'] . $url;
+				$ip                 = self::_get_ip();
+				$param['ipAddress'] = $_SERVER['REMOTE_ADDR'];
+
 				$response = wp_remote_post( $url, array(
 						'method' => 'POST',
 						'timeout' => 45,
@@ -698,7 +692,7 @@
 							'Authorization' => 'Basic ' . $auth_key,
 							'X-Forwarded-For' => $ip,
 						),
-						'body' => $body,
+						'body' => $param,
 						'cookies' => array()
 					)
 				);
