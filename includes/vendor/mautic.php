@@ -612,7 +612,7 @@
 					'Authorization' => 'Basic ' . $auth_key
 				)
 			);
-			$url      = $mautic_credentials['baseUrl'] . $url;
+			$url      = $mautic_credentials['baseUrl'] . $url .'?limit=100000';
 
 			$response = wp_remote_get( $url, $params );
 
