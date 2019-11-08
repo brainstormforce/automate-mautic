@@ -37,13 +37,13 @@ class APMautic_Auto_Update {
 
 		// Set the Mautic connection error message option.
 		$mautic_user_pass_error_msg = get_option( 'ap_mautic_up_error_msg' );
-		if ( false === $mautic_user_pass_error_msg ){
+		if ( false === $mautic_user_pass_error_msg ) {
 			update_option( 'ap_mautic_up_error_msg', '' );
 		}
 
 		// Set the Mautic connection type option.
 		$check_option = get_option( 'ap_mautic_connection_type' );
-		if ( false === $check_option ){
+		if ( false === $check_option ) {
 			update_option( 'ap_mautic_connection_type', 'mautic_api' );
 		}
 
@@ -58,6 +58,6 @@ class APMautic_Auto_Update {
 }
 
 /**
- * calling 'APMautic_Auto_Update' Constructor
+ * Calling 'APMautic_Auto_Update' Constructor
  */
 new APMautic_Auto_Update();

@@ -95,7 +95,7 @@ final class APMautic_Services {
 		if ( 'mautic_up' === $mautic_connect_type ) {
 			$mautic_connect_error = get_option( 'ap_mautic_up_error_msg' );
 
-			if ( !empty( $mautic_connect_error ) || ''!== $mautic_connect_error ) {
+			if ( ! empty( $mautic_connect_error ) || '' !== $mautic_connect_error ) {
 				return false;
 			}
 		} else {

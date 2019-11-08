@@ -24,7 +24,8 @@
 		<div class="second-action" style="display:inline;">
 			<?php
 			APMautic_Helper::render_input_html(
-				'pm_action[]', array(
+				'pm_action[]',
+				array(
 					'def_value' => 'segment',
 					'type'      => 'hidden',
 					'iswrap'    => false,
@@ -38,7 +39,8 @@
 	<# if( 'get-all-segments' === data.clas ) { #>
 			<?php
 			APMautic_Helper::render_input_html(
-				'pm_action[]', array(
+				'pm_action[]',
+				array(
 					'def_value' => 'segment',
 					'type'      => 'hidden',
 					'iswrap'    => false,
