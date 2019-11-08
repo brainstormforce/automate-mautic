@@ -36,7 +36,7 @@
 			);
 			$items = apply_filters( 'amp_new_options_tab', $items );
 			APMautic_AdminSettings::render_tab_items( $items, $active_tab );
-		?>
+			?>
 	</h2>
 	<?php
 	if ( 'all_rules' == $active_tab ) {
@@ -57,7 +57,7 @@
 				require_once $tab_file;
 			}
 			do_action( 'amp_options_tab_content', $active_tab );
-		?>
+			?>
 		</div>
 	</form>
 </div>

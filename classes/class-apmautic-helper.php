@@ -117,15 +117,15 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 						break;
 
 					case 'radio':
-						$input  .= '<h4>' . $label . '</h4>';
+						$input .= '<h4>' . $label . '</h4>';
 						if ( isset( $help ) && '' != $help ) {
 							$input .= '<p class="admin-help">' . $help . '</p>';
 						}
 						foreach ( $settings['def_value'] as $key => $value ) {
 							if ( 'mautic_api' === $key ) {
-								$input .= '<input type="radio" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="'.$key.'" checked />' . esc_html( $value );
+								$input .= '<input type="radio" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="' . $key . '" checked />' . esc_html( $value );
 							} else {
-								$input .= '<input type="radio" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="'.$key.'" />' . esc_html( $value );
+								$input .= '<input type="radio" name="' . $id . '" id="' . $id . '" class="' . $class . '" value="' . $key . '" />' . esc_html( $value );
 							}
 						}
 						break;
@@ -218,10 +218,9 @@ if ( ! class_exists( 'APMautic_Helper' ) ) :
 			if ( 'mautic_up' === $mautic_connect_type ) {
 				$mautic_connect_error = get_option( 'ap_mautic_up_error_msg' );
 
-				if ( !empty( $mautic_connect_error ) || ''!== $mautic_connect_error ) {
+				if ( ! empty( $mautic_connect_error ) || '' !== $mautic_connect_error ) {
 					return false;
 				}
-
 			} else {
 				if ( ! isset( $credentials['access_token'] ) ) {
 

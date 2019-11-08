@@ -197,7 +197,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( 'mautic_up' === $mautic_connect_type ) {
 				$mautic_connect_error = get_option( 'ap_mautic_up_error_msg' );
 
-				if ( !empty( $mautic_connect_error ) || ''!== $mautic_connect_error ) {
+				if ( ! empty( $mautic_connect_error ) || '' !== $mautic_connect_error ) {
 					echo '<div class="warning notice notice-error is-dismissible"><p>' . __( $mautic_connect_error, 'automate-mautic' ) . '</p></div>';
 				}
 			} else {
@@ -244,7 +244,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			$admin_url = add_query_arg(
 				array(
 					'page' => 'automate-mautic' . $type,
-				), $admin_url
+				),
+				$admin_url
 			);
 			return $admin_url;
 		}

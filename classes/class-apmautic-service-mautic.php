@@ -66,11 +66,11 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		$lists          = null;
 		$ref_list_id    = null;
 
-		$mautic_api_url      = isset( $data['base-url'] ) ? esc_url( $data['base-url'] ) : '';
+		$mautic_api_url = isset( $data['base-url'] ) ? esc_url( $data['base-url'] ) : '';
 
 		$mautic_connect_type = isset( $data['mautic_connection_type'] ) ? $data['mautic_connection_type'] : '';
 
-		$mautic_api_url      = rtrim( $mautic_api_url, '/' );
+		$mautic_api_url = rtrim( $mautic_api_url, '/' );
 
 		if ( 'mautic_up' === $mautic_connect_type ) {
 
@@ -87,13 +87,12 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 
 			update_option( 'ap_mautic_connection_type', $mautic_connect_type );
 
-			if ( '' !== $response['error'] || !empty( $response['error'] ) ) {
+			if ( '' !== $response['error'] || ! empty( $response['error'] ) ) {
 				update_option( 'ap_mautic_up_error_msg', $response['error'] );
 			} else {
 				update_option( 'ap_mautic_up_error_msg', $response['error'] );
 				update_option( AP_MAUTIC_APIAUTH, $settings );
 			}
-
 		} else {
 			$apm_public_key = isset( $data['public-key'] ) ? sanitize_key( $data['public-key'] ) : '';
 			$apm_secret_key = isset( $data['secret-key'] ) ? sanitize_key( $data['secret-key'] ) : '';
@@ -121,7 +120,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			update_option( 'ap_mautic_up_error_msg', '' );
 			update_option( AP_MAUTIC_APIAUTH, $settings );
 			$authurl = $settings['baseUrl'] . '/oauth/v2/authorize';
-		// OAuth 2.0.
+			// OAuth 2.0.
 			$authurl .= '?client_id=' . $settings['clientKey'] . '&redirect_uri=' . urlencode( $settings['callback'] );
 			$state    = md5( time() . mt_rand() );
 			$authurl .= '&state=' . $state;
@@ -160,7 +159,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		ob_start();
 
 		APMautic_Helper::render_input_html(
-			'base-url', array(
+			'base-url',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'def_value' => $base_url,
@@ -171,7 +171,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'ampw-save-authenticate', array(
+			'ampw-save-authenticate',
+			array(
 				'row_class'   => 'apm-service-row amp-connected-btn',
 				'class'       => 'apm-service-input',
 				'type'        => 'button',
@@ -196,7 +197,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		ob_start();
 
 		APMautic_Helper::render_input_html(
-			'base-url', array(
+			'base-url',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'def_value' => $base_url,
@@ -205,11 +207,12 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			)
 		);
 		$mautic_connection_type = array(
-			'mautic_api' => "Mautic API",
-			'mautic_up'  => "Mautic Username and Password"
+			'mautic_api' => 'Mautic API',
+			'mautic_up'  => 'Mautic Username and Password',
 		);
 		APMautic_Helper::render_input_html(
-			'mautic_connection_type', array(
+			'mautic_connection_type',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'def_value' => $mautic_connection_type,
@@ -219,7 +222,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'public-key', array(
+			'public-key',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'type'      => 'text',
@@ -228,7 +232,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'secret-key', array(
+			'secret-key',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'type'      => 'text',
@@ -240,7 +245,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'mautic-username', array(
+			'mautic-username',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'type'      => 'text',
@@ -249,7 +255,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'mautic-password', array(
+			'mautic-password',
+			array(
 				'row_class' => 'apm-service-row',
 				'class'     => 'apm-service-input',
 				'type'      => 'text',
@@ -260,7 +267,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 
 		APMautic_Helper::render_input_html(
-			'ampw-save-authenticate', array(
+			'ampw-save-authenticate',
+			array(
 				'row_class'   => 'apm-service-row',
 				'class'       => 'save-amp-settings',
 				'type'        => 'submit',
@@ -316,7 +324,8 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		}
 
 		APMautic_Helper::render_settings_field(
-			$field_name, array(
+			$field_name,
+			array(
 				'type'     => 'select',
 				'id'       => 'ss-cp-condition',
 				'class'    => 'root-seg-action',

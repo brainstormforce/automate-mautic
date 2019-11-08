@@ -48,7 +48,7 @@
 			if ( isset( $meta_actions[0] ) ) {
 				$meta_actions = unserialize( $meta_actions[0] );
 			}
-		?>
+			?>
 		<div class="amp-form-content">
 				<div class="apm-metabox">
 					<div class="conditions">
@@ -57,7 +57,7 @@
 					<?php
 					if ( ! empty( $meta_conditions ) ) {
 						foreach ( $meta_conditions as $order => $meta_condition ) :
-					?>
+							?>
 						<fieldset class="ui-state-new" id="item-<?php echo $order; ?>">
 							<span class="dashicons dashicons-minus remove-item"></span>
 							<span class="dashicons dashicons-editor-justify sort-items"></span>
@@ -66,7 +66,7 @@
 							APMautic_RulePanel::get_all_conditions_list( $meta_condition[0] );
 
 							if ( 'CP' == $meta_condition[0] ) :
-							?>
+								?>
 
 								<div class="first-condition">
 									<?php APMautic_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
@@ -90,7 +90,7 @@
 							echo '</fieldset>';
 						endforeach;
 					}
-						?>
+					?>
 					</div>
 					<fieldset class="apm-add-condition add-new-item">
 						<div>
@@ -105,30 +105,30 @@
 							if ( ! empty( $meta_actions ) ) {
 
 								foreach ( $meta_actions as $order => $meta_action ) :
-							?>
+									?>
 								<fieldset class="ui-state-new">
 									<span class="dashicons dashicons-minus remove-item"></span>
 									<span class="dashicons dashicons-editor-justify sort-items"></span> 
 									<div class="first-action">
 										<?php APMautic_RulePanel::get_all_actions_list( $meta_action[0] ); ?>
 									</div>
-							<?php
-							if ( 'add_segment' == $meta_action[0] || 'remove_segment' == $meta_action[0] ) {
-							?>
+									<?php
+									if ( 'add_segment' == $meta_action[0] || 'remove_segment' == $meta_action[0] ) {
+										?>
 							<div class="second-action">
 								<input type="hidden" name="pm_action[]" value="segment">
-								<?php APMautic_Services::select_all_segments( $meta_action[1] ); ?>
+										<?php APMautic_Services::select_all_segments( $meta_action[1] ); ?>
 							</div>
 							<?php } elseif ( 'add_tag' == $meta_action[0] ) { ?>
 									<div class="second-action">
 										<input type="hidden" name="pm_action[]" value="tag">
 										<input type="text" name="ss_seg_action[]" value="<?php echo $meta_action[1]; ?>">
 									</div>
-							<?php
-}
+										<?php
+							}
 							?>
 								</fieldset>
-							<?php
+									<?php
 							endforeach;
 							}
 							?>
@@ -152,7 +152,7 @@
 			<?php wp_nonce_field( 'apmauticpmeta', 'apm-post-meta-nonce' ); ?>
 				<?php
 		} else {
-		?>
+			?>
 		<!-- default fields -->
 		<div class="amp-form-content">
 		<div class="apm-metabox">
@@ -201,7 +201,7 @@
 		<input type="submit" value="Add Rule" class="button button-primary button-large" name="add_new_rule">
 		<span class="refresh-mautic-data-wrap"><span class="spinner apm-wp-spinner"></span><a type="button" name="refresh-mautic" id="refresh-mautic" class="refresh-mautic-data"><?php _e( 'Refresh Mautic Data', 'automate-mautic' ); ?></a><span>
 		</p>
-		<?php wp_nonce_field( 'apmauticpmeta', 'apm-post-meta-nonce' ); ?>
+			<?php wp_nonce_field( 'apmauticpmeta', 'apm-post-meta-nonce' ); ?>
 		<?php } ?>
 	</form>
 </div>

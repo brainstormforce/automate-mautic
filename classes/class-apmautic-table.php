@@ -76,7 +76,8 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 		 */
 		public function column_cb( $item ) {
 			return sprintf(
-				'<input type="checkbox" name="bulk-delete[]" value="%s" />', $item['ID']
+				'<input type="checkbox" name="bulk-delete[]" value="%s" />',
+				$item['ID']
 			);
 		}
 
@@ -218,7 +219,11 @@ if ( ! class_exists( 'APMautic_Table' ) ) {
 			}
 			echo "</select>\n";
 			submit_button(
-				__( 'Apply', 'automate-mautic' ), 'action', '', false, array(
+				__( 'Apply', 'automate-mautic' ),
+				'action',
+				'',
+				false,
+				array(
 					'id' => "doaction{$two}",
 				)
 			);

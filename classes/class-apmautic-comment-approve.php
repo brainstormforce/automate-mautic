@@ -109,7 +109,7 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 		 * @return void
 		 */
 		public function render_comment_approve_condition( $meta_condition ) {
-		?>
+			?>
 				<div class="first-condition">
 					<?php APMautic_RulePanel::get_comment_condition_sublist( $meta_condition[1] ); ?>
 				</div>
@@ -122,7 +122,7 @@ if ( ! class_exists( 'APMautic_Comment_Approve' ) ) :
 						}
 						?>
 				</div>
-		<?php
+			<?php
 		}
 
 		/**
