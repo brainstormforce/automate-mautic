@@ -313,7 +313,9 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			set_transient( 'apm_all_segments', $segments, DAY_IN_SECONDS );
 		}
 		if ( empty( $segments ) || ! APMautic_Services::is_connected() ) {
-			echo __( 'It seems like Authentication is not done. Please Authenticate it first.', 'automate-mautic' );
+			$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
+			// translators: %s: redirect url.
+			printf( __( 'It seems like Authentication is not done. Please <i><a href="%s">click here</a></i> to Authenticate it first.', 'automate-mautic' ), $redirect );
 			return;
 		}
 		$options = array(
