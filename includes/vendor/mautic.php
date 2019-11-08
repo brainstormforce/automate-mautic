@@ -102,9 +102,10 @@
 	 */
 	public static function ampw_mautic_api_call( $url, $method, $param = array(), $segments = array() ) {
 
-		$status      = 'success';
 		// add contacts.
-		$credentials = APMautic_Helper::get_mautic_credentials();
+		$status              = 'success';
+		$credentials         = APMautic_Helper::get_mautic_credentials();
+		$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
 
 		if ( 'mautic_up' === $mautic_connect_type ) {
 			$mautic_username = $credentials['apm_username'];
@@ -113,10 +114,13 @@
 			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
 			$url      = $credentials['baseUrl'] . $url;
-			$ip       = $this->_get_ip();
+			$ip       = self::_get_ip();
 			$body     = array(  
 				"ipAddress" => $_SERVER['REMOTE_ADDR']
 			);
+			
+			$body = array_merge( $param, $body );
+
 			$response = wp_remote_post( $url, array(
 					'method' => 'POST',
 					'timeout' => 45,
@@ -328,7 +332,7 @@
 				$body     = array(  
 					"ipAddress" => $_SERVER['REMOTE_ADDR']
 				);
-				$ip       = $this->_get_ip();
+				$ip       = self::_get_ip();
 				$response = wp_remote_post( $url, array(
 						'method' => 'POST',
 						'timeout' => 45,
@@ -680,7 +684,7 @@
 				$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
 				$url      = $credentials['baseUrl'] . $url;
-				$ip       = $this->_get_ip();
+				$ip       = self::_get_ip();
 				$body     = array(  
 					"ipAddress" => $_SERVER['REMOTE_ADDR']
 				);
@@ -859,7 +863,7 @@
 	 * @return string
 	 * @since 1.0.6
 	 */
-	private function _get_ip() {
+	private static function _get_ip() {
 		$ip      = '';
 		$ip_list = array(
 			'HTTP_CLIENT_IP',
