@@ -198,7 +198,8 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 				$mautic_connect_error = get_option( 'ap_mautic_up_error_msg' );
 
 				if ( ! empty( $mautic_connect_error ) || '' !== $mautic_connect_error ) {
-					echo '<div class="warning notice notice-error is-dismissible"><p>' . __( $mautic_connect_error, 'automate-mautic' ) . '</p></div>';
+					/* translators: %s: mautic connect error */
+					echo sprintf( __( '<div class="warning notice notice-error is-dismissible"><p>%s</p></div>', 'automate-mautic' ), $mautic_connect_error );
 				}
 			} else {
 

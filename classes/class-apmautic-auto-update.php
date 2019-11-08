@@ -58,6 +58,6 @@ class APMautic_Auto_Update {
 }
 
 /**
- * calling 'APMautic_Auto_Update' Constructor
+ * Calling 'APMautic_Auto_Update' Constructor
  */
 new APMautic_Auto_Update();
