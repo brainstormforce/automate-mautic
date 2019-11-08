@@ -32,19 +32,19 @@ class APMautic_Auto_Update {
 
 		// If the version option not present then just create it.
 		if ( false === $saved_version ) {
-			add_option( 'ap_mautic_version', AP_MAUTIC_VERSION );
+			update_option( 'ap_mautic_version', AP_MAUTIC_VERSION );
 		}
 
 		// Set the Mautic connection error message option.
 		$mautic_user_pass_error_msg = get_option( 'ap_mautic_up_error_msg' );
 		if ( false === $mautic_user_pass_error_msg ){
-			add_option( 'ap_mautic_up_error_msg', '' );
+			update_option( 'ap_mautic_up_error_msg', '' );
 		}
 
 		// Set the Mautic connection type option.
 		$check_option = get_option( 'ap_mautic_connection_type' );
 		if ( false === $check_option ){
-			add_option( 'ap_mautic_connection_type', 'mautic_api' );
+			update_option( 'ap_mautic_connection_type', 'mautic_api' );
 		}
 
 		// If equals then return.
