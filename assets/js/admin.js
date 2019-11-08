@@ -44,7 +44,6 @@
 
 		_selectMauticType: function() {
 			var val = $( this ).val();
-//			console.log(val);
 			if( val != 'mautic_api' ) {
 				$( '.apm-mautic-username-wrap' ).show();
 				$( '.apm-mautic-password-wrap' ).show();
