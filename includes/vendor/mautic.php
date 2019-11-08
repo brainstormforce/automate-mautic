@@ -337,7 +337,7 @@
 							'Authorization' => 'Basic ' . $auth_key,
 							'X-Forwarded-For' => $ip,
 						),
-						'body' => $body,
+						'body' => $param,
 						'cookies' => array()
 					)
 				);
@@ -690,7 +690,7 @@
 							'Authorization' => 'Basic ' . $auth_key,
 							'X-Forwarded-For' => $ip,
 						),
-						'body' => $body,
+						'body' => $param,
 						'cookies' => array()
 					)
 				);
