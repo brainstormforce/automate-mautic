@@ -176,7 +176,7 @@
 
 						$contact_id = (int) $contact->id;
 						$res = self::contact_segment_subscribe( $contact_id, $credentials, $segments );
-						$status = $res['status'];
+						$status = isset( $res['status'] ) ? $res['status'] : false;
 					}
 				} else {
 					$ret = false;
@@ -397,7 +397,7 @@
 	 * @return array
 	 */
 	public static function contact_segment_subscribe( $contact_id, $credentials, $segments ) {
-
+		$result = array();
 		// add contact to segment.
 		$add_segment = $segments['add_segment'];
 		if ( is_array( $add_segment ) ) {
