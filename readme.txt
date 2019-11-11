@@ -39,6 +39,9 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 
 == Changelog ==
 
+= 1.0.7 =
+- New: Added new connection type Mautic Username and Password.
+
 = 1.0.6 =
 - Fix: Rules not updating.
 - Fix: Add update condition for approved comments option.
