@@ -5,3 +5,5 @@ node_modules/
 *.zip
 *.tar.gz
 package-lock.json
+.github
+.wordpress-org
