@@ -208,7 +208,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 		);
 		$mautic_connection_type = array(
 			'mautic_api' => 'Mautic API',
-			'mautic_up'  => 'Mautic Username and Password',
+			'mautic_up'  => 'Mautic Username and Password ( Recommended )',
 		);
 		APMautic_Helper::render_input_html(
 			'mautic_connection_type',

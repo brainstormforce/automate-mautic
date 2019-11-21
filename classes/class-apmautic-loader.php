@@ -53,7 +53,7 @@ if ( ! class_exists( 'APMautic_Loader' ) ) :
 			define( 'AP_MAUTIC_APIAUTH', 'ampw_mautic_credentials' );
 			define( 'AP_MAUTIC_POSTTYPE', 'automate-mautic' );
 			define( 'AP_MAUTIC_SERVICE', 'mautic' );
-			define( 'AP_MAUTIC_VERSION', '1.0.6' );
+			define( 'AP_MAUTIC_VERSION', '1.0.7' );
 		}
 
 		/**

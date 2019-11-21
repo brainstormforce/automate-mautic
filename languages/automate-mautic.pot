@@ -1,14 +1,14 @@
-# Copyright (C) 2018 Brainstorm Force
+# Copyright (C) 2019 Brainstorm Force
 # This file is distributed under the same license as the AutomatePlug - Mautic for WordPress package.
 msgid ""
 msgstr ""
-"Project-Id-Version: AutomatePlug - Mautic for WordPress 1.0.6\n"
+"Project-Id-Version: AutomatePlug - Mautic for WordPress 1.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/automate-mautic\n"
-"POT-Creation-Date: 2018-03-22 05:44:06+00:00\n"
+"POT-Creation-Date: 2019-11-19 10:51:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: en\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
-"X-Generator: grunt-wp-i18n1.0.2\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #: classes/class-apmautic-adminsettings.php:95
 #: classes/class-apmautic-adminsettings.php:184
@@ -34,12 +34,17 @@ msgstr ""
 msgid "Search results for &#8220;%s&#8221;"
 msgstr ""
 
-#: classes/class-apmautic-adminsettings.php:196
-#: classes/class-apmautic-adminsettings.php:466
+#: classes/class-apmautic-adminsettings.php:202
+#. translators: %s: mautic connect error
+msgid "<div class=\"warning notice notice-error is-dismissible\"><p>%s</p></div>"
+msgstr ""
+
+#: classes/class-apmautic-adminsettings.php:207
+#: classes/class-apmautic-adminsettings.php:482
 msgid "Settings updated!"
 msgstr ""
 
-#: classes/class-apmautic-adminsettings.php:452
+#: classes/class-apmautic-adminsettings.php:468
 #. translators: %s: redirect url.
 msgid ""
 "<div class=\"update-nag\"> Seems there appears error with the Mautic "
@@ -48,7 +53,7 @@ msgid ""
 msgstr ""
 
 #: classes/class-apmautic-comment-approve.php:61
-#: classes/class-apmautic-rulepanel.php:263
+#: classes/class-apmautic-rulepanel.php:265
 msgid "Approved Comment Post"
 msgstr ""
 
@@ -56,82 +61,104 @@ msgstr ""
 msgid "Select Page"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:111
+#: classes/class-apmautic-rulepanel.php:112
 msgid "Select Post"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:260
+#: classes/class-apmautic-rulepanel.php:262
 msgid "Select Condition"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:261
+#: classes/class-apmautic-rulepanel.php:263
 msgid "User Register on WordPress"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:262
+#: classes/class-apmautic-rulepanel.php:264
 msgid "User Post a Comment"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:288
+#: classes/class-apmautic-rulepanel.php:291
 msgid "Add to segment"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:289
+#: classes/class-apmautic-rulepanel.php:292
 msgid "Remove from segment"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:290
+#: classes/class-apmautic-rulepanel.php:293
 msgid "Add Tags"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:330
+#: classes/class-apmautic-rulepanel.php:334
 msgid "Anywhere On Website"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:331
+#: classes/class-apmautic-rulepanel.php:335
 msgid "On Specific Page"
 msgstr ""
 
-#: classes/class-apmautic-rulepanel.php:332
+#: classes/class-apmautic-rulepanel.php:336
 msgid "On Specific Post"
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:136
+#: classes/class-apmautic-service-mautic.php:168
 msgid "Base URL"
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:137
+#: classes/class-apmautic-service-mautic.php:169
 msgid "This setting is required for Mautic Integration."
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:172
+#: classes/class-apmautic-service-mautic.php:206
 msgid "Enter Base URL"
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:181
+#: classes/class-apmautic-service-mautic.php:220
+msgid "Type of Connection"
+msgstr ""
+
+#: classes/class-apmautic-service-mautic.php:230
 msgid "Public Key"
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:190
+#: classes/class-apmautic-service-mautic.php:240
 msgid "Secret Key"
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:193
+#: classes/class-apmautic-service-mautic.php:243
 #. translators: %2$s: helper docs link closing anchor tag.
 msgid ""
 "This setting is required to integrate Mautic in your website.<br>Need help "
 "to get Mautic API public and secret key? Read %1$sthis article%2$s."
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:206
+#: classes/class-apmautic-service-mautic.php:253
+msgid "Mautic Username"
+msgstr ""
+
+#: classes/class-apmautic-service-mautic.php:263
+msgid "Mautic Password"
+msgstr ""
+
+#: classes/class-apmautic-service-mautic.php:265
+#. translators: Display message below the Username and Password Settings.
+msgid ""
+"This setting is required to integrate Mautic in your website.<br>For this "
+"type you will need your Mautic Username and Password to integrate."
+msgstr ""
+
+#: classes/class-apmautic-service-mautic.php:279
 msgid "Save and Authenticate"
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:243
-msgid "THERE APPEARS TO BE AN ERROR WITH THE CONFIGURATION."
+#: classes/class-apmautic-service-mautic.php:318
+#. translators: %s: redirect url.
+msgid ""
+"It seems like Authentication is not done. Please <i><a href=\"%s\">click "
+"here</a></i> to Authenticate it first."
 msgstr ""
 
-#: classes/class-apmautic-service-mautic.php:247
+#: classes/class-apmautic-service-mautic.php:322
 msgid "Select Segment"
 msgstr ""
 
@@ -139,82 +166,82 @@ msgstr ""
 msgid "No rules avaliable."
 msgstr ""
 
-#: classes/class-apmautic-table.php:92
+#: classes/class-apmautic-table.php:93
 msgid "(no post_author)"
 msgstr ""
 
-#: classes/class-apmautic-table.php:109
+#: classes/class-apmautic-table.php:110
 msgid "(no post_title)"
 msgstr ""
 
-#: classes/class-apmautic-table.php:122
+#: classes/class-apmautic-table.php:123
 #. translators: %3$s: Edit label.
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: classes/class-apmautic-table.php:122
+#: classes/class-apmautic-table.php:123
 msgid "Edit"
 msgstr ""
 
-#: classes/class-apmautic-table.php:133
+#: classes/class-apmautic-table.php:134
 #. translators: %3$s: Delete label.
 msgid "Delete &#8220;%s&#8221;"
 msgstr ""
 
-#: classes/class-apmautic-table.php:133
+#: classes/class-apmautic-table.php:134
 msgid "Delete"
 msgstr ""
 
-#: classes/class-apmautic-table.php:213
+#: classes/class-apmautic-table.php:214
 msgid "Select Bulk Action"
 msgstr ""
 
-#: classes/class-apmautic-table.php:215
+#: classes/class-apmautic-table.php:216
 msgid "Bulk Actions"
 msgstr ""
 
-#: classes/class-apmautic-table.php:221
+#: classes/class-apmautic-table.php:222
 msgid "Apply"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:117
+#: classes/class-apmautic-wp-hooks.php:121
 #: includes/admin-settings-post-meta.php:28
 msgid "Add New Rule"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:118
+#: classes/class-apmautic-wp-hooks.php:122
 msgid "New Rule"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:119
+#: classes/class-apmautic-wp-hooks.php:123
 msgid "Edit Rule"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:120
+#: classes/class-apmautic-wp-hooks.php:124
 msgid "View Rule"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:121
+#: classes/class-apmautic-wp-hooks.php:125
 msgid "All Rules"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:122
+#: classes/class-apmautic-wp-hooks.php:126
 msgid "Search Rules"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:123
+#: classes/class-apmautic-wp-hooks.php:127
 msgid "Parent Rules:"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:124
+#: classes/class-apmautic-wp-hooks.php:128
 msgid "No rules found."
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:125
+#: classes/class-apmautic-wp-hooks.php:129
 msgid "No rules found in Trash."
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:129
+#: classes/class-apmautic-wp-hooks.php:133
 msgid "Description."
 msgstr ""
 
@@ -230,11 +257,11 @@ msgstr ""
 msgid " Mautic Tracking"
 msgstr ""
 
-#: includes/admin-settings-enable-tracking.php:23
+#: includes/admin-settings-enable-tracking.php:24
 msgid "Enable Tracking"
 msgstr ""
 
-#: includes/admin-settings-enable-tracking.php:26
+#: includes/admin-settings-enable-tracking.php:27
 #. translators: %2$s: closing anchor tag.
 msgid ""
 "This setting enables you to add Mautic tracking code in your site.<br>Need "
@@ -282,11 +309,39 @@ msgstr ""
 msgid "Refresh Mautic Data"
 msgstr ""
 
-#: includes/vendor/mautic.php:32 includes/vendor/mautic.php:133
-#: includes/vendor/mautic.php:225 includes/vendor/mautic.php:258
-#: includes/vendor/mautic.php:380 includes/vendor/mautic.php:414
-#: includes/vendor/mautic.php:489 includes/vendor/mautic.php:548
+#: includes/vendor/mautic.php:32 includes/vendor/mautic.php:161
+#: includes/vendor/mautic.php:253 includes/vendor/mautic.php:286
+#: includes/vendor/mautic.php:459 includes/vendor/mautic.php:494
+#: includes/vendor/mautic.php:569 includes/vendor/mautic.php:650
+#: includes/vendor/mautic.php:816
 msgid "There appears to be an error with the configuration."
+msgstr ""
+
+#: includes/vendor/mautic.php:823
+msgid ""
+"It Looks like your trial period has expired! Please Contact to restore "
+"access."
+msgstr ""
+
+#: includes/vendor/mautic.php:831
+#. translators: %s Error Message
+msgid ""
+"404 error. This sometimes happens when you've just enabled the API, and "
+"your cache needs to be rebuilt. See <a "
+"href=\"https://mautic.org/docs/en/tips/troubleshooting.html\" "
+"target=\"_blank\">here for more info</a> - %s"
+msgstr ""
+
+#: includes/vendor/mautic.php:837
+#. translators: %s Error Message
+msgid ""
+"403 error. You need to enable the API from within Mautic's configuration "
+"settings to connect. - %s"
+msgstr ""
+
+#: includes/vendor/mautic.php:843
+#. translators: %s Error Message
+msgid "%s - %s"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
@@ -305,27 +360,27 @@ msgstr ""
 msgid "Brainstorm Force"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:112
+#: classes/class-apmautic-wp-hooks.php:116
 msgctxt "post type general name"
 msgid "Rules"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:113
+#: classes/class-apmautic-wp-hooks.php:117
 msgctxt "post type singular name"
 msgid "Rule"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:114
+#: classes/class-apmautic-wp-hooks.php:118
 msgctxt "admin menu"
 msgid "Rules"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:115
+#: classes/class-apmautic-wp-hooks.php:119
 msgctxt "add new on admin bar"
 msgid "Rule"
 msgstr ""
 
-#: classes/class-apmautic-wp-hooks.php:116
+#: classes/class-apmautic-wp-hooks.php:120
 msgctxt "rule"
 msgid "Add New"
 msgstr ""

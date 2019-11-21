@@ -109,10 +109,10 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 			if ( AP_MAUTIC_POSTTYPE == $curr_screen ) {
 				wp_enqueue_script( 'jquery' );
 				wp_enqueue_script( 'jquery-ui-sortable' );
-				wp_enqueue_script( 'apm-admin-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util' ) );
-				wp_enqueue_style( 'apm-admin-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/admin.css' );
-				wp_enqueue_script( 'apm-select2-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js', array( 'jquery' ) );
-				wp_enqueue_style( 'apm-select2-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/select2.min.css' );
+				wp_enqueue_script( 'apm-admin-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/admin.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util' ), AP_MAUTIC_VERSION );
+				wp_enqueue_style( 'apm-admin-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/admin.css', null, AP_MAUTIC_VERSION, 'all' );
+				wp_enqueue_script( 'apm-select2-script', AP_MAUTIC_PLUGIN_URL . 'assets/js/select2.min.js', array( 'jquery' ), AP_MAUTIC_VERSION );
+				wp_enqueue_style( 'apm-select2-style', AP_MAUTIC_PLUGIN_URL . 'assets/css/select2.min.css', null, AP_MAUTIC_VERSION, 'all' );
 
 				$options = array(
 					'ajax_nonce' => wp_create_nonce( 'apm_mautic_admin_nonce' ),
