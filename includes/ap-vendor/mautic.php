@@ -289,21 +289,12 @@ class AP_MauticAPI {
 						$mautic_credentials['refresh_token'] = $access_details->refresh_token;
 					}
 					update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
->>>>>>> ba33981255a6c10eb4558e8fb98e1457c8bbd759:includes/vendor/mautic.php
 				}
 			}
 
-<<<<<<< HEAD:includes/ap-vendor/mautic.php
-		$access_token = $mautic_credentials['access_token'];
-		$access_token = esc_attr( $access_token );
-		$url          = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id . '&access_token=' . $access_token;
-
-		$response = wp_remote_get( $url );
-=======
 			$access_token = $mautic_credentials['access_token'];
 			$access_token = esc_attr( $access_token );
 			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id . '&access_token=' . $access_token;
->>>>>>> ba33981255a6c10eb4558e8fb98e1457c8bbd759:includes/vendor/mautic.php
 
 			$response = wp_remote_get( $url );
 		}
