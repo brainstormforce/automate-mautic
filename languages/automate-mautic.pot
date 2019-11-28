@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the AutomatePlug - Mautic for WordPress package.
 msgid ""
 msgstr ""
-"Project-Id-Version: AutomatePlug - Mautic for WordPress 1.0.7\n"
+"Project-Id-Version: AutomatePlug - Mautic for WordPress 1.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/automate-mautic\n"
-"POT-Creation-Date: 2019-11-19 10:51:10+00:00\n"
+"POT-Creation-Date: 2019-11-28 13:34:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -309,21 +309,21 @@ msgstr ""
 msgid "Refresh Mautic Data"
 msgstr ""
 
-#: includes/vendor/mautic.php:32 includes/vendor/mautic.php:161
-#: includes/vendor/mautic.php:253 includes/vendor/mautic.php:286
-#: includes/vendor/mautic.php:459 includes/vendor/mautic.php:494
-#: includes/vendor/mautic.php:569 includes/vendor/mautic.php:650
-#: includes/vendor/mautic.php:816
+#: includes/ap-vendor/mautic.php:32 includes/ap-vendor/mautic.php:168
+#: includes/ap-vendor/mautic.php:260 includes/ap-vendor/mautic.php:293
+#: includes/ap-vendor/mautic.php:470 includes/ap-vendor/mautic.php:505
+#: includes/ap-vendor/mautic.php:580 includes/ap-vendor/mautic.php:661
+#: includes/ap-vendor/mautic.php:835
 msgid "There appears to be an error with the configuration."
 msgstr ""
 
-#: includes/vendor/mautic.php:823
+#: includes/ap-vendor/mautic.php:842
 msgid ""
 "It Looks like your trial period has expired! Please Contact to restore "
 "access."
 msgstr ""
 
-#: includes/vendor/mautic.php:831
+#: includes/ap-vendor/mautic.php:850
 #. translators: %s Error Message
 msgid ""
 "404 error. This sometimes happens when you've just enabled the API, and "
@@ -332,16 +332,16 @@ msgid ""
 "target=\"_blank\">here for more info</a> - %s"
 msgstr ""
 
-#: includes/vendor/mautic.php:837
+#: includes/ap-vendor/mautic.php:856
 #. translators: %s Error Message
 msgid ""
 "403 error. You need to enable the API from within Mautic's configuration "
 "settings to connect. - %s"
 msgstr ""
 
-#: includes/vendor/mautic.php:843
+#: includes/ap-vendor/mautic.php:862
 #. translators: %s Error Message
-msgid "%s - %s"
+msgid "%1$s - %2$s"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
