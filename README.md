@@ -40,7 +40,7 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 ## Changelog ##
 
 ### 1.0.8 ###
-- Fix: Fatal error due to files not updated.
+- Fix: Fatal error during Mautic Connection using Username and Password.
 
 ### 1.0.7 ###
 - New: Added new connection type Mautic Username and Password.
