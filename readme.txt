@@ -3,7 +3,7 @@ Contributors: brainstormforce
 Donate link: https://www.paypal.me/BrainstormForce
 Requires at least: 4.4
 Tags: mautic, email, contacts, marketing, tags
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 Tested up to: 5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -38,6 +38,9 @@ Need help to get Mautic API credentials? Refer [this doc](https://docs.brainstor
 4. Rule actions list
 
 == Changelog ==
+
+= 1.0.8 =
+- Fix: Fatal error during Mautic Connection using Username and Password.
 
 = 1.0.7 =
 - New: Added new connection type Mautic Username and Password.
