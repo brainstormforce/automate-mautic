@@ -251,7 +251,7 @@
 
 			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
-			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id;
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts?search=!is:anonymous%20AND%20ids:' . $id;
 			$params = array(
 				'timeout'     => 30,
 				'httpversion' => '1.1',
