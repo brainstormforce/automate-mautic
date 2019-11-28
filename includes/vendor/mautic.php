@@ -244,35 +244,53 @@
 
 		$mautic_credentials = APMautic_Helper::get_mautic_credentials();
 
-		if ( $mautic_credentials['expires_in'] < time() ) {
-			$grant_type = 'refresh_token';
-			$response = self::mautic_get_access_token( $grant_type );
-			if ( is_wp_error( $response ) ) {
-				$error_msg = $response->get_error_message();
-				$status = 'error';
-				echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
-			} else {
+		$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
+		if ( 'mautic_up' === $mautic_connect_type ) {
+			$mautic_username = $mautic_credentials['apm_username'];
+			$mautic_password = wp_unslash( $mautic_credentials['apm_password'] );
 
-				$response_body = wp_remote_retrieve_body( $response );
+			$auth_key = base64_encode($mautic_username . ':' . $mautic_password);
 
-				$access_details = json_decode( $response_body );
-				// Check mautic errors array.
-				if ( ! isset( $access_details->errors ) ) {
-					$expiration = time() + $access_details->expires_in;
-					$mautic_credentials['access_token'] = $access_details->access_token;
-					$mautic_credentials['expires_in'] = $expiration;
-					$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id;
+			$params = array(
+				'timeout'     => 30,
+				'httpversion' => '1.1',
+				'headers'     => array(
+					'Authorization' => 'Basic ' . $auth_key
+				)
+			);
+			$response = wp_remote_get( $url, $params );
+
+		} else {
+			if ( $mautic_credentials['expires_in'] < time() ) {
+				$grant_type = 'refresh_token';
+				$response = self::mautic_get_access_token( $grant_type );
+				if ( is_wp_error( $response ) ) {
+					$error_msg = $response->get_error_message();
+					$status = 'error';
+					echo __( 'There appears to be an error with the configuration.', 'automate-mautic' );
+				} else {
+
+					$response_body = wp_remote_retrieve_body( $response );
+
+					$access_details = json_decode( $response_body );
+					// Check mautic errors array.
+					if ( ! isset( $access_details->errors ) ) {
+						$expiration = time() + $access_details->expires_in;
+						$mautic_credentials['access_token'] = $access_details->access_token;
+						$mautic_credentials['expires_in'] = $expiration;
+						$mautic_credentials['refresh_token'] = $access_details->refresh_token;
+					}
+					update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
 				}
-				update_option( AP_MAUTIC_APIAUTH, $mautic_credentials );
 			}
+
+			$access_token = $mautic_credentials['access_token'];
+			$access_token = esc_attr( $access_token );
+			$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id . '&access_token=' . $access_token;
+
+			$response = wp_remote_get( $url );
 		}
-
-		$access_token = $mautic_credentials['access_token'];
-		$access_token = esc_attr( $access_token );
-		$url = $mautic_credentials['baseUrl'] . '/api/contacts/?search=!is:anonymous%20AND%20ids:' . $id . '&access_token=' . $access_token;
-
-		$response = wp_remote_get( $url );
-
 		if ( ! is_wp_error( $response ) && is_array( $response ) ) {
 
 			$response_body = wp_remote_retrieve_body( $response );
