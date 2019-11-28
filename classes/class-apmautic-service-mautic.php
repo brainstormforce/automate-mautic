@@ -41,7 +41,7 @@ final class APMautic_Service_Mautic extends APMautic_Service {
 			return $this->api_instance;
 		}
 		if ( ! class_exists( 'AP_MauticAPI' ) ) {
-			require_once AP_MAUTIC_PLUGIN_DIR . 'includes/vendor/mautic.php';
+			require_once AP_MAUTIC_PLUGIN_DIR . 'includes/ap-vendor/mautic.php';
 		}
 
 		$this->api_instance = new AP_MauticAPI();
