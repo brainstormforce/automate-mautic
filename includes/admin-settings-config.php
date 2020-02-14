@@ -49,9 +49,9 @@
 	<form id="apm-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="amp-form-content ampw-authenticate-cont-70">
 			<?php
-			$tabs = array( 'all_rules' , 'add_new_rule' , 'auth_mautic' , 'enable_tracking' );
-			
-			if ( in_array( $active_tab , $tabs , true ) ) {
+			$tabs = array( 'all_rules', 'add_new_rule', 'auth_mautic', 'enable_tracking' );
+
+			if ( in_array( $active_tab, $tabs, true ) ) {
 
 				$active_path = str_replace( '_', '-', $active_tab );
 				$active_path = 'admin-settings-' . $active_path;
