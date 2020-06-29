@@ -694,12 +694,14 @@ class AP_MauticAPI {
 	public static function remove_from_all_segments( $email ) {
 
 		$contact_id = self::get_mautic_contact_id( $email );
+		
 		if ( isset( $contact_id ) ) {
 			// get all segments contact_id is member of.
 			$url    = '/api/contacts/' . $contact_id . '/segments';
 			$method = 'GET';
 
 			$credentials = APMautic_Helper::get_mautic_credentials();
+			$mautic_connect_type = get_option( 'ap_mautic_connection_type' );
 
 			if ( 'mautic_up' === $mautic_connect_type ) {
 				$mautic_username = $credentials['apm_username'];

@@ -196,18 +196,21 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 			);
 			$posts    = get_posts( $args );
 			$ur_rules = array();
-			foreach ( $posts as $post ) :
+			foreach ( $posts as $post ) {
 				setup_postdata( $post );
 				$rule_id         = $post->ID;
 				$meta_conditions = get_post_meta( $rule_id, 'ampw_rule_condition' );
 				$all_conditions  = unserialize( $meta_conditions[0] );
-				foreach ( $all_conditions as $meta_condition ) :
-					if ( 'UR' == $meta_condition[0] ) {
-						// add rule_id into array.
-						array_push( $ur_rules, $rule_id );
+
+				if ( isset( $all_conditions ) && ! empty( $all_conditions ) ) {
+					foreach ( $all_conditions as $meta_condition ) {
+						if ( 'UR' == $meta_condition[0] ) {
+							// add rule_id into array.
+							array_push( $ur_rules, $rule_id );
+						}
 					}
-					endforeach;
-				endforeach;
+				}
+			}
 			return $ur_rules;
 		}
 

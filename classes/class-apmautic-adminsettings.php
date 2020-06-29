@@ -199,7 +199,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 				if ( ! empty( $mautic_connect_error ) || '' !== $mautic_connect_error ) {
 					/* translators: %s: mautic connect error */
-					echo sprintf( __( '<div class="warning notice notice-error is-dismissible"><p>%s</p></div>', 'automate-mautic' ), $mautic_connect_error );
+					echo '<div class="warning notice notice-error is-dismissible"><p>' . esc_html( $mautic_connect_error ) . '</p></div>';
 				}
 			} else {
 
@@ -460,12 +460,19 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @return void
 		 */
 		public static function ap_mautic_notices() {
+			
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 			if ( ! APMautic_Services::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen ) {
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
 				// translators: %s: redirect url.
-				printf( __( '<div class="update-nag"> Seems there appears error with the Mautic configuration. <i><a href="%s">click here</a></i> to authenticate Mautic.</div>', 'automate-mautic' ), $redirect );
+				echo sprintf(
+					"<div class='update-nag'>%s<i><a href='%s'>%s</a>%s</i></div>",
+					__( 'Seems there appears error with the Mautic configuration. ', 'automate-mautic' ),
+					$redirect,
+					__( 'click here ', 'automate-mautic' ),
+					__( 'to authenticate Mautic.', 'automate-mautic' )
+				);
 			}
 		}
 
