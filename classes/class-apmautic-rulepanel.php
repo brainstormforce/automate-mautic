@@ -201,8 +201,8 @@ if ( ! class_exists( 'APMautic_RulePanel' ) ) :
 				$rule_id         = $post->ID;
 				$meta_conditions = get_post_meta( $rule_id, 'ampw_rule_condition' );
 				$all_conditions  = unserialize( $meta_conditions[0] );
-				
-				if( isset( $all_conditions ) && ! empty( $all_conditions ) ) {
+
+				if ( isset( $all_conditions ) && ! empty( $all_conditions ) ) {
 					foreach ( $all_conditions as $meta_condition ) {
 						if ( 'UR' == $meta_condition[0] ) {
 							// add rule_id into array.
