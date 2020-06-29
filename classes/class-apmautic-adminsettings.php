@@ -199,7 +199,7 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 
 				if ( ! empty( $mautic_connect_error ) || '' !== $mautic_connect_error ) {
 					/* translators: %s: mautic connect error */
-					echo '<div class="warning notice notice-error is-dismissible"><p>' . $mautic_connect_error . '</p></div>';
+					echo '<div class="warning notice notice-error is-dismissible"><p>' . esc_html( $mautic_connect_error ) . '</p></div>';
 				}
 			} else {
 
