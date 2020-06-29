@@ -460,16 +460,17 @@ if ( ! class_exists( 'APMautic_AdminSettings' ) ) :
 		 * @return void
 		 */
 		public static function ap_mautic_notices() {
+			
 			$curr_screen = isset( $_REQUEST['page'] ) ? esc_attr( $_REQUEST['page'] ) : '';
 			if ( ! APMautic_Services::is_connected() && AP_MAUTIC_POSTTYPE == $curr_screen ) {
 
 				$redirect = APMautic_AdminSettings::get_render_page_url( '&tab=auth_mautic' );
 				// translators: %s: redirect url.
-				sprintf(
-					"<div class='update-nag'>%s<i><a href='%s'>%s</a></i></div>",
-					__( 'Seems there appears error with the Mautic configuration.', 'automate-mautic' ),
+				echo sprintf(
+					"<div class='update-nag'>%s<i><a href='%s'>%s</a>%s</i></div>",
+					__( 'Seems there appears error with the Mautic configuration. ', 'automate-mautic' ),
 					$redirect,
-					__( 'click here', 'automate-mautic' ),
+					__( 'click here ', 'automate-mautic' ),
 					__( 'to authenticate Mautic.', 'automate-mautic' )
 				);
 			}
