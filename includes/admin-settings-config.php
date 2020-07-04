@@ -49,14 +49,19 @@
 	<form id="apm-config-form" action="<?php APMautic_AdminSettings::render_page_url( '&tab=auth_mautic' ); ?>" method="post">
 		<div class="amp-form-content ampw-authenticate-cont-70">
 			<?php
-			$active_path = str_replace( '_', '-', $active_tab );
-			$active_path = 'admin-settings-' . $active_path;
-			$tab_file    = AP_MAUTIC_PLUGIN_DIR . 'includes/' . sanitize_file_name( $active_path ) . '.php';
+			$tabs = array( 'all_rules', 'add_new_rule', 'auth_mautic', 'enable_tracking' );
 
-			if ( file_exists( $tab_file ) ) {
-				require_once $tab_file;
+			if ( in_array( $active_tab, $tabs, true ) ) {
+
+				$active_path = str_replace( '_', '-', $active_tab );
+				$active_path = 'admin-settings-' . $active_path;
+				$tab_file    = AP_MAUTIC_PLUGIN_DIR . 'includes/' . sanitize_file_name( $active_path ) . '.php';
+
+				if ( file_exists( $tab_file ) ) {
+					require_once $tab_file;
+				}
+				do_action( 'amp_options_tab_content', $active_tab );
 			}
-			do_action( 'amp_options_tab_content', $active_tab );
 			?>
 		</div>
 	</form>

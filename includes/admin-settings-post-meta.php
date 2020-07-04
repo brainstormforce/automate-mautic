@@ -31,7 +31,7 @@
 			</span></h2>
 			<div class="ampw-input-wrap form-wrap">
 				<label for="table-name"><?php _e( 'Rule Name:', 'automate-mautic' ); ?></label>
-				<input type="text" name="ampw_rule_title" class="amp-rule-title" value="<?php echo $rule_title; ?>" placeholder="Enter Rule Title Here">
+				<input type="text" name="ampw_rule_title" class="amp-rule-title" value="<?php echo esc_attr( $rule_title ); ?>" placeholder="Enter Rule Title Here">
 				<p><?php _e( 'The name or title of your mautic rule.', 'automate-mautic' ); ?></p>
 			</div>
 		</div>
